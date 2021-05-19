@@ -21,9 +21,6 @@ jobs:
         NEBULA_NODE_CONF: ${{ secrets.NEBULA_NODE_CONF }}
         NEBULA_NODE_CRT: ${{ secrets.NEBULA_NODE_CRT }}
         NEBULA_NODE_KEY: ${{ secrets.NEBULA_NODE_KEY }}
-
-    - name: Test nebula connection
-      run: ping 192.168.100.1 -c 5
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
