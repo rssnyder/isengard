@@ -25,11 +25,11 @@ jobs:
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
     
-    - name: Set up ssh key
-      run: |
-        mkdir -p ~/.ssh
-        echo ${{ secrets.ANSIBLE_SSH_KEY }} > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
     - name: Set up Python 3
       uses: actions/setup-python@v2
