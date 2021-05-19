@@ -1,10 +1,14 @@
-name: Deploy discord-stock-ticker premium subscriptions
+name: Run playbook
 
 on: 
   workflow_dispatch:
+    inputs:
+      playbook:
+        description: 'playbook to run'     
+        required: true
 
 jobs:
-  deploy-dst-premium:
+  run-playbook:
     runs-on: ubuntu-latest
     steps:
 
@@ -33,4 +37,4 @@ jobs:
       run: |
         ansible-playbook -i hosts.yaml \
           --vault-password-file .vault_password \
-          dst-bootstrap.yaml --limit oc3
+          playbooks/${{ github.event.inputs.playbook }}
