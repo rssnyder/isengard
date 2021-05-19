@@ -1,0 +1,41 @@
+---
+- name: Install coingecko-cache
+  hosts: premium
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+    - name: create coingecko-cache dir
+      file: 
+        state: directory
+        path: /etc/coingecko-cache
+        owner: root
+        group: root
+
+    - name: Download coingecko-cache
+      get_url:
+        url: "https://github.com/rssnyder/coingecko-cache/releases/download/v0.1.0/coingecko-cache-v0.1.0-linux-amd64.tar.gz"
+        dest: /etc/coingecko-cache/coingecko-cache.tar.gz
+        mode: '0700'
+
+    - name: Extract coingecko-cache
+      unarchive:
+        remote_src: yes
+        src: /etc/coingecko-cache/coingecko-cache.tar.gz
+        dest: /etc/coingecko-cache/
+    
+    - name: get service
+      get_url:
+        url: https://raw.githubusercontent.com/rssnyder/coingecko-cache/master/coingecko-cache.service
+        dest: /etc/systemd/system/coingecko-cache.service
+        mode: '0700'
+  
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: Start coingecko-cache
+      systemd:
+        state: restarted
+        name: coingecko-cache.service

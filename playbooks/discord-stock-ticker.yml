@@ -1,3 +1,4 @@
+---
 - name: Install discord-stock-ticker
   hosts: premium
   gather_facts: yes

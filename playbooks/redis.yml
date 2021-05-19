@@ -1,0 +1,78 @@
+---
+- name: Install redis
+  hosts: premium
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+    - name: install make
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      loop:
+        - make
+        - gcc
+        - pkg-config
+
+    - name: create redis dir
+      file: 
+        state: directory
+        path: "{{ item }}"
+        owner: root
+        group: root
+      loop:
+        - /etc/redis
+        - /var/redis
+        - /var/redis/6379
+
+    - name: Download redis
+      get_url:
+        url: http://download.redis.io/redis-stable.tar.gz
+        dest: /etc/redis/redis-linux-amd64.tar.gz
+        mode: '0700'
+    
+    - name: Extract redis
+      unarchive:
+        remote_src: yes
+        src: /etc/redis/redis-linux-amd64.tar.gz
+        dest: /etc/redis/
+    
+    - name: build redis
+      shell:
+        cmd: make MALLOC=libc  
+        chdir: /etc/redis/redis-stable
+    
+    - name: Copy file for redis server
+      copy:
+        remote_src: true
+        src: /etc/redis/redis-stable/src/redis-server
+        dest: /usr/local/bin/redis-server
+        mode: '0700'
+    
+    - name: Copy file for redis service
+      copy:
+        remote_src: true
+        src: /etc/redis/redis-stable/utils/redis_init_script
+        dest: /etc/init.d/redis_6379
+        mode: '0700'
+    
+    - name: copy redis conf
+      copy: 
+        src: templates/redis.conf
+        dest: /etc/redis/6379.conf
+    
+    - name: update rd.d
+      shell:
+        cmd: update-rc.d redis_6379 defaults
+    
+    - name: Enable redis
+      systemd:
+        enabled: yes
+        name: redis_6379
+
+    - name: Start redis
+      systemd:
+        state: started
+        name: redis_6379
