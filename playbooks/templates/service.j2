@@ -1,0 +1,16 @@
+# /etc/systemd/system/{{ service_name }}.service
+[Unit]
+Description={{ service_desc }}
+AssertPathIsDirectory=/etc/{{ service_name }}
+
+[Service]
+Type=simple
+SyslogIdentifier={{ service_name }}
+StandardOutput=syslog
+StandardError=syslog
+ExecStart=/etc/{{ service_name }}/{{ service_name }} {{ service_opts }}
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=default.target

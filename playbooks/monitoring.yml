@@ -1,0 +1,68 @@
+---
+- name: Install node exporter
+  hosts: premium
+  become: yes
+  tasks:
+
+    - name: create node_exporter dir
+      file: 
+        state: directory
+        path: /etc/node_exporter
+        owner: root
+        group: root
+
+    - name: Download node_exporter
+      get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz"
+        dest: /etc/node_exporter/node_exporter.tar.gz
+        mode: '0700'
+    
+    - name: Extract node_exporter
+      unarchive:
+        remote_src: yes
+        src: /etc/node_exporter/node_exporter.tar.gz
+        dest: /etc/node_exporter/
+
+    - name: copy binary
+      copy:
+        remote_src: yes
+        src: "/etc/node_exporter/node_exporter-1.0.1.linux-amd64/node_exporter"
+        dest: /etc/node_exporter/node_exporter
+        mode: '0700'
+    
+    - name: set facts for service file
+      set_fact:
+        service_name: "node_exporter"
+        service_desc: "prometheus monitoring"
+        service_opts: "--collector.systemd"
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: allow 9100 over nebula
+      ansible.builtin.lineinfile:
+        path: /etc/iptables/rules.v4 
+        regexp: '^-A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport 9100 -j ACCEPT$'
+        line: -A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport 9100 -j ACCEPT
+        insertafter: '^-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT$'
+    
+    - name: restart iptables
+      systemd:
+        state: restarted
+        name: iptables
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+    
+    - name: Enable node_exporter
+      systemd:
+        enabled: yes
+        name: node_exporter
+
+    - name: Start node_exporter
+      systemd:
+        state: started
+        name: node_exporter

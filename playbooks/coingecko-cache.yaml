@@ -25,11 +25,16 @@
         src: /etc/coingecko-cache/coingecko-cache.tar.gz
         dest: /etc/coingecko-cache/
     
-    - name: get service
-      get_url:
-        url: https://raw.githubusercontent.com/rssnyder/coingecko-cache/master/coingecko-cache.service
-        dest: /etc/systemd/system/coingecko-cache.service
-        mode: '0700'
+    - name: set facts for service file
+      set_fact:
+        service_name: "coingecko-cache"
+        service_desc: "cacheing coingecko data"
+        service_opts: ""
+    
+    - name: copy service file
+      template: 
+        src: service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
   
     - name: reload
       shell:
