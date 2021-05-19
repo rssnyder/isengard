@@ -5,6 +5,7 @@ personal ansible-tower like tool using github actions
 
 because running AWX takes k8s, and I like a good project
 
+i currently run all my ansible locally, but want some centeralized place to run my playbooks
 
 ## what about secrets
 

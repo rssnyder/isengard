@@ -24,6 +24,12 @@ jobs:
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
+    
+    - name: Set up ssh key
+      run: |
+        mkdir -p ~/.ssh
+        echo ${{ secrets.ANSIBLE_SSH_KEY }} > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
 
     - name: Set up Python 3
       uses: actions/setup-python@v2
@@ -47,6 +53,6 @@ jobs:
     
     - name: Run playbook
       run: |
-        ansible-playbook -i hosts.yaml \
+        ansible-playbook -i hosts.yml \
           --vault-password-file .vault_password \
           playbooks/${{ github.event.inputs.playbook }}
