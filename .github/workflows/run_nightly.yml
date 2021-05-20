@@ -1,0 +1,60 @@
+name: Run nightly
+
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  run-nightly:
+    strategy:
+      fail-fast: false
+      matrix:
+        playbook: ["plex-backup.yml"]
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Connect to nebula net
+      uses: rssnyder/nebula-action-step@0.1.0
+      env:
+        NEBULA_CA_CRT: ${{ secrets.NEBULA_CA_CRT }}
+        NEBULA_NODE_CONF: ${{ secrets.NEBULA_NODE_CONF }}
+        NEBULA_NODE_CRT: ${{ secrets.NEBULA_NODE_CRT }}
+        NEBULA_NODE_KEY: ${{ secrets.NEBULA_NODE_KEY }}
+    
+    - name: Set up vault secret
+      run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
+    
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+    - name: Set up Python 3
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    
+    - name: Get pip cache dir
+      id: pip-cache
+      run: |
+        echo "::set-output name=dir::$(pip cache dir)"
+    
+    - name: pip cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.pip-cache.outputs.dir }}
+        key: ${{ runner.os }}-pip
+        restore-keys: ${{ runner.os }}-pip
+
+    - name: Install dependencies
+      run: pip3 install ansible
+    
+    - name: Run playbook
+      run: |
+        ansible-playbook -i hosts.yml \
+          --vault-password-file .vault_password \
+          playbooks/${{ matrix.playbook }}

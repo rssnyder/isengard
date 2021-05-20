@@ -11,6 +11,8 @@ because running [awx](https://github.com/ansible/awx/) takes k8s
 
 i currently run all my ansible locally, but want some centeralized place to run my playbooks
 
+i also have a dislike for cron
+
 ## what about secrets
 
 using ansible vault with a password in a local file
