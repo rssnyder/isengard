@@ -2,17 +2,14 @@
 - name: Backup data
   hosts: kate
   gather_facts: yes
+  become: yes
 
   tasks:
 
-    - name: backup plex
+    - name: backup media
       shell:
-        cmd: rclone -P sync media crypt:media
-        chdir: /mnt/freezer
-      become: yes
-      become_user: plex
+        cmd: rclone -P sync /mnt/freezer/media crypt:media
 
     - name: backup riley
       shell:
-        cmd: rclone -P sync riley crypt:riley
-        chdir: /home
+        cmd: rclone -P sync /home/riley crypto:riley
