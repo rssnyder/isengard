@@ -51,7 +51,7 @@ jobs:
     - name: Allow access
       run: |
         uuidgen > .runner_password
-        scp .runner_password riley@192.168.100.2:
+        scp .runner_password topo:
         cat .runner_password | sudo passwd --stdin runner
 
     - name: Timebox access
