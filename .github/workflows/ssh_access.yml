@@ -1,7 +1,7 @@
 name: SSH access
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   ssh-access:
