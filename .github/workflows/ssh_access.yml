@@ -50,9 +50,10 @@ jobs:
     
     - name: Allow access
       run: |
-        uuidgen > .runner_password
+        RUNNER_PASSWORD=$(uuidgen)
+        echo $RUNNER_PASSWORD > .runner_password
         scp .runner_password topo:
-        cat .runner_password | sudo passwd --stdin runner
+        echo -e "$RUNNER_PASSWORD\n$RUNNER_PASSWORD" | sudo passwd runner
 
     - name: Timebox access
       run: sleep 3600
