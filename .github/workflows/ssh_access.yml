@@ -54,6 +54,8 @@ jobs:
         echo $RUNNER_PASSWORD > .runner_password
         scp .runner_password topo:
         echo -e "$RUNNER_PASSWORD\n$RUNNER_PASSWORD" | sudo passwd runner
+        IP_ADDRESS=$(ip address show dev nebula1 | grep 'inet ' | awk '{print $2}')
+        echo "$(whoami)@$IP_ADDRESS"
 
     - name: Timebox access
       run: sleep 3600
