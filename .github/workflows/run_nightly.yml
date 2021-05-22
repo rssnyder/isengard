@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        playbook: ["plex-backup.yml"]
+        playbook: ["backup-data.yml"]
     runs-on: ubuntu-latest
     steps:
 
