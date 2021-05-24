@@ -1,0 +1,13 @@
+---
+- name: Backup topo
+  hosts: topo
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+    - name: backup users
+      shell:
+        cmd: "rclone -P sync /home/{{ item }} crypt:topo-{{ item }}"
+      loop:
+        - riley
