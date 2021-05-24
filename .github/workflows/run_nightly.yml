@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        playbook: ["backup-data.yml"]
+        playbook: ["backup-kate.yml", "backup-topo.yml"]
     runs-on: ubuntu-latest
     steps:
 
