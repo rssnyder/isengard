@@ -1,5 +1,5 @@
 ---
-- name: Backup data
+- name: Backup kate
   hosts: kate
   gather_facts: yes
   become: yes
@@ -12,7 +12,7 @@
 
     - name: backup users
       shell:
-        cmd: "rclone -P sync /home/{{ item }} crypt:{{ item }}"
+        cmd: "rclone -P sync /home/{{ item }} crypt:kate-{{ item }}"
       loop:
         - riley
         - infra
