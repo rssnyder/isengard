@@ -25,7 +25,7 @@
 
     - name: Download dst
       get_url:
-        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/v2.3.3/discord-stock-ticker-v2.3.3-linux-amd64.tar.gz"
+        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/{{ ticker_version }}/discord-stock-ticker-{{ ticker_version }}-{{ arch }}.tar.gz"
         dest: /etc/discord-stock-ticker/discord-stock-ticker.tar.gz
         mode: '0700'
 
