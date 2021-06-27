@@ -49,8 +49,15 @@ jobs:
         key: ${{ runner.os }}-pip
         restore-keys: ${{ runner.os }}-pip
 
-    - name: Install dependencies
-      run: pip3 install ansible
+    - name: Install ansible
+      run: |
+        sudo apt-add-repository ppa:ansible/ansible -y
+        sudo apt update -y
+        sudo apt install ansible -y
+    
+    - name: Install ansible deps
+      continue-on-error: true
+      run: for item in $(cat ${{ github.event.inputs.playbook }}.deps); do ansible-galaxy collection install $item; done
     
     - name: Run playbook
       run: |
