@@ -62,6 +62,12 @@
     - name: reload
       shell:
         cmd: systemctl daemon-reload
+    
+    - name: Stop dst
+      systemd:
+        state: stopped
+        name: "{{ item.value.name }}.service"
+      loop: "{{ clients | dict2items }}"
 
     - name: Start dst
       systemd:
