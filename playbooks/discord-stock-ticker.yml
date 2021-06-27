@@ -1,6 +1,6 @@
 ---
 - name: Install discord-stock-ticker
-  hosts: premium,indy
+  hosts: oracle_dst,oracle_amp,indy
   gather_facts: yes
   become: yes
 
