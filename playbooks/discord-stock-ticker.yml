@@ -69,6 +69,10 @@
         name: "{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
 
+    - name: Sleep for 30 seconds to fill cache
+      wait_for:
+        timeout: 30
+      
     - name: Start dst
       systemd:
         state: restarted
