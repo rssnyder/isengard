@@ -1,5 +1,6 @@
 ---
-- hosts: oracle_dst
+- name: Set up oracle vms
+  hosts: oracle_dst
   become: yes
   tasks:
 

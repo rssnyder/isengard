@@ -1,7 +1,6 @@
 ---
 - name: Backup kate
   hosts: kate
-  gather_facts: yes
   become: yes
 
   tasks:

@@ -1,6 +1,6 @@
 ---
 - name: Install node exporter
-  hosts: premium
+  hosts: oracle_infra,oracle_dst,kate
   become: yes
   tasks:
 

@@ -1,7 +1,6 @@
 ---
 - name: Install coingecko-cache
-  hosts: premium,kate
-  gather_facts: yes
+  hosts: oracle_dst,oc1
   become: yes
 
   tasks:

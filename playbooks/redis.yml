@@ -1,7 +1,6 @@
 ---
 - name: Install redis
-  hosts: premium
-  gather_facts: yes
+  hosts: oracle_dst,oc1
   become: yes
 
   tasks:
