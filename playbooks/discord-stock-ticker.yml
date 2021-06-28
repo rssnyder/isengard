@@ -1,13 +1,13 @@
 ---
 - name: Install discord-stock-ticker
-  hosts: premium,indy
+  hosts: oracle_dst,oracle_amp,indy
   gather_facts: yes
   become: yes
 
   tasks:
 
     - name: install pip3
-      apt:
+      package:
         name: python3-pip
         state: latest
         update_cache: yes
@@ -37,7 +37,7 @@
     
     - name: get loader
       get_url:
-        url: https://gist.githubusercontent.com/rssnyder/dd543590ae48e45b4e6ab410c01710a0/raw/0d62d678aba78744b32385b2711a8a4df51f8022/load
+        url: https://gist.githubusercontent.com/rssnyder/dd543590ae48e45b4e6ab410c01710a0/raw/8eb79ce2edb66739d0d92a75c157f20831dbe71f/load
         dest: /etc/discord-stock-ticker/load
         mode: '0700'
     
@@ -62,7 +62,17 @@
     - name: reload
       shell:
         cmd: systemctl daemon-reload
+    
+    - name: Stop dst
+      systemd:
+        state: stopped
+        name: "{{ item.value.name }}.service"
+      loop: "{{ clients | dict2items }}"
 
+    - name: Sleep for 30 seconds to fill cache
+      wait_for:
+        timeout: 30
+      
     - name: Start dst
       systemd:
         state: restarted

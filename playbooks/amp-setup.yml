@@ -1,0 +1,41 @@
+---
+- hosts: oracle_amp
+  become: yes
+  tasks:
+    
+    - lineinfile:
+        path: "{{ item }}"
+        regexp: '^export http_proxy='
+        line: 'export http_proxy=http://10.0.0.8:8888'
+      loop:
+        - /etc/profile
+        - /etc/environment
+    
+    - lineinfile:
+        path: "{{ item }}"
+        regexp: '^export https_proxy='
+        line: 'export https_proxy=http://10.0.0.8:8888'
+      loop:
+        - /etc/profile
+        - /etc/environment
+
+    - lineinfile:
+        path: "{{ item }}"
+        regexp: '^export HTTP_PROXY='
+        line: 'export HTTP_PROXY=http://10.0.0.8:8888'
+      loop:
+        - /etc/profile
+        - /etc/environment
+
+    - lineinfile:
+        path: "{{ item }}"
+        regexp: '^HTTPS_PROXY='
+        line: 'export HTTPS_PROXY=http://10.0.0.8:8888'
+      loop:
+        - /etc/profile
+        - /etc/environment
+
+    - lineinfile:
+        path: /etc/yum.conf
+        regexp: '^proxy='
+        line: 'proxy=http://10.0.0.8:8888'
