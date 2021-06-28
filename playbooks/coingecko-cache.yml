@@ -1,6 +1,6 @@
 ---
 - name: Install coingecko-cache
-  hosts: premium
+  hosts: premium,kate
   gather_facts: yes
   become: yes
 
