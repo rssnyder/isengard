@@ -1,0 +1,17 @@
+---
+- hosts: oracle_dst
+  become: yes
+  tasks:
+
+    - name: copy iptables rules
+      copy: 
+        src: templates/rules.v4
+        dest: /etc/iptables/rules.v4
+    
+    - name: reset
+      shell: iptables-restore < /etc/iptables/rules.v4
+    
+    - name: restart iptables
+      systemd:
+        state: restarted
+        name: iptables
