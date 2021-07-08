@@ -1,6 +1,6 @@
 ---
 - name: Install coingecko-cache
-  hosts: oracle_dst,oc1
+  hosts: oracle_dst
   become: yes
 
   tasks:
@@ -28,7 +28,7 @@
       set_fact:
         service_name: "coingecko-cache"
         service_desc: "cacheing coingecko data"
-        service_opts: ""
+        service_opts: "-pages 5 -expiry 120"
     
     - name: copy service file
       template: 

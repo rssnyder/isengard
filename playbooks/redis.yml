@@ -1,6 +1,6 @@
 ---
 - name: Install redis
-  hosts: oracle_dst,oc1
+  hosts: oracle_dst
   become: yes
 
   tasks:
