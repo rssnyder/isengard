@@ -10,7 +10,7 @@ StandardOutput=syslog
 StandardError=syslog
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/etc/discord-stock-ticker/discord-stock-ticker -address {{ interface }}:{{ item.value.port }} -cache
-ExecStartPost=/etc/discord-stock-ticker/load /etc/discord-stock-ticker/{{ item.value.name  }}.db {{ interface }}:{{ item.value.port }} premium
+ExecStartPost=/etc/discord-stock-ticker/load {{ db_path }}/{{ item.value.name  }}.db {{ interface }}:{{ item.value.port }} premium
 Restart=always
 
 [Install]
