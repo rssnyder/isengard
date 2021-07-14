@@ -7,7 +7,7 @@ on:
 jobs:
   run-playbook:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '@dst')"
+    if: "contains(github.event.head_commit.message, '[dst]')"
     steps:
 
     - uses: actions/checkout@v2
