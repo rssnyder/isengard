@@ -36,7 +36,7 @@
     
     - name: get loader
       get_url:
-        url: https://gist.githubusercontent.com/rssnyder/dd543590ae48e45b4e6ab410c01710a0/raw/5c4ac539ee102a776b695150f3acf1ce56b67c9d/load
+        url: https://gist.githubusercontent.com/rssnyder/dd543590ae48e45b4e6ab410c01710a0/raw/{{ loader_version }}/load
         dest: /etc/discord-stock-ticker/load
         mode: '0700'
     
