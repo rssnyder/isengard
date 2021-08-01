@@ -5,6 +5,8 @@ personal ansible-tower like tool using github actions
 
 [![Run nightly](https://github.com/rssnyder/isengard/actions/workflows/run_nightly.yml/badge.svg)](https://github.com/rssnyder/isengard/actions/workflows/run_nightly.yml)
 
+[![Run Discord Stock Ticker](https://github.com/rssnyder/isengard/actions/workflows/run_dst.yml/badge.svg)](https://github.com/rssnyder/isengard/actions/workflows/run_dst.yml)
+
 ![ACTIONS](https://user-images.githubusercontent.com/7338312/118890029-9dc50380-b8c3-11eb-81d7-131dc2f6687e.png)
 
 ## why
