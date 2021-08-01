@@ -8,10 +8,11 @@
     - name: backup media
       shell:
         cmd: rclone -P sync /mnt/freezer/media crypt:media
+        
+    - name: backup util
+      shell:
+        cmd: rclone -P sync /mnt/freezer/util crypt:util
 
     - name: backup users
       shell:
-        cmd: "rclone -P sync /home/{{ item }} crypt:kate-{{ item }}"
-      loop:
-        - riley
-        - infra
+        cmd: "rclone -P sync /home/ crypt:kate/home/"
