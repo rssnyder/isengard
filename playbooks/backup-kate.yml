@@ -9,9 +9,9 @@
       shell:
         cmd: rclone -P sync /mnt/freezer/media crypt:media
         
-    - name: backup util
-      shell:
-        cmd: rclone -P sync /mnt/freezer/util crypt:util
+#     - name: backup util
+#       shell:
+#         cmd: rclone -P sync /mnt/freezer/util crypt:util
 
     - name: backup users
       shell:
