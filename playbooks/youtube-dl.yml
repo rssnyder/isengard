@@ -5,9 +5,11 @@
   tasks:
 
     - name: download Wubbillionaire playlist
+      ignore_errors: yes
       shell:
         cmd: /home/riley/.local/bin/youtube-dl -i --extract-audio --audio-format mp3 --download-archive /mnt/freezer/media/music/Wubbillionaire/.log -o '/mnt/freezer/media/music/Wubbillionaire/%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNlXXRR8UWHWsY4oTi8Vuf1y
         
     - name: download ImaLetYouFinish playlist
+      ignore_errors: yes
       shell:
         cmd: /home/riley/.local/bin/youtube-dl -i --extract-audio --audio-format mp3 --download-archive /mnt/freezer/media/music/ImaLetYouFinish/.log -o '/mnt/freezer/media/music/ImaLetYouFinish/%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNlobWh0Et8BJk4Pkhg5y8ow
