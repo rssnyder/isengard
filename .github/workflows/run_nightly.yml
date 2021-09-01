@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        playbook: ["backup-kate.yml", "youtube-dl.yml"]
+        playbook: ["backup-kate.yml"]
     runs-on: ubuntu-latest
     steps:
 
