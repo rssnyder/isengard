@@ -10,6 +10,11 @@
       shell:
         cmd: rclone -P sync /mnt/freezer/media crypt:media
         
+    - name: backup minio
+      ignore_errors: yes
+      shell:
+        cmd: rclone -P copy /home/infra/appdata/minio crypt:minio
+        
 #     - name: backup util
 #       ignore_errors: yes
 #       shell:
@@ -18,4 +23,4 @@
     - name: backup users
       ignore_errors: yes
       shell:
-        cmd: "rclone -P sync /home/ crypt:kate/home/"
+        cmd: rclone -P copy /home crypt:kate/home
