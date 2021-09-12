@@ -1,0 +1,18 @@
+---
+- name: Remove discord-stock-ticker client
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Stop dst
+      systemd:
+        state: stopped
+        name: "{{ item.value.name }}.service"
+      loop: "{{ clients | dict2items }}"
+
+    - name: delete service config
+      file: 
+        state: absent
+        path: "/etc/systemd/system/{{ item.value.name }}.service"
+      loop: "{{ clients | dict2items }}"

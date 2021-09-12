@@ -1,0 +1,28 @@
+---
+- name: Backup discord-stock-ticker
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: install pip3
+      package:
+        name: python3-pip
+        state: latest
+        update_cache: yes
+
+    - name: Install boto3
+      pip:
+        name: boto3
+
+    - name: Backup DB
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3_host }}"
+        aws_access_key: "{{ s3_username }}"
+        aws_secret_key: "{{ s3_password }}"
+        encrypt: no
+        bucket: tickers
+        object: "{{ item.value.name }}.state"
+        src: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
+        mode: put
+      loop: "{{ clients | dict2items }}"

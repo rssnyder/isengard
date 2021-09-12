@@ -1,6 +1,6 @@
 ---
 - name: Install coingecko-cache
-  hosts: oracle_dst
+  hosts: all
   become: yes
 
   tasks:
@@ -43,3 +43,16 @@
       systemd:
         state: restarted
         name: coingecko-cache.service
+
+    - name: install cron
+      package:
+        name: cron
+        state: latest
+        update_cache: yes
+
+    - name: Purge system every hour
+      ansible.builtin.cron:
+        name: "reset cache"
+        minute: "0"
+        hour: "*"
+        job: "systemctl restart coingecko-cache"

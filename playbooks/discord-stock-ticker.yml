@@ -1,6 +1,6 @@
 ---
 - name: Install discord-stock-ticker
-  hosts: oracle_dst
+  hosts: all
   become: yes
 
   tasks:
@@ -34,28 +34,10 @@
         src: /etc/discord-stock-ticker/discord-stock-ticker.tar.gz
         dest: /etc/discord-stock-ticker/
     
-    - name: get loader
-      get_url:
-        url: https://gist.githubusercontent.com/rssnyder/dd543590ae48e45b4e6ab410c01710a0/raw/{{ loader_version }}/load
-        dest: /etc/discord-stock-ticker/load
-        mode: '0700'
-    
     - name: copy service config
       template: 
         src: dst.service.j2
         dest: "/etc/systemd/system/{{ item.value.name }}.service"
-      loop: "{{ clients | dict2items }}"
-    
-    - name: Pull down DB
-      amazon.aws.aws_s3:
-        s3_url: "{{ s3_host }}"
-        aws_access_key: "{{ s3_username }}"
-        aws_secret_key: "{{ s3_password }}"
-        encrypt: no
-        bucket: tickers
-        object: "{{ item.value.name }}.db"
-        dest: "/etc/discord-stock-ticker/{{ item.value.name }}.db"
-        mode: get
       loop: "{{ clients | dict2items }}"
   
     - name: reload

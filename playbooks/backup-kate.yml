@@ -10,10 +10,10 @@
       shell:
         cmd: rclone -P sync /mnt/freezer/media crypt:media
         
-#     - name: backup util
-#       ignore_errors: yes
-#       shell:
-#         cmd: rclone -P sync /mnt/freezer/util crypt:util
+    - name: backup util
+      ignore_errors: yes
+      shell:
+        cmd: rclone sync /mnt/freezer/util/ crypt:util/
 
     - name: backup users
       ignore_errors: yes
