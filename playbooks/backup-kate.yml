@@ -18,4 +18,4 @@
     - name: backup users
       ignore_errors: yes
       shell:
-        cmd: "rclone -P sync /home/ crypt:kate/home/"
+        cmd: rclone -P copy /home crypt:kate/home

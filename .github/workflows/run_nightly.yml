@@ -58,6 +58,9 @@ jobs:
     - name: Install dependencies
       run: pip3 install ansible
     
+    - name: Bootstrap nebula connection
+      run: ping -c 10 192.168.100.10
+    
     - name: Run playbook
       run: |
         ansible-playbook -i hosts.yml \
