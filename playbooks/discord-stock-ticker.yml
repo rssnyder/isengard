@@ -5,6 +5,21 @@
 
   tasks:
 
+    - name: create dst group
+      group:
+        name: dst
+        system: true
+        state: present
+
+    - name: create dst user
+      user:
+        name: dst
+        group: dst
+        shell: "/usr/sbin/nologin"
+        system: true
+        createhome: false
+        state: present
+
     - name: install pip3
       package:
         name: python3-pip
@@ -39,6 +54,18 @@
         src: dst.service.j2
         dest: "/etc/systemd/system/{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
+    
+    # - name: Pull state
+    #   amazon.aws.aws_s3:
+    #     s3_url: "{{ s3_host }}"
+    #     aws_access_key: "{{ s3_username }}"
+    #     aws_secret_key: "{{ s3_password }}"
+    #     encrypt: no
+    #     bucket: tickers
+    #     object: "{{ item.value.name }}.state"
+    #     dest: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
+    #     mode: get
+    #   loop: "{{ clients | dict2items }}"
   
     - name: reload
       shell:

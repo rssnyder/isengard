@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jonesbooned
+  labels:
+    client: jonesbooned
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      client: jonesbooned
+  template:
+    metadata:
+      labels:
+        client: jonesbooned
+    spec:
+      containers:
+      - name: jonesbooned
+        image: ghcr.io/rssnyder/discord-stock-ticker:3.5.1-beta4
+        ports:
+        - containerPort: 8080
+        env:
+        - name: FREQUENCY
+          value: "3"
+        - name: DB
+          value: "/jonesbooned.db"

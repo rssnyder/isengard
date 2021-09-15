@@ -1,2 +1,5 @@
 .vault_password
 venv
+
+# external roles
+ansible-role-*

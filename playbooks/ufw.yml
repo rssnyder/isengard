@@ -11,6 +11,7 @@
         src: '{{ item }}'
       loop:
         - 192.168.100.0/24
+        - 10.0.0.0/8
     
     - name: Allow all access to 22
       community.general.ufw:

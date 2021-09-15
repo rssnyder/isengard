@@ -16,3 +16,4 @@
         state: absent
         path: "/etc/systemd/system/{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
+    
