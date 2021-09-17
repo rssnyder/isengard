@@ -9,9 +9,10 @@ jobs:
   run-nightly:
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         playbook:
-          - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst,public"
+          - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst"
           - "backup-kate.yml"
           - "youtube-dl.yml"
     runs-on: ubuntu-latest

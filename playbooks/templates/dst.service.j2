@@ -9,7 +9,7 @@ SyslogIdentifier={{ item.value.name  }}
 StandardOutput=syslog
 StandardError=syslog
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/etc/discord-stock-ticker/discord-stock-ticker -address={{ interface }}:{{ item.value.port }} -db=/etc/discord-stock-ticker/{{ item.value.name  }}.state -frequency=10 -logLevel=1 -cache {{ extra_dst_args }}
+ExecStart=/etc/discord-stock-ticker/discord-stock-ticker -address={{ nebula_ip }}:{{ item.value.port }} -db=/etc/discord-stock-ticker/{{ item.value.name  }}.state -frequency=10 -logLevel=1 -cache {{ extra_dst_args }}
 Restart=always
 
 [Install]
