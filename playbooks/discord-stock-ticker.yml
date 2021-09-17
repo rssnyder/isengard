@@ -55,17 +55,33 @@
         dest: "/etc/systemd/system/{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
     
-    # - name: Pull state
-    #   amazon.aws.aws_s3:
-    #     s3_url: "{{ s3_host }}"
-    #     aws_access_key: "{{ s3_username }}"
-    #     aws_secret_key: "{{ s3_password }}"
-    #     encrypt: no
-    #     bucket: tickers
-    #     object: "{{ item.value.name }}.state"
-    #     dest: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
-    #     mode: get
-    #   loop: "{{ clients | dict2items }}"
+    - name: allow DST metrics over nebula
+      ansible.builtin.lineinfile:
+        path: /etc/iptables/rules.v4 
+        regexp: '^-A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport {{ item.value.port }} -j ACCEPT$'
+        line: -A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport {{ item.value.port }} -j ACCEPT
+        insertafter: '^-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT$'
+      loop: "{{ clients | dict2items }}"
+      when: iptables
+    
+    - name: restart iptables
+      systemd:
+        state: restarted
+        name: iptables
+      when: iptables
+    
+    - name: Pull state
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3_host }}"
+        aws_access_key: "{{ s3_username }}"
+        aws_secret_key: "{{ s3_password }}"
+        encrypt: no
+        bucket: tickers
+        object: "{{ item.value.name }}.state"
+        dest: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
+        mode: get
+      loop: "{{ clients | dict2items }}"
+      when: pull == 1
   
     - name: reload
       shell:

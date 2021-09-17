@@ -3,3 +3,5 @@ venv
 
 # external roles
 ansible-role-*
+
+newbots

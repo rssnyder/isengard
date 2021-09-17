@@ -1,0 +1,18 @@
+---
+- name: Generate promethus target config
+  hosts: kate
+  become: yes
+
+  tasks:
+    
+    - name: copy targets config
+      template: 
+        src: targets.yml.j2
+        dest: /home/infra/appdata/prometheus/prometheus.yml
+        owner: infra
+        group: infra
+    
+    - name: reload
+      uri:
+        url: http://192.168.0.61:9090/-/reload
+        method: POST
