@@ -1,0 +1,74 @@
+integrations:
+  node_exporter:
+    enabled: true
+  prometheus_remote_write:
+  - basic_auth:
+      password: {{ grafana_cloud.password }}
+      username: {{ grafana_cloud.user.integrations }}
+    url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+
+{% if 'redis' in metrics %}
+  redis_exporter:
+    enabled: true
+    redis_addr: localhost:6379
+{% endif %}
+
+loki:
+  configs:
+  - clients:
+    - basic_auth:
+        password: {{ grafana_cloud.password }}
+        username: {{ grafana_cloud.user.loki }}
+      url: https://logs-prod-us-central1.grafana.net/api/prom/push
+    name: integrations
+    positions:
+      filename: /tmp/positions.yaml
+    target_config:
+      sync_period: 10s
+prometheus:
+  configs:
+  - name: integrations
+    remote_write:
+    - basic_auth:
+        password: {{ grafana_cloud.password }}
+        username: {{ grafana_cloud.user.prometheus }}
+      url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    scrape_configs:
+
+{% if 'caddy' in metrics %}
+    - job_name: integrations/caddy
+      static_configs:
+      - targets:
+        - localhost:2019
+{% endif %}
+
+{% if 'discord-stock-ticker' in metrics %}
+    - job_name: discord-stock-ticker
+      static_configs:
+      - targets:
+{% for client in clients %}
+        - {{ nebula_ip }}:{{ clients[client].port }}
+{% endfor %}
+{% endif %}
+
+{% if 'discord-stock-ticker-public' in metrics %}
+    - job_name: discord-stock-ticker-public
+      static_configs:
+      - targets:
+{% for client in clients %}
+        - {{ nebula_ip }}:{{ clients[client].port }}
+{% endfor %}
+{% endif %}
+
+{% if 'discord' in metrics %}
+    - job_name: discord
+      static_configs:
+      - targets:
+        - {{ nebula_ip }}:8787
+{% endif %}
+
+  global:
+    scrape_interval: 15s
+  wal_directory: /tmp/grafana-agent-wal
+server:
+  http_listen_port: 12345

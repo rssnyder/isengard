@@ -1,0 +1,26 @@
+---
+- name: Install grafana cloud agent
+  hosts: all
+  become: yes
+  tasks:
+
+    # - name: Install agent
+    #   shell:
+    #     cmd: /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/grafana/agent/release/production/grafanacloud-install.sh)"
+    #   environment:
+    #     ARCH: amd64
+    #     GCLOUD_STACK_ID: "{{ grafana_cloud['stack'] }}"
+    #     GCLOUD_API_KEY: "{{ grafana_cloud['password'] }}"
+    #     GCLOUD_API_URL: https://integrations-api-us-central.grafana.net
+    
+    - name: Copy config
+      template: 
+        src: grafana-agent.yaml.j2
+        dest: /etc/grafana-agent.yaml
+        owner: grafana-agent
+        group: grafana-agent
+  
+    - name: Restart
+      systemd:
+        state: restarted
+        name: grafana-agent
