@@ -9,9 +9,6 @@ on:
     - cron:  "0 0 */5 * *" 
   workflow_dispatch:
 
-env:
-  DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
-
 jobs:
   terraform:
     name: "Terraform"
@@ -49,6 +46,8 @@ jobs:
         working-directory: infra/
         run: terraform plan -no-color
         continue-on-error: true
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
@@ -88,6 +87,8 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         working-directory: infra/
         run: terraform apply -auto-approve
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
 
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
