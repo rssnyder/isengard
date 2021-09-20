@@ -25,7 +25,7 @@ jobs:
         working-directory: infra/
         run: terraform fmt -check
       
-      - uses: rssnyder/ghcr-artifact-store@feat/inital-work
+      - uses: rssnyder/ghcr-artifact-store@0.1.0
         with:
           artifact: terraform.tfstate
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
       - name: Move state
         run: mv infra/terraform.tfstate terraform.tfstate
 
-      - uses: rssnyder/ghcr-artifact-store@feat/inital-work
+      - uses: rssnyder/ghcr-artifact-store@0.1.0
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         with:
           method: PUT
