@@ -29,7 +29,6 @@ jobs:
         run: terraform fmt -check
       
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
-        working-directory: infra/
         with:
           path: terraform.tfstate
 
@@ -92,7 +91,6 @@ jobs:
 
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        working-directory: infra/
         with:
           method: PUT
           path: terraform.tfstate
