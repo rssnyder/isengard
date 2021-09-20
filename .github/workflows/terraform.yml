@@ -12,11 +12,6 @@ on:
 env:
   DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
 
-defaults:
-  run:
-    working-directory: "infra"
-
-
 jobs:
   terraform:
     name: "Terraform"
@@ -30,29 +25,34 @@ jobs:
 
       - name: Terraform Format
         id: fmt
+        working-directory: infra/
         run: terraform fmt -check
       
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
-        working-directory: "${{ github.workspace}}/infra"
+        working-directory: infra/
         with:
           path: terraform.tfstate
 
       - name: Terraform Init
         id: init
+        working-directory: infra/
         run: terraform init
       
       - name: Terraform Validate
         id: validate
+        working-directory: infra/
         run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
+        working-directory: infra/
         run: terraform plan -no-color
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
+        working-directory: infra/
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
@@ -82,15 +82,17 @@ jobs:
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
+        working-directory: infra/
         run: exit 1
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        working-directory: infra/
         run: terraform apply -auto-approve
 
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        working-directory: "${{ github.workspace}}/infra"
+        working-directory: infra/
         with:
           method: PUT
           path: terraform.tfstate
