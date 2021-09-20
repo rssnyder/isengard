@@ -82,6 +82,12 @@ jobs:
         if: steps.plan.outcome == 'failure'
         working-directory: infra/
         run: exit 1
+      
+      - uses: rssnyder/ghcr-artifact-store@feat/inital-work
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        with:
+          artifact: terraform.tfstate
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
