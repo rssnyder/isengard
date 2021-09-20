@@ -85,12 +85,6 @@ jobs:
         if: steps.plan.outcome == 'failure'
         working-directory: infra/
         run: exit 1
-      
-      - uses: rssnyder/ghcr-artifact-store@feat/inital-work
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        with:
-          artifact: terraform.tfstate
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
@@ -98,6 +92,9 @@ jobs:
         run: terraform apply -auto-approve
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+      
+      - name: Move state
+        run: mv infra/terraform.tfstate terraform.tfstate
 
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
