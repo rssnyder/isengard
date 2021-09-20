@@ -29,6 +29,9 @@ jobs:
         with:
           artifact: terraform.tfstate
           token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Move state
+        run: mv terraform.tfstate infra/terraform.tfstate
 
       - name: Terraform Init
         id: init
