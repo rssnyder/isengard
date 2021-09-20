@@ -14,7 +14,7 @@ env:
 
 defaults:
   run:
-    working-directory: "${{ github.workspace }}/infra"
+    working-directory: "infra"
 
 
 jobs:
