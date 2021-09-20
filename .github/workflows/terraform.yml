@@ -5,8 +5,6 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
   schedule:
     - cron:  "0 0 */5 * *" 
   workflow_dispatch:
@@ -16,7 +14,7 @@ env:
 
 defaults:
   run:
-    working-directory: "${{ github.workspace}}/infra"
+    working-directory: "${{ github.workspace }}/infra"
 
 
 jobs:
