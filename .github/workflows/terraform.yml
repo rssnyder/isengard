@@ -30,7 +30,8 @@ jobs:
       
       - uses: rssnyder/ghcr-artifact-store@feat/inital-work
         with:
-          path: terraform.tfstate
+          artifact: terraform.tfstate
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform Init
         id: init
@@ -92,4 +93,5 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         with:
           method: PUT
-          path: terraform.tfstate
+          artifact: terraform.tfstate
+          token: ${{ secrets.GITHUB_TOKEN }}

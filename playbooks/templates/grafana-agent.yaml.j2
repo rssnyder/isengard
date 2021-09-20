@@ -68,7 +68,7 @@ prometheus:
 {% endif %}
 
   global:
-    scrape_interval: 15s
+    scrape_interval: {{ scrape }}
   wal_directory: /tmp/grafana-agent-wal
 server:
   http_listen_port: 12345
