@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         playbook:
-          - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst"
+          # - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst"
           - "backup-kate.yml"
           # - "youtube-dl.yml"
     runs-on: ubuntu-latest
@@ -37,6 +37,7 @@ jobs:
       with:
         key: ${{ secrets.SSH_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        config: ${{ secrets.CONFIG }}
 
     - name: Set up Python 3
       uses: actions/setup-python@v2
