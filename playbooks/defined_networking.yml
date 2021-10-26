@@ -1,0 +1,41 @@
+---
+- name: defined networking cloud beta
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: create defined dir
+      file: 
+        state: directory
+        path: /etc/defined
+        owner: root
+        group: root
+    
+    - name: Download dnclient
+      get_url:
+        url: https://dl.defined.net/cce733c1/v0.0.8/linux/amd64/dnclient
+        dest: /etc/defined/defined
+        owner: root
+        group: root
+        mode: '0700'
+
+    - name: set facts for service file
+      set_fact:
+        service_name: "defined"
+        service_desc: "defined networking cloud beta"
+        service_opts: "run"
+    
+    - name: copy service file
+      template: 
+        src: service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+  
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: Start defined
+      systemd:
+        state: restarted
+        name: defined.service
