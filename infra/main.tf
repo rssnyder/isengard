@@ -3,7 +3,7 @@ resource "digitalocean_droplet" "public-stocks" {
 
   image      = "ubuntu-20-04-x64"
   region     = "nyc3"
-  size       = "s-1vcpu-1gb"
+  size       = "s-2vcpu-2gb"
   monitoring = true
   ssh_keys = [
     "98:9f:0d:4f:10:dc:61:a5:c5:14:f1:5a:88:cf:c1:76",
