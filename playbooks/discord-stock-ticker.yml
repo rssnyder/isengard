@@ -5,30 +5,19 @@
 
   tasks:
 
-    - name: create dst group
-      group:
-        name: dst
-        system: true
-        state: present
+    - name: get nebula ip
+      set_fact:
+        nebula_ip={{ hostvars[inventory_hostname]['ansible_nebula99']['ipv4']['address'] }}
 
-    - name: create dst user
-      user:
-        name: dst
-        group: dst
-        shell: "/usr/sbin/nologin"
-        system: true
-        createhome: false
-        state: present
+    # - name: install pip3
+    #   package:
+    #     name: python3-pip
+    #     state: latest
+    #     update_cache: yes
 
-    - name: install pip3
-      package:
-        name: python3-pip
-        state: latest
-        update_cache: yes
-
-    - name: Install boto3
-      pip:
-        name: boto3
+    # - name: Install boto3
+    #   pip:
+    #     name: boto3
 
     - name: create dst dir
       file: 
@@ -55,29 +44,14 @@
         dest: "/etc/systemd/system/{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
     
-    - name: allow DST metrics over nebula
-      ansible.builtin.lineinfile:
-        path: /etc/iptables/rules.v4 
-        regexp: '^-A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport {{ item.value.port }} -j ACCEPT$'
-        line: -A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport {{ item.value.port }} -j ACCEPT
-        insertafter: '^-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT$'
-      loop: "{{ clients | dict2items }}"
-      when: iptables
-    
-    - name: restart iptables
-      systemd:
-        state: restarted
-        name: iptables
-      when: iptables
-    
     - name: Pull state
       amazon.aws.aws_s3:
         s3_url: "{{ s3.host }}"
         aws_access_key: "{{ s3['username'] }}"
         aws_secret_key: "{{ s3['password'] }}"
         encrypt: no
-        bucket: tickers
-        object: "{{ item.value.name }}.state"
+        bucket: ocb0
+        object: "dst/database/{{ item.value.name }}.state"
         dest: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
         mode: get
       loop: "{{ clients | dict2items }}"

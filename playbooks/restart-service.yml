@@ -1,0 +1,12 @@
+---
+- name: Restart service
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+      
+    - name: restart service
+      systemd:
+        state: restarted
+        name: "{{ service }}"

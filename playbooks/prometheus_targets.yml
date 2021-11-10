@@ -1,18 +1,23 @@
 ---
 - name: Generate promethus target config
-  hosts: kate
-  become: yes
+  hosts: all
 
   tasks:
+
+    - name: get nebula ip
+      set_fact:
+        nebula_ip={{ hostvars[inventory_hostname]['ansible_nebula99']['ipv4']['address'] }}
     
     - name: copy targets config
       template: 
         src: targets.yml.j2
-        dest: /home/infra/appdata/prometheus/prometheus.yml
-        owner: infra
-        group: infra
+        dest: /home/riley/appdata/prometheus/prometheus.yml
+        owner: riley
+        group: riley
+      when: inventory_hostname == 'kate'
     
     - name: reload
       uri:
         url: http://192.168.0.61:9090/-/reload
         method: POST
+      when: inventory_hostname == 'kate'

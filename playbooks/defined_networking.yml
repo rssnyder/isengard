@@ -35,7 +35,13 @@
       shell:
         cmd: systemctl daemon-reload
 
+    # - name: Enable defined
+    #   systemd:
+    #     state: enabled
+    #     name: defined.service
+
     - name: Start defined
       systemd:
         state: restarted
         name: defined.service
+        enabled: yes

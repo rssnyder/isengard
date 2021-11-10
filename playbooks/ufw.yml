@@ -1,6 +1,6 @@
 ---
-- name: Install redis
-  hosts: all
+- name: configure ufw
+  hosts: ocean
   become: yes
 
   tasks:
@@ -10,7 +10,7 @@
         rule: allow
         src: '{{ item }}'
       loop:
-        - 192.168.100.0/24
+        - 192.168.101.0/24
         - 10.0.0.0/8
     
     - name: Allow all access to 22

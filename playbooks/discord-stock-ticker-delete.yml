@@ -10,10 +10,25 @@
         state: stopped
         name: "{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
+      when: item.value.name == client
+    
+    - name: Backup DB
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3.host }}"
+        aws_access_key: "{{ s3.username }}"
+        aws_secret_key: "{{ s3.password }}"
+        encrypt: no
+        bucket: ocb0
+        object: "dst/database/{{ item.value.name }}.state"
+        src: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
+        mode: put
+        permission: []
+      loop: "{{ clients | dict2items }}"
+      when: item.value.name == client
 
     - name: delete service config
       file: 
         state: absent
         path: "/etc/systemd/system/{{ item.value.name }}.service"
       loop: "{{ clients | dict2items }}"
-    
+      when: item.value.name == client
