@@ -1,22 +1,9 @@
-resource "digitalocean_droplet" "public-stocks" {
-  name = "public-stocks"
+resource "digitalocean_droplet" "public" {
+  name = "public"
 
   image      = "ubuntu-20-04-x64"
   region     = "nyc3"
   size       = "s-1vcpu-1gb"
-  monitoring = true
-  ssh_keys = [
-    "98:9f:0d:4f:10:dc:61:a5:c5:14:f1:5a:88:cf:c1:76",
-    "98:36:f6:72:ca:4e:5a:68:e6:3e:a1:aa:9f:76:61:73"
-  ]
-}
-
-resource "digitalocean_droplet" "public-cryptos" {
-  name = "public-cryptos"
-
-  image      = "ubuntu-20-04-x64"
-  region     = "nyc3"
-  size       = "s-2vcpu-4gb"
   monitoring = true
   ssh_keys = [
     "98:9f:0d:4f:10:dc:61:a5:c5:14:f1:5a:88:cf:c1:76",
