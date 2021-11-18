@@ -14,13 +14,13 @@ jobs:
 
     - uses: actions/checkout@v2
 
-    - name: Connect to nebula net
-      uses: rssnyder/nebula-action-step@0.1.0
-      env:
-        NEBULA_CA_CRT: ${{ secrets.NEBULA_CA_CRT }}
-        NEBULA_NODE_CONF: ${{ secrets.NEBULA_NODE_CONF }}
-        NEBULA_NODE_CRT: ${{ secrets.NEBULA_NODE_CRT }}
-        NEBULA_NODE_KEY: ${{ secrets.NEBULA_NODE_KEY }}
+    - id: set up network
+      uses: rssnyder/defined-networking-connect@0.1.0-beta.1
+      with:
+        defined-config: ${{ secrets.DEFINED_CONFIG }}
+
+    - name: test network
+      run: ping -c 5 192.168.101.1
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
