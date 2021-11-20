@@ -21,13 +21,11 @@ jobs:
       with:
         ref: master
 
-    - name: Connect to nebula net
-      uses: rssnyder/nebula-action-step@0.1.0
-      env:
-        NEBULA_CA_CRT: ${{ secrets.NEBULA_CA_CRT }}
-        NEBULA_NODE_CONF: ${{ secrets.NEBULA_NODE_CONF }}
-        NEBULA_NODE_CRT: ${{ secrets.NEBULA_NODE_CRT }}
-        NEBULA_NODE_KEY: ${{ secrets.NEBULA_NODE_KEY }}
+    - uses: rssnyder/defined-networking-connect@0.1.0
+      with:
+        defined-config: ${{ secrets.DEFINED_CONFIG }}
+
+    - run: ping -c 5 192.168.101.1
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
@@ -58,9 +56,6 @@ jobs:
 
     - name: Install dependencies
       run: pip3 install ansible
-    
-    - name: Bootstrap nebula connection
-      run: ping -c 10 192.168.100.10
     
     - name: Run playbook
       run: |
