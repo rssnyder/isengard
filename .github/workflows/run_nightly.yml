@@ -14,7 +14,7 @@ jobs:
           # - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst"
           - "backup-kate.yml"
           # - "youtube-dl.yml"
-    runs-on: ubuntu-latest
+    runs-on: kate
     steps:
 
     - uses: actions/checkout@v2
