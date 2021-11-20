@@ -4,17 +4,17 @@
 
   tasks:
 
+    - run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
     - name: Install yt-dlp
       pip:
         name: yt-dlp
         extra_args: --user
 
     - name: download Wubbillionaire playlist
-      ignore_errors: yes
       shell:
         cmd: yt-dlp -i --extract-audio --audio-format mp3 --download-archive /mnt/freezer/media/music/Wubbillionaire/.log -o '/mnt/freezer/media/music/Wubbillionaire/%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNlXXRR8UWHWsY4oTi8Vuf1y
         
     - name: download KidzBop playlist
-      ignore_errors: yes
       shell:
         cmd: yt-dlp -i --extract-audio --audio-format mp3 --download-archive /mnt/freezer/media/music/KidzBop/log -o '/mnt/freezer/media/music/KidzBop/%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNnkwFRPD8AS8OZhsL4Zy-BA
