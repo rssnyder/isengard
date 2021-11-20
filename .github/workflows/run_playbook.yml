@@ -9,16 +9,10 @@ on:
 
 jobs:
   run-playbook:
-    runs-on: ubuntu-latest
+    runs-on: kate
     steps:
 
     - uses: actions/checkout@v2
-
-    - uses: rssnyder/defined-networking-connect@0.1.0
-      with:
-        defined-config: ${{ secrets.DEFINED_CONFIG }}
-
-    - run: ping -c 5 192.168.101.1
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
