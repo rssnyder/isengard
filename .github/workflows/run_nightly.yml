@@ -14,6 +14,7 @@ jobs:
         playbook:
           - "discord-stock-ticker-backup.yml"
           - "backup-kate.yml"
+          - "backup-bigblackbox.yml"
           - "youtube-dl.yml"
     runs-on: kate
     steps:

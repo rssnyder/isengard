@@ -1,0 +1,11 @@
+---
+- name: Backup bigblackbox
+  hosts: bigblackbox
+  become: yes
+
+  tasks:
+
+    - name: backup media
+      ignore_errors: yes
+      shell:
+        cmd: rclone -vP sync /mnt/user/media crypt:bigblackbox/media
