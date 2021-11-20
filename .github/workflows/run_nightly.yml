@@ -20,6 +20,8 @@ jobs:
     steps:
 
     - uses: actions/checkout@v2
+
+    - run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password

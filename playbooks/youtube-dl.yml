@@ -4,8 +4,6 @@
 
   tasks:
 
-    - run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
-
     - name: Install yt-dlp
       pip:
         name: yt-dlp
