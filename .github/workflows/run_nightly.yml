@@ -19,8 +19,6 @@ jobs:
     steps:
 
     - uses: actions/checkout@v2
-      with:
-        ref: master
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
