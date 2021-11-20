@@ -23,7 +23,7 @@ jobs:
       with:
         key: ${{ secrets.SSH_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
-        config: ${{ secrets.CONFIG }}
+        # config: ${{ secrets.CONFIG }}
         if_key_exists: replace
 
     - name: Set up Python 3
