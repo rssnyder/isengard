@@ -7,13 +7,14 @@ on:
 
 jobs:
   run-nightly:
+    concurrency: ansible
     strategy:
       fail-fast: false
       matrix:
         playbook:
-          # - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst"
+          - "discord-stock-ticker-backup.yml"
           - "backup-kate.yml"
-          # - "youtube-dl.yml"
+          - "youtube-dl.yml"
     runs-on: kate
     steps:
 

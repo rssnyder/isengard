@@ -9,6 +9,7 @@ on:
 
 jobs:
   run-playbook:
+    concurrency: ansible
     runs-on: kate
     steps:
 
