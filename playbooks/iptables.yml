@@ -1,6 +1,6 @@
 ---
 - name: configure iptables
-  hosts: oracle_dst,oc1,oc2
+  hosts: oracle,oracle_dst
   become: yes
 
   tasks:

@@ -1,0 +1,24 @@
+---
+- name: add gluster node
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: create data dir
+      file: 
+        state: directory
+        path: /data/brick1/gv0
+        owner: root
+        group: root
+
+    - name: install glusterfs-server
+      package:
+        name: glusterfs-server
+        state: latest
+        update_cache: yes
+
+    - name: Start glusterfs-server
+      systemd:
+        state: restarted
+        name: glusterd

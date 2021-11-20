@@ -5,6 +5,16 @@
 
   tasks:
 
+    - name: install pip3
+      package:
+        name: python3-pip
+        state: latest
+        update_cache: yes
+
+    - name: Install boto3
+      pip:
+        name: boto3
+
     - name: Backup DB
       amazon.aws.aws_s3:
         s3_url: "{{ s3.host }}"

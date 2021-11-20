@@ -30,3 +30,8 @@
         src=~/.oh-my-zsh/templates/zshrc.zsh-template
         dest=~/.zshrc
       when: not stat_rc_result.stat.exists
+    
+    - name: change user shell to zsh 
+      user:
+        name: root
+        shell: /bin/zsh

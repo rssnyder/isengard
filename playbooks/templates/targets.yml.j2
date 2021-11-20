@@ -2,10 +2,26 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
+
 - job_name: discord
   static_configs:
   - targets:
-    - '192.168.100.10:8787'
+    - '192.168.0.61:8787'
+
+- job_name: bot-manager
+  static_configs:
+  - targets:
+    - '192.168.0.61:7777'
+
+- job_name: digitalocean
+  static_configs:
+  - targets:
+    - '192.168.0.61:8789'
+
+- job_name: plex
+  static_configs:
+  - targets:
+    - '192.168.0.61:9594'
 
 - job_name: node
   static_configs:
@@ -20,27 +36,14 @@ scrape_configs:
 - job_name: tickers
   static_configs:
 {% for host in hostvars.items() %}
+{% if 'nebula_ip' in host[1] %}
 {% if 'clients' in host[1] %}
 {% for client in host[1]['clients'] %}
-{% if client != "public" %}
   - targets: [ '{{ host[1]['nebula_ip'] }}:{{ host[1]['clients'][client]['port'] }}' ]
     labels:
       instance: '{{ host[1]['inventory_hostname'] }}'
       client: '{{ client }}'
-{% endif %}
 {% endfor %}
 {% endif %}
-{% endfor %}
-
-- job_name: public
-  static_configs:
-  - targets:
-{% for host in hostvars.items() %}
-{% if 'clients' in host[1] %}
-{% for client in host[1]['clients'] %}
-{% if client == "public" %}
-    - {{ host[1]['nebula_ip'] }}:{{ host[1]['clients'][client]['port'] }}
-{% endif %}
-{% endfor %}
 {% endif %}
 {% endfor %}

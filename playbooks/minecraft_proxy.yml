@@ -1,0 +1,27 @@
+---
+- name: minecraft proxy
+  hosts: oc0
+  become: yes
+
+  tasks:
+
+    - name: set facts for service file
+      set_fact:
+        service_name: "minecraft"
+        service_desc: "minecraft proxy using infrared"
+        service_opts: ""
+    
+    - name: copy service file
+      template: 
+        src: service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+  
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: Start minecraft
+      systemd:
+        state: restarted
+        name: minecraft.service
+        enabled: yes
