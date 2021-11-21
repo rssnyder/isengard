@@ -7,19 +7,21 @@ on:
 
 jobs:
   run-nightly:
+    concurrency: ansible
     strategy:
       fail-fast: false
       matrix:
         playbook:
-          # - "discord-stock-ticker-backup.yml --limit ocean,oracle_dst"
+          - "discord-stock-ticker-backup.yml"
           - "backup-kate.yml"
-          # - "youtube-dl.yml"
+          - "backup-bigblackbox.yml"
+          - "youtube-dl.yml"
     runs-on: kate
     steps:
 
     - uses: actions/checkout@v2
-      with:
-        ref: master
+
+    - run: echo "${HOME}/.local/bin" >> $GITHUB_PATH
     
     - name: Set up vault secret
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
@@ -29,7 +31,8 @@ jobs:
       with:
         key: ${{ secrets.SSH_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
-        config: ${{ secrets.CONFIG }}
+        # config: ${{ secrets.CONFIG }}
+        if_key_exists: replace
 
     - name: Set up Python 3
       uses: actions/setup-python@v2

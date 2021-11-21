@@ -6,12 +6,13 @@ on:
       - master
   pull_request:
   schedule:
-    - cron:  "0 0 */5 * *" 
+    - cron:  "0 5 * * *" 
   workflow_dispatch:
 
 jobs:
   terraform:
     name: "Terraform"
+    concurrency: terraform
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
