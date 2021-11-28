@@ -45,11 +45,8 @@ jobs:
         key: ${{ runner.os }}-pip
         restore-keys: ${{ runner.os }}-pip
 
-    - name: Install ansible
-      run: |
-        sudo apt-add-repository ppa:ansible/ansible -y
-        sudo apt update -y
-        sudo apt install ansible -y
+    - name: Install dependencies
+      run: pip3 install ansible
     
     - name: Run playbook
       run: |
