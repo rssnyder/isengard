@@ -15,12 +15,17 @@
       shell:
         cmd: rclone -P purge crypt:media/downloads
         
-    - name: backup util
-      ignore_errors: yes
-      shell:
-        cmd: rclone sync /mnt/freezer/util/ crypt:util/
+    # - name: backup util
+    #   ignore_errors: yes
+    #   shell:
+    #     cmd: rclone sync /mnt/freezer/util/ crypt:util/
 
     - name: backup users
       ignore_errors: yes
       shell:
         cmd: rclone -P copy /home/riley crypt:kate/home/riley
+
+    - name: download photos
+      ignore_errors: yes
+      shell:
+        cmd: "rclone -P copy photos: /home/riley/backup/Photos/google/"
