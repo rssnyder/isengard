@@ -11,12 +11,12 @@
 
     - name: download Wubbillionaire playlist
       shell:
-        cmd: /home/riley/.local/bin/yt-dlp -i --extract-audio --audio-format mp3 --postprocessor-args "-metadata album=Wubbillionaire" --download-archive /mnt/freezer/media/music/Wubbillionaire/.log -o '/mnt/freezer/media/music/Wubbillionaire/%(playlist_index)s.%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNlXXRR8UWHWsY4oTi8Vuf1y
+        cmd: /home/riley/.local/bin/yt-dlp -i --extract-audio --audio-format mp3 --postprocessor-args "-metadata album=Wubbillionaire -metadata artist='Riley Snyder'" --download-archive /mnt/freezer/media/music/Wubbillionaire/.log -o '/mnt/freezer/media/music/Wubbillionaire/%(playlist_index)s.%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNlXXRR8UWHWsY4oTi8Vuf1y
         
     - name: download KidzBop playlist
       shell:
-        cmd: /home/riley/.local/bin/yt-dlp -i --extract-audio --audio-format mp3 --postprocessor-args "-metadata album=KidzBop" --download-archive /mnt/freezer/media/music/KidzBop/.log -o '/mnt/freezer/media/music/KidzBop/%(playlist_index)s.%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNnkwFRPD8AS8OZhsL4Zy-BA
+        cmd: /home/riley/.local/bin/yt-dlp -i --extract-audio --audio-format mp3 --postprocessor-args "-metadata album='Kidz Bop' -metadata artist='Riley Snyder'" --download-archive /mnt/freezer/media/music/KidzBop/.log -o '/mnt/freezer/media/music/KidzBop/%(playlist_index)s.%(title)s.%(ext)s' https://www.youtube.com/playlist?list=PL1d05GXUOoNnkwFRPD8AS8OZhsL4Zy-BA
 
     - name: download SmoothJelly playlist
       shell:
-        cmd: /home/riley/.local/bin/yt-dlp -i --extract-audio --audio-format mp3 --postprocessor-args "-metadata album=SmoothJelly" --download-archive /mnt/freezer/media/music/SmoothJelly/.log -o '/mnt/freezer/media/music/SmoothJelly/%(playlist_index)s.%(title)s.%(ext)s' https://www.youtube.com/watch?v=hLQLu14maGk&list=PLel8KdUkdX_62mcYtZqsA0bQT2XgbOafe
+        cmd: /home/riley/.local/bin/yt-dlp -i --extract-audio --audio-format mp3 --postprocessor-args "-metadata album='Smooth Jelly' -metadata artist='Riley Snyder'" --download-archive /mnt/freezer/media/music/SmoothJelly/.log -o '/mnt/freezer/media/music/SmoothJelly/%(playlist_index)s.%(title)s.%(ext)s' https://www.youtube.com/watch?v=hLQLu14maGk&list=PLel8KdUkdX_62mcYtZqsA0bQT2XgbOafe
