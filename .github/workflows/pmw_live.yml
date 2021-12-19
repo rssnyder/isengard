@@ -1,22 +1,13 @@
-name: Run nightly
+name: Capture live streams
 
 on: 
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '20 1 * * 1,2,4,6'
 
 jobs:
-  run-nightly:
+  run-playbook:
     concurrency: ansible
-    strategy:
-      fail-fast: false
-      matrix:
-        playbook:
-          - "discord-stock-ticker-backup.yml"
-          - "backup-kate.yml"
-          - "backup-bigblackbox.yml"
-          - "youtube-dl.yml"
-          - "pmw-archive.yml"
     runs-on: kate
     steps:
 
@@ -59,4 +50,4 @@ jobs:
       run: |
         ansible-playbook -i hosts.yml \
           --vault-password-file .vault_password \
-          playbooks/${{ matrix.playbook }}
+          playbooks/pmw-live.yml

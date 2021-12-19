@@ -1,0 +1,12 @@
+---
+- name: Archive pmw
+  hosts: kate
+
+  tasks:
+
+    - pip:
+        name: yt-dlp
+        extra_args: --user
+
+    - shell:
+        cmd: /home/riley/.local/bin/yt-dlp -i --add-metadata --download-archive /mnt/trash/pmw-archive/.log -o '/mnt/trash/pmw-archive/%(title)s.%(ext)s' https://twitch.tv/paymoneywubby/videos

@@ -1,0 +1,16 @@
+---
+- name: pmw live
+  hosts: kate
+
+  tasks:
+
+    - pip:
+        name: yt-dlp
+        extra_args: --user
+
+    - name: capture live streams
+      shell: /home/riley/.local/bin/yt-dlp  -o '/mnt/trash/pmw-archive/live/%(title)s.%(ext)s' https://twitch.tv/paymoneywubby
+      register: result
+      retries: 30
+      delay: 60
+      until: result.rc == 0

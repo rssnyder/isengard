@@ -1,0 +1,37 @@
+---
+- name: Install bittorrent tracker
+  hosts: wubby
+  become: yes
+  tasks:
+    
+    - name: set facts for service file
+      set_fact:
+        service_name: "chihaya"
+        service_desc: "bittorrent tracker"
+        service_opts: "--config /etc/chihaya/chihaya.yml --debug"
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy config file
+      copy:
+        src: templates/chihaya.yml
+        dest: /etc/chihaya/chihaya.yml
+        mode: '0600'
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+    
+    - name: Enable chihaya
+      systemd:
+        enabled: yes
+        name: chihaya
+
+    - name: Start chihaya
+      systemd:
+        state: restarted
+        name: chihaya
+        enabled: yes

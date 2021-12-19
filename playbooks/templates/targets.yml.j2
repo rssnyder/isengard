@@ -23,6 +23,11 @@ scrape_configs:
   - targets:
     - '192.168.0.61:9594'
 
+- job_name: chihaya
+  static_configs:
+    - targets:
+      - '192.168.101.30:6880'
+
 - job_name: node
   static_configs:
 {% for host in hostvars.items() %}

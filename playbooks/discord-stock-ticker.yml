@@ -9,15 +9,23 @@
       set_fact:
         nebula_ip={{ hostvars[inventory_hostname]['ansible_nebula99']['ipv4']['address'] }}
 
-    # - name: install pip3
-    #   package:
-    #     name: python3-pip
-    #     state: latest
-    #     update_cache: yes
+    - name: install sqlite3
+      package:
+        name: sqlite3
+        state: latest
+        update_cache: yes
 
-    # - name: Install boto3
-    #   pip:
-    #     name: boto3
+    - name: install pip3
+      package:
+        name: python3-pip
+        state: latest
+        update_cache: yes
+      when: pull
+
+    - name: Install boto3
+      pip:
+        name: boto3
+      when: pull
 
     - name: create dst dir
       file: 
@@ -28,7 +36,7 @@
 
     - name: Download dst
       get_url:
-        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/{{ ticker_version }}/discord-stock-ticker-{{ ticker_version }}-{{ arch }}.tar.gz"
+        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/{{ ticker_version }}/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
         dest: /etc/discord-stock-ticker/discord-stock-ticker.tar.gz
         mode: '0700'
 

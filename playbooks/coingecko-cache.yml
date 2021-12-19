@@ -14,7 +14,7 @@
 
     - name: Download coingecko-cache
       get_url:
-        url: "https://github.com/rssnyder/coingecko-cache/releases/download/{{ cache_version }}/coingecko-cache-{{ cache_version }}-{{ arch }}.tar.gz"
+        url: "https://github.com/rssnyder/coingecko-cache/releases/download/{{ cache_version }}/coingecko-cache-{{ cache_version }}-{{ dst_arch }}.tar.gz"
         dest: /etc/coingecko-cache/coingecko-cache.tar.gz
         mode: '0700'
 
@@ -28,7 +28,7 @@
       set_fact:
         service_name: "coingecko-cache"
         service_desc: "cacheing coingecko data"
-        service_opts: "-pages 5 -expiry 120"
+        service_opts: "-pages 7 -expiry 120 -frequency 2"
     
     - name: copy service file
       template: 
