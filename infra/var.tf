@@ -1,6 +1,6 @@
 variable "instances" {
   description = "Map of instances"
-  type        = map
+  type        = map(any)
   default = {
     oc0 = {
       ip = "129.146.252.4"
