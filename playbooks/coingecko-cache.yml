@@ -1,6 +1,6 @@
 ---
 - name: Install coingecko-cache
-  hosts: all
+  hosts: oracle_dst,oracle_arm_dst
   become: yes
 
   tasks:

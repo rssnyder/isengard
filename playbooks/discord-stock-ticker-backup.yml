@@ -1,6 +1,6 @@
 ---
 - name: Backup discord-stock-ticker
-  hosts: all
+  hosts: oracle_dst,oracle_arm_dst
   become: yes
 
   tasks:

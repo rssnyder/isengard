@@ -1,49 +1,63 @@
-variable "oc0" {
-  type    = string
-  default = "129.146.252.4"
-}
-
-variable "oc1" {
-  type    = string
-  default = "158.101.7.17"
-}
-
-variable "oc2" {
-  type    = string
-  default = "193.122.160.213"
-}
-
-variable "oc7" {
-  type    = string
-  default = "150.230.42.166"
-}
-
-variable "oc8" {
-  type    = string
-  default = "150.230.191.25"
-}
-
-variable "oc9" {
-  type    = string
-  default = "129.159.119.14"
-}
-
-variable "wubby" {
-  type    = string
-  default = "152.70.138.241"
-}
-
-variable "oca7" {
-  type    = string
-  default = "150.230.38.249"
-}
-
-variable "oca8" {
-  type    = string
-  default = "132.145.172.1"
-}
-
-variable "oca9" {
-  type    = string
-  default = "132.145.220.39"
+varible "instances" {
+  description = "Map of instances"
+  type        = map
+  default = {
+    oc0 = {
+      ip = "129.146.252.4"
+    }
+    oc1 = {
+      ip = "158.101.7.17"
+    }
+    oc2 = {
+      ip = "193.122.160.213"
+    }
+    oc3 = {
+      ip = "150.136.174.234"
+    }
+    oc4 = {
+      ip = "152.70.151.74"
+    }
+    oc5 = {
+      ip = "132.226.31.70"
+    }
+    oc6 = {
+      ip = "152.67.251.170"
+    }
+    oc7 = {
+      ip = "150.230.42.166"
+    }
+    oc8 = {
+      ip = "150.230.191.25"
+    }
+    oc9 = {
+      ip = "129.159.119.14"
+    }
+    wubby = {
+      ip = "152.70.138.241"
+    }
+    oca2 = {
+      ip = "150.230.185.204"
+    }
+    oca3 = {
+      ip = "129.158.60.88"
+    }
+    oca4 = {
+      ip = "152.70.134.127"
+    }
+    oca5 = {
+      ip = "129.146.80.191"
+    }
+    oca6 = {
+      ip = "192.9.234.29"
+    }
+    oca7 = {
+      ip = "150.230.38.249"
+    }
+    oca8 = {
+      ip = "132.145.172.1"
+    }
+    oca9 = {
+      ip = "132.145.220.39"
+    }
+  }
 }

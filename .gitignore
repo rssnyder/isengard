@@ -5,3 +5,5 @@ venv
 ansible-role-*
 
 newbots
+
+roles*
