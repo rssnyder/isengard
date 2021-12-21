@@ -1,4 +1,4 @@
-varible "instances" {
+variable "instances" {
   description = "Map of instances"
   type        = map
   default = {
