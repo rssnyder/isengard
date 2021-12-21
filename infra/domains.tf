@@ -3,7 +3,7 @@ resource "digitalocean_domain" "rileysnyder_org" {
 }
 
 resource "digitalocean_record" "instance" {
-  for-each = var.instances
+  for_each = var.instances
 
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
