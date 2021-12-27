@@ -28,6 +28,11 @@ scrape_configs:
     - targets:
       - '192.168.101.30:6880'
 
+- job_name: bigblackbox
+  static_configs:
+    - targets:
+      - '10.253.0.1:9100'
+
 - job_name: node
   static_configs:
 {% for host in hostvars.items() %}
@@ -44,7 +49,7 @@ scrape_configs:
 {% if 'nebula_ip' in host[1] %}
 {% if 'clients' in host[1] %}
 {% for client in host[1]['clients'] %}
-  - targets: [ '{{ host[1]['nebula_ip'] }}:{{ host[1]['clients'][client]['port'] }}' ]
+  - targets: [ '{{ host[1]['nebula_ip'] }}:{{ host[1]['clients'][client] }}' ]
     labels:
       instance: '{{ host[1]['inventory_hostname'] }}'
       client: '{{ client }}'

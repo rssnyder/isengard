@@ -8,9 +8,9 @@
     - name: Stop dst
       systemd:
         state: stopped
-        name: "{{ item.value.name }}.service"
+        name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
-      when: item.value.name == client
+      when: item.key == client
     
     - name: Backup DB
       amazon.aws.aws_s3:
@@ -19,16 +19,16 @@
         aws_secret_key: "{{ s3.password }}"
         encrypt: no
         bucket: ocb0
-        object: "dst/database/{{ item.value.name }}.state"
-        src: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
+        object: "dst/database/{{ item.key }}.state"
+        src: "/etc/discord-stock-ticker/{{ item.key }}.state"
         mode: put
         permission: []
       loop: "{{ clients | dict2items }}"
-      when: item.value.name == client
+      when: item.key == client
 
     - name: delete service config
       file: 
         state: absent
-        path: "/etc/systemd/system/{{ item.value.name }}.service"
+        path: "/etc/systemd/system/{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
-      when: item.value.name == client
+      when: item.key == client

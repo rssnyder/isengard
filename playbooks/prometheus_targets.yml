@@ -1,6 +1,6 @@
 ---
 - name: Generate promethus target config
-  hosts: kate,ocean,oracle,oracle_dst
+  hosts: all
 
   tasks:
 

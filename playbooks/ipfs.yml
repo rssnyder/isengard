@@ -1,0 +1,6 @@
+---
+- name: configure iptables
+  hosts: all
+  become: yes
+  roles:
+   - "roles/ansible-ipfs-cluster"

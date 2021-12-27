@@ -49,7 +49,7 @@
     - name: copy service config
       template: 
         src: dst.service.j2
-        dest: "/etc/systemd/system/{{ item.value.name }}.service"
+        dest: "/etc/systemd/system/{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
     
     - name: Pull state
@@ -59,8 +59,8 @@
         aws_secret_key: "{{ s3['password'] }}"
         encrypt: no
         bucket: ocb0
-        object: "dst/database/{{ item.value.name }}.state"
-        dest: "/etc/discord-stock-ticker/{{ item.value.name }}.state"
+        object: "dst/database/{{ item.key }}.state"
+        dest: "/etc/discord-stock-ticker/{{ item.key }}.state"
         mode: get
       loop: "{{ clients | dict2items }}"
       when: pull
@@ -72,5 +72,5 @@
     - name: Start dst
       systemd:
         state: restarted
-        name: "{{ item.value.name }}.service"
+        name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
