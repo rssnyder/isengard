@@ -66,3 +66,10 @@ resource "digitalocean_record" "tracker" {
   name   = "tracker"
   value  = var.instances["wubby"].ip
 }
+
+resource "digitalocean_record" "thoughts" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "CNAME"
+  name   = "thoughts"
+  value  = "rssnyder.github.io"
+}
