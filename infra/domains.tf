@@ -67,9 +67,9 @@ resource "digitalocean_record" "tracker" {
   value  = var.instances["wubby"].ip
 }
 
-resource "digitalocean_record" "thoughts" {
+resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
-  type   = "CNAME"
-  name   = "thoughts"
-  value  = "rssnyder.github.io"
+  type   = "TXT"
+  name   = "_github-pages-challenge-rssnyder"
+  value  = "8169904a00a3d52c5118bf5743ca2a"
 }
