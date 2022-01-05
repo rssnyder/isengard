@@ -37,13 +37,13 @@
     - name: Download dst
       get_url:
         url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/{{ ticker_version }}/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
-        dest: /etc/discord-stock-ticker/discord-stock-ticker.tar.gz
+        dest: "/etc/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
         mode: '0700'
 
     - name: Extract dst
       unarchive:
         remote_src: yes
-        src: /etc/discord-stock-ticker/discord-stock-ticker.tar.gz
+        src: "/etc/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
         dest: /etc/discord-stock-ticker/
     
     - name: copy service config
