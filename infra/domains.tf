@@ -81,3 +81,11 @@ module "music" {
   subdomain = "music"
   url       = "https://music.youtube.com/channel/UCb4yhRr7Pucxv3lb_GgGeUg"
 }
+  
+module "code" {
+  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+
+  domain    = "rileysnyder.org"
+  subdomain = "code"
+  url       = "https://github.com/rssnyder"
+}
