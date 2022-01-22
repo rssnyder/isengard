@@ -75,7 +75,7 @@ resource "digitalocean_record" "github_pages" {
 }
 
 module "music" {
-  source = "git@github.com:rssnyder/digitalocean_domain_redirect.git@v0.1.0-beta.1"
+  source = "git@github.com:rssnyder/digitalocean_domain_redirect.git?ref=v0.1.0-beta.1"
 
   domain    = "rileysnyder.org"
   subdomain = "music"
