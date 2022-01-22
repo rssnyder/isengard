@@ -73,3 +73,11 @@ resource "digitalocean_record" "github_pages" {
   name   = "_github-pages-challenge-rssnyder"
   value  = "8169904a00a3d52c5118bf5743ca2a"
 }
+
+module "music" {
+  source = "git@github.com:rssnyder/digitalocean_domain_redirect.git@v0.1.0-beta.1"
+
+  domain    = "rileysnyder.org"
+  subdomain = "music"
+  url       = "https://music.youtube.com/channel/UCb4yhRr7Pucxv3lb_GgGeUg"
+}
