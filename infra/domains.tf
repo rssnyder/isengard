@@ -79,7 +79,7 @@ module "music" {
 
   domain    = "rileysnyder.org"
   subdomain = "music"
-  url       = "https://music.youtube.com/channel/UCb4yhRr7Pucxv3lb_GgGeUg"
+  url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
 }
   
 module "code" {
