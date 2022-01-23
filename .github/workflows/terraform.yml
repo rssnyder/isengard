@@ -95,11 +95,11 @@ jobs:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
       
       - name: Move state
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: always()
         run: mv infra/terraform.tfstate terraform.tfstate
 
       - uses: rssnyder/ghcr-artifact-store@0.1.0
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: always()
         with:
           method: PUT
           artifact: terraform.tfstate
