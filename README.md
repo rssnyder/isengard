@@ -11,6 +11,8 @@ personal ansible-tower like tool using github actions
 
 this is a living repo, master is not assumed stable. i learn by failing fast
 
+powered by github's generosity
+
 ## why
 
 because running [awx](https://github.com/ansible/awx/) takes k8s
