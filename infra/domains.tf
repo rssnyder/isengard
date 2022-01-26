@@ -39,10 +39,10 @@ resource "digitalocean_record" "files" {
   value  = var.instances["oc0"].ip
 }
 
-resource "digitalocean_record" "code" {
+resource "digitalocean_record" "vscode" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
-  name   = "code"
+  name   = "vscode"
   value  = var.instances["oc0"].ip
 }
 
