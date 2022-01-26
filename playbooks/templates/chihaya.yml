@@ -112,30 +112,8 @@ chihaya:
 
 
   # This block defines configuration used for the storage of peer data.
-  storage:
-    name: memory
-    config:
-      # The frequency which stale peers are removed.
-      # This balances between
-      # - collecting garbage more often, potentially using more CPU time, but potentially using less memory (lower value)
-      # - collecting garbage less frequently, saving CPU time, but keeping old peers long, thus using more memory (higher value).
-      gc_interval: 3m
-
-      # The amount of time until a peer is considered stale.
-      # To avoid churn, keep this slightly larger than `announce_interval`
-      peer_lifetime: 31m
-
-      # The number of partitions data will be divided into in order to provide a
-      # higher degree of parallelism.
-      shard_count: 1024
-
-      # The interval at which metrics about the number of infohashes and peers
-      # are collected and posted to Prometheus.
-      prometheus_reporting_interval: 1s
-
-  # This block defines configuration used for redis storage.
   # storage:
-  #   name: redis
+  #   name: memory
   #   config:
   #     # The frequency which stale peers are removed.
   #     # This balances between
@@ -143,25 +121,47 @@ chihaya:
   #     # - collecting garbage less frequently, saving CPU time, but keeping old peers long, thus using more memory (higher value).
   #     gc_interval: 3m
 
-  #     # The interval at which metrics about the number of infohashes and peers
-  #     # are collected and posted to Prometheus.
-  #     prometheus_reporting_interval: 1s
-
   #     # The amount of time until a peer is considered stale.
   #     # To avoid churn, keep this slightly larger than `announce_interval`
   #     peer_lifetime: 31m
 
-  #     # The address of redis storage.
-  #     redis_broker: "redis://pwd@127.0.0.1:6379/0"
+  #     # The number of partitions data will be divided into in order to provide a
+  #     # higher degree of parallelism.
+  #     shard_count: 1024
 
-  #     # The timeout for reading a command reply from redis.
-  #     redis_read_timeout: 15s
+  #     # The interval at which metrics about the number of infohashes and peers
+  #     # are collected and posted to Prometheus.
+  #     prometheus_reporting_interval: 1s
 
-  #     # The timeout for writing a command to redis.
-  #     redis_write_timeout: 15s
+  # This block defines configuration used for redis storage.
+  storage:
+    name: redis
+    config:
+      # The frequency which stale peers are removed.
+      # This balances between
+      # - collecting garbage more often, potentially using more CPU time, but potentially using less memory (lower value)
+      # - collecting garbage less frequently, saving CPU time, but keeping old peers long, thus using more memory (higher value).
+      gc_interval: 3m
 
-  #     # The timeout for connecting to redis server.
-  #     redis_connect_timeout: 15s
+      # The interval at which metrics about the number of infohashes and peers
+      # are collected and posted to Prometheus.
+      prometheus_reporting_interval: 1s
+
+      # The amount of time until a peer is considered stale.
+      # To avoid churn, keep this slightly larger than `announce_interval`
+      peer_lifetime: 31m
+
+      # The address of redis storage.ou
+      redis_broker: "redis://127.0.0.1:6379/0"
+
+      # The timeout for reading a command reply from redis.
+      redis_read_timeout: 15s
+
+      # The timeout for writing a command to redis.
+      redis_write_timeout: 15s
+
+      # The timeout for connecting to redis server.
+      redis_connect_timeout: 15s
 
   # This block defines configuration used for middleware executed before a
   # response has been returned to a BitTorrent client.
@@ -191,6 +191,6 @@ chihaya:
   - name: torrent approval
     options:
       whitelist:
-      - "923ee447da390c8dc0fed41bd66b2c386ea628ec"
+      - "ffd467a9350a81bd6e6a56f1b5eea6637255f877"
     #  blacklist:
     #  - "e1d2c3b4a5e1b2c3b4a5e1d2c3b4e5e1d2c3b4a5"

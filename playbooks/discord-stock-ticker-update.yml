@@ -1,0 +1,21 @@
+---
+- name: Update dst database
+  hosts: oracle_arm_dst
+  become: yes
+
+  tasks:
+
+    - name: Stop dst
+      shell:
+        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "USD", currencySymbol = "$"'
+        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "PHP", currencySymbol = "₱"'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
+      loop: "{{ clients | dict2items }}"
+      when: item.key == client
+
+    - name: Start dst
+      systemd:
+        state: restarted
+        name: "{{ item.key }}.service"
+      loop: "{{ clients | dict2items }}"
+      when: item.key == client

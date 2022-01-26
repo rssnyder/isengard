@@ -1,6 +1,6 @@
 ---
 - name: Install discord-stock-ticker
-  hosts: oracle_dst,oracle_arm_dst
+  hosts: oracle_arm_dst
   become: yes
 
   tasks:
@@ -36,14 +36,14 @@
 
     - name: Download dst
       get_url:
-        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/{{ ticker_version }}/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
-        dest: "/etc/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
+        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/v{{ ticker_version }}/discord-stock-ticker_{{ ticker_version }}_linux_{{ dst_arch }}.tar.gz"
+        dest: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
         mode: '0700'
 
     - name: Extract dst
       unarchive:
         remote_src: yes
-        src: "/etc/discord-stock-ticker-{{ ticker_version }}-{{ dst_arch }}.tar.gz"
+        src: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
         dest: /etc/discord-stock-ticker/
     
     - name: copy service config
@@ -74,3 +74,5 @@
         state: restarted
         name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
+      # loop_control:
+      #   pause: 100

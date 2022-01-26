@@ -1,0 +1,17 @@
+---
+- name: clean
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: clean
+      shell:
+        cmd: |
+          # systemctl stop coingecko-cache
+          # systemctl disable coingecko-cache
+          # systemctl stop redis_6379
+          # systemctl disable redis_6379
+          systemctl stop ipfs-cluster
+          systemctl stop ipfs
+          rm -rf /home/ipfs/ipfs* /home/ipfs/.ipfs* cluster_deployed_version

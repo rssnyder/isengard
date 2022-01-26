@@ -15,20 +15,20 @@
     - name: Download coingecko-cache
       get_url:
         url: "https://github.com/rssnyder/coingecko-cache/releases/download/{{ cache_version }}/coingecko-cache-{{ cache_version }}-{{ dst_arch }}.tar.gz"
-        dest: /etc/coingecko-cache/coingecko-cache.tar.gz
+        dest: /etc/coingecko-cache/coingecko-cache-{{ cache_version }}.tar.gz
         mode: '0700'
 
     - name: Extract coingecko-cache
       unarchive:
         remote_src: yes
-        src: /etc/coingecko-cache/coingecko-cache.tar.gz
+        src: /etc/coingecko-cache/coingecko-cache-{{ cache_version }}.tar.gz
         dest: /etc/coingecko-cache/
     
     - name: set facts for service file
       set_fact:
         service_name: "coingecko-cache"
-        service_desc: "cacheing coingecko data"
-        service_opts: "-pages 7 -expiry 120 -frequency 2"
+        service_desc: "cacheing coingecko data" 
+        service_opts: "-pages 4 -expiry 120 -frequency 2 pegaxy-stone vigorus cryptocars plant-vs-undead-token monsta-infinite"
     
     - name: copy service file
       template: 
