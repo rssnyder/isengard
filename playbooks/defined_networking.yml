@@ -14,7 +14,7 @@
     
     - name: Download dnclient
       get_url:
-        url: https://dl.defined.net/cce733c1/v0.0.8/linux/{{ arch }}/dnclient
+        url: https://dl.defined.net/e59b0d94/v0.1.0/linux/{{ arch }}/dnclient
         dest: /etc/defined/defined
         owner: root
         group: root

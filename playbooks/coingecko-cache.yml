@@ -14,7 +14,7 @@
 
     - name: Download coingecko-cache
       get_url:
-        url: "https://github.com/rssnyder/coingecko-cache/releases/download/{{ cache_version }}/coingecko-cache-{{ cache_version }}-{{ dst_arch }}.tar.gz"
+        url: "https://github.com/rssnyder/coingecko-cache/releases/download/{{ cache_version }}/coingecko-cache-{{ cache_version }}-linux-{{ arch }}.tar.gz"
         dest: /etc/coingecko-cache/coingecko-cache-{{ cache_version }}.tar.gz
         mode: '0700'
 

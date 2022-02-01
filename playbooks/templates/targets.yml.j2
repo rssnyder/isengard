@@ -43,6 +43,16 @@ scrape_configs:
 {% endif %}
 {% endfor %}
 
+- job_name: coingecko_cache
+  static_configs:
+{% for host in hostvars.items() %}
+{% if 'nebula_ip' in host[1] %}
+  - targets: [ '{{ host[1]['nebula_ip'] }}:6380' ]
+    labels:
+      instance: '{{ host[1]['inventory_hostname'] }}'
+{% endif %}
+{% endfor %}
+
 - job_name: tickers
   static_configs:
 {% for host in hostvars.items() %}
