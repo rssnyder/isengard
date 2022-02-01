@@ -60,13 +60,6 @@ resource "digitalocean_record" "public" {
   value  = var.instances["oc0"].ip
 }
 
-resource "digitalocean_record" "tracker" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "tracker"
-  value  = var.instances["wubby"].ip
-}
-
 resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "TXT"
