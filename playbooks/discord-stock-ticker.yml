@@ -51,6 +51,7 @@
         src: dst.service.j2
         dest: "/etc/systemd/system/{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
+      # when: item.key == client
     
     - name: Pull state
       amazon.aws.aws_s3:
@@ -74,5 +75,6 @@
         state: restarted
         name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
+      # when: item.key == client
       # loop_control:
       #   pause: 100

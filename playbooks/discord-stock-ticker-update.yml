@@ -10,6 +10,7 @@
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false, decimals = 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set name = "FTSE 100" where ticker = "^FTSE"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "USD", currencySymbol = "$"'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "PHP", currencySymbol = "₱"'
         cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
