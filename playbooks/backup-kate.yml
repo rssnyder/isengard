@@ -20,10 +20,15 @@
     #   shell:
     #     cmd: rclone sync /mnt/freezer/util/ crypt:util/
 
-    - name: backup users
+    - name: backup riley
       ignore_errors: yes
       shell:
         cmd: rclone -P copy /home/riley crypt:kate/home/riley
+    
+    - name: backup plex
+      ignore_errors: yes
+      shell:
+        cmd: rclone -P copy /home/plex crypt:kate/home/plex
 
     - name: download photos
       ignore_errors: yes
