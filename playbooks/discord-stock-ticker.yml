@@ -14,6 +14,7 @@
         name: sqlite3
         state: latest
         update_cache: yes
+      when: dst_full
 
     - name: install pip3
       package:
@@ -33,24 +34,28 @@
         path: /etc/discord-stock-ticker
         owner: root
         group: root
+      when: dst_full
 
     - name: Download dst
       get_url:
         url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/v{{ ticker_version }}/discord-stock-ticker_{{ ticker_version }}_linux_{{ arch }}.tar.gz"
         dest: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
         mode: '0700'
+      when: dst_full
 
     - name: Extract dst
       unarchive:
         remote_src: yes
         src: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
         dest: /etc/discord-stock-ticker/
+      when: dst_full
     
     - name: copy service config
       template: 
         src: dst.service.j2
         dest: "/etc/systemd/system/{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
+      when: dst_full
       # when: item.key == client
     
     - name: Pull state

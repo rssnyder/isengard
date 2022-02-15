@@ -25,6 +25,13 @@ resource "digitalocean_record" "metrics" {
   value  = var.instances["oc0"].ip
 }
 
+resource "digitalocean_record" "pushmetrics" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "pushmetrics"
+  value  = var.instances["oc0"].ip
+}
+
 resource "digitalocean_record" "minecraft" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"

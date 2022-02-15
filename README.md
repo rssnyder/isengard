@@ -1,4 +1,5 @@
 # :eye: isengard :eye:
+
 personal ansible-tower like tool using github actions
 
 [![Run playbook](https://github.com/rssnyder/isengard/actions/workflows/run_playbook.yml/badge.svg)](https://github.com/rssnyder/isengard/actions/workflows/run_playbook.yml)
@@ -29,7 +30,7 @@ using ansible vault with a password in a local file
 
 ### encrypt
 
-```
+```shell
 ansible-vault encrypt_string --vault-password-file .vault_password 'bar' --name 'foo'
 ```
 
