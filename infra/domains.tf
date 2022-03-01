@@ -67,6 +67,13 @@ resource "digitalocean_record" "public" {
   value  = var.instances["oc0"].ip
 }
 
+resource "digitalocean_record" "network" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "network"
+  value  = var.instances["oc0"].ip
+}
+
 resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "TXT"
