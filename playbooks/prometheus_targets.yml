@@ -18,6 +18,6 @@
     
     - name: reload
       uri:
-        url: http://192.168.0.61:9090/-/reload
+        url: http://192.168.0.11:9090/-/reload
         method: POST
       when: inventory_hostname == 'kate'
