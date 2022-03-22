@@ -1,0 +1,11 @@
+---
+- name: Scrape Media
+  hosts: kate
+  become: yes
+
+  tasks:
+
+    - name: download pmw
+      ignore_errors: yes
+      shell:
+        cmd: "pip install yt-dlp --upgrade; /usr/local/bin/yt-dlp --download-archive /mnt/freezer/media/streams/.yt-dlp.done https://twitch.tv/paymoneywubby/videos -o '/mnt/freezer/media/streams/%(id)s.%(title)s.%(ext)s'; sudo chown nobody:nogroup /mnt/freezer/media/streams/*; sudo chmod 777 /mnt/freezer/media/streams/*"

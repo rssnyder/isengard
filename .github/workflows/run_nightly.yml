@@ -13,6 +13,7 @@ jobs:
         playbook:
           - "discord-stock-ticker-backup.yml"
           - "backup-kate.yml"
+          - "scrape.yml"
     runs-on: kate
     steps:
 
