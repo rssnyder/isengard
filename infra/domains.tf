@@ -22,7 +22,7 @@ resource "digitalocean_record" "metrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "metrics"
-  value  = var.instances["oc0"].ip
+  value  = var.instances["kate"].ip
 }
 
 resource "digitalocean_record" "pushmetrics" {
