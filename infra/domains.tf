@@ -29,56 +29,28 @@ resource "digitalocean_record" "pushmetrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "pushmetrics"
-  value  = var.instances["oc0"].ip
+  value  = var.instances["kate"].ip
 }
 
 resource "digitalocean_record" "minecraft" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "minecraft"
-  value  = var.instances["oc0"].ip
+  value  = var.instances["kate"].ip
 }
 
 resource "digitalocean_record" "files" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "files"
-  value  = var.instances["oc0"].ip
-}
-
-resource "digitalocean_record" "vscode" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "vscode"
-  value  = var.instances["oc0"].ip
-}
-
-resource "digitalocean_record" "qbittorrent" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "qbittorrent"
-  value  = var.instances["oc0"].ip
-}
-
-resource "digitalocean_record" "public" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "public"
-  value  = var.instances["oc0"].ip
-}
-
-resource "digitalocean_record" "network" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "network"
-  value  = var.instances["oc0"].ip
+  value  = var.instances["kate"].ip
 }
 
 resource "digitalocean_record" "requests" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "requests"
-  value  = var.instances["oc0"].ip
+  value  = var.instances["kate"].ip
 }
 
 resource "digitalocean_record" "github_pages" {
