@@ -53,6 +53,13 @@ resource "digitalocean_record" "requests" {
   value  = var.instances["kate"].ip
 }
 
+resource "digitalocean_record" "security" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "security"
+  value  = var.instances["kate"].ip
+}
+
 resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "TXT"
