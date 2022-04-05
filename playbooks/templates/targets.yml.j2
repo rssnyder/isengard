@@ -6,22 +6,22 @@ scrape_configs:
 - job_name: discord
   static_configs:
   - targets:
-    - '192.168.0.61:8787'
+    - '192.168.0.11:8787'
 
 - job_name: bot-manager
   static_configs:
   - targets:
-    - '192.168.0.61:7777'
+    - '192.168.0.11:7777'
 
 - job_name: digitalocean
   static_configs:
   - targets:
-    - '192.168.0.61:8789'
+    - '192.168.0.11:8789'
 
 - job_name: plex
   static_configs:
   - targets:
-    - '192.168.0.61:9594'
+    - '192.168.0.11:9594'
 
 - job_name: chihaya
   static_configs:
@@ -36,14 +36,19 @@ scrape_configs:
 - job_name: pushgateway
   static_configs:
     - targets:
-      - '192.168.0.61:9092'
+      - '192.168.0.11:9092'
   honor_labels: true
+
+- job_name: caddy
+  static_configs:
+    - targets:
+      - '192.168.0.11:2019'
 
 - job_name: node
   static_configs:
 {% for host in hostvars.items() %}
-{% if 'nebula_ip' in host[1] %}
-  - targets: [ '{{ host[1]['nebula_ip'] }}:9100' ]
+{% if 'tailscale_ip' in host[1] %}
+  - targets: [ '{{ host[1]['tailscale_ip'] }}:9100' ]
     labels:
       instance: '{{ host[1]['inventory_hostname'] }}'
 {% endif %}
@@ -52,8 +57,8 @@ scrape_configs:
 - job_name: coingecko_cache
   static_configs:
 {% for host in hostvars.items() %}
-{% if 'nebula_ip' in host[1] %}
-  - targets: [ '{{ host[1]['nebula_ip'] }}:6380' ]
+{% if 'tailscale_ip' in host[1] %}
+  - targets: [ '{{ host[1]['tailscale_ip'] }}:6380' ]
     labels:
       instance: '{{ host[1]['inventory_hostname'] }}'
 {% endif %}
@@ -62,10 +67,10 @@ scrape_configs:
 - job_name: tickers
   static_configs:
 {% for host in hostvars.items() %}
-{% if 'nebula_ip' in host[1] %}
+{% if 'tailscale_ip' in host[1] %}
 {% if 'clients' in host[1] %}
 {% for client in host[1]['clients'] %}
-  - targets: [ '{{ host[1]['nebula_ip'] }}:{{ host[1]['clients'][client] }}' ]
+  - targets: [ '{{ host[1]['tailscale_ip'] }}:{{ host[1]['clients'][client] }}' ]
     labels:
       instance: '{{ host[1]['inventory_hostname'] }}'
       client: '{{ client }}'

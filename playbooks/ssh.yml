@@ -1,0 +1,13 @@
+---
+- name: set updated authorized hosts file
+  hosts: all
+  become: no
+
+  tasks:
+
+    - name: move
+      copy:
+        src: templates/authorized_keys
+        dest: "~/.ssh/authorized_keys"
+        mode: '0600'
+    

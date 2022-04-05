@@ -5,10 +5,6 @@
 
   tasks:
 
-    - name: get nebula ip
-      set_fact:
-        nebula_ip={{ hostvars[inventory_hostname]['ansible_nebula99']['ipv4']['address'] }}
-
     - name: install sqlite3
       package:
         name: sqlite3

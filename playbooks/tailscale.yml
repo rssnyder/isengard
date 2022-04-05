@@ -1,0 +1,4 @@
+- name: Tailscale
+  hosts: all
+  roles:
+    - role: artis3n.tailscale

@@ -33,4 +33,4 @@
     - name: download photos
       ignore_errors: yes
       shell:
-        cmd: "rclone -P copy photos: /home/riley/backup/Photos/google/"
+        cmd: "rclone -P copy photos: /mnt/trash/backup/Photos/google/"

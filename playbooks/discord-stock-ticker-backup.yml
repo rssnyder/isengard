@@ -20,11 +20,12 @@
     - name: Backup DB
       amazon.aws.aws_s3:
         s3_url: "{{ s3.host }}"
-        aws_access_key: "{{ s3.username }}"
-        aws_secret_key: "{{ s3.password }}"
+        region: us-east-1
+        aws_access_key: "{{ s3.access_key }}"
+        aws_secret_key: "{{ s3.secret_key }}"
         encrypt: no
-        bucket: ocb0
-        object: "dst/database/{{ item.key }}.state"
+        bucket: discord-stock-ticker
+        object: "database/{{ item.key }}.state"
         src: "/etc/discord-stock-ticker/{{ item.key }}.state"
         mode: put
         permission: []

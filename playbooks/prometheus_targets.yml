@@ -7,6 +7,10 @@
     - name: get nebula ip
       set_fact:
         nebula_ip={{ hostvars[inventory_hostname]['ansible_nebula99']['ipv4']['address'] }}
+
+    - name: get tailscale ip
+      set_fact:
+        tailscale_ip={{ hostvars[inventory_hostname]['ansible_tailscale0']['ipv4']['address'] }}
     
     - name: copy targets config
       template: 
