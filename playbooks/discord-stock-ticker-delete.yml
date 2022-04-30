@@ -1,6 +1,6 @@
 ---
 - name: Remove discord-stock-ticker client
-  hosts: oracle_dst,oracle_arm_dst
+  hosts: do
   become: yes
 
   tasks:

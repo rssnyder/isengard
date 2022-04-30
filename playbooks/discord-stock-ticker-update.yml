@@ -1,6 +1,6 @@
 ---
 - name: Update dst database
-  hosts: oracle_arm_dst
+  hosts: do
   become: yes
 
   tasks:
@@ -8,15 +8,15 @@
     - name: Stop dst
       shell:
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false where name = "kleros"'
-        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set name = "GOLD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = "" where name = "cult-dao"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "USD", currencySymbol = "$"'
-        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "PHP", currencySymbol = "₱"'
+        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "PHP", currencySymbol = "₱"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
-        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 2'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 4'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 13'
       loop: "{{ clients | dict2items }}"
       when: item.key == client

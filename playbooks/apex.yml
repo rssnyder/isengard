@@ -16,27 +16,27 @@
     - name: create service dir
       file: 
         state: directory
-        path: "/etc/{{ service_name }}"
+        path: "/etc/{{ app_name }}"
         owner: root
         group: root
 
     - name: download source
       get_url:
         url: "https://github.com/rssnyder/{{ app_name }}/releases/download/v{{ version }}/{{ app_name }}_{{ version }}_linux_{{ arch }}.tar.gz"
-        dest: "/etc/{{ service_name }}/{{ app_name }}.tar.gz"
+        dest: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
         mode: '0700'
     
     - name: extract
       unarchive:
         remote_src: yes
-        src: "/etc/{{ service_name }}/{{ app_name }}.tar.gz"
-        dest: "/etc/{{ service_name }}/"
+        src: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        dest: "/etc/{{ app_name }}/"
     
     - name: move
       copy:
         remote_src: yes
-        src: "/etc/{{ service_name }}/{{ app_name }}"
-        dest: "/etc/{{ service_name }}/{{ service_name }}"
+        src: "/etc/{{ app_name }}/{{ app_name }}"
+        dest: "/etc/{{ app_name }}/{{ service_name }}"
         mode: '0700'
     
     - name: copy service file

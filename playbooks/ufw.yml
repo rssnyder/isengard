@@ -1,24 +1,29 @@
 ---
 - name: configure ufw
-  hosts: ocean
+  hosts: do
   become: yes
 
   tasks:
 
-    - name: Allow all access from nebula
-      community.general.ufw:
-        rule: allow
-        src: '{{ item }}'
-      loop:
-        - 192.168.101.0/24
-        - 10.0.0.0/8
-    
     - name: Allow all access to 22
       community.general.ufw:
         rule: allow
         port: 22
 
-    - name: Allow everything and enable community.general.ufw
+    - name: Allow access from local
+      community.general.ufw:
+        rule: allow
+        src: '{{ item }}'
+      loop:
+        - 10.0.0.0/8
+
+    - name: Allow access from ts
+      community.general.ufw:
+        rule: allow
+        interface: tailscale0
+        direction: in
+
+    - name: Block everything and enable community.general.ufw
       community.general.ufw:
         state: enabled
         policy: reject

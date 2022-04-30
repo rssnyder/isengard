@@ -1,0 +1,17 @@
+---
+- name: Docker config
+  hosts: oca0
+  become: no
+
+  tasks:
+    
+    - name: copy service file
+      template: 
+        src: templates/oca0_docker-compose.j2
+        dest: /home/ubuntu/docker-compose.yml
+    
+    - name: reload
+      shell:
+        cmd: docker-compose up -d --remove-orphans
+        chdir: /home/ubuntu
+

@@ -1,14 +1,14 @@
 [Unit]
 Description={{ service_desc }}
-AssertPathIsDirectory=/etc/{{ service_name }}
+AssertPathIsDirectory=/etc/{{ app_name }}
 
 [Service]
 Type=simple
 SyslogIdentifier={{ service_name }}
 StandardOutput=syslog
 StandardError=syslog
-WorkingDirectory=/etc/{{ service_name }}
-ExecStart=/etc/{{ service_name }}/{{ service_name }} {{ service_opts }}
+WorkingDirectory=/etc/{{ app_name }}
+ExecStart=/etc/{{ app_name }}/{{ app_name }} {{ service_opts }}
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=always
 

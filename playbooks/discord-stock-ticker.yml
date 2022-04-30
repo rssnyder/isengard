@@ -1,28 +1,28 @@
 ---
 - name: Install discord-stock-ticker
-  hosts: oracle_arm_dst
+  hosts: do,kate
   become: yes
 
   tasks:
 
-    - name: install sqlite3
-      package:
-        name: sqlite3
-        state: latest
-        update_cache: yes
-      when: dst_full
+    # - name: install sqlite3
+    #   package:
+    #     name: sqlite3
+    #     state: latest
+    #     update_cache: yes
+    #   when: dst_full
 
-    - name: install pip3
-      package:
-        name: python3-pip
-        state: latest
-        update_cache: yes
-      when: pull
+    # - name: install pip3
+    #   package:
+    #     name: python3-pip
+    #     state: latest
+    #     update_cache: yes
+    #   when: pull
 
-    - name: Install boto3
-      pip:
-        name: boto3
-      when: pull
+    # - name: Install boto3
+    #   pip:
+    #     name: boto3
+    #   when: pull
 
     - name: create dst dir
       file: 
@@ -32,19 +32,19 @@
         group: root
       when: dst_full
 
-    # - name: Download dst
-    #   get_url:
-    #     url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/v{{ ticker_version }}/discord-stock-ticker_{{ ticker_version }}_linux_{{ arch }}.tar.gz"
-    #     dest: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
-    #     mode: '0700'
-    #   when: dst_full
+    - name: Download dst
+      get_url:
+        url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/v{{ ticker_version }}/discord-stock-ticker_{{ ticker_version }}_linux_{{ arch }}.tar.gz"
+        dest: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
+        mode: '0700'
+      when: dst_full
 
-    # - name: Extract dst
-    #   unarchive:
-    #     remote_src: yes
-    #     src: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
-    #     dest: /etc/discord-stock-ticker/
-    #   when: dst_full
+    - name: Extract dst
+      unarchive:
+        remote_src: yes
+        src: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
+        dest: /etc/discord-stock-ticker/
+      when: dst_full
     
     - name: copy service config
       template: 
@@ -57,11 +57,11 @@
     - name: Pull state
       amazon.aws.aws_s3:
         s3_url: "{{ s3.host }}"
-        aws_access_key: "{{ s3['username'] }}"
-        aws_secret_key: "{{ s3['password'] }}"
+        aws_access_key: "{{ s3.access_key }}"
+        aws_secret_key: "{{ s3.secret_key }}"
         encrypt: no
-        bucket: ocb0
-        object: "dst/database/{{ item.key }}.state"
+        bucket: discord-stock-ticker
+        object: "database/{{ item.key }}.state"
         dest: "/etc/discord-stock-ticker/{{ item.key }}.state"
         mode: get
       loop: "{{ clients | dict2items }}"

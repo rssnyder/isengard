@@ -1,21 +1,21 @@
 ---
 - name: Backup discord-stock-ticker
-  hosts: oracle_dst,oracle_arm_dst
+  hosts: do
   become: yes
 
   tasks:
 
-    - name: install pip3
-      package:
-        name: python3-pip
-        state: latest
-        update_cache: yes
-      when: clients
+    # - name: install pip3
+    #   package:
+    #     name: python3-pip
+    #     state: latest
+    #     update_cache: yes
+    #   when: clients
 
-    - name: Install boto3
-      pip:
-        name: boto3
-      when: clients
+    # - name: Install boto3
+    #   pip:
+    #     name: boto3
+    #   when: clients
 
     - name: Backup DB
       amazon.aws.aws_s3:

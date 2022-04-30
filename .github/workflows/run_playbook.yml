@@ -21,12 +21,10 @@ jobs:
       run: echo ${{ secrets.VAULT_PASSWORD }} | base64 -d > .vault_password
     
     - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
+      uses: shimataro/ssh-key-action@v2.3.1
       with:
         key: ${{ secrets.SSH_KEY }}
-        known_hosts: ${{ secrets.KNOWN_HOSTS }}
-        # config: ${{ secrets.CONFIG }}
-        if_key_exists: replace
+        known_hosts: unnecessary
 
     - name: Set up Python 3
       uses: actions/setup-python@v2

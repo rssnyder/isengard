@@ -297,7 +297,7 @@ function restartclient () {
   # restartclient <client>
   ###
 
-  ansible-playbook -i $HOME/Documents/isengard/hosts.yml $HOME/Documents/isengard/playbooks/restart-service.yml --limit oracle_arm_dst -e "{\"service\":\"$1\"}"
+  ansible-playbook -i $HOME/Documents/isengard/hosts.yml $HOME/Documents/isengard/playbooks/restart-service.yml --limit do -e "{\"service\":\"$1\"}"
 }
 
 function updateclient () {
