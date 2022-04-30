@@ -11,13 +11,6 @@ resource "digitalocean_record" "instance" {
   value  = each.value.ip
 }
 
-resource "digitalocean_record" "lighthouse" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "lighthouse"
-  value  = var.instances["oc0"].ip
-}
-
 resource "digitalocean_record" "metrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
