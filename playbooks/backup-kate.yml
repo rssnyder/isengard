@@ -1,7 +1,7 @@
 ---
 - name: Backup kate
   hosts: kate
-  become: no
+  become: yes
 
   tasks:
 
@@ -26,15 +26,15 @@
         cmd: |
           docker-compose down; tar -czvf /mnt/trash/backup/riley.$(date +%m.%d.%y).tar.gz /home/riley; docker-compose up -d
     
-    - name: backup plex
-      shell:
-        chdir: /home/plex
-        cmd: |
-          docker-compose down; tar -czvf /mnt/trash/backup/plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
-      become: yes
-    become_user: plex
+    # - name: backup plex
+    #   shell:
+    #     chdir: /home/plex
+    #     cmd: |
+    #       docker-compose down; tar -czvf /mnt/trash/backup/plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
+    #   become: yes
+    # become_user: plex
 
-    - name: download photos
-      ignore_errors: yes
-      shell:
-        cmd: "rclone -P copy photos: /mnt/trash/backup/Photos/google/"
+    #- name: download photos
+    #  ignore_errors: yes
+    #  shell:
+    #    cmd: "rclone -P copy photos: /mnt/trash/backup/Photos/google/"
