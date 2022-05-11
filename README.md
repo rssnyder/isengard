@@ -38,4 +38,4 @@ ansible-vault encrypt_string --vault-password-file .vault_password 'bar' --name 
 
 previously: use [nebula-network-connect](https://github.com/marketplace/actions/nebula-network-connect) to join the GHA runner to my [nebula](https://github.com/slackhq/nebula) mesh net
 
-currently: self hosted runner in my home network, connected to nebula net
+currently: self hosted runner on my home network, connected to tailscale network
