@@ -60,6 +60,20 @@ resource "digitalocean_record" "security" {
   value  = var.instances["kate"].ip
 }
 
+resource "digitalocean_record" "jksdfhopwety" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "jksdfhopwety"
+  value  = var.instances["kate"].ip
+}
+
+resource "digitalocean_record" "parson_tesla" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "parson.tesla"
+  value  = var.instances["kate"].ip
+}
+
 resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "TXT"
