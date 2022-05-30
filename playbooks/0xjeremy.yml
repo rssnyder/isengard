@@ -8,7 +8,7 @@
     - name: set service info
       set_fact:
         app_name: discord-alta-finance
-        version: 0.0.2
+        version: 0.0.3
         service_name: "0xjeremy-discord-bot-tvl"
         service_desc: "0xjeremy-discord-bot-tvl"
         service_opts: "-token '{{ xjeremy_tvl_token }}' -refresh 300 -mode tvl"
@@ -50,14 +50,14 @@
 
     - name: start
       systemd:
-        state: started
+        state: restarted
         name: "{{ service_name }}"
         enabled: yes
     
     - name: set service info
       set_fact:
         app_name: discord-alta-finance
-        version: 0.0.1
+        version: 0.0.3
         service_name: "0xjeremy-discord-bot-apr"
         service_desc: "0xjeremy-discord-bot-apr"
         service_opts: "-token '{{ xjeremy_apr_token }}' -refresh 300 -mode apr"
@@ -73,14 +73,14 @@
 
     - name: start
       systemd:
-        state: started
+        state: restarted
         name: "{{ service_name }}"
         enabled: yes
     
     # - name: set service info
     #   set_fact:
     #     app_name: discord-alta-finance
-    #     version: 0.0.1
+    #     version: 0.0.3
     #     service_name: "0xjeremy-discord-bot-treasury"
     #     service_desc: "0xjeremy-discord-bot-treasury"
     #     service_opts: "-token '{{ xjeremy_treasury_token }}' -refresh 300 -mode treasury"
@@ -96,6 +96,6 @@
 
     # - name: start
     #   systemd:
-    #     state: started
+    #     state: restarted
     #     name: "{{ service_name }}"
     #     enabled: yes
