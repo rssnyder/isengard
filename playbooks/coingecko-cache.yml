@@ -11,6 +11,7 @@
         service_name: "coingecko-cache"
         service_desc: "cacheing coingecko data" 
         service_opts: "-pages 4 -expiry 120 -frequency 2 pegaxy-stone vigorus cryptocars plant-vs-undead-token monsta-infinite"
+        service_type: simple
 
     - name: create coingecko-cache dir
       file: 

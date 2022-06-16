@@ -3,14 +3,26 @@ Description={{ service_desc }}
 AssertPathIsDirectory=/etc/{{ app_name }}
 
 [Service]
-Type=simple
+Type={{ service_type }}
 SyslogIdentifier={{ service_name }}
 StandardOutput=syslog
 StandardError=syslog
 WorkingDirectory=/etc/{{ app_name }}
+{% if service_binary != None %}
+ExecStart=/etc/{{ app_name }}/{{ service_binary }} {{ service_opts }}
+{% else %}
 ExecStart=/etc/{{ app_name }}/{{ app_name }} {{ service_opts }}
+{% endif %}
 ExecReload=/bin/kill -HUP $MAINPID
+
+{% if service_type != "oneshot" %}
 Restart=always
+{% endif %}
+
+{% for item in service_env %}
+Environment={{ item }}
+{% endfor %}
+
 
 [Install]
 WantedBy=default.target

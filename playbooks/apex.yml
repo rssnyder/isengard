@@ -12,6 +12,7 @@
         service_name: apex-discord-bot
         service_desc: apex-discord-bot
         service_opts: "--refresh 300 --status 1 --token '{{ apex_token }}'"
+        service_type: simple
 
     - name: create service dir
       file: 

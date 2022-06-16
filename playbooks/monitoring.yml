@@ -10,6 +10,7 @@
         service_name: "node_exporter"
         service_desc: "prometheus monitoring"
         service_opts: "--collector.systemd"
+        service_type: simple
 
     - name: create node_exporter dir
       file: 

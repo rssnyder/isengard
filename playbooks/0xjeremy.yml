@@ -12,6 +12,7 @@
         service_name: "0xjeremy-discord-bot-tvl"
         service_desc: "0xjeremy-discord-bot-tvl"
         service_opts: "-token '{{ xjeremy_tvl_token }}' -refresh 300 -mode tvl"
+        service_type: simple
 
     - name: create service dir
       file: 

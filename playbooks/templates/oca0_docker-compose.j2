@@ -11,7 +11,8 @@ services:
       FIGMENT_TOKEN: {{ figment_token }}
 
   potatoy-960310451953106964:
-    image: milktoastlab/solananftbot
+    # image: milktoastlab/solananftbot
+    build: appdata/SolanaNFTBot
     environment:
       SOLANA_RPC: http://solana-rpc:8080
       SUBSCRIPTION_DISCORD_CHANNEL_ID: 960310451953106964
@@ -19,7 +20,8 @@ services:
       DISCORD_BOT_TOKEN: {{ potatoy_6228e86ecb4ab77875a57c56_token }}
 
   potatoy-931127052394987553:
-    image: milktoastlab/solananftbot
+    # image: milktoastlab/solananftbot
+    build: appdata/SolanaNFTBot
     environment:
       SOLANA_RPC: http://solana-rpc:8080
       SUBSCRIPTION_DISCORD_CHANNEL_ID: 931127052394987553

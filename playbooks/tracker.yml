@@ -9,6 +9,7 @@
         service_name: "chihaya"
         service_desc: "bittorrent tracker"
         service_opts: "--config /etc/chihaya/chihaya.yml --debug"
+        service_type: simple
     
     - name: copy service file
       template: 
