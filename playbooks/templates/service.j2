@@ -23,6 +23,7 @@ Restart=always
 Environment={{ item }}
 {% endfor %}
 
+ExecStartPost=/bin/sh /etc/systemd/metrics.sh {{ service_name }} {{ app_name }}
 
 [Install]
 WantedBy=default.target

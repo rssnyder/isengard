@@ -1,0 +1,48 @@
+---
+- name: Discord bot for pancakeswap sales/listings
+  hosts: oca0
+  become: yes
+
+  tasks:
+
+    - name: set service info
+      set_fact:
+        app_name: discord-pancakeswap-nft-sales
+        service_name: "discord-pancakeswap-nft-sales-gamesterapes"
+        service_desc: "discord-pancakeswap-nft-sales-gamesterapes"
+        service_binary: ".venv/bin/python"
+        service_opts: "main.py"
+        service_type: oneshot
+        service_env:
+          - "SALES_WEBHOOK_URL={{ svrebelo_gamesterapes_sales_webhook }}"
+          - "LISTINGS_WEBHOOK_URL={{ svrebelo_gamesterapes_listing_webhook }}"
+          - "COLLECTION=0x4bd2a30435e6624ccdee4c60229250a84a2e4cd6"
+        timer_desc: discord-pancakeswap-nft-sales-gamesterapes
+        timer_minutes: 10
+        timer_delay: 60
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy timer file
+      template: 
+        src: templates/timer.j2
+        dest: "/etc/systemd/system/{{ service_name }}.timer"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.service"
+        enabled: yes
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.timer"
+        enabled: yes

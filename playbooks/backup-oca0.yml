@@ -1,0 +1,58 @@
+---
+- name: Backup kate
+  hosts: kate
+  become: yes
+
+  tasks:
+
+    - name: discord-reddit-posts_state
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3.host }}"
+        region: us-east-1
+        aws_access_key: "{{ s3.access_key }}"
+        aws_secret_key: "{{ s3.secret_key }}"
+        encrypt: no
+        bucket: discord-stock-ticker
+        object: "oca0/discord-reddit-posts_state.json"
+        src: "/etc/discord-reddit-posts/posts.json"
+        mode: put
+        permission: []
+
+    - name: discord-pancakeswap-nft-sales_sales
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3.host }}"
+        region: us-east-1
+        aws_access_key: "{{ s3.access_key }}"
+        aws_secret_key: "{{ s3.secret_key }}"
+        encrypt: no
+        bucket: discord-stock-ticker
+        object: "oca0/discord-pancakeswap-nft-sales_sales.json"
+        src: "/etc/discord-pancakeswap-nft-sales/sales.json"
+        mode: put
+        permission: []
+    
+    - name: discord-pancakeswap-nft-sales_listings
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3.host }}"
+        region: us-east-1
+        aws_access_key: "{{ s3.access_key }}"
+        aws_secret_key: "{{ s3.secret_key }}"
+        encrypt: no
+        bucket: discord-stock-ticker
+        object: "oca0/discord-pancakeswap-nft-sales_listings.json"
+        src: "/etc/discord-pancakeswap-nft-sales/listings.json"
+        mode: put
+        permission: []
+    
+    - name: wilderworld-zines_zines
+      amazon.aws.aws_s3:
+        s3_url: "{{ s3.host }}"
+        region: us-east-1
+        aws_access_key: "{{ s3.access_key }}"
+        aws_secret_key: "{{ s3.secret_key }}"
+        encrypt: no
+        bucket: discord-stock-ticker
+        object: "oca0/wilderworld-zines_zines.json"
+        src: "/etc/wilderworld-zines/zines.json"
+        mode: put
+        permission: []

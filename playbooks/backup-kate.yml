@@ -11,6 +11,11 @@
        cmd: |
          docker-compose down; tar -czvf /mnt/trash/backup/riley.$(date +%m.%d.%y).tar.gz /home/riley; docker-compose up -d
 
+    - name: restart manager
+      systemd:
+        state: restarted
+        name: "discord-bot-manager.service"
+
     - name: backup plex
       shell:
         chdir: /home/plex

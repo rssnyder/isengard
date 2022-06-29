@@ -1,0 +1,99 @@
+---
+- name: Discord bot for reddit alerts
+  hosts: oca0
+  become: yes
+
+  tasks:
+
+    - name: copy metrics file
+      template: 
+        src: templates/metrics.j2
+        dest: "/etc/systemd/metrics.sh"
+        mode: 0777
+
+    - name: set service info
+      set_fact:
+        app_name: discord-reddit-posts
+        service_name: "discord-reddit-posts-hardwareswap"
+        service_desc: "discord-reddit-posts-hardwareswap"
+        service_binary: ".venv/bin/python"
+        service_opts: "main.py"
+        service_type: oneshot
+        service_env:
+          - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
+          - "SUBREDDIT=hardwareswap"
+          - "POST_TEXT=iqunix;air75;raspberry;framework;5a"
+        timer_desc: discord-reddit-posts-hardwareswap
+        timer_minutes: 5
+        timer_delay: 60
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy timer file
+      template: 
+        src: templates/timer.j2
+        dest: "/etc/systemd/system/{{ service_name }}.timer"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.service"
+        enabled: yes
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.timer"
+        enabled: yes
+    
+
+
+
+    - name: set service info
+      set_fact:
+        app_name: discord-reddit-posts
+        service_name: "discord-reddit-posts-mechmarket"
+        service_desc: "discord-reddit-posts-mechmarket"
+        service_binary: ".venv/bin/python"
+        service_opts: "main.py"
+        service_type: oneshot
+        service_env:
+          - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
+          - "SUBREDDIT=mechmarket"
+          - "POST_TEXT=iqunix;air75"
+        timer_desc: discord-reddit-posts-mechmarket
+        timer_minutes: 5
+        timer_delay: 60
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy timer file
+      template: 
+        src: templates/timer.j2
+        dest: "/etc/systemd/system/{{ service_name }}.timer"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}.service"
+        enabled: yes
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.timer"
+        enabled: yes

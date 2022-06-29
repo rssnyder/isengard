@@ -1,0 +1,52 @@
+---
+- name: Discord bot for wilderworld zines
+  hosts: oca0
+  become: yes
+
+  tasks:
+
+    - name: copy metrics file
+      template: 
+        src: templates/metrics.j2
+        dest: "/etc/systemd/metrics.sh"
+        mode: 0777
+
+    - name: set service info
+      set_fact:
+        app_name: wilderworld-zines
+        service_name: "wilderworld-zines"
+        service_desc: "wilderworld-zines"
+        service_binary: ".venv/bin/python"
+        service_opts: "main.py"
+        service_type: oneshot
+        service_env:
+          - "WEBHOOK_URL={{ wilderworld_zines_webhook }}"
+        timer_desc: wilderworld-zines
+        timer_minutes: 59
+        timer_delay: 60
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy timer file
+      template: 
+        src: templates/timer.j2
+        dest: "/etc/systemd/system/{{ service_name }}.timer"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.service"
+        enabled: yes
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.timer"
+        enabled: yes

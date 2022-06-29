@@ -8,6 +8,7 @@
       set_fact:
         app_name: node_exporter
         service_name: "node_exporter"
+        service_binary: "node_exporter"
         service_desc: "prometheus monitoring"
         service_opts: "--collector.systemd"
         service_type: simple

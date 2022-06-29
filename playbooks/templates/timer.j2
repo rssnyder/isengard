@@ -1,0 +1,10 @@
+[Unit]
+Description={{ timer_desc }}
+
+[Timer]
+OnCalendar=*:0/{{ timer_minutes }}
+Persistent=true
+RandomizedDelaySec={{ timer_delay }}s
+
+[Install]
+WantedBy=timers.target

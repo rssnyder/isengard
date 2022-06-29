@@ -1,0 +1,1 @@
+echo "last_update{service=\"$1\",app=\"$2\"} $(date +%s)" | curl -u metrics:{{ metrics_token }} --data-binary @- https://pushmetrics.rileysnyder.org/metrics/job/systemd/instance/{{ inventory_hostname }}

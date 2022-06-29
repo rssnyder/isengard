@@ -3,7 +3,7 @@ name: Run nightly
 on: 
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 8 * * *'
 
 jobs:
   run-nightly:
@@ -13,6 +13,7 @@ jobs:
         playbook:
           - "discord-stock-ticker-backup.yml"
           - "backup-kate.yml"
+          - "backup-oca0.yml"
           - "scrape.yml"
     runs-on: kate
     steps:
