@@ -96,3 +96,11 @@ module "code" {
   subdomain = "code"
   url       = "https://github.com/rssnyder"
 }
+
+module "babychelladj" {
+  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+
+  domain    = "rileysnyder.org"
+  subdomain = "babychelladj"
+  url       = "https://music.youtube.com/playlist?list=PL1d05GXUOoNnYBJPtv0h2LemZFDIKqaD4&jct=rsofholv4Gp4DpqXTY1kEuTRUQYKow"
+}
