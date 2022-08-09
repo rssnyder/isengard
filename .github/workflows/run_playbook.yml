@@ -7,6 +7,9 @@ on:
         description: 'playbook to run'     
         required: true
 
+env:
+  ANSIBLE_HOST_KEY_CHECKING: False
+
 jobs:
   run-playbook:
     concurrency: ansible

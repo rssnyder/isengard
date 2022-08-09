@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 8 * * *'
 
+env:
+  ANSIBLE_HOST_KEY_CHECKING: False
+
 jobs:
   run-nightly:
     strategy:
