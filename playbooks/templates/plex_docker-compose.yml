@@ -1,0 +1,144 @@
+---
+version: "3"
+services:
+
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      VERSION: docker
+    ports:
+      - "32400:32400"
+    volumes:
+      - /home/plex/appdata/plex:/config
+      - /mnt/freezer/media:/media
+      - /mnt/fake:/mnt/fake
+
+  qbittorrentvpn:
+    image: binhex/arch-qbittorrentvpn
+    container_name: qbittorrentvpn
+    restart: unless-stopped
+    # cap_add:
+    #  - NET_ADMIN
+    privileged: true
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    volumes:
+      - /mnt/fake/downloads:/downloads
+      - /mnt/freezer/media/movies:/movies
+      - /mnt/freezer/media/tv:/tv
+      - /mnt/freezer/media/syndicated:/syndicated
+      - /mnt/trash:/trash
+      - /home/plex/appdata/qbittorrentvpn:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /home/plex/appdata/VueTorrent:/VueTorrent
+    ports:
+      - "6881:6881"
+      - "6881:6881/udp"
+      - "7001:7001"
+      - "8118:8118"
+    environment:
+      VPN_ENABLED: yes
+      VPN_USER: "${VPN_USER}"
+      VPN_PASS: "${VPN_PASS}"
+      VPN_PROV: pia
+      VPN_CLIENT: wireguard
+      STRICT_PORT_FORWARD: yes
+      ENABLE_PRIVOXY: yes
+      LAN_NETWORK: "192.168.0.0/24"
+      NAME_SERVERS: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
+      WEBUI_PORT: 7001
+      UMASK: 000
+      PUID: 65534
+      PGID: 1001
+
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - /home/plex/appdata/sonarr:/config
+      - /mnt/freezer/media/tv:/tv
+      - /mnt/fake/downloads:/downloads
+    ports:
+      - 7002:8989
+
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - /home/plex/appdata/radarr:/config
+      - /mnt/freezer/media/movies:/movies
+      - /mnt/fake/downloads:/downloads
+    ports:
+      - 7003:7878
+
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - /home/plex/appdata/prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  deluge:
+    image: binhex/arch-delugevpn:1.3.15_18_ge050905b2-1-04
+    container_name: deluge
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+      VPN_ENABLED: no
+    volumes:
+      - /home/plex/appdata/deluge:/config
+      - /mnt/freezer/media/books:/downloads
+      - /mnt/trash:/trash
+    ports:
+      - "8112:8112"
+      - "8117:8118"
+      - "58846:58846"
+      - "58946:58946"
+    restart: unless-stopped
+
+  overseerr:
+    image: lscr.io/linuxserver/overseerr
+    container_name: overseerr
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+    volumes:
+      - /home/plex/appdata/overseerr:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+    volumes:
+      - /home/plex/appdata/tautulli:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped

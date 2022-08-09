@@ -1,0 +1,21 @@
+---
+- name: Docker config
+  hosts: kate
+  become: yes
+  # remote_user: plex
+  # become: yes
+  # become_user: plex
+
+  tasks:
+    
+    - name: copy service file
+      copy: 
+        src: templates/plex_docker-compose.yml
+        dest: /home/plex/docker-compose.yml
+        owner: plex
+
+    
+    - name: reload
+      shell:
+        cmd: docker-compose up -d --remove-orphans
+        chdir: /home/plex
