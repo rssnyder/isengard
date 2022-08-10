@@ -1,9 +1,9 @@
-name: Run nightly
+name: Run weekly
 
 on: 
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 8 * * 0'
 
 env:
   ANSIBLE_HOST_KEY_CHECKING: False
@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         playbook:
-          - "discord-stock-ticker-backup.yml"
-          - "scrape.yml"
+          - "backup-kate.yml"
+          - "backup-oca0.yml"
     runs-on: kate
     steps:
 

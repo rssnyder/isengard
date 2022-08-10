@@ -2,7 +2,7 @@ variable "instances" {
   description = "Map of instances"
   type        = map(any)
   default = {
-    kate = {
+    hurley = {
       ip = "173.22.88.59"
     }
     oca0 = {

@@ -15,63 +15,49 @@ resource "digitalocean_record" "metrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "metrics"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "s3" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "s3"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "pushmetrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "pushmetrics"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "minecraft" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "minecraft"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "files" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "files"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "requests" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "requests"
-  value  = var.instances["kate"].ip
-}
-
-resource "digitalocean_record" "security" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "security"
-  value  = var.instances["kate"].ip
-}
-
-resource "digitalocean_record" "jksdfhopwety" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "jksdfhopwety"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "parson_tesla" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "parson.tesla"
-  value  = var.instances["kate"].ip
+  value  = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "github_pages" {
