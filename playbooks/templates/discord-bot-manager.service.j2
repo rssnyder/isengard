@@ -1,0 +1,19 @@
+[Unit]
+Description="Discord Bot Manager"
+
+[Service]
+WorkingDirectory=/etc/discord-bot-manager/
+VIRTUAL_ENV=/etc/discord-bot-manager/.venv
+ExecStart=/etc/discord-bot-manager/.venv/bin/uvicorn --host 0.0.0.0 --port 7777 main:app
+Restart=on-failure
+
+Environment=PATH=$VIRTUAL_ENV/bin:$PATH
+Environment=DB_HOST="192.168.0.3"
+Environment=DB_DB="dst"
+Environment=DB_USER="dst_manager"
+Environment=DB_PASS="{{ dst_db_pass }}"
+Environment=AUTH='{{ dst_auth }}'
+Environment=TEAMS='["834084487754154024","835201128009695233","835267626203873341","836384320809205800","836633873017733120","836942276110188626","838087286183690271","839201090667020408","839215459467526165","839859710084644875","841410334015488062","842041869633978398","843244451148595210","843290448050389032","843611626305617941","844012472608489502","844632100871471124"]'
+
+[Install]
+WantedBy=multi-user.target

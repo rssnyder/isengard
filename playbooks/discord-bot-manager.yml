@@ -1,0 +1,11 @@
+---
+- name: bot manager
+  hosts: hurley
+  become: yes
+
+  tasks:
+    
+    - name: copy service file
+      template: 
+        src: templates/discord-bot-manager.service.j2
+        dest: /etc/systemd/system/discord-bot-manager.service

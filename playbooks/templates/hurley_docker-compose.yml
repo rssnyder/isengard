@@ -1,0 +1,173 @@
+---
+version: "3"
+services:
+
+  caddy:
+    image: caddy
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - "443:443/udp"
+    volumes:
+      - $APPDATA/Caddyfile:/etc/caddy/Caddyfile
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - $APPDATA/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.enable-admin-api'
+      - '--web.enable-lifecycle'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+  pushgateway:
+    image: prom/pushgateway
+    restart: always
+    container_name: pushgateway
+    ports:
+      - 9092:9091
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      GF_SERVER_ROOT_URL: "https://metrics.rileysnyder.org"
+      GF_AUTH_GOOGLE_ENABLED: "true"
+      GF_AUTH_GOOGLE_CLIENT_ID: "${GF_AUTH_GOOGLE_CLIENT_ID}"
+      GF_AUTH_GOOGLE_CLIENT_SECRET: "${GF_AUTH_GOOGLE_CLIENT_SECRET}"
+      GF_AUTH_GOOGLE_SCOPES: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+      GF_AUTH_GOOGLE_AUTH_URL: "https://accounts.google.com/o/oauth2/auth"
+      GF_AUTH_GOOGLE_TOKEN_URL: "https://accounts.google.com/o/oauth2/token"
+      GF_AUTH_GOOGLE_ALLOWED_DOMAINS: "rileysnyder.org gmail.com"
+
+  omada:
+    container_name: omada
+    image: mbentley/omada-controller:5.3
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      MANAGE_HTTP_PORT: 8088
+      MANAGE_HTTPS_PORT: 8043
+      PORTAL_HTTP_PORT: 8088
+      PORTAL_HTTPS_PORT: 8843
+      SHOW_SERVER_LOGS: "true"
+      SHOW_MONGODB_LOGS: "false"
+      TZ: 'America/Chicago'
+    volumes:
+      - $APPDATA/omada/data:/opt/tplink/EAPController/data
+      - $APPDATA/omada/work:/opt/tplink/EAPController/work
+      - $APPDATA/omada/logs:/opt/tplink/EAPController/logs    
+    
+  omada_exporter:
+    image: ghcr.io/charlie-haley/omada_exporter:0.5.0
+    container_name: "omada_exporter"
+    restart: unless-stopped
+    ports:
+      - 9202:9202
+    environment:
+      OMADA_HOST: "https://192.168.0.3:8043"
+      OMADA_USER: "docker"
+      OMADA_PASS: "${OMADA_PASS}"
+      OMADA_SITE: "Default"
+      OMADA_INSECURE: "true"
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes: 
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  # digitalocean_exporter:
+  #   image: metalmatze/digitalocean_exporter:0.6.1
+  #   container_name: digitalocean_exporter
+  #   restart: always
+  #   ports:
+  #     - 8789:9212
+  #   environment:
+  #     DIGITALOCEAN_TOKEN: "${DIGITALOCEAN_TOKEN}"
+
+  # minio:
+  #   image: quay.io/minio/minio
+  #   network_mode: host
+  #   restart: unless-stopped
+  #   volumes:
+  #     - $APPDATA/minio:/data
+  #   environment:
+  #     MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+  #     MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+  #   command: server /data --console-address ":9001"
+
+  # minecraft:
+  #   image: crbanman/papermc-lazymc
+  #   restart: always
+  #   container_name: minecraft
+  #   ports:
+  #     - 25565:25565
+  #   network_mode: "host"
+  #   environment:
+  #     MC_VERSION: "latest"
+  #     MC_RAM: "4G"
+  #   volumes:
+  #     - $APPDATA/minecraft:/papermc
+
+  # ispy:
+  #   container_name: ispy
+  #   image: doitandbedone/ispyagentdvr
+  #   environment:
+  #     TZ: 'America/Chicago'
+  #   volumes:
+  #     - $APPDATA/ispyagentdvr/config:/agent/Media/XML/
+  #     - /mnt/trash/cams:/agent/Media/WebServerRoot/Media/
+  #     - $APPDATA/ispyagentdvr/commands:/agent/Commands/
+  #   network_mode: host
+  #   restart: unless-stopped
+
+  # syncthing:
+  #   image: lscr.io/linuxserver/syncthing:latest
+  #   container_name: syncthing
+  #   environment:
+  #     PUID: 1000
+  #     PGID: 1000
+  #     TZ: America/Chicago
+  #   volumes:
+  #     - $APPDATA/syncthing:/config
+  #     - /mnt/trash/backup/syncthing:/data
+  #   ports:
+  #     - 8384:8384
+  #     - 22000:22000/tcp
+  #     - 22000:22000/udp
+  #     - 21027:21027/udp
+  #   restart: unless-stopped
+
+  # signal:
+  #   image: bbernhard/signal-cli-rest-api
+  #   container_name: signal
+  #   environment:
+  #     MODE: native
+  #     AUTO_RECEIVE_SCHEDULE: "0 8 * * *"
+  #   volumes:
+  #     - $APPDATA/signal:/home/.local/share/signal-cli
+  #   ports:
+  #     - 8989:8080
+
+volumes:
+  db:
+    driver: local
