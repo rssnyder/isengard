@@ -11,7 +11,7 @@
     - name: copy targets config
       template: 
         src: targets.yml.j2
-        dest: /home/riley/appdata/prometheus/prometheus.yml
+        dest: /home/riley/appdata/prometheus.yml
         owner: riley
         group: riley
       when: inventory_hostname == 'hurley'

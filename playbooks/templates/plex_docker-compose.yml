@@ -142,3 +142,13 @@ services:
     ports:
       - 8181:8181
     restart: unless-stopped
+
+  files:
+    image: svenstaro/miniserve
+    container_name: files
+    restart: always
+    volumes:
+      - /mnt/freezer/media:/tmp
+    ports:
+      - 8080:8080
+    command: /tmp
