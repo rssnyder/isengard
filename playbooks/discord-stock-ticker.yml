@@ -79,3 +79,8 @@
       # when: item.key == client
       # loop_control:
       #   pause: 100
+
+    - name: restart journalctl
+      systemd:
+        state: restarted
+        name: systemd-journald

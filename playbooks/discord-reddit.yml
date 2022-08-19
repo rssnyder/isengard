@@ -97,3 +97,48 @@
         state: started
         name: "{{ service_name }}.timer"
         enabled: yes
+
+    
+
+
+    - name: set service info
+      set_fact:
+        app_name: discord-reddit-posts
+        service_name: "discord-reddit-posts-buildapcsales"
+        service_desc: "discord-reddit-posts-buildapcsales"
+        service_binary: ".venv/bin/python"
+        service_opts: "main.py"
+        service_type: oneshot
+        service_env:
+          - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
+          - "SUBREDDIT=buildapcsales"
+          - "POST_TEXT=HDD"
+        timer_desc: discord-reddit-posts-buildapcsales
+        timer_minutes: 5
+        timer_delay: 60
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy timer file
+      template: 
+        src: templates/timer.j2
+        dest: "/etc/systemd/system/{{ service_name }}.timer"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}.service"
+        enabled: yes
+
+    - name: start
+      systemd:
+        state: started
+        name: "{{ service_name }}.timer"
+        enabled: yes

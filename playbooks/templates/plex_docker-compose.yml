@@ -21,8 +21,6 @@ services:
     image: binhex/arch-qbittorrentvpn
     container_name: qbittorrentvpn
     restart: unless-stopped
-    # cap_add:
-    #  - NET_ADMIN
     privileged: true
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
@@ -152,3 +150,32 @@ services:
     ports:
       - 8080:8080
     command: /tmp
+
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+    volumes:
+      - /home/plex/appdata/syncthing:/config
+      - /mnt/trash/backup/syncthing:/data
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+  
+  # ispy:
+  #   container_name: ispy
+  #   image: doitandbedone/ispyagentdvr
+  #   environment:
+  #     TZ: 'America/Chicago'
+  #   volumes:
+  #     - /home/plex/appdata/ispyagentdvr/config:/agent/Media/XML/
+  #     - /mnt/trash/cams:/agent/Media/WebServerRoot/Media/
+  #     - /home/plex/appdata/ispyagentdvr/commands:/agent/Commands/
+  #   network_mode: host
+  #   restart: unless-stopped
