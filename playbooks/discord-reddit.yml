@@ -22,7 +22,7 @@
         service_env:
           - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
           - "SUBREDDIT=hardwareswap"
-          - "POST_TEXT=iqunix;air75;raspberry;framework"
+          - "POST_TEXT=iqunix;air75;framework;20TB"
         timer_desc: discord-reddit-posts-hardwareswap
         timer_minutes: 5
         timer_delay: 60
