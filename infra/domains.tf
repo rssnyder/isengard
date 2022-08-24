@@ -60,6 +60,13 @@ resource "digitalocean_record" "parson_tesla" {
   value  = var.instances["hurley"].ip
 }
 
+resource "digitalocean_record" "send" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "send"
+  value  = var.instances["hurley"].ip
+}
+
 resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "TXT"
