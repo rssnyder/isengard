@@ -112,7 +112,7 @@
         service_env:
           - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
           - "SUBREDDIT=buildapcsales"
-          - "POST_TEXT=HDD"
+          - "POST_TITLE=HDD"
         timer_desc: discord-reddit-posts-buildapcsales
         timer_minutes: 5
         timer_delay: 60

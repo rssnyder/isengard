@@ -151,6 +151,28 @@ services:
       - 8080:8080
     command: /tmp
 
+  send:
+    image: registry.gitlab.com/timvisee/send:latest
+    restart: always
+    ports:
+      - '8383:8383'
+    volumes:
+      - /mnt/fake/send:/uploads
+    environment:
+      - DHPARAM_GENERATION=false
+      - NODE_ENV=production
+      - DETECT_BASE_URL=true
+      - PORT=8383
+      - REDIS_HOST=redis
+      - FILE_DIR=/uploads
+      - MAX_FILE_SIZE=21474836480
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - send-redis:/data
+
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -179,3 +201,6 @@ services:
   #     - /home/plex/appdata/ispyagentdvr/commands:/agent/Commands/
   #   network_mode: host
   #   restart: unless-stopped
+
+volumes:
+  send-redis:
