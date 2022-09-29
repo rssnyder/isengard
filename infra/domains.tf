@@ -67,6 +67,13 @@ resource "digitalocean_record" "send" {
   value  = var.instances["hurley"].ip
 }
 
+resource "digitalocean_record" "cameras" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "cameras"
+  value  = var.instances["hurley"].ip
+}
+
 resource "digitalocean_record" "github_pages" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "TXT"

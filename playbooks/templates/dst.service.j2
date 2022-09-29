@@ -3,6 +3,8 @@ Description={{ item.key }}
 Wants=basic.target
 After=basic.target network.target
 Before=sshd.service
+StartLimitIntervalSec=400
+StartLimitBurst=3
 
 [Service]
 SyslogIdentifier={{ item.key  }}
@@ -11,6 +13,7 @@ StandardError=syslog
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/etc/discord-stock-ticker/discord-stock-ticker -cache -managed -logLevel=1 -address=0.0.0.0:{{ item.value }} -db=/etc/discord-stock-ticker/{{ item.key  }}.state {{ extra_dst_args }}
 Restart=always
+RestartSec=90
 
 [Install]
 WantedBy=multi-user.target

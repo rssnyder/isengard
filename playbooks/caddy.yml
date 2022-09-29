@@ -1,0 +1,17 @@
+---
+- name: Docker config
+  hosts: hurley
+  become: no
+
+  tasks:
+    
+    - name: copy caddy file
+      copy: 
+        src: templates/Caddyfile
+        dest: /home/riley/appdata/Caddyfile
+    
+    - name: reload
+      shell:
+        cmd: docker restart caddy
+        chdir: /home/riley
+

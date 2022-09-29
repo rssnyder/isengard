@@ -1,0 +1,12 @@
+---
+- name: Install k3s deps
+  hosts: k3s
+  become: yes
+
+  tasks:
+
+    - name: install nfs
+      apt:
+        name: nfs-common
+        state: latest
+        update_cache: yes

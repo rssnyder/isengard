@@ -7,3 +7,5 @@ ansible-role-*
 newbots
 
 roles*
+
+infra/k8s/helm

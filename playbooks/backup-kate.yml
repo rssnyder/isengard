@@ -8,36 +8,30 @@
     - name: backup riley
       shell:
        chdir: /home/riley
-       cmd: |
-         docker-compose down && tar -czvf /mnt/trash/backup/users/kate_riley.$(date +%m.%d.%y).tar.gz /home/riley; docker-compose up -d
-
-    - name: restart manager
-      systemd:
-        state: restarted
-        name: "discord-bot-manager.service"
+       cmd: tar -czvf /bucket/backup/users/kate_riley.$(date +%m.%d.%y).tar.gz /home/riley
 
     - name: backup plex
       shell:
         chdir: /home/plex
-        cmd: |
-          docker-compose down && tar -czvf /mnt/trash/backup/users/kate_plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
+        cmd: docker-compose down && tar -czvf /bucket/backup/users/kate_plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
       become: yes
     
     - name: backup users
       shell:
         cmd: |
-          rclone sync /mnt/trash/backup/users crypt:archive/users
+          rclone sync /bucket/backup/users crypt:archive/users
 
-    # - name: download photos
-    #   shell:
-    #     cmd: "rclone -P copy photos: /mnt/trash/backup/Photos/google/"
+    - name: download photos
+      shell:
+        cmd: |
+          rclone -P copy photos: /bucket/backup/Photos/google/
 
     - name: backup synthing
       shell:
         cmd: |
-          rclone sync /mnt/trash/backup/syncthing crypt:archive/syncthing
+          rclone sync /bucket/backup/syncthing crypt:archive/syncthing
     
     - name: backup books
       shell:
         cmd: |
-          rclone -vP sync /mnt/freezer/media/books crypt:media/books/
+          rclone -vP sync /bucket/media/books crypt:media/books/

@@ -1,0 +1,58 @@
+s3.rileysnyder.org {
+    reverse_proxy 192.168.0.3:9000
+}
+
+metrics.rileysnyder.org {
+    reverse_proxy 192.168.0.3:3000
+}
+
+minecraft.rileysnyder.org {
+    reverse_proxy 192.168.0.3:25565
+}
+
+files.rileysnyder.org {
+    reverse_proxy 192.168.0.11:8080
+    basicauth * {
+        friend JDJhJDE0JExhTTFNVFhteVlhYXBZWTl4b0lwTXVtVDZ4a09VTkpDWVpTazZLV2tBN0x6NkN6RE1vNHJl
+    }
+}
+
+public.rileysnyder.org {
+    reverse_proxy 192.168.0.3:8081
+}
+
+vscode.rileysnyder.org {
+    reverse_proxy 192.168.0.3:6969
+}
+
+requests.rileysnyder.org {
+    reverse_proxy 192.168.0.11:5055
+}
+
+pushmetrics.rileysnyder.org {
+    reverse_proxy 192.168.0.3:9092
+    basicauth * {
+        metrics JDJhJDE0JHludWJMdXRJWk8yUGZFMkxvLnBSWC5aSUh4L2dGbXg4ckdDSjF0SFJhMjJHRTZURU5zN2Rx
+    }
+}
+
+parson.tesla.rileysnyder.org {
+    reverse_proxy oca0:3000
+}
+
+send.rileysnyder.org {
+    reverse_proxy 192.168.0.11:8383
+}
+
+cameras.rileysnyder.org {
+    reverse_proxy * {
+		to 192.168.0.15:31348
+        to 192.168.0.189:31348
+        to 192.168.0.219:31348
+
+		lb_policy round_robin
+	}
+    basicauth * {
+        admin JDJhJDE0JC9wQW9zMmxRRnZESkFyUGtBNUtWanV6SG5VOC9KN0t0ZHVxQUlpQlg5M245WDFaOC5PaFg2
+    }
+}

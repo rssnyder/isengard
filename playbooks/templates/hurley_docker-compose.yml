@@ -104,16 +104,16 @@ services:
   #   environment:
   #     DIGITALOCEAN_TOKEN: "${DIGITALOCEAN_TOKEN}"
 
-  # minio:
-  #   image: quay.io/minio/minio
-  #   network_mode: host
-  #   restart: unless-stopped
-  #   volumes:
-  #     - $APPDATA/minio:/data
-  #   environment:
-  #     MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
-  #     MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
-  #   command: server /data --console-address ":9001"
+  minio:
+    image: quay.io/minio/minio
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - $APPDATA/minio:/data
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+    command: server /data --console-address ":9001"
 
   # minecraft:
   #   image: crbanman/papermc-lazymc
@@ -168,6 +168,76 @@ services:
   #   ports:
   #     - 8989:8080
 
+  pihole:
+    image: cbcrowe/pihole-unbound:latest
+    container_name: pihole
+    restart: unless-stopped
+    hostname: pihole
+    domainname: pihole.local
+    ports:
+      - 8443:443/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 8888:80/tcp
+    environment:
+      FTLCONF_REPLY_ADDR4: ${FTLCONF_REPLY_ADDR4}
+      TZ: America/Chicago
+      WEBPASSWORD: ${PIHOLE_PASSWORD}
+      WEBTHEME: ${WEBTHEME:-default-light}
+      REV_SERVER: ${REV_SERVER:-false}
+      REV_SERVER_TARGET: ${REV_SERVER_TARGET}
+      REV_SERVER_DOMAIN: ${REV_SERVER_DOMAIN}
+      REV_SERVER_CIDR: ${REV_SERVER_CIDR}
+      PIHOLE_DNS_: 127.0.0.1#5335
+      DNSSEC: "true"
+      DNSMASQ_LISTENING: single
+    volumes:
+      - $APPDATA/pihole:/etc/pihole:rw
+      - $APPDATA/pihole-dnsmasq:/etc/dnsmasq.d:rw
+    
+  pihole_exporter:
+    image: ekofr/pihole-exporter:latest
+    container_name: pihole_exporter
+    environment:
+      PIHOLE_HOSTNAME: pihole
+      PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
+      PORT: 9617
+    ports:
+      - 9617:9617
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    network_mode: host
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - $APPDATA/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    volumes:
+      - $APPDATA/mosquitto:/mosquitto
+    ports:
+      - 1883:1883
+      - 9002:9001
+    environment:
+      ALLOW_UNSECURED_MODE: 'true'
+
+  pve-exporter:
+    build: $APPDATA/prometheus-pve-exporter
+    container_name: pve-exporter
+    ports:
+      - 9221:9221
+    environment:
+      PVE_USER: root@pam
+      PVE_TOKEN_NAME: exporter
+      PVE_TOKEN_VALUE: ${PVE_TOKEN_VALUE}
+      PVE_VERIFY_SSL: false
+
 volumes:
   db:
     driver: local
+  pigallery2:

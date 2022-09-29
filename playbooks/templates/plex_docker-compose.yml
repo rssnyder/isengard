@@ -13,8 +13,8 @@ services:
     ports:
       - "32400:32400"
     volumes:
-      - /home/plex/appdata/plex:/config
-      - /mnt/freezer/media:/media
+      - $APPDATA/plex:/config
+      - /bucket/media:/media
       - /mnt/fake:/mnt/fake
 
   qbittorrentvpn:
@@ -26,13 +26,13 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     volumes:
       - /mnt/fake/downloads:/downloads
-      - /mnt/freezer/media/movies:/movies
-      - /mnt/freezer/media/tv:/tv
-      - /mnt/freezer/media/syndicated:/syndicated
-      - /mnt/trash:/trash
-      - /home/plex/appdata/qbittorrentvpn:/config
+      - /bucket/media/movies:/movies
+      - /bucket/media/tv:/tv
+      - /bucket/media/syndicated:/syndicated
+      - /bucket/media/books:/books
+      - $APPDATA/qbittorrentvpn:/config
       - /etc/localtime:/etc/localtime:ro
-      - /home/plex/appdata/VueTorrent:/VueTorrent
+      - $APPDATA/VueTorrent:/VueTorrent
     ports:
       - "6881:6881"
       - "6881:6881/udp"
@@ -53,6 +53,20 @@ services:
       PUID: 65534
       PGID: 1001
 
+  qbt_exporter:
+    image: esanchezm/prometheus-qbittorrent-exporter
+    container_name: qbt_exporter
+    restart: unless-stopped
+    ports:
+      - "8119:8119"
+    environment:
+      QBITTORRENT_HOST: "192.168.0.11"
+      QBITTORRENT_PORT: 7001
+      EXPORTER_PORT: 8119
+      QBITTORRENT_USER: admin
+      QBITTORRENT_PASS: "${QBITTORRENT_PASS}"
+      VERIFY_WEBUI_CERTIFICATE: false
+
   sonarr:
     image: ghcr.io/linuxserver/sonarr
     container_name: sonarr
@@ -62,8 +76,8 @@ services:
       PGID: 1001
       TZ: America/Chicago
     volumes:
-      - /home/plex/appdata/sonarr:/config
-      - /mnt/freezer/media/tv:/tv
+      - $APPDATA/sonarr:/config
+      - /bucket/media/tv:/tv
       - /mnt/fake/downloads:/downloads
     ports:
       - 7002:8989
@@ -77,8 +91,8 @@ services:
       PGID: 1001
       TZ: America/Chicago
     volumes:
-      - /home/plex/appdata/radarr:/config
-      - /mnt/freezer/media/movies:/movies
+      - $APPDATA/radarr:/config
+      - /bucket/media/movies:/movies
       - /mnt/fake/downloads:/downloads
     ports:
       - 7003:7878
@@ -91,13 +105,13 @@ services:
       PGID: 1001
       TZ: America/Chicago
     volumes:
-      - /home/plex/appdata/prowlarr:/config
+      - $APPDATA/prowlarr:/config
     ports:
       - 9696:9696
     restart: unless-stopped
 
   deluge:
-    image: binhex/arch-delugevpn:1.3.15_18_ge050905b2-1-04
+    image: linuxserver/deluge
     container_name: deluge
     environment:
       PUID: 65534
@@ -105,9 +119,8 @@ services:
       TZ: America/Chicago
       VPN_ENABLED: no
     volumes:
-      - /home/plex/appdata/deluge:/config
-      - /mnt/freezer/media/books:/downloads
-      - /mnt/trash:/trash
+      - $APPDATA/deluge:/config
+      - /bucket/media/books:/downloads
     ports:
       - "8112:8112"
       - "8117:8118"
@@ -123,7 +136,7 @@ services:
       PGID: 1000
       TZ: America/Chicago
     volumes:
-      - /home/plex/appdata/overseerr:/config
+      - $APPDATA/overseerr:/config
     ports:
       - 5055:5055
     restart: unless-stopped
@@ -136,7 +149,7 @@ services:
       PGID: 1000
       TZ: America/Chicago
     volumes:
-      - /home/plex/appdata/tautulli:/config
+      - $APPDATA/tautulli:/config
     ports:
       - 8181:8181
     restart: unless-stopped
@@ -146,7 +159,7 @@ services:
     container_name: files
     restart: always
     volumes:
-      - /mnt/freezer/media:/tmp
+      - /bucket/media:/tmp
     ports:
       - 8080:8080
     command: /tmp
@@ -181,8 +194,8 @@ services:
       PGID: 1000
       TZ: America/Chicago
     volumes:
-      - /home/plex/appdata/syncthing:/config
-      - /mnt/trash/backup/syncthing:/data
+      - $APPDATA/syncthing:/config
+      - /bucket/backup/syncthing:/data
     ports:
       - 8384:8384
       - 22000:22000/tcp
@@ -190,17 +203,32 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
   
+  # pigallery2:
+  #   image: bpatrik/pigallery2:latest
+  #   container_name: pigallery2
+  #   environment:
+  #     - NODE_ENV=production
+  #   volumes:
+  #     - $APPDATA/pigallery2:/app/data/config
+  #     - pigallery2:/app/data/db
+  #     - /mnt/trash/backup/syncthing/phone-camera:/app/data/images:ro
+  #     - /mnt/trash/backup/syncthing/phone-photos:/app/data/images1:ro
+  #   ports:
+  #     - 8345:80
+  #   restart: always
+  
   # ispy:
   #   container_name: ispy
   #   image: doitandbedone/ispyagentdvr
   #   environment:
   #     TZ: 'America/Chicago'
   #   volumes:
-  #     - /home/plex/appdata/ispyagentdvr/config:/agent/Media/XML/
+  #     - $APPDATA/ispyagentdvr/config:/agent/Media/XML/
   #     - /mnt/trash/cams:/agent/Media/WebServerRoot/Media/
-  #     - /home/plex/appdata/ispyagentdvr/commands:/agent/Commands/
+  #     - $APPDATA/ispyagentdvr/commands:/agent/Commands/
   #   network_mode: host
   #   restart: unless-stopped
 
 volumes:
   send-redis:
+  pigallery2:
