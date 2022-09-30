@@ -1,0 +1,10 @@
+---
+- name: Install tor relay
+  hosts: oca1
+  roles:
+    - nusenu.relayor
+  vars:
+    tor_ContactInfo: email:mottainai247[]proton.me url:https://example.com proof:uri-rsa uplinkbw:100 ciissversion:2
+    tor_signingkeylifetime_days: 30
+    tor_nickname: oca1
+    tor_enableMetricsPort: true
