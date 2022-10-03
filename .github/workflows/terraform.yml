@@ -93,6 +93,7 @@ jobs:
         run: terraform apply -auto-approve
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          PIHOLE_PASSWORD: ${{ secrets.PIHOLE_PASSWORD }}
       
       - name: Move state
         if: always()
