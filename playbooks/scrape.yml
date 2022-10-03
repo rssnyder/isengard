@@ -10,12 +10,12 @@
       shell:
         cmd: "pip3 install yt-dlp --upgrade; /usr/local/bin/yt-dlp --dateafter today-1month --download-archive /mnt/freezer/media/streams/.pmw.done https://twitch.tv/paymoneywubby/videos -o '/mnt/freezer/media/streams/%(id)s.%(title)s.%(ext)s'; sudo chown nobody:nogroup /mnt/freezer/media/streams/*; sudo chmod 777 /mnt/freezer/media/streams/*"
 
-    - name: download wan
-      ignore_errors: yes
-      shell:
-        cmd: "pip3 install yt-dlp --upgrade; /usr/local/bin/yt-dlp --dateafter today-1month --download-archive /mnt/freezer/media/streams/.wan.done https://www.youtube.com/c/LinusTechTips -o '/mnt/freezer/media/streams/%(title)s.%(ext)s' --match-filter 'title ~= WAN Show'; sudo chown nobody:nogroup /mnt/freezer/media/streams/*; sudo chmod 777 /mnt/freezer/media/streams/*"
+    # - name: download wan
+    #   ignore_errors: yes
+    #   shell:
+    #     cmd: "pip3 install yt-dlp --upgrade; /usr/local/bin/yt-dlp --dateafter today-1month --download-archive /mnt/freezer/media/streams/.wan.done https://www.youtube.com/c/LinusTechTips -o '/mnt/freezer/media/streams/%(title)s.%(ext)s' --match-filter 'title ~= WAN Show'; sudo chown nobody:nogroup /mnt/freezer/media/streams/*; sudo chmod 777 /mnt/freezer/media/streams/*"
 
-    - name: download yard
-      ignore_errors: yes
-      shell:
-        cmd: "pip3 install yt-dlp --upgrade; /usr/local/bin/yt-dlp --dateafter today-1month --download-archive /mnt/freezer/media/streams/.yard.done https://www.youtube.com/channel/UCGbg3DjQdcqWwqOLHpYHXIg -o '/mnt/freezer/media/streams/%(title)s.%(ext)s'; sudo chown nobody:nogroup /mnt/freezer/media/streams/*; sudo chmod 777 /mnt/freezer/media/streams/*"
+    # - name: download yard
+    #   ignore_errors: yes
+    #   shell:
+    #     cmd: "pip3 install yt-dlp --upgrade; /usr/local/bin/yt-dlp --dateafter today-1month --download-archive /mnt/freezer/media/streams/.yard.done https://www.youtube.com/channel/UCGbg3DjQdcqWwqOLHpYHXIg -o '/mnt/freezer/media/streams/%(title)s.%(ext)s'; sudo chown nobody:nogroup /mnt/freezer/media/streams/*; sudo chmod 777 /mnt/freezer/media/streams/*"
