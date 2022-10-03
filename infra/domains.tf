@@ -18,7 +18,6 @@ resource "digitalocean_record" "metrics" {
   value  = var.instances["hurley"].ip
 }
 
-
 resource "pihole_dns_record" "metrics" {
   domain = "metrics.${digitalocean_domain.rileysnyder_org.name}"
   ip     = var.instances["hurley_local"].ip
@@ -135,4 +134,14 @@ module "babychelladj" {
   domain    = "rileysnyder.org"
   subdomain = "babychelladj"
   url       = "https://music.youtube.com/playlist?list=PL1d05GXUOoNnYBJPtv0h2LemZFDIKqaD4&jct=rsofholv4Gp4DpqXTY1kEuTRUQYKow"
+}
+
+resource "pihole_dns_record" "kate" {
+  domain = "kate.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["kate"].ip
+}
+
+resource "pihole_dns_record" "hurley" {
+  domain = "hurley.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["hurley_local"].ip
 }
