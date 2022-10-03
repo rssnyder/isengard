@@ -13,5 +13,5 @@ terraform {
 provider "digitalocean" {}
 
 provider "pihole" {
-  url      = "http://192.168.0.3:8888"
+  url = "http://192.168.0.3:8888"
 }
