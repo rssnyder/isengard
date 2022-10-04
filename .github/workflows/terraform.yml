@@ -9,17 +9,23 @@ on:
     - cron:  "0 5 * * *" 
   workflow_dispatch:
 
+env:
+  DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+  PIHOLE_PASSWORD: ${{ secrets.PIHOLE_PASSWORD }}
+
 jobs:
   terraform:
     name: "Terraform"
     concurrency: terraform
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+      - uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Format
         id: fmt
@@ -50,8 +56,6 @@ jobs:
         working-directory: infra/
         run: terraform plan -no-color
         continue-on-error: true
-        env:
-          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
@@ -91,8 +95,6 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         working-directory: infra/
         run: terraform apply -auto-approve
-        env:
-          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
       
       - name: Move state
         if: always()
