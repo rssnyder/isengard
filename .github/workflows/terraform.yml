@@ -17,7 +17,7 @@ jobs:
   terraform:
     name: "Terraform"
     concurrency: terraform
-    runs-on: kate
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
