@@ -16,7 +16,7 @@ jobs:
         playbook:
           - "backup-kate.yml"
           - "backup-oca0.yml"
-    runs-on: kate
+    runs-on: self-hosted
     steps:
 
     - uses: actions/checkout@v2
