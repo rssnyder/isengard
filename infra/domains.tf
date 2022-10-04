@@ -20,7 +20,7 @@ resource "digitalocean_record" "metrics" {
 
 resource "pihole_dns_record" "metrics" {
   domain = "metrics.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }
 
 resource "digitalocean_record" "s3" {
@@ -32,7 +32,7 @@ resource "digitalocean_record" "s3" {
 
 resource "pihole_dns_record" "s3" {
   domain = "s3.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }
 
 
@@ -59,7 +59,7 @@ resource "digitalocean_record" "files" {
 
 resource "pihole_dns_record" "files" {
   domain = "files.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }
 
 resource "digitalocean_record" "requests" {
@@ -71,7 +71,7 @@ resource "digitalocean_record" "requests" {
 
 resource "pihole_dns_record" "requests" {
   domain = "requests.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }
 
 resource "digitalocean_record" "parson_tesla" {
@@ -90,7 +90,7 @@ resource "digitalocean_record" "send" {
 
 resource "pihole_dns_record" "send" {
   domain = "send.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }
 
 resource "digitalocean_record" "cameras" {
@@ -102,7 +102,7 @@ resource "digitalocean_record" "cameras" {
 
 resource "pihole_dns_record" "cameras" {
   domain = "monitor.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }
 
 resource "digitalocean_record" "github_pages" {
@@ -143,5 +143,5 @@ resource "pihole_dns_record" "kate" {
 
 resource "pihole_dns_record" "hurley" {
   domain = "hurley.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley_local"].ip
+  ip     = var.instances["hurley-local"].ip
 }

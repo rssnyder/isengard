@@ -8,7 +8,7 @@ variable "instances" {
     hurley = {
       ip = "173.22.88.59"
     }
-    hurley_local = {
+    hurley-local = {
       ip = "192.168.0.3"
     }
     oca0 = {
