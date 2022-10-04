@@ -52,6 +52,7 @@ jobs:
         continue-on-error: true
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          PIHOLE_PASSWORD: ${{ secrets.PIHOLE_PASSWORD }}
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
