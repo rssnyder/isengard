@@ -8,3 +8,8 @@
     tor_signingkeylifetime_days: 30
     tor_nickname: oca1
     tor_enableMetricsPort: true
+    tor_ports:
+    - orport: 9000
+      dirport: 9001
+    - orport: 9050
+      dirport: 9051

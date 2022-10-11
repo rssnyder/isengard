@@ -11,6 +11,13 @@ resource "digitalocean_record" "instance" {
   value  = each.value.ip
 }
 
+resource "digitalocean_record" "root" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "www"
+  value  = var.instances["hurley"].ip
+}
+
 resource "digitalocean_record" "metrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
@@ -34,7 +41,6 @@ resource "pihole_dns_record" "s3" {
   domain = "s3.${digitalocean_domain.rileysnyder_org.name}"
   ip     = var.instances["hurley-local"].ip
 }
-
 
 resource "digitalocean_record" "pushmetrics" {
   domain = digitalocean_domain.rileysnyder_org.name
@@ -105,12 +111,12 @@ resource "pihole_dns_record" "cameras" {
   ip     = var.instances["hurley-local"].ip
 }
 
-resource "digitalocean_record" "github_pages" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "TXT"
-  name   = "_github-pages-challenge-rssnyder"
-  value  = "8169904a00a3d52c5118bf5743ca2a"
-}
+# resource "digitalocean_record" "github_pages" {
+#   domain = digitalocean_domain.rileysnyder_org.name
+#   type   = "TXT"
+#   name   = "_github-pages-challenge-rssnyder"
+#   value  = "8169904a00a3d52c5118bf5743ca2a"
+# }
 
 module "music" {
   source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
@@ -128,12 +134,28 @@ module "code" {
   url       = "https://github.com/rssnyder"
 }
 
-module "babychelladj" {
+module "photos" {
   source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
 
   domain    = "rileysnyder.org"
-  subdomain = "babychelladj"
-  url       = "https://music.youtube.com/playlist?list=PL1d05GXUOoNnYBJPtv0h2LemZFDIKqaD4&jct=rsofholv4Gp4DpqXTY1kEuTRUQYKow"
+  subdomain = "photos"
+  url       = "https://github.com/rssnyder/photos"
+}
+
+module "dst" {
+  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+
+  domain    = "rileysnyder.org"
+  subdomain = "dst"
+  url       = "https://github.com/rssnyder/discord-stock-ticker"
+}
+
+module "payment" {
+  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+
+  domain    = "rileysnyder.org"
+  subdomain = "payment"
+  url       = "https://gist.github.com/rssnyder/dbee0125c53cebb3564d72f23b5dfce1"
 }
 
 resource "pihole_dns_record" "kate" {

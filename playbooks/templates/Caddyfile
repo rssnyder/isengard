@@ -1,3 +1,42 @@
+rileysnyder.org {
+    respond "
+contact
++---------+---------------------+
+| website |       handle        |
++---------+---------------------+
+| email   | rileysndr@gmail.com |
+| github  | rssnyder            |
+| linkdin | rileysnyder         |
+| discord | jonesbooned#1111    |
+| xbox    | jonesbooned         |
++---------+---------------------+
+
++------------------+---------------------------------------------------------+--------+
+|     service      |                           url                           | public |
++------------------+---------------------------------------------------------+--------+
+| github           | <a href="code.rileysnyder.org">code.rileysnyder.org</a> | true   |
+| music playlists  | music.rileysnyder.org                                   | true   |
+| send files       | send.rileysnyder.org                                    | true   |
+| minecraft        | minecraft.rileysnyder.org                               | true   |
+| photos           | photos.rileysnyder.org                                  | true   |
+| grafana          | metrics.rileysnyder.org                                 | false  |
+| object store     | s3.rileysnyder.org                                      | false  |
+| bulk storage     | files.rileysnyder.org                                   | false  |
+| plex requests    | requests.rileysnyder.org                                | false  |
+| security cameras | cameras.rileysnyder.org                                 | false  |
+| qbittorrent      | kate:7001                                               | false  |
+| sonarr           | kate:7002                                               | false  |
+| radarr           | kate:7003                                               | false  |
+| deluge           | kate:8112                                               | false  |
+| prowlarr         | kate:9696                                               | false  |
+| tautulli         | kate:8181                                               | false  |
+| syncthing        | kate:8384                                               | false  |
++------------------+---------------------------------------------------------+--------+
+"
+}
+
+
+
 s3.rileysnyder.org {
     reverse_proxy 192.168.0.3:9000
 }
@@ -45,6 +84,19 @@ send.rileysnyder.org {
 }
 
 cameras.rileysnyder.org {
+    reverse_proxy * {
+		to 192.168.0.15:31348
+        to 192.168.0.189:31348
+        to 192.168.0.219:31348
+
+		lb_policy round_robin
+	}
+    basicauth * {
+        admin JDJhJDE0JC9wQW9zMmxRRnZESkFyUGtBNUtWanV6SG5VOC9KN0t0ZHVxQUlpQlg5M245WDFaOC5PaFg2
+    }
+}
+
+monitor.rileysnyder.org {
     reverse_proxy * {
 		to 192.168.0.15:31348
         to 192.168.0.189:31348
