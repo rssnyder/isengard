@@ -1,0 +1,22 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 0 */32 * *'
+
+jobs:
+  rebuild:
+    runs-on: self-hosted
+    steps:
+      - id: rebuild
+        uses: suranc/build-free-ibmcloud-k8s-cluster@v1.0.0
+        with:
+          ibmcloud-apikey: ${{ secrets.IBMCLOUD_APIKEY }}
+          cluster-name: ibmk8s
+      - uses: umahmood/pushover-actions@main
+        env:
+          PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_TOKEN }}
+          PUSHOVER_USER: ${{ secrets.PUSHOVER_USER }}
+        with:
+          status: ${{ job.status }}
+          title: 'ibm k8s created'
+          message: '${{ steps.rebuild.outputs.ingress-ip }}:${{ steps.rebuild.outputs.ingress-port }}'
