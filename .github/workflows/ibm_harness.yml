@@ -1,0 +1,41 @@
+name: ibm_harness
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deplo:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install IBM Cloud CLI
+        run: |
+          curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+          ibmcloud --version
+          ibmcloud config --check-version=false
+          ibmcloud plugin install -f container-service
+          ibmcloud login --apikey "${{ secrets.IBMCLOUD_APIKEY}}" -r "us-south"
+          ibmcloud ks cluster config -c ibmk8s
+
+      - uses: deliverybot/helm@v1
+        with:
+          release: ibm
+          namespace: harness-delegate-ng
+          repo: 'https://app.harness.io/storage/harness-download/harness-helm-charts'
+          repo-alias: harness
+          chart: harness/harness-delegate-ng
+          values: |
+            accountId: -N_5zBuvRm2gzVAaNZ64lQ
+            delegateToken: ${{ secrets.HARNESS_DELEGATE_TOKEN }}
+            delegateName: ibm
+            delegateDockerImage: harness/delegate-immutable:22.10.77021
+            managerEndpoint: https://app.harness.io/gratis
+            k8sPermissionsType: CLUSTER_ADMIN
+            replicas: 1
+            cpu: 0.5
+            memory: 2048
+            initScript: ""
+            javaOpts: "-Xms64M"
+            securityContext:
+              runAsRoot: true
