@@ -18,7 +18,7 @@ jobs:
           ibmcloud login --apikey "${{ secrets.IBMCLOUD_APIKEY}}" -r "us-south"
           ibmcloud ks cluster config -c ibmk8s
 
-      - uses: deliverybot/helm@v1
+      - uses: headout/helm@v1.7.4
         with:
           release: ibm
           namespace: harness-delegate-ng
