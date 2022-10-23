@@ -10,19 +10,18 @@
     #     name: sqlite3
     #     state: latest
     #     update_cache: yes
-    #   when: dst_full
 
-    # - name: install pip3
-    #   package:
-    #     name: python3-pip
-    #     state: latest
-    #     update_cache: yes
-    #   when: pull
+    - name: install pip3
+      package:
+        name: python3-pip
+        state: latest
+        update_cache: yes
+      when: pull
 
-    # - name: Install boto3
-    #   pip:
-    #     name: boto3
-    #   when: pull
+    - name: Install boto3
+      pip:
+        name: boto3
+      when: pull
 
     - name: create dst dir
       file: 
@@ -30,29 +29,25 @@
         path: /etc/discord-stock-ticker
         owner: root
         group: root
-      when: dst_full
 
     - name: Download dst
       get_url:
         url: "https://github.com/rssnyder/discord-stock-ticker/releases/download/v{{ ticker_version }}/discord-stock-ticker_{{ ticker_version }}_linux_{{ arch }}.tar.gz"
         dest: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
         mode: '0700'
-      when: dst_full
 
     - name: Extract dst
       unarchive:
         remote_src: yes
         src: "/etc/discord-stock-ticker-{{ ticker_version }}.tar.gz"
         dest: /etc/discord-stock-ticker/
-      when: dst_full
     
     - name: copy service config
       template: 
         src: dst.service.j2
         dest: "/etc/systemd/system/{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
-      when: dst_full
-      # when: item.key == client
+      when: client is not defined or item.key == client
     
     - name: Pull state
       amazon.aws.aws_s3:
@@ -66,19 +61,35 @@
         mode: get
       loop: "{{ clients | dict2items }}"
       when: pull
-  
-    - name: reload
-      shell:
-        cmd: systemctl daemon-reload
       
     - name: Start dst
       systemd:
         state: restarted
         name: "{{ item.key }}.service"
+        daemon_reload: yes
       loop: "{{ clients | dict2items }}"
-      # when: item.key == client
-      # loop_control:
-      #   pause: 100
+      loop_control:
+        pause: 3
+      when: client is not defined or item.key == client
+    
+    # upgrade for 3.11.0
+    - name: inject gas apiToken
+      shell:
+        cmd: |
+          sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set apiToken = "{{ zapper_token }}" where network = "binance-smart-chain"'
+          sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set apiToken = "{{ zapper_token }}" where network = "polygon"'
+      loop: "{{ clients | dict2items }}"
+      when: client is not defined or item.key == client
+
+    - name: Start dst
+      systemd:
+        state: restarted
+        name: "{{ item.key }}.service"
+        daemon_reload: yes
+      loop: "{{ clients | dict2items }}"
+      loop_control:
+        pause: 3
+      when: client is not defined or item.key == client
 
     - name: restart journalctl
       systemd:

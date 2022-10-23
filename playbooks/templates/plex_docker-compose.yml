@@ -203,19 +203,20 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
   
-  # pigallery2:
-  #   image: bpatrik/pigallery2:latest
-  #   container_name: pigallery2
-  #   environment:
-  #     - NODE_ENV=production
-  #   volumes:
-  #     - $APPDATA/pigallery2:/app/data/config
-  #     - pigallery2:/app/data/db
-  #     - /mnt/trash/backup/syncthing/phone-camera:/app/data/images:ro
-  #     - /mnt/trash/backup/syncthing/phone-photos:/app/data/images1:ro
-  #   ports:
-  #     - 8345:80
-  #   restart: always
+  pigallery2:
+    image: bpatrik/pigallery2:latest
+    container_name: pigallery2
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - $APPDATA/pigallery2:/app/data/config
+      - pigallery2:/app/data/db
+      - /bucket/backup/syncthing/phone-camera:/app/data/images/camera:ro
+      - /bucket/backup/syncthing/phone-pictures:/app/data/images/pictures:ro
+      - /bucket/photos:/app/data/images/old:ro
+    ports:
+      - 8345:80
+    restart: always
   
   # ispy:
   #   container_name: ispy

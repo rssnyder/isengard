@@ -1,4 +1,4 @@
-rileysnyder.org {
+www.rileysnyder.org {
     respond "
 contact
 +---------+---------------------+
@@ -11,10 +11,11 @@ contact
 | xbox    | jonesbooned         |
 +---------+---------------------+
 
+sites
 +------------------+---------------------------------------------------------+--------+
 |     service      |                           url                           | public |
 +------------------+---------------------------------------------------------+--------+
-| github           | <a href="code.rileysnyder.org">code.rileysnyder.org</a> | true   |
+| github           | code.rileysnyder.org                                    | true   |
 | music playlists  | music.rileysnyder.org                                   | true   |
 | send files       | send.rileysnyder.org                                    | true   |
 | minecraft        | minecraft.rileysnyder.org                               | true   |

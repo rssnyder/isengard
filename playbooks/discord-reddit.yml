@@ -22,7 +22,7 @@
         service_env:
           - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
           - "SUBREDDIT=hardwareswap"
-          - "POST_TEXT=f97;framework;deskmini;deskmeet"
+          - "POST_TEXT='f97;framework;deskmini;deskmeet;nest audio'"
         timer_desc: discord-reddit-posts-hardwareswap
         timer_minutes: 5
         timer_delay: 60
