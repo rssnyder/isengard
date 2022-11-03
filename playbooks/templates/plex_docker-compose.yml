@@ -230,6 +230,18 @@ services:
   #   network_mode: host
   #   restart: unless-stopped
 
+  cleaner:
+    image: cwq1913/lama-cleaner:cpu-0.24.4
+    container_name: cleaner
+    command: lama-cleaner --device=cpu --port=8080 --host=0.0.0.0
+    ports:
+      - 9222:8080
+    volumes:
+      - torch:/root/.cache/torch
+      - huggingface:/root/.cache/huggingface
+
 volumes:
   send-redis:
   pigallery2:
+  torch:
+  huggingface:

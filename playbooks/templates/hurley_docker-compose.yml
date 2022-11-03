@@ -226,18 +226,8 @@ services:
     environment:
       ALLOW_UNSECURED_MODE: 'true'
 
-  pve-exporter:
-    build: $APPDATA/prometheus-pve-exporter
-    container_name: pve-exporter
-    ports:
-      - 9221:9221
-    environment:
-      PVE_USER: root@pam
-      PVE_TOKEN_NAME: exporter
-      PVE_TOKEN_VALUE: ${PVE_TOKEN_VALUE}
-      PVE_VERIFY_SSL: false
-
 volumes:
   db:
     driver: local
   pigallery2:
+  

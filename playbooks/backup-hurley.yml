@@ -1,0 +1,18 @@
+---
+- name: Backup hurley
+  hosts: hurley
+  become: yes
+
+  tasks:
+
+    - name: Compress wireguard config
+      archive:
+        path: /etc/wireguard
+        dest: /tmp/wireguard.tgz
+
+    - name: Send to backup
+      synchronize:
+        src: /tmp/wireguard.tgz
+        dest: /bucket/backup/wireguard.tgz
+        mode: pull
+      delegate_to: kate

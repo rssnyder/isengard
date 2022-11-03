@@ -20,6 +20,7 @@ sites
 | send files       | send.rileysnyder.org                                    | true   |
 | minecraft        | minecraft.rileysnyder.org                               | true   |
 | photos           | photos.rileysnyder.org                                  | true   |
+| lama-cleaner     | eraser.rileysnyder.org                                  | true   |
 | grafana          | metrics.rileysnyder.org                                 | false  |
 | object store     | s3.rileysnyder.org                                      | false  |
 | bulk storage     | files.rileysnyder.org                                   | false  |
@@ -82,6 +83,10 @@ parson.tesla.rileysnyder.org {
 
 send.rileysnyder.org {
     reverse_proxy 192.168.0.11:8383
+}
+
+eraser.rileysnyder.org {
+    reverse_proxy 192.168.0.11:9222
 }
 
 cameras.rileysnyder.org {

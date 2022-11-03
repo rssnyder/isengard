@@ -111,6 +111,18 @@ resource "pihole_dns_record" "cameras" {
   ip     = var.instances["hurley-local"].ip
 }
 
+resource "digitalocean_record" "eraser" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "eraser"
+  value  = var.instances["hurley"].ip
+}
+
+resource "pihole_dns_record" "eraser" {
+  domain = "monitor.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["kate"].ip
+}
+
 # resource "digitalocean_record" "github_pages" {
 #   domain = digitalocean_domain.rileysnyder_org.name
 #   type   = "TXT"
