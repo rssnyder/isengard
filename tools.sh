@@ -69,7 +69,7 @@ function newcrypto () {
 
 function newstock () {
   ###
-  # newstock <ip>:<port> <id>
+  # newstock <ip>:<port> <id> <name>
   ###
 
   newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
@@ -79,6 +79,7 @@ function newstock () {
   curl -s -X POST $1/ticker --data "
   {
     \"ticker\": \"$2\",
+    \"name\": \"$3\",
     \"color\": true,
     \"frequency\": 10,
     \"nickname\": true,

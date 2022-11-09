@@ -119,8 +119,20 @@ resource "digitalocean_record" "eraser" {
 }
 
 resource "pihole_dns_record" "eraser" {
-  domain = "monitor.${digitalocean_domain.rileysnyder_org.name}"
+  domain = "eraser.${digitalocean_domain.rileysnyder_org.name}"
   ip     = var.instances["kate"].ip
+}
+
+resource "digitalocean_record" "notify" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "notify"
+  value  = var.instances["hurley"].ip
+}
+
+resource "pihole_dns_record" "notify" {
+  domain = "monitor.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["hurley-local"].ip
 }
 
 # resource "digitalocean_record" "github_pages" {

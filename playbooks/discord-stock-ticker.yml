@@ -68,8 +68,8 @@
         name: "{{ item.key }}.service"
         daemon_reload: yes
       loop: "{{ clients | dict2items }}"
-      loop_control:
-        pause: 3
+      # loop_control:
+      #   pause: 3
       when: client is not defined or item.key == client
     
     # upgrade for 3.11.0
@@ -87,8 +87,8 @@
         name: "{{ item.key }}.service"
         daemon_reload: yes
       loop: "{{ clients | dict2items }}"
-      loop_control:
-        pause: 3
+      # loop_control:
+      #   pause: 3
       when: client is not defined or item.key == client
 
     - name: restart journalctl

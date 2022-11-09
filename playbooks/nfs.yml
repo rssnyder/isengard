@@ -1,6 +1,6 @@
 ---
 - name: Install k3s deps
-  hosts: k3s
+  hosts: cornelius
   become: yes
 
   tasks:
