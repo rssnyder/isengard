@@ -135,6 +135,18 @@ resource "pihole_dns_record" "notify" {
   ip     = var.instances["hurley-local"].ip
 }
 
+resource "digitalocean_record" "vscode" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "vscode"
+  value  = var.instances["hurley"].ip
+}
+
+resource "pihole_dns_record" "vscode" {
+  domain = "vscode.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["hurley-local"].ip
+}
+
 # resource "digitalocean_record" "github_pages" {
 #   domain = digitalocean_domain.rileysnyder_org.name
 #   type   = "TXT"
