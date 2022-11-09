@@ -131,7 +131,7 @@ resource "digitalocean_record" "notify" {
 }
 
 resource "pihole_dns_record" "notify" {
-  domain = "monitor.${digitalocean_domain.rileysnyder_org.name}"
+  domain = "notify.${digitalocean_domain.rileysnyder_org.name}"
   ip     = var.instances["hurley-local"].ip
 }
 
