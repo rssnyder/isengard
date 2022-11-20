@@ -86,7 +86,7 @@ services:
       OMADA_INSECURE: "true"
 
   postgres:
-    image: postgres
+    image: postgres:14
     container_name: postgres
     restart: always
     environment:

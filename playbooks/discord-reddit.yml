@@ -22,7 +22,7 @@
         service_env:
           - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
           - "SUBREDDIT=hardwareswap"
-          - "POST_TEXT='f97;framework;deskmini;deskmeet;nest audio'"
+          - "POST_TEXT='f97;framework;deskmini;deskmeet;thinkstation;dualup;5700g;air75'"
         timer_desc: discord-reddit-posts-hardwareswap
         timer_minutes: 5
         timer_delay: 60
@@ -67,7 +67,7 @@
         service_env:
           - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
           - "SUBREDDIT=mechmarket"
-          - "POST_TEXT=f97"
+          - "POST_TEXT=f97;air75"
         timer_desc: discord-reddit-posts-mechmarket
         timer_minutes: 5
         timer_delay: 60
@@ -112,7 +112,7 @@
         service_env:
           - "WEBHOOK_URL={{ reddit_notifications_webhook }}"
           - "SUBREDDIT=buildapcsales"
-          - "POST_TITLE=4k"
+          - "POST_TEXT='f97;framework;deskmini;deskmeet;thinkstation;dualup;5700g;air75'"
         timer_desc: discord-reddit-posts-buildapcsales
         timer_minutes: 5
         timer_delay: 60

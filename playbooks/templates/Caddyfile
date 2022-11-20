@@ -62,10 +62,6 @@ public.rileysnyder.org {
     reverse_proxy 192.168.0.3:8081
 }
 
-vscode.rileysnyder.org {
-    reverse_proxy 192.168.0.3:6969
-}
-
 requests.rileysnyder.org {
     reverse_proxy 192.168.0.11:5055
 }
@@ -91,6 +87,10 @@ eraser.rileysnyder.org {
 
 notify.rileysnyder.org {
     reverse_proxy 192.168.0.3:8572
+}
+
+vscode.rileysnyder.org {
+    reverse_proxy 192.168.0.2:8080
 }
 
 cameras.rileysnyder.org {

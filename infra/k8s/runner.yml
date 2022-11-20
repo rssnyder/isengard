@@ -1,3 +1,10 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: actions-runner-system
+
+---
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
