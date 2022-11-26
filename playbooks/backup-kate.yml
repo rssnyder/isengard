@@ -31,3 +31,4 @@
         cmd: |
           rclone -vP copy /bucket/media/books/ crypt:media/books/
           rclone -vP copy /bucket/frigate/     crypt:frigate/
+          rclone -vP copy photos               crypt:photos

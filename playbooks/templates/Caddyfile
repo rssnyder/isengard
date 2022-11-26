@@ -1,3 +1,42 @@
+rileysnyder.org {
+    respond "
+contact
++---------+---------------------+
+| website |       handle        |
++---------+---------------------+
+| email   | rileysndr@gmail.com |
+| github  | rssnyder            |
+| linkdin | rileysnyder         |
+| discord | jonesbooned#1111    |
+| xbox    | jonesbooned         |
++---------+---------------------+
+
+sites
++------------------+---------------------------------------------------------+--------+
+|     service      |                           url                           | public |
++------------------+---------------------------------------------------------+--------+
+| github           | code.rileysnyder.org                                    | true   |
+| music playlists  | music.rileysnyder.org                                   | true   |
+| send files       | send.rileysnyder.org                                    | true   |
+| minecraft        | minecraft.rileysnyder.org                               | true   |
+| photos           | photos.rileysnyder.org                                  | true   |
+| lama-cleaner     | eraser.rileysnyder.org                                  | true   |
+| grafana          | metrics.rileysnyder.org                                 | false  |
+| object store     | s3.rileysnyder.org                                      | false  |
+| bulk storage     | files.rileysnyder.org                                   | false  |
+| plex requests    | requests.rileysnyder.org                                | false  |
+| security cameras | cameras.rileysnyder.org                                 | false  |
+| qbittorrent      | kate:7001                                               | false  |
+| sonarr           | kate:7002                                               | false  |
+| radarr           | kate:7003                                               | false  |
+| deluge           | kate:8112                                               | false  |
+| prowlarr         | kate:9696                                               | false  |
+| tautulli         | kate:8181                                               | false  |
+| syncthing        | kate:8384                                               | false  |
++------------------+---------------------------------------------------------+--------+
+"
+}
+
 www.rileysnyder.org {
     respond "
 contact

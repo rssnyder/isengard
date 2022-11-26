@@ -14,6 +14,13 @@ resource "digitalocean_record" "instance" {
 resource "digitalocean_record" "root" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
+  name   = "@"
+  value  = var.instances["hurley"].ip
+}
+
+resource "digitalocean_record" "www" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
   name   = "www"
   value  = var.instances["hurley"].ip
 }
@@ -178,20 +185,12 @@ module "photos" {
   url       = "https://github.com/rssnyder/photos"
 }
 
-module "dst" {
+module "bots" {
   source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
 
   domain    = "rileysnyder.org"
-  subdomain = "dst"
+  subdomain = "bots"
   url       = "https://github.com/rssnyder/discord-stock-ticker"
-}
-
-module "payment" {
-  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
-
-  domain    = "rileysnyder.org"
-  subdomain = "payment"
-  url       = "https://gist.github.com/rssnyder/dbee0125c53cebb3564d72f23b5dfce1"
 }
 
 resource "pihole_dns_record" "kate" {
