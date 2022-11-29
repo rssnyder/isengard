@@ -1,6 +1,6 @@
 ---
 - name: Discord bot for pancakeswap sales/listings
-  hosts: oca0
+  hosts: oca1
   become: yes
 
   tasks:

@@ -1,6 +1,6 @@
 ---
 - name: Backup discord-stock-ticker
-  hosts: do
+  hosts: do,oc
   become: yes
 
   tasks:

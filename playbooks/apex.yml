@@ -1,6 +1,6 @@
 ---
 - name: Discord bot for Apex | Juice Team#9572 261301280637452289
-  hosts: oca0
+  hosts: oca1
   become: yes
 
   tasks:
@@ -13,6 +13,7 @@
         service_desc: apex-discord-bot
         service_opts: "--refresh 300 --status 1 --token '{{ apex_token }}'"
         service_type: simple
+        service_binary: discord-bot
 
     - name: create service dir
       file: 
@@ -61,6 +62,7 @@
         service_desc: apex-tyranno-discord-bot
         service_opts: "--refresh 300 --status 1 --token '{{ apex_tyranno_token }}'"
         service_type: simple
+        service_binary: discord-bot
 
     - name: move
       copy:
@@ -84,32 +86,32 @@
         name: "{{ service_name }}"
         enabled: yes
 
-    - name: set service info
-      set_fact:
-        service_name: apex-pinata-discord-bot
-        service_desc: apex-pinata-discord-bot
-        service_opts: "--refresh 300 --status 1 --token '{{ apex_pinata_token }}'"
-        service_type: simple
+    # - name: set service info
+    #   set_fact:
+    #     service_name: apex-pinata-discord-bot
+    #     service_desc: apex-pinata-discord-bot
+    #     service_opts: "--refresh 300 --status 1 --token '{{ apex_pinata_token }}'"
+    #     service_type: simple
 
-    - name: move
-      copy:
-        remote_src: yes
-        src: "/etc/{{ app_name }}/{{ app_name }}"
-        dest: "/etc/{{ app_name }}/{{ service_name }}"
-        mode: '0700'
+    # - name: move
+    #   copy:
+    #     remote_src: yes
+    #     src: "/etc/{{ app_name }}/{{ app_name }}"
+    #     dest: "/etc/{{ app_name }}/{{ service_name }}"
+    #     mode: '0700'
     
-    - name: copy service file
-      template: 
-        src: templates/service.j2
-        dest: "/etc/systemd/system/{{ service_name }}.service"
+    # - name: copy service file
+    #   template: 
+    #     src: templates/service.j2
+    #     dest: "/etc/systemd/system/{{ service_name }}.service"
     
-    - name: reload
-      shell:
-        cmd: systemctl daemon-reload
+    # - name: reload
+    #   shell:
+    #     cmd: systemctl daemon-reload
     
-    - name: start
-      systemd:
-        state: started
-        name: "{{ service_name }}"
-        enabled: yes
+    # - name: start
+    #   systemd:
+    #     state: started
+    #     name: "{{ service_name }}"
+    #     enabled: yes
   

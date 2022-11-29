@@ -10,7 +10,7 @@
         state: stopped
         name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
-      when: item.key == client
+      when: client is not defined or item.key == client
     
     - name: Backup DB
       amazon.aws.aws_s3:
@@ -25,11 +25,11 @@
         mode: put
         permission: []
       loop: "{{ clients | dict2items }}"
-      when: item.key == client
+      when: client is not defined or item.key == client
 
     - name: delete service config
       file: 
         state: absent
         path: "/etc/systemd/system/{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
-      when: item.key == client
+      when: client is not defined or item.key == client

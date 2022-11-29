@@ -1,6 +1,6 @@
 ---
 - name: Discord bot for 0xJeremy | Alta Finance#6540 743198594420441208
-  hosts: do0
+  hosts: oca1
   become: yes
 
   tasks:
@@ -10,6 +10,7 @@
         app_name: discord-alta-finance
         version: 0.0.3
         service_name: "0xjeremy-discord-bot-tvl"
+        service_binary: "discord-alta-finance"
         service_desc: "0xjeremy-discord-bot-tvl"
         service_opts: "-token '{{ xjeremy_tvl_token }}' -refresh 300 -mode tvl"
         service_type: simple
@@ -60,6 +61,7 @@
         app_name: discord-alta-finance
         version: 0.0.3
         service_name: "0xjeremy-discord-bot-apr"
+        service_binary: "discord-alta-finance"
         service_desc: "0xjeremy-discord-bot-apr"
         service_opts: "-token '{{ xjeremy_apr_token }}' -refresh 300 -mode apr"
     

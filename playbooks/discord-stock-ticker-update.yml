@@ -1,14 +1,20 @@
 ---
 - name: Update dst database
-  hosts: do
+  hosts: do,oc
   become: yes
 
   tasks:
 
-    - name: Stop dst
+    - name: install sqlite3
+      package:
+        name: sqlite3
+        state: latest
+        update_cache: yes
+
+    - name: modify db
       shell:
-        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false where name = "ripple"'
-        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = true'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false where name = "ripple"'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set name = "GOLD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = "" where name = "cult-dao"'
         #cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "USD", currencySymbol = "$" where name = "bitcoin"'
@@ -16,7 +22,7 @@
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
-          # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 2'
+          cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 3'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decorator = " "'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = "$SHUMI"'
         #        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 5 where name = "okidoki-social"'

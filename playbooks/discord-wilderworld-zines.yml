@@ -1,6 +1,6 @@
 ---
 - name: Discord bot for wilderworld zines
-  hosts: oca0
+  hosts: oca1
   become: yes
 
   tasks:

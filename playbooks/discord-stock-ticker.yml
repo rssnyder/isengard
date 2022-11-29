@@ -1,6 +1,6 @@
 ---
 - name: Install discord-stock-ticker
-  hosts: do,kate,oca0
+  hosts: do,oc
   become: yes
 
   tasks:

@@ -1,16 +1,23 @@
 ---
 - name: Install coingecko-cache
-  hosts: all
+  hosts: oca1
   become: yes
 
   tasks:
+
+    - name: copy metrics file
+      template: 
+        src: templates/metrics.j2
+        dest: "/etc/systemd/metrics.sh"
+        mode: 0777
 
     - name: set facts for service file
       set_fact:
         app_name: coingecko-cache
         service_name: "coingecko-cache"
+        service_binary: "coingecko-cache"
         service_desc: "cacheing coingecko data" 
-        service_opts: "-pages 4 -expiry 120 -frequency 2 pegaxy-stone vigorus cryptocars plant-vs-undead-token monsta-infinite"
+        service_opts: "-hostname oca0:6379 -pages 4 -expiry 120 -frequency 45 pegaxy-stone vigorus cryptocars plant-vs-undead-token monsta-infinite"
         service_type: simple
 
     - name: create coingecko-cache dir
@@ -46,15 +53,15 @@
         state: restarted
         name: "{{ service_name }}.service"
 
-    - name: install cron
-      package:
-        name: cron
-        state: latest
-        update_cache: yes
+    # - name: install cron
+    #   package:
+    #     name: cron
+    #     state: latest
+    #     update_cache: yes
 
-    - name: Purge system every hour
-      ansible.builtin.cron:
-        name: "reset cache"
-        minute: "0"
-        hour: "*"
-        job: "systemctl restart {{ service_name }}"
+    # - name: Purge system every hour
+    #   ansible.builtin.cron:
+    #     name: "reset cache"
+    #     minute: "0"
+    #     hour: "*"
+    #     job: "systemctl restart {{ service_name }}"

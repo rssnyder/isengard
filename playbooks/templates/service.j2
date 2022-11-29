@@ -5,8 +5,6 @@ AssertPathIsDirectory=/etc/{{ app_name }}
 [Service]
 Type={{ service_type }}
 SyslogIdentifier={{ service_name }}
-StandardOutput=syslog
-StandardError=syslog
 WorkingDirectory=/etc/{{ app_name }}
 {% if service_binary != None %}
 ExecStart=/etc/{{ app_name }}/{{ service_binary }} {{ service_opts }}
