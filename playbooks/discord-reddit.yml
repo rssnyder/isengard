@@ -24,8 +24,8 @@
           - "PUSHOVER_APP={{ reddit_notifications_app }}"
           - "PUSHOVER_USER={{ pushover_user }}"
           - "SUBREDDIT=hardwareswap"
-          - "POST_TEXT='f97;framework;deskmini;deskmeet;thinkstation;dualup;5700g;air75;5900x;x570'"
-          - "POST_AUTHOR='IcyBoysenberry6215;Desolate_puppy;Sendnation12'"
+          - "POST_TEXT='{{ reddit_keywords }}'"
+          # - "POST_AUTHOR='IcyBoysenberry6215;Desolate_puppy;Sendnation12'"
         timer_desc: discord-reddit-posts-hardwareswap
         timer_minutes: 5
         timer_delay: 60
@@ -119,7 +119,7 @@
           - "PUSHOVER_APP={{ reddit_notifications_app }}"
           - "PUSHOVER_USER={{ pushover_user }}"
           - "SUBREDDIT=buildapcsales"
-          - "POST_TEXT='f97;framework;deskmini;deskmeet;thinkstation;dualup;5700g;air75;5900x;x570'"
+          - "POST_TEXT='{{ reddit_keywords }}'"
         timer_desc: discord-reddit-posts-buildapcsales
         timer_minutes: 5
         timer_delay: 60

@@ -162,7 +162,7 @@ resource "pihole_dns_record" "vscode" {
 # }
 
 module "music" {
-  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
   domain    = "rileysnyder.org"
   subdomain = "music"
@@ -170,7 +170,7 @@ module "music" {
 }
 
 module "code" {
-  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
   domain    = "rileysnyder.org"
   subdomain = "code"
@@ -178,7 +178,7 @@ module "code" {
 }
 
 module "photos" {
-  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
   domain    = "rileysnyder.org"
   subdomain = "photos"
@@ -186,7 +186,7 @@ module "photos" {
 }
 
 module "bots" {
-  source = "github.com/rssnyder/digitalocean_domain_redirect?ref=v0.1.0"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
   domain    = "rileysnyder.org"
   subdomain = "bots"
