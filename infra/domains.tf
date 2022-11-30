@@ -154,6 +154,30 @@ resource "pihole_dns_record" "vscode" {
   ip     = var.instances["hurley-local"].ip
 }
 
+resource "digitalocean_record" "cds" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "cds"
+  value  = var.instances["hurley"].ip
+}
+
+resource "pihole_dns_record" "cds" {
+  domain = "cds.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["hurley-local"].ip
+}
+
+resource "digitalocean_record" "harrypottermoviepicker" {
+  domain = digitalocean_domain.rileysnyder_org.name
+  type   = "A"
+  name   = "harrypottermoviepicker"
+  value  = var.instances["hurley"].ip
+}
+
+resource "pihole_dns_record" "harrypottermoviepicker" {
+  domain = "harrypottermoviepicker.${digitalocean_domain.rileysnyder_org.name}"
+  ip     = var.instances["hurley-local"].ip
+}
+
 # resource "digitalocean_record" "github_pages" {
 #   domain = digitalocean_domain.rileysnyder_org.name
 #   type   = "TXT"

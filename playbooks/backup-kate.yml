@@ -16,10 +16,10 @@
     #     cmd: docker-compose down && tar -czvf /bucket/backup/users/kate_plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
     #   become: yes
 
-    # - name: download photos
-    #   shell:
-    #     cmd: |
-    #       rclone -P copy photos: /bucket/backup/Photos/google/
+    - name: download photos
+      shell:
+        cmd: |
+          rclone -P copy photos: /bucket/photos/google/
 
     - name: sync
       shell:
@@ -30,5 +30,4 @@
       shell:
         cmd: |
           rclone -vP copy /bucket/media/books/ crypt:media/books/
-          rclone -vP copy /bucket/frigate/     crypt:frigate/
-          rclone -vP copy photos               crypt:photos
+          rclone -vP copy /bucket/photos       crypt:photos

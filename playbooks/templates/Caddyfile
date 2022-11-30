@@ -132,6 +132,14 @@ vscode.rileysnyder.org {
     reverse_proxy 192.168.0.2:8080
 }
 
+cds.rileysnyder.org {
+    reverse_proxy 192.168.0.3:9876
+}
+
+harrypottermoviepicker.rileysnyder.org {
+    reverse_proxy 192.168.0.3:9877
+}
+
 cameras.rileysnyder.org {
     reverse_proxy * {
 		to 192.168.0.15:31348
