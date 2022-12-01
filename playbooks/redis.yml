@@ -1,6 +1,6 @@
 ---
 - name: Install redis
-  hosts: all
+  hosts: oca0
   become: yes
 
   tasks:

@@ -1,6 +1,6 @@
 ---
 - name: Update dst database
-  hosts: oc,kate
+  hosts: oc
   become: yes
 
   tasks:

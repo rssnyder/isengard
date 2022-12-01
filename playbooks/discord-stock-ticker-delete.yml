@@ -1,6 +1,6 @@
 ---
 - name: Remove discord-stock-ticker client
-  hosts: oc,kate
+  hosts: oc
   become: yes
 
   tasks:
