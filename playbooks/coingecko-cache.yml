@@ -17,7 +17,7 @@
         service_name: "coingecko-cache"
         service_binary: "coingecko-cache"
         service_desc: "cacheing coingecko data" 
-        service_opts: "-hostname oca0:6379 -pages 4 -expiry 120 -frequency 45 pegaxy-stone vigorus cryptocars plant-vs-undead-token monsta-infinite"
+        service_opts: "-hostname oca0:6379 -pages 131 -frequency 60 -expiry 3600 pegaxy-stone vigorus degem plant-vs-undead-token"
         service_type: simple
 
     - name: create coingecko-cache dir

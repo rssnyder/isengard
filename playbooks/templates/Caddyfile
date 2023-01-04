@@ -91,7 +91,7 @@ minecraft.rileysnyder.org {
 }
 
 files.rileysnyder.org {
-    reverse_proxy 192.168.0.11:8080
+    reverse_proxy 192.168.0.6:8080
     basicauth * {
         friend JDJhJDE0JExhTTFNVFhteVlhYXBZWTl4b0lwTXVtVDZ4a09VTkpDWVpTazZLV2tBN0x6NkN6RE1vNHJl
     }
@@ -102,7 +102,7 @@ public.rileysnyder.org {
 }
 
 requests.rileysnyder.org {
-    reverse_proxy 192.168.0.11:5055
+    reverse_proxy 192.168.0.6:5055
 }
 
 pushmetrics.rileysnyder.org {
@@ -117,11 +117,11 @@ parson.tesla.rileysnyder.org {
 }
 
 send.rileysnyder.org {
-    reverse_proxy 192.168.0.11:8383
+    reverse_proxy 192.168.0.6:8383
 }
 
 eraser.rileysnyder.org {
-    reverse_proxy 192.168.0.11:9222
+    reverse_proxy 192.168.0.6:9222
 }
 
 notify.rileysnyder.org {

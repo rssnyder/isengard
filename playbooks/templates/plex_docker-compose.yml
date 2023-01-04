@@ -39,13 +39,13 @@ services:
       - "7001:7001"
       - "8118:8118"
     environment:
-      VPN_ENABLED: yes
+      VPN_ENABLED: "yes"
       VPN_USER: "${VPN_USER}"
       VPN_PASS: "${VPN_PASS}"
       VPN_PROV: pia
       VPN_CLIENT: wireguard
-      STRICT_PORT_FORWARD: yes
-      ENABLE_PRIVOXY: yes
+      STRICT_PORT_FORWARD: "yes"
+      ENABLE_PRIVOXY: "yes"
       LAN_NETWORK: "192.168.0.0/24"
       NAME_SERVERS: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
       WEBUI_PORT: 7001
@@ -60,12 +60,12 @@ services:
     ports:
       - "8119:8119"
     environment:
-      QBITTORRENT_HOST: "192.168.0.11"
+      QBITTORRENT_HOST: "192.168.0.6"
       QBITTORRENT_PORT: 7001
       EXPORTER_PORT: 8119
       QBITTORRENT_USER: admin
       QBITTORRENT_PASS: "${QBITTORRENT_PASS}"
-      VERIFY_WEBUI_CERTIFICATE: false
+      VERIFY_WEBUI_CERTIFICATE: "false"
 
   sonarr:
     image: ghcr.io/linuxserver/sonarr
@@ -108,24 +108,6 @@ services:
       - $APPDATA/prowlarr:/config
     ports:
       - 9696:9696
-    restart: unless-stopped
-
-  deluge:
-    image: linuxserver/deluge
-    container_name: deluge
-    environment:
-      PUID: 65534
-      PGID: 1001
-      TZ: America/Chicago
-      VPN_ENABLED: no
-    volumes:
-      - $APPDATA/deluge:/config
-      - /bucket/media/books:/downloads
-    ports:
-      - "8112:8112"
-      - "8117:8118"
-      - "58846:58846"
-      - "58946:58946"
     restart: unless-stopped
 
   overseerr:
@@ -211,9 +193,7 @@ services:
     volumes:
       - $APPDATA/pigallery2:/app/data/config
       - pigallery2:/app/data/db
-      - /bucket/backup/syncthing/phone-camera:/app/data/images/camera:ro
-      - /bucket/backup/syncthing/phone-pictures:/app/data/images/pictures:ro
-      - /bucket/photos:/app/data/images/old:ro
+      - /bucket/photos:/app/data/images:ro
     ports:
       - 8345:80
     restart: always
@@ -230,15 +210,15 @@ services:
   #   network_mode: host
   #   restart: unless-stopped
 
-  cleaner:
-    image: cwq1913/lama-cleaner:cpu-0.24.4
-    container_name: cleaner
-    command: lama-cleaner --device=cpu --port=8080 --host=0.0.0.0
-    ports:
-      - 9222:8080
-    volumes:
-      - torch:/root/.cache/torch
-      - huggingface:/root/.cache/huggingface
+  # cleaner:
+  #   image: cwq1913/lama-cleaner:cpu-0.24.4
+  #   container_name: cleaner
+  #   command: lama-cleaner --device=cpu --port=8080 --host=0.0.0.0
+  #   ports:
+  #     - 9222:8080
+  #   volumes:
+  #     - torch:/root/.cache/torch
+  #     - huggingface:/root/.cache/huggingface
 
 volumes:
   send-redis:

@@ -5,26 +5,18 @@
 
   tasks:
 
-    # - name: backup riley
-    #   shell:
-    #    chdir: /home/riley
-    #    cmd: tar -czvf /bucket/backup/kate_riley.$(date +%m.%y).tar.gz /home/riley
-
     # - name: backup plex
     #   shell:
     #     chdir: /home/plex
     #     cmd: docker-compose down && tar -czvf /bucket/backup/users/kate_plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
     #   become: yes
 
-    - name: download photos
-      shell:
-        cmd: |
-          rclone -P copy photos: /bucket/photos/google/
-
     - name: sync
       shell:
         cmd: |
           rclone sync /bucket/backup crypt:archive/backup
+          rsync -ar --delete /bucket/backup charlie:/pale/bucket/
+          rsync -ar --delete /bucket/media/syndicated charlie:/pale/bucket/
     
     - name: copy
       shell:

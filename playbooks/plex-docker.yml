@@ -1,6 +1,6 @@
 ---
 - name: Docker config
-  hosts: kate
+  hosts: cornelius
   become: yes
   tasks:
     

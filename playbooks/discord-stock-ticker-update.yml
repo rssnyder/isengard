@@ -22,7 +22,7 @@
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
-          cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 3'
+          cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 4'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decorator = " "'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = "$SHUMI"'
         #        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 5 where name = "okidoki-social"'

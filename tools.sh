@@ -21,19 +21,19 @@ function addbot () {
   # addbot <id> <token>
   ###
 
-  curl -X PUT -s "kate:7777/bot/free?bot_id=$1"  | jq -e '.id' || curl -X POST -s "kate:7777/bot/store?bot_id=$1&bot_token=$2" | jq -e '.id'
+  curl -X PUT -s "hurley:7777/bot/free?bot_id=$1"  | jq -e '.id' || curl -X POST -s "hurley:7777/bot/store?bot_id=$1&bot_token=$2" | jq -e '.id'
 }
 
 function newbots () {
-  curl -setting "kate:7777/bot/unclaimed" | jq .
+  curl -setting "hurley:7777/bot/unclaimed" | jq .
 }
 
 function popnewbot () {
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $newbot | jq .
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newcrypto () {
@@ -41,7 +41,7 @@ function newcrypto () {
   # newcrypto <ip>:<port> <id>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -57,8 +57,8 @@ function newcrypto () {
     \"client_id\": \"$id\"
   }
   "  | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
-  curl -X PUT -s "kate:7777/bot/photo?bot_id=$id&photo_url=$(curl -s https://api.coingecko.com/api/v3/coins/$2 | jq -r .image.large | cut -d'?' -f1)"
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/photo?bot_id=$id&photo_url=$(curl -s https://api.coingecko.com/api/v3/coins/$2 | jq -r .image.large | cut -d'?' -f1)"
 }
 
 # \"currency\": \"BRL\",
@@ -72,7 +72,7 @@ function newstock () {
   # newstock <ip>:<port> <id> <name>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -87,7 +87,7 @@ function newstock () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newgas () {
@@ -95,7 +95,7 @@ function newgas () {
   # newgas <ip>:<port> <network>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -108,7 +108,7 @@ function newgas () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newmarketcap () {
@@ -116,7 +116,7 @@ function newmarketcap () {
   # newmarketcap <ip>:<port> <id>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -133,8 +133,8 @@ function newmarketcap () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
-  curl -X PUT -s "kate:7777/bot/photo?bot_id=$id&photo_url=$(curl -s https://api.coingecko.com/api/v3/coins/$2 | jq -r .image.large | cut -d'?' -f1)"
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/photo?bot_id=$id&photo_url=$(curl -s https://api.coingecko.com/api/v3/coins/$2 | jq -r .image.large | cut -d'?' -f1)"
 }
 
 function newcirculating () {
@@ -142,7 +142,7 @@ function newcirculating () {
   # newcirculating <ip>:<port> <id>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -158,7 +158,7 @@ function newcirculating () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newtotalvaluelocked () {
@@ -166,7 +166,7 @@ function newtotalvaluelocked () {
   # newtotalvaluelocked <ip>:<port> <id>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -183,7 +183,7 @@ function newtotalvaluelocked () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newfloor () {
@@ -191,7 +191,7 @@ function newfloor () {
   # newfloor <ip>:<port> <marketplace> <collection>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -205,7 +205,7 @@ function newfloor () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newtoken () {
@@ -213,7 +213,7 @@ function newtoken () {
   # newtoken <ip>:<port> <network> <address> <name> <source>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -229,7 +229,7 @@ function newtoken () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function newholders () {
@@ -237,7 +237,7 @@ function newholders () {
   # newholders <ip>:<port> <network> <address> <activity>
   ###
 
-  newbot=$(curl -s 'kate:7777/bot/get' | jq -c .)
+  newbot=$(curl -s 'hurley:7777/bot/get' | jq -c .)
   id=$(echo $newbot | jq -r .id)
   token=$(echo $newbot | jq -r .token)
   echo $id
@@ -252,7 +252,7 @@ function newholders () {
     \"client_id\": \"$id\"
   }
   " | jq -r '.client_id' | read id && echo "<https://discord.com/api/oauth2/authorize?permissions=335544320&scope=bot&client_id=$id>"
-  curl -X PUT -s "kate:7777/bot/claim?bot_id=$id" | jq -c .
+  curl -X PUT -s "hurley:7777/bot/claim?bot_id=$id" | jq -c .
 }
 
 function botimage () {
@@ -260,7 +260,7 @@ function botimage () {
   # botimage <id> <url>
   ###
 
-  curl -X PUT "kate:7777/bot/photo?bot_id=$1&photo_url=$2"
+  curl -X PUT "hurley:7777/bot/photo?bot_id=$1&photo_url=$2"
 }
 
 function tokentest () {

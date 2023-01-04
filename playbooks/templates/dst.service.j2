@@ -8,8 +8,8 @@ StartLimitBurst=3
 
 [Service]
 SyslogIdentifier={{ item.key  }}
-StandardOutput=syslog
-StandardError=syslog
+StandardOutput=journal
+StandardError=journal
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/etc/discord-stock-ticker/discord-stock-ticker -cache {% if item.key != "aryaspooks" %} -managed {% endif %} -logLevel=1 -address=0.0.0.0:{{ item.value }} -db=/etc/discord-stock-ticker/{{ item.key  }}.state {{ extra_dst_args }}
 Restart=always

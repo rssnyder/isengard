@@ -217,16 +217,16 @@ services:
       - $APPDATA/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
 
-  mosquitto:
-    image: eclipse-mosquitto
-    container_name: mosquitto
-    volumes:
-      - $APPDATA/mosquitto:/mosquitto
-    ports:
-      - 1883:1883
-      - 9002:9001
-    environment:
-      ALLOW_UNSECURED_MODE: 'true'
+  # mosquitto:
+  #   image: eclipse-mosquitto
+  #   container_name: mosquitto
+  #   volumes:
+  #     - $APPDATA/mosquitto:/mosquitto
+  #   ports:
+  #     - 1883:1883
+  #     - 9002:9001
+  #   environment:
+  #     ALLOW_UNSECURED_MODE: 'true'
 
   ntfy:
     image: binwiederhier/ntfy
@@ -253,6 +253,50 @@ services:
     container_name: harry-potter-picker
     ports:
       - "9877:80"
+
+  signal:
+    image: bbernhard/signal-cli-rest-api
+    container_name: signal
+    restart: unless-stopped
+    command:
+      - serve
+    environment:
+      MODE: native
+      AUTO_RECEIVE_SCHEDULE: 0 22 * * *
+    volumes:
+      - $APPDATA/signal:/home/.local/share/signal-cli
+    ports:
+      - 8911:8080
+
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+      VPN_ENABLED: "no"
+    volumes:
+      - $APPDATA/deluge:/config
+      - /mnt/media/books:/downloads
+    ports:
+      - "8112:8112"
+      - "8118:8118"
+      - "58846:58846"
+      - "58946:58946"
+  
+  discord-bot-manager:
+    build: $APPDATA/discord-bot-manager
+    container_name: discord-bot-manager
+    restart: unless-stopped
+    environment:
+      DB_HOST: "192.168.0.3"
+      DB_DB: "dst"
+      DB_USER: "dst_manager"
+      DB_PASS: ${DST_ADMIN_PASSWORD}
+    ports:
+      - "7777:7777"
 
 volumes:
   db:
