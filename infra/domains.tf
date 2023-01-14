@@ -47,7 +47,7 @@ resource "digitalocean_record" "s3" {
 
 resource "pihole_dns_record" "s3" {
   domain = "s3.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "pushmetrics" {
@@ -73,7 +73,7 @@ resource "digitalocean_record" "files" {
 
 resource "pihole_dns_record" "files" {
   domain = "files.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "requests" {
@@ -85,7 +85,7 @@ resource "digitalocean_record" "requests" {
 
 resource "pihole_dns_record" "requests" {
   domain = "requests.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "parson_tesla" {
@@ -104,7 +104,7 @@ resource "digitalocean_record" "send" {
 
 resource "pihole_dns_record" "send" {
   domain = "send.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "vscode" {
@@ -116,7 +116,7 @@ resource "digitalocean_record" "vscode" {
 
 resource "pihole_dns_record" "vscode" {
   domain = "vscode.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "cds" {
@@ -128,7 +128,7 @@ resource "digitalocean_record" "cds" {
 
 resource "pihole_dns_record" "cds" {
   domain = "cds.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "harrypottermoviepicker" {
@@ -140,7 +140,7 @@ resource "digitalocean_record" "harrypottermoviepicker" {
 
 resource "pihole_dns_record" "harrypottermoviepicker" {
   domain = "harrypottermoviepicker.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  ip     = var.instances["hurley"].ip
 }
 
 module "music" {
