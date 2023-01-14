@@ -2,14 +2,14 @@ variable "instances" {
   description = "Map of instances"
   type        = map(any)
   default = {
+    home = {
+      ip = "173.22.88.59"
+    }
     zira = {
       ip = "192.168.0.2"
     }
     cornelius = {
       ip = "192.168.0.6"
-    }
-    hurley-ext = {
-      ip = "173.22.88.59"
     }
     hurley = {
       ip = "192.168.0.3"

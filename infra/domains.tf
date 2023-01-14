@@ -19,14 +19,14 @@ resource "digitalocean_record" "root" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "@"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "digitalocean_record" "www" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "www"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 module "metrics" {
@@ -34,7 +34,7 @@ module "metrics" {
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "metrics"
-  public_ip  = var.instances["hurley-ext"].ip
+  public_ip  = var.instances["home"].ip
   private_ip = var.instances["hurley"].ip
 }
 
@@ -42,7 +42,7 @@ resource "digitalocean_record" "s3" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "s3"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "s3" {
@@ -54,21 +54,21 @@ resource "digitalocean_record" "pushmetrics" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "pushmetrics"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "digitalocean_record" "minecraft" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "minecraft"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "digitalocean_record" "files" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "files"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "files" {
@@ -80,7 +80,7 @@ resource "digitalocean_record" "requests" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "requests"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "requests" {
@@ -92,14 +92,14 @@ resource "digitalocean_record" "parson_tesla" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
   name   = "parson.tesla"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "digitalocean_record" "send" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "send"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "send" {
@@ -111,7 +111,7 @@ resource "digitalocean_record" "vscode" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "vscode"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "vscode" {
@@ -123,7 +123,7 @@ resource "digitalocean_record" "cds" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "cds"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "cds" {
@@ -135,7 +135,7 @@ resource "digitalocean_record" "harrypottermoviepicker" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "harrypottermoviepicker"
-  value  = var.instances["hurley"].ip
+  value  = var.instances["home"].ip
 }
 
 resource "pihole_dns_record" "harrypottermoviepicker" {
@@ -165,14 +165,4 @@ module "photos" {
   domain    = digitalocean_domain.rileysnyder_dev.name
   subdomain = "photos"
   url       = "https://github.com/rssnyder/photos"
-}
-
-resource "pihole_dns_record" "cornelius" {
-  domain = "cornelius.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["cornelius"].ip
-}
-
-resource "pihole_dns_record" "hurley" {
-  domain = "hurley.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
 }
