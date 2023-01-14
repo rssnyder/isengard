@@ -38,17 +38,14 @@ module "metrics" {
   private_ip = var.instances["hurley"].ip
 }
 
-resource "digitalocean_record" "s3" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "s3"
-  value  = var.instances["home"].ip
-}
+# module "s3" {
+#   source = "./domain"
 
-resource "pihole_dns_record" "s3" {
-  domain = "s3.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley"].ip
-}
+#   domain     = digitalocean_domain.rileysnyder_dev.name
+#   name       = "s3"
+#   public_ip  = var.instances["home"].ip
+#   private_ip = var.instances["hurley"].ip
+# }
 
 resource "digitalocean_record" "pushmetrics" {
   domain = digitalocean_domain.rileysnyder_org.name
@@ -64,29 +61,23 @@ resource "digitalocean_record" "minecraft" {
   value  = var.instances["home"].ip
 }
 
-resource "digitalocean_record" "files" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "files"
-  value  = var.instances["home"].ip
-}
+# module "files" {
+#   source = "./domain"
 
-resource "pihole_dns_record" "files" {
-  domain = "files.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley"].ip
-}
+#   domain     = digitalocean_domain.rileysnyder_dev.name
+#   name       = "files"
+#   public_ip  = var.instances["home"].ip
+#   private_ip = var.instances["hurley"].ip
+# }
 
-resource "digitalocean_record" "requests" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "requests"
-  value  = var.instances["home"].ip
-}
+# module "requests" {
+#   source = "./domain"
 
-resource "pihole_dns_record" "requests" {
-  domain = "requests.${digitalocean_domain.rileysnyder_org.name}"
-  ip     = var.instances["hurley"].ip
-}
+#   domain     = digitalocean_domain.rileysnyder_dev.name
+#   name       = "requests"
+#   public_ip  = var.instances["home"].ip
+#   private_ip = var.instances["hurley"].ip
+# }
 
 resource "digitalocean_record" "parson_tesla" {
   domain = digitalocean_domain.rileysnyder_org.name
@@ -95,29 +86,23 @@ resource "digitalocean_record" "parson_tesla" {
   value  = var.instances["home"].ip
 }
 
-resource "digitalocean_record" "send" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "send"
-  value  = var.instances["home"].ip
-}
+# module "send" {
+#   source = "./domain"
 
-resource "pihole_dns_record" "send" {
-  domain = "send.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley"].ip
-}
+#   domain     = digitalocean_domain.rileysnyder_dev.name
+#   name       = "send"
+#   public_ip  = var.instances["home"].ip
+#   private_ip = var.instances["hurley"].ip
+# }
 
-resource "digitalocean_record" "vscode" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "vscode"
-  value  = var.instances["home"].ip
-}
+# module "vscode" {
+#   source = "./domain"
 
-resource "pihole_dns_record" "vscode" {
-  domain = "vscode.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley"].ip
-}
+#   domain     = digitalocean_domain.rileysnyder_dev.name
+#   name       = "vscode"
+#   public_ip  = var.instances["home"].ip
+#   private_ip = var.instances["hurley"].ip
+# }
 
 resource "digitalocean_record" "cds" {
   domain = digitalocean_domain.rileysnyder_dev.name
@@ -126,21 +111,11 @@ resource "digitalocean_record" "cds" {
   value  = var.instances["home"].ip
 }
 
-resource "pihole_dns_record" "cds" {
-  domain = "cds.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley"].ip
-}
-
 resource "digitalocean_record" "harrypottermoviepicker" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "harrypottermoviepicker"
   value  = var.instances["home"].ip
-}
-
-resource "pihole_dns_record" "harrypottermoviepicker" {
-  domain = "harrypottermoviepicker.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley"].ip
 }
 
 module "music" {
