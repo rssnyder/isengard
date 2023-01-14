@@ -30,7 +30,7 @@ resource "digitalocean_record" "www" {
 }
 
 module "metrics" {
-  source = "${module.path}/domain"
+  source = "domain"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "metrics"

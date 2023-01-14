@@ -7,5 +7,5 @@ resource "digitalocean_record" "this" {
 
 resource "pihole_dns_record" "this" {
   domain = "${var.name}.${var.domain}"
-  ip     = var.local_ip
+  ip     = var.private_ip
 }
