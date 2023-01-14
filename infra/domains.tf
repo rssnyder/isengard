@@ -9,7 +9,7 @@ resource "digitalocean_domain" "rileysnyder_dev" {
 resource "digitalocean_record" "instance" {
   for_each = var.instances
 
-  domain = digitalocean_domain.rileysnyder_org.name
+  domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = each.key
   value  = each.value.ip
@@ -182,29 +182,29 @@ resource "pihole_dns_record" "harrypottermoviepicker" {
   ip     = var.instances["hurley-local"].ip
 }
 
-# module "music" {
-#   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+module "music" {
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
-#   domain    = digitalocean_domain.rileysnyder_dev.name
-#   subdomain = "music"
-#   url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
-# }
+  domain    = digitalocean_domain.rileysnyder_dev.name
+  subdomain = "music"
+  url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
+}
 
-# module "code" {
-#   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+module "code" {
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
-#   domain    = digitalocean_domain.rileysnyder_dev.name
-#   subdomain = "code"
-#   url       = "https://github.com/rssnyder"
-# }
+  domain    = digitalocean_domain.rileysnyder_dev.name
+  subdomain = "code"
+  url       = "https://github.com/rssnyder"
+}
 
-# module "photos" {
-#   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+module "photos" {
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
-#   domain    = digitalocean_domain.rileysnyder_dev.name
-#   subdomain = "photos"
-#   url       = "https://github.com/rssnyder/photos"
-# }
+  domain    = digitalocean_domain.rileysnyder_dev.name
+  subdomain = "photos"
+  url       = "https://github.com/rssnyder/photos"
+}
 
 resource "pihole_dns_record" "kate" {
   domain = "kate.${digitalocean_domain.rileysnyder_org.name}"

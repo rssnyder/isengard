@@ -43,14 +43,14 @@ services:
     ports:
       - 3000:3000
     environment:
-      GF_SERVER_ROOT_URL: "https://metrics.rileysnyder.org"
+      GF_SERVER_ROOT_URL: "https://metrics.rileysnyder.dev"
       GF_AUTH_GOOGLE_ENABLED: "true"
       GF_AUTH_GOOGLE_CLIENT_ID: "${GF_AUTH_GOOGLE_CLIENT_ID}"
       GF_AUTH_GOOGLE_CLIENT_SECRET: "${GF_AUTH_GOOGLE_CLIENT_SECRET}"
       GF_AUTH_GOOGLE_SCOPES: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
       GF_AUTH_GOOGLE_AUTH_URL: "https://accounts.google.com/o/oauth2/auth"
       GF_AUTH_GOOGLE_TOKEN_URL: "https://accounts.google.com/o/oauth2/token"
-      GF_AUTH_GOOGLE_ALLOWED_DOMAINS: "rileysnyder.org gmail.com"
+      GF_AUTH_GOOGLE_ALLOWED_DOMAINS: "rileysnyder.dev gmail.com"
     volumes:
       - $APPDATA/grafana:/var/lib/grafana
 
