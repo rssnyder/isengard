@@ -8,10 +8,10 @@ variable "instances" {
     cornelius = {
       ip = "192.168.0.6"
     }
-    hurley = {
+    hurley-ext = {
       ip = "173.22.88.59"
     }
-    hurley-local = {
+    hurley = {
       ip = "192.168.0.3"
     }
     oca0 = {

@@ -29,16 +29,13 @@ resource "digitalocean_record" "www" {
   value  = var.instances["hurley"].ip
 }
 
-resource "digitalocean_record" "metrics" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "metrics"
-  value  = var.instances["hurley"].ip
-}
+module "metrics" {
+  source = "${module.path}/domain"
 
-resource "pihole_dns_record" "metrics" {
-  domain = "metrics.${digitalocean_domain.rileysnyder_dev.name}"
-  ip     = var.instances["hurley-local"].ip
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "metrics"
+  public_ip  = var.instances["hurley-ext"].ip
+  private_ip = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "s3" {
