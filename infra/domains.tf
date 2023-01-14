@@ -29,6 +29,8 @@ resource "digitalocean_record" "www" {
   value  = var.instances["home"].ip
 }
 
+// services
+
 module "metrics" {
   source = "./domain"
 
@@ -38,46 +40,59 @@ module "metrics" {
   private_ip = var.instances["hurley"].ip
 }
 
-# module "s3" {
-#   source = "./domain"
+module "s3" {
+  source = "./domain"
 
-#   domain     = digitalocean_domain.rileysnyder_dev.name
-#   name       = "s3"
-#   public_ip  = var.instances["home"].ip
-#   private_ip = var.instances["hurley"].ip
-# }
-
-resource "digitalocean_record" "pushmetrics" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "pushmetrics"
-  value  = var.instances["home"].ip
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "s3"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
 }
 
-resource "digitalocean_record" "minecraft" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "minecraft"
-  value  = var.instances["home"].ip
+module "pushmetrics" {
+  source = "./domain"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "pushmetrics"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
 }
 
-# module "files" {
-#   source = "./domain"
+module "files" {
+  source = "./domain"
 
-#   domain     = digitalocean_domain.rileysnyder_dev.name
-#   name       = "files"
-#   public_ip  = var.instances["home"].ip
-#   private_ip = var.instances["hurley"].ip
-# }
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "files"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
 
-# module "requests" {
-#   source = "./domain"
+module "requests" {
+  source = "./domain"
 
-#   domain     = digitalocean_domain.rileysnyder_dev.name
-#   name       = "requests"
-#   public_ip  = var.instances["home"].ip
-#   private_ip = var.instances["hurley"].ip
-# }
+  domain     = digitalocean_domain.rileysnyder_org.name
+  name       = "requests"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
+module "send" {
+  source = "./domain"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "send"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
+module "vscode" {
+  source = "./domain"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "vscode"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
 
 resource "digitalocean_record" "parson_tesla" {
   domain = digitalocean_domain.rileysnyder_org.name
@@ -85,24 +100,6 @@ resource "digitalocean_record" "parson_tesla" {
   name   = "parson.tesla"
   value  = var.instances["home"].ip
 }
-
-# module "send" {
-#   source = "./domain"
-
-#   domain     = digitalocean_domain.rileysnyder_dev.name
-#   name       = "send"
-#   public_ip  = var.instances["home"].ip
-#   private_ip = var.instances["hurley"].ip
-# }
-
-# module "vscode" {
-#   source = "./domain"
-
-#   domain     = digitalocean_domain.rileysnyder_dev.name
-#   name       = "vscode"
-#   public_ip  = var.instances["home"].ip
-#   private_ip = var.instances["hurley"].ip
-# }
 
 resource "digitalocean_record" "cds" {
   domain = digitalocean_domain.rileysnyder_dev.name
@@ -117,6 +114,8 @@ resource "digitalocean_record" "harrypottermoviepicker" {
   name   = "harrypottermoviepicker"
   value  = var.instances["home"].ip
 }
+
+// redirects
 
 module "music" {
   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
