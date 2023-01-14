@@ -3,7 +3,7 @@ resource "digitalocean_domain" "rileysnyder_org" {
 }
 
 resource "digitalocean_domain" "rileysnyder_dev" {
-  name = "rileysnyder.org"
+  name = "rileysnyder.dev"
 }
 
 resource "digitalocean_record" "instance" {

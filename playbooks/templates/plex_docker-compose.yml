@@ -224,7 +224,7 @@ services:
   discord-minecraft-server-stats:
     image: ghcr.io/rssnyder/discord-minecraft-server-stats:0.0.3
     environment:
-      TOKEN: ODg4NTg4MjYyOTIxMzcxNjQ4.YUU4Tw.H2tZSRleH1tcrJRHcGdajZ0hR30
+      TOKEN: "${MINECRAFT_DISCORD_TOKEN}"
       DOMAIN: yourearat.com
       STATUS: 0
       LOOP: 30
