@@ -2,6 +2,10 @@ resource "digitalocean_domain" "rileysnyder_org" {
   name = "rileysnyder.org"
 }
 
+resource "digitalocean_domain" "rileysnyder_dev" {
+  name = "rileysnyder.org"
+}
+
 resource "digitalocean_record" "instance" {
   for_each = var.instances
 
@@ -178,44 +182,29 @@ resource "pihole_dns_record" "harrypottermoviepicker" {
   ip     = var.instances["hurley-local"].ip
 }
 
-# resource "digitalocean_record" "github_pages" {
-#   domain = digitalocean_domain.rileysnyder_org.name
-#   type   = "TXT"
-#   name   = "_github-pages-challenge-rssnyder"
-#   value  = "8169904a00a3d52c5118bf5743ca2a"
+# module "music" {
+#   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+
+#   domain    = digitalocean_domain.rileysnyder_dev.name
+#   subdomain = "music"
+#   url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
 # }
 
-module "music" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+# module "code" {
+#   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
-  domain    = "rileysnyder.org"
-  subdomain = "music"
-  url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
-}
+#   domain    = digitalocean_domain.rileysnyder_dev.name
+#   subdomain = "code"
+#   url       = "https://github.com/rssnyder"
+# }
 
-module "code" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+# module "photos" {
+#   source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
 
-  domain    = "rileysnyder.org"
-  subdomain = "code"
-  url       = "https://github.com/rssnyder"
-}
-
-module "photos" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
-
-  domain    = "rileysnyder.org"
-  subdomain = "photos"
-  url       = "https://github.com/rssnyder/photos"
-}
-
-module "bots" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
-
-  domain    = "rileysnyder.org"
-  subdomain = "bots"
-  url       = "https://github.com/rssnyder/discord-stock-ticker"
-}
+#   domain    = digitalocean_domain.rileysnyder_dev.name
+#   subdomain = "photos"
+#   url       = "https://github.com/rssnyder/photos"
+# }
 
 resource "pihole_dns_record" "kate" {
   domain = "kate.${digitalocean_domain.rileysnyder_org.name}"

@@ -228,19 +228,19 @@ services:
   #   environment:
   #     ALLOW_UNSECURED_MODE: 'true'
 
-  ntfy:
-    image: binwiederhier/ntfy
-    container_name: ntfy
-    restart: unless-stopped
-    command:
-      - serve
-    environment:
-      TZ: CST
-    volumes:
-      - $APPDATA/ntfy:/var/cache/ntfy
-      - $APPDATA/server.yml:/etc/ntfy/server.yml
-    ports:
-      - 8572:80
+  # ntfy:
+  #   image: binwiederhier/ntfy
+  #   container_name: ntfy
+  #   restart: unless-stopped
+  #   command:
+  #     - serve
+  #   environment:
+  #     TZ: CST
+  #   volumes:
+  #     - $APPDATA/ntfy:/var/cache/ntfy
+  #     - $APPDATA/server.yml:/etc/ntfy/server.yml
+  #   ports:
+  #     - 8572:80
 
   music:
     build: $APPDATA/music

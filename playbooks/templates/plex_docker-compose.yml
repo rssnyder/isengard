@@ -149,10 +149,11 @@ services:
   send:
     image: registry.gitlab.com/timvisee/send:latest
     restart: always
+    user: "0"
     ports:
       - '8383:8383'
     volumes:
-      - /mnt/fake/send:/uploads
+      - send:/uploads
     environment:
       - DHPARAM_GENERATION=false
       - NODE_ENV=production
@@ -220,8 +221,18 @@ services:
   #     - torch:/root/.cache/torch
   #     - huggingface:/root/.cache/huggingface
 
+  discord-minecraft-server-stats:
+    image: ghcr.io/rssnyder/discord-minecraft-server-stats:0.0.3
+    environment:
+      TOKEN: ODg4NTg4MjYyOTIxMzcxNjQ4.YUU4Tw.H2tZSRleH1tcrJRHcGdajZ0hR30
+      DOMAIN: yourearat.com
+      STATUS: 0
+      LOOP: 30
+      USERS: 5
+
 volumes:
   send-redis:
+  send:
   pigallery2:
   torch:
   huggingface:

@@ -308,3 +308,7 @@ function updateclient () {
 
   ansible-playbook -i $HOME/Documents/isengard/hosts.yml $HOME/Documents/isengard/playbooks/discord-stock-ticker-update.yml --limit oracle_arm_dst -e "{\"client\":\"$1\"}"
 }
+
+function claim () {
+  dbpull $1 && reclaim -db $1.state
+}
