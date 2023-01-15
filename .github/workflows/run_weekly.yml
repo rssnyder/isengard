@@ -14,8 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         playbook:
-          - "backup-kate.yml"
-          - "backup-oca0.yml"
+          - "backup-cornelius.yml"
     runs-on: self-hosted
     steps:
 

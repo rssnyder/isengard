@@ -5,6 +5,12 @@
 
   tasks:
 
+    - name: copy metrics file
+      template: 
+        src: templates/metrics.j2
+        dest: "/etc/systemd/metrics.sh"
+        mode: 0777
+
     - name: set service info
       set_fact:
         app_name: discord-bot

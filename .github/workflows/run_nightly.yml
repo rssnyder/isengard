@@ -15,7 +15,7 @@ jobs:
       matrix:
         playbook:
           - "discord-stock-ticker-backup.yml"
-          - "scrape.yml"
+          - "backup-oca1.yml"
     runs-on: self-hosted
     steps:
 

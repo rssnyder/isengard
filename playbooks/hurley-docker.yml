@@ -21,6 +21,11 @@
       copy: 
         src: templates/hurley_docker-compose.yml
         dest: /home/riley/docker-compose.yml
+
+    - name: copy homer file
+      copy: 
+        src: templates/homer.yml
+        dest: /home/riley/appdata/homer/config.yml
     
     - name: Docker-compose up
       community.docker.docker_compose:

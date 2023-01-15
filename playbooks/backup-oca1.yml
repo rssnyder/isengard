@@ -1,6 +1,6 @@
 ---
 - name: Backup kate
-  hosts: oca0
+  hosts: oca1
   become: yes
 
   tasks:

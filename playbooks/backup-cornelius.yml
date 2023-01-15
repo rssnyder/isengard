@@ -1,6 +1,6 @@
 ---
 - name: Backup kate
-  hosts: kate
+  hosts: cornelius
   become: yes
 
   tasks:
@@ -11,14 +11,17 @@
     #     cmd: docker-compose down && tar -czvf /bucket/backup/users/kate_plex.$(date +%m.%d.%y).tar.gz /home/plex; docker-compose up -d
     #   become: yes
 
-    - name: sync
+    - name: backup personal drive
+      shell:
+        cmd: |
+          rclone -vP copy riley: /bucket/backup/drive/
+
+    - name: backup backups to cloud
       shell:
         cmd: |
           rclone sync /bucket/backup crypt:archive/backup
-          rsync -ar --delete /bucket/backup charlie:/pale/bucket/
-          rsync -ar --delete /bucket/media/syndicated charlie:/pale/bucket/
     
-    - name: copy
+    - name: backup media
       shell:
         cmd: |
           rclone -vP copy /bucket/media/books/ crypt:media/books/

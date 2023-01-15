@@ -5,9 +5,8 @@
 
   tasks:
 
-    - name: move
+    - name: set authorized hosts
       copy:
         src: templates/authorized_keys
         dest: "~/.ssh/authorized_keys"
         mode: '0600'
-    

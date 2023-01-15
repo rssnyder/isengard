@@ -1,0 +1,153 @@
+---
+title: "Dashboard"
+subtitle: "Snyder"
+logo: "logo.png"
+
+header: false
+footer: false
+
+stylesheet:
+  - "assets/custom.css"
+
+columns: "4"
+theme: default
+colors:
+  light:
+    highlight-primary: "#fff5f2"
+    highlight-secondary: "#fff5f2"
+    highlight-hover: "#bebebe"
+    background: "#12152B"
+    card-background: "rgba(255, 245, 242, 0.8)"
+    text: "#ffffff"
+    text-header: "#fafafa"
+    text-title: "#000000"
+    text-subtitle: "#111111"
+    card-shadow: rgba(0, 0, 0, 0.5)
+    link: "#3273dc"
+    link-hover: "#2e4053"
+    background-image: "../assets/wallpaper-light.jpeg" # Change wallpaper.jpeg to the name of your own custom wallpaper!
+  dark:
+    highlight-primary: "#181C3A"
+    highlight-secondary: "#181C3A"
+    highlight-hover: "#1F2347"
+    background: "#12152B"
+    card-background: "rgba(24, 28, 58, 0.8)"
+    text: "#eaeaea"
+    text-header: "#7C71DD"
+    text-title: "#fafafa"
+    text-subtitle: "#8B8D9C"
+    card-shadow: rgba(0, 0, 0, 0.5)
+    link: "#c1c1c1"
+    link-hover: "#fafafa"
+    background-image: "../assets/wallpaper.jpeg"
+
+links:
+  - name: "github"
+    icon: "fab fa-github"
+    url: "https://github.com/rssnyder"
+    target: '_top'
+  - name: "news"
+    icon: "fas fa-book"
+    url: "https://news.google.com/"
+    target: '_top'
+  - name: "tech news"
+    icon: "fas fa-book"
+    url: "https://news.ycombinator.com/"
+    target: '_top'
+  - name: "register"
+    icon: "fas fa-book"
+    url: "https://www.desmoinesregister.com/"
+    target: '_top'
+  - name: "craigslist"
+    icon: "fas fa-book"
+    url: "https://desmoines.craigslist.org/"
+    target: '_top'
+
+services:
+  - name: "Media"
+    icon: "fas fa-compact-disc"
+    items:
+      - name: "Plex"
+        logo: "assets/homer-icons/png/plex.png"
+        url: "http://cornelius:32400"
+        target: '_top'
+      - name: "Tautulli"
+        logo: "assets/homer-icons/png/tautulli.png"
+        # type: "Tautulli"
+        url: "http://cornelius:8181/home"
+        target: '_top'
+      - name: "qBittorrent"
+        logo: "assets/homer-icons/png/qbittorrent.png"
+        # type: "qBittorrent"
+        url: "http://cornelius:7001"
+        target: '_top'
+      - name: "Deluge"
+        logo: "assets/homer-icons/png/deluge.png"
+        url: "http://hurley:8112"
+        target: '_top'
+      - name: "Overseerr"
+        logo: "assets/homer-icons/png/overseerr.png"
+        url: "http://cornelius:5055"
+        target: '_top'
+      - name: "Prowlarr"
+        logo: "assets/homer-icons/png/prowlarr.png"
+        # type: "Prowlarr"
+        url: "http://cornelius:7002"
+        target: '_top'
+      - name: "Sonarr"
+        logo: "assets/homer-icons/png/sonarr.png"
+        # type: "Sonarr"
+        url: "http://cornelius:7002"
+        target: '_top'
+      - name: "Radarr"
+        logo: "assets/homer-icons/png/radarr.png"
+        # type: "Radarr"
+        url: "http://cornelius:7003"
+        target: '_top'
+  - name: "Network"
+    icon: "fas fa-network-wired"
+    items:
+      - name: "Omada"
+        logo: "assets/homer-icons/png/omada.png"
+        url: "https://hurley:8043"
+        target: '_top'
+      - name: "Pihole"
+        logo: "assets/homer-icons/png/pihole.png"
+        type: "PiHole"
+        url: "http://hurley:8888"
+        target: '_top'
+  - name: "Utility"
+    icon: "fas fa-toolbox"
+    items:
+      - name: "Grafana"
+        logo: "assets/homer-icons/png/grafana.png"
+        url: "https://metrics.rileysnyder.dev"
+        target: '_top'
+      - name: "Prometheus"
+        logo: "assets/homer-icons/png/prometheus.png"
+        url: "http://hurley:9090/targets"
+        target: '_top'
+      - name: "Minio"
+        logo: "assets/homer-icons/png/minio.png"
+        url: "http://hurley:9000"
+        target: '_top'
+      - name: "Files"
+        logo: "assets/homer-icons/png/minio.png"
+        url: "https://files.rileysnyder.dev"
+        target: '_top'
+      - name: "Send"
+        logo: "assets/homer-icons/png/firefoxsend.png"
+        url: "https://send.rileysnyder.dev"
+        target: '_top'
+      - name: "Photos"
+        logo: "assets/homer-icons/png/photoprism.png"
+        url: "https://cornelius:2342"
+        target: '_top'
+      - name: "Syncthing"
+        logo: "assets/homer-icons/png/syncthing.png"
+        url: "https://cornelius:8384"
+        target: '_top'
+      - name: "Syncthing Local"
+        logo: "assets/homer-icons/png/syncthing.png"
+        url: "https://localhost:8384"
+        target: '_top'

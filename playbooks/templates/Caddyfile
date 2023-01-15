@@ -1,4 +1,4 @@
-rileysnyder.org {
+rileysnyder.dev {
     respond "
 contact
 +---------+---------------------+
@@ -35,7 +35,7 @@ sites
 "
 }
 
-www.rileysnyder.org {
+www.rileysnyder.dev {
     respond "
 contact
 +---------+---------------------+
@@ -117,7 +117,7 @@ send.rileysnyder.dev {
 }
 
 vscode.rileysnyder.dev {
-    reverse_proxy 192.168.0.2:8080
+    reverse_proxy 192.168.0.2:6969
 }
 
 cds.rileysnyder.dev {
