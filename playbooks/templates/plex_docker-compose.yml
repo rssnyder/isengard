@@ -136,6 +136,18 @@ services:
       - 8181:8181
     restart: unless-stopped
 
+  tautulli-exporter:
+    image: nwalke/tautulli_exporter
+    container_name: tautulli-exporter
+    environment:
+      TAUTULLI_API_KEY: "${TAUTULLI_KEY}"
+      TAUTULLI_URI: http://192.168.0.6:8181
+    volumes:
+      - $APPDATA/tautulli:/config
+    ports:
+      - 9487:9487
+    restart: unless-stopped
+
   files:
     image: svenstaro/miniserve
     container_name: files
@@ -185,19 +197,6 @@ services:
       - 22000:22000/udp
       - 21027:21027/udp
     restart: unless-stopped
-  
-  pigallery2:
-    image: bpatrik/pigallery2:latest
-    container_name: pigallery2
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - $APPDATA/pigallery2:/app/data/config
-      - pigallery2:/app/data/db
-      - /bucket/photos:/app/data/images:ro
-    ports:
-      - 8345:80
-    restart: always
 
   photoprism:
     image: photoprism/photoprism:latest
@@ -241,10 +240,18 @@ services:
     working_dir: "/photoprism"
     volumes:
       - "/bucket/prism:/photoprism/originals"
-      - "/bucket/photos:/photoprism/import"
-      # - "/bucket/backup/syncthing/phone-pictures:/photoprism/import/pictures"
-      # - "/bucket/backup/syncthing/phone-camera:/photoprism/import/camera"
+      # - "/bucket/photos:/photoprism/import"
+      - "/bucket/backup/syncthing/phone-pictures:/photoprism/import/pictures"
+      - "/bucket/backup/syncthing/phone-camera:/photoprism/import/camera"
       - "$APPDATA/photoprism:/photoprism/storage"
+
+  ofelia:
+    restart: unless-stopped
+    image: mcuadros/ofelia:latest
+    container_name: ofelia
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "$APPDATA/photoprism/jobs.ini:/etc/ofelia/config.ini"
 
   mariadb:
     restart: unless-stopped

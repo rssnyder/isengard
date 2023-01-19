@@ -60,7 +60,7 @@ links:
     target: '_top'
   - name: "craigslist"
     icon: "fas fa-book"
-    url: "https://desmoines.craigslist.org/"
+    url: "https://desmoines.craigslist.org/search/sya"
     target: '_top'
 
 services:
@@ -73,12 +73,10 @@ services:
         target: '_top'
       - name: "Tautulli"
         logo: "assets/homer-icons/png/tautulli.png"
-        # type: "Tautulli"
         url: "http://cornelius:8181/home"
         target: '_top'
       - name: "qBittorrent"
         logo: "assets/homer-icons/png/qbittorrent.png"
-        # type: "qBittorrent"
         url: "http://cornelius:7001"
         target: '_top'
       - name: "Deluge"
@@ -91,41 +89,26 @@ services:
         target: '_top'
       - name: "Prowlarr"
         logo: "assets/homer-icons/png/prowlarr.png"
-        # type: "Prowlarr"
         url: "http://cornelius:7002"
         target: '_top'
       - name: "Sonarr"
         logo: "assets/homer-icons/png/sonarr.png"
-        # type: "Sonarr"
         url: "http://cornelius:7002"
         target: '_top'
       - name: "Radarr"
         logo: "assets/homer-icons/png/radarr.png"
-        # type: "Radarr"
         url: "http://cornelius:7003"
         target: '_top'
-  - name: "Network"
-    icon: "fas fa-network-wired"
-    items:
-      - name: "Omada"
-        logo: "assets/homer-icons/png/omada.png"
-        url: "https://hurley:8043"
-        target: '_top'
-      - name: "Pihole"
-        logo: "assets/homer-icons/png/pihole.png"
-        type: "PiHole"
-        url: "http://hurley:8888"
-        target: '_top'
-  - name: "Utility"
-    icon: "fas fa-toolbox"
+  - name: "Services"
+    icon: "fas fa-browser"
     items:
       - name: "Grafana"
         logo: "assets/homer-icons/png/grafana.png"
         url: "https://metrics.rileysnyder.dev"
         target: '_top'
-      - name: "Prometheus"
-        logo: "assets/homer-icons/png/prometheus.png"
-        url: "http://hurley:9090/targets"
+      - name: "Octoprint"
+        logo: "assets/homer-icons/png/octoprint.png"
+        url: "http://192.168.0.36"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"
@@ -142,6 +125,22 @@ services:
       - name: "Photos"
         logo: "assets/homer-icons/png/photoprism.png"
         url: "https://cornelius:2342"
+        target: '_top'
+  - name: "Utility"
+    icon: "fas fa-toolbox"
+    items:
+      - name: "Omada"
+        logo: "assets/homer-icons/png/omada.png"
+        url: "https://hurley:8043"
+        target: '_top'
+      - name: "Pihole"
+        logo: "assets/homer-icons/png/pihole.png"
+        type: "PiHole"
+        url: "http://hurley:8888"
+        target: '_top'
+      - name: "Prometheus"
+        logo: "assets/homer-icons/png/prometheus.png"
+        url: "http://hurley:9090/targets"
         target: '_top'
       - name: "Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"

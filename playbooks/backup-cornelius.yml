@@ -24,5 +24,6 @@
     - name: backup media
       shell:
         cmd: |
-          rclone -vP copy /bucket/media/books/ crypt:media/books/
-          rclone -vP copy /bucket/photos       crypt:photos
+          rclone -vP copy /bucket/media/books/      crypt:media/books/
+          rclone -vP copy /bucket/prism             crypt:prism
+          rclone -vP copy /bucket/media/syndicated/ crypt:media/syndicated/

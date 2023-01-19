@@ -17,6 +17,12 @@
           - docker
           - docker-compose
 
+    - name: copy photoprism job file
+      copy: 
+        src: templates/photoprism.ini
+        dest: /home/plex/appdata/photoprism/
+        owner: plex
+
     - name: copy service file
       copy: 
         src: templates/plex_docker-compose.yml
