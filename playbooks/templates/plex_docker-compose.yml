@@ -251,7 +251,7 @@ services:
     container_name: ofelia
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "$APPDATA/photoprism/jobs.ini:/etc/ofelia/config.ini"
+      - "$APPDATA/photoprism/photoprism.ini:/etc/ofelia/config.ini"
 
   mariadb:
     restart: unless-stopped
@@ -276,8 +276,20 @@ services:
       TOKEN: "${MINECRAFT_DISCORD_TOKEN}"
       DOMAIN: yourearat.com
       STATUS: 0
-      LOOP: 30
+      LOOP: 15
       USERS: 5
+
+  ersatztv:
+    restart: unless-stopped
+    image: jasongdove/ersatztv
+    container_name: ersatztv
+    volumes:
+      - "$APPDATA/ersatztv:/root/.local/share/ersatztv"
+      - "/bucket/media/syndicated:/syndicated:ro"
+    ports:
+      - "8409:8409"
+    environment:
+      TZ: "America/Chicago"
 
 volumes:
   send-redis:

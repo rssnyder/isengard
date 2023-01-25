@@ -24,7 +24,7 @@
           - "PUSHOVER_APP={{ reddit_notifications_app }}"
           - "PUSHOVER_USER={{ pushover_user }}"
           - "SUBREDDIT=hardwareswap"
-          - "POST_TEXT='{{ reddit_keywords }}'"
+          - "POST_TEXT='USA-IA;dualup;air75'"
           # - "POST_AUTHOR='IcyBoysenberry6215;Desolate_puppy;Sendnation12'"
         timer_desc: discord-reddit-posts-hardwareswap
         timer_minutes: 1
@@ -72,7 +72,7 @@
           - "PUSHOVER_APP={{ reddit_notifications_app }}"
           - "PUSHOVER_USER={{ pushover_user }}"
           - "SUBREDDIT=mechmarket"
-          - "POST_TEXT=f97;air75"
+          - "POST_TEXT=air75"
         timer_desc: discord-reddit-posts-mechmarket
         timer_minutes: 5
         timer_delay: 60
@@ -119,7 +119,7 @@
           - "PUSHOVER_APP={{ reddit_notifications_app }}"
           - "PUSHOVER_USER={{ pushover_user }}"
           - "SUBREDDIT=buildapcsales"
-          - "POST_TITLE='{{ reddit_keywords }}'"
+          - "POST_TITLE='dualup;ultragear'"
         timer_desc: discord-reddit-posts-buildapcsales
         timer_minutes: 5
         timer_delay: 60

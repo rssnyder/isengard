@@ -124,7 +124,7 @@ services:
         target: '_top'
       - name: "Photos"
         logo: "assets/homer-icons/png/photoprism.png"
-        url: "https://cornelius:2342"
+        url: "http://cornelius:2342"
         target: '_top'
   - name: "Utility"
     icon: "fas fa-toolbox"
@@ -144,9 +144,9 @@ services:
         target: '_top'
       - name: "Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
-        url: "https://cornelius:8384"
+        url: "http://cornelius:8384"
         target: '_top'
       - name: "Syncthing Local"
         logo: "assets/homer-icons/png/syncthing.png"
-        url: "https://localhost:8384"
+        url: "http://localhost:8384"
         target: '_top'
