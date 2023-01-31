@@ -103,6 +103,15 @@ module "keys" {
   private_ip = var.instances["hurley"].ip
 }
 
+module "dash" {
+  source = "./domain"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "dash"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
 resource "digitalocean_record" "parson_tesla" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"

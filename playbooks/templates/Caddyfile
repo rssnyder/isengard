@@ -127,3 +127,11 @@ cds.rileysnyder.dev {
 harrypottermoviepicker.rileysnyder.dev {
     reverse_proxy 192.168.0.3:9877
 }
+
+keys.rileysnyder.dev {
+    reverse_proxy 192.168.0.3:8235
+}
+
+dash.rileysnyder.dev {
+    reverse_proxy 192.168.0.3:8364
+}
