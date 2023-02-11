@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zfs-frigate
+  name: ata-frigate
   namespace: frigate
   labels:
     type: local
@@ -19,13 +19,13 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/pale/frigate"
+    path: "/mnt/pale/frigate"
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: zfs-frigate
+  name: ata-frigate
   namespace: frigate
 spec:
   accessModes:
@@ -33,5 +33,5 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  volumeName: zfs-frigate
+  volumeName: ata-frigate
   storageClassName: manual

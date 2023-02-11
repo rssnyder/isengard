@@ -14,16 +14,20 @@
     - name: backup personal drive
       shell:
         cmd: |
-          rclone -vP copy riley: /bucket/backup/drive/
+          rclone copy riley: /bucket/backup/drive/
 
-    - name: backup backups to cloud
+    - name: backup backups
       shell:
         cmd: |
-          rclone sync /bucket/backup crypt:archive/backup
+          rclone copy /bucket/backup crypt:archive/backup
+    
+    - name: backup photos
+      shell:
+        cmd: |
+          rclone sync /bucket/prism             crypt:prism
     
     - name: backup media
       shell:
         cmd: |
-          rclone -vP copy /bucket/media/books/      crypt:media/books/
-          rclone -vP copy /bucket/prism             crypt:prism
-          rclone -vP copy /bucket/media/syndicated/ crypt:media/syndicated/
+          rclone copy /bucket/media/books/      crypt:media/books/
+          # rclone copy /bucket/media/syndicated/ crypt:media/syndicated/

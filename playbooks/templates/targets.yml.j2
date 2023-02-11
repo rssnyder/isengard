@@ -13,6 +13,11 @@ scrape_configs:
   - targets:
     - '192.168.0.3:7777'
 
+- job_name: keys
+  static_configs:
+  - targets:
+    - '192.168.0.3:8235'
+
 # - job_name: digitalocean
 #   static_configs:
 #   - targets:

@@ -30,6 +30,7 @@ services:
       - /bucket/media/tv:/tv
       - /bucket/media/syndicated:/syndicated
       - /bucket/media/books:/books
+      - /bucket/media/music:/music
       - $APPDATA/qbittorrentvpn:/config
       - /etc/localtime:/etc/localtime:ro
       - $APPDATA/VueTorrent:/VueTorrent

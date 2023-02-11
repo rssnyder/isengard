@@ -42,7 +42,15 @@ colors:
     background-image: "../assets/wallpaper.jpeg"
 
 links:
-  - name: "github"
+  - name: ""
+    icon: "fa-solid fa-mailbox"
+    url: "https://mail.google.com/"
+    target: '_top'
+  - name: ""
+    icon: "fa-solid fa-calendar"
+    url: "https://calendar.google.com/"
+    target: '_top'
+  - name: ""
     icon: "fab fa-github"
     url: "https://github.com/rssnyder"
     target: '_top'
@@ -100,7 +108,7 @@ services:
         url: "http://cornelius:7003"
         target: '_top'
   - name: "Services"
-    icon: "fas fa-browser"
+    icon: "fas fa-gears"
     items:
       - name: "Grafana"
         logo: "assets/homer-icons/png/grafana.png"
@@ -109,6 +117,10 @@ services:
       - name: "Octoprint"
         logo: "assets/homer-icons/png/octoprint.png"
         url: "http://192.168.0.36"
+        target: '_top'
+      - name: "Frigate"
+        logo: "assets/homer-icons/png/octoprint.png"
+        url: "http://192.168.0.2:5000"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"

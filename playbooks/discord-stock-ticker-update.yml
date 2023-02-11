@@ -14,17 +14,19 @@
     - name: modify db
       shell:
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false where name = "ripple"'
-        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false'
+        #   cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set name = "GOLD"'
+        #cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = " ", name = "pawswap", decorator = " "'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = "" where name = "cult-dao"'
         #cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "USD", currencySymbol = "$" where name = "bitcoin"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "PHP", currencySymbol = "₱"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
-          cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 4'
+         cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 4'
+
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decorator = " "'
-          # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = "$SHUMI"'
+          # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set activity = "Coingecko API"'
         #        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 5 where name = "okidoki-social"'
       loop: "{{ clients | dict2items }}"
       when: item.key == client
