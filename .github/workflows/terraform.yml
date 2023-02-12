@@ -33,9 +33,6 @@ jobs:
         id: fmt
         working-directory: infra/
         run: terraform fmt -check
-      
-      - name: Move state
-        run: mv terraform.tfstate infra/terraform.tfstate
 
       - name: Terraform Init
         id: init
