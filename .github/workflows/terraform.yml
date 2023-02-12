@@ -12,6 +12,8 @@ on:
 env:
   DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
   PIHOLE_PASSWORD: ${{ secrets.PIHOLE_PASSWORD }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
   terraform:
@@ -31,11 +33,6 @@ jobs:
         id: fmt
         working-directory: infra/
         run: terraform fmt -check
-      
-      - uses: rssnyder/ghcr-artifact-store@0.1.0
-        with:
-          artifact: terraform.tfstate
-          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Move state
         run: mv terraform.tfstate infra/terraform.tfstate
@@ -95,14 +92,3 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         working-directory: infra/
         run: terraform apply -auto-approve
-      
-      - name: Move state
-        if: always()
-        run: mv infra/terraform.tfstate terraform.tfstate
-
-      - uses: rssnyder/ghcr-artifact-store@0.1.0
-        if: always()
-        with:
-          method: PUT
-          artifact: terraform.tfstate
-          token: ${{ secrets.GITHUB_TOKEN }}

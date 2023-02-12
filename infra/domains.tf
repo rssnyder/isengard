@@ -136,25 +136,28 @@ resource "digitalocean_record" "harrypottermoviepicker" {
 // redirects
 
 module "music" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.2.0"
 
   domain    = digitalocean_domain.rileysnyder_dev.name
   subdomain = "music"
   url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
+  permanent = true
 }
 
 module "code" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.2.0"
 
   domain    = digitalocean_domain.rileysnyder_dev.name
   subdomain = "code"
   url       = "https://github.com/rssnyder"
+  permanent = true
 }
 
 module "photos" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.1.1"
+  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.2.0"
 
   domain    = digitalocean_domain.rileysnyder_dev.name
   subdomain = "photos"
+  path      = "/local"
   url       = "https://github.com/rssnyder/photos"
 }
