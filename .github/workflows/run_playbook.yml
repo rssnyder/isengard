@@ -1,5 +1,3 @@
-name: Run playbook
-
 on: 
   workflow_dispatch:
     inputs:

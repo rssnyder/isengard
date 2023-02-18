@@ -1,5 +1,3 @@
-name: Run nightly
-
 on: 
   workflow_dispatch:
   schedule:
