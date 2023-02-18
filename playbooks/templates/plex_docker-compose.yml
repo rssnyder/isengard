@@ -154,7 +154,8 @@ services:
     container_name: files
     restart: always
     volumes:
-      - /bucket/media:/tmp
+      - /bucket/media:/tmp/media
+      - /mnt/fake/downloads:/tmp/downloads
     ports:
       - 8080:8080
     command: /tmp
