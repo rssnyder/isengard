@@ -3,7 +3,7 @@ version: "3"
 services:
 
   plex:
-    image: ghcr.io/linuxserver/plex
+    image: linuxserver/plex
     container_name: plex
     restart: unless-stopped
     environment:
@@ -69,7 +69,7 @@ services:
       VERIFY_WEBUI_CERTIFICATE: "false"
 
   sonarr:
-    image: ghcr.io/linuxserver/sonarr
+    image: linuxserver/sonarr
     container_name: sonarr
     restart: unless-stopped
     environment:
@@ -84,7 +84,7 @@ services:
       - 7002:8989
 
   radarr:
-    image: ghcr.io/linuxserver/radarr
+    image: linuxserver/radarr
     container_name: radarr
     restart: unless-stopped
     environment:
@@ -99,7 +99,7 @@ services:
       - 7003:7878
 
   prowlarr:
-    image: ghcr.io/linuxserver/prowlarr:develop
+    image: linuxserver/prowlarr:develop
     container_name: prowlarr
     environment:
       PUID: 65534
@@ -112,7 +112,7 @@ services:
     restart: unless-stopped
 
   overseerr:
-    image: lscr.io/linuxserver/overseerr
+    image: linuxserver/overseerr
     container_name: overseerr
     environment:
       PUID: 1000
@@ -125,7 +125,7 @@ services:
     restart: unless-stopped
 
   tautulli:
-    image: lscr.io/linuxserver/tautulli:latest
+    image: linuxserver/tautulli:latest
     container_name: tautulli
     environment:
       PUID: 1000
@@ -184,7 +184,7 @@ services:
       - send-redis:/data
 
   syncthing:
-    image: lscr.io/linuxserver/syncthing:latest
+    image: linuxserver/syncthing:latest
     container_name: syncthing
     environment:
       PUID: 1000

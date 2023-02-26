@@ -97,7 +97,7 @@ services:
         target: '_top'
       - name: "Prowlarr"
         logo: "assets/homer-icons/png/prowlarr.png"
-        url: "http://cornelius:7002"
+        url: "http://cornelius:9696"
         target: '_top'
       - name: "Sonarr"
         logo: "assets/homer-icons/png/sonarr.png"

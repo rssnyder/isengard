@@ -83,7 +83,10 @@ metrics.rileysnyder.dev {
 }
 
 minecraft.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:25565
+    reverse_proxy 192.168.0.2:7001
+    basicauth * {
+        friend JDJhJDE0JExhTTFNVFhteVlhYXBZWTl4b0lwTXVtVDZ4a09VTkpDWVpTazZLV2tBN0x6NkN6RE1vNHJl
+    }
 }
 
 files.rileysnyder.dev {
@@ -113,7 +116,10 @@ parson.tesla.rileysnyder.dev {
 }
 
 send.rileysnyder.dev {
-    reverse_proxy 192.168.0.6:8383
+    reverse_proxy 192.168.0.2:7001
+    basicauth * {
+        friend JDJhJDE0JExhTTFNVFhteVlhYXBZWTl4b0lwTXVtVDZ4a09VTkpDWVpTazZLV2tBN0x6NkN6RE1vNHJl
+    }
 }
 
 vscode.rileysnyder.dev {
