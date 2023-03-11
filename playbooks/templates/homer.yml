@@ -85,7 +85,7 @@ services:
         target: '_top'
       - name: "qBittorrent"
         logo: "assets/homer-icons/png/qbittorrent.png"
-        url: "http://cornelius:7001"
+        url: "http://cornelius:8475"
         target: '_top'
       - name: "Deluge"
         logo: "assets/homer-icons/png/deluge.png"
@@ -154,11 +154,15 @@ services:
         logo: "assets/homer-icons/png/prometheus.png"
         url: "http://hurley:9090/targets"
         target: '_top'
-      - name: "Syncthing"
+      - name: "Cornelius Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
         url: "http://cornelius:8384"
         target: '_top'
-      - name: "Syncthing Local"
+      - name: "Hurley Syncthing"
+        logo: "assets/homer-icons/png/syncthing.png"
+        url: "http://cornelius:8384"
+        target: '_top'
+      - name: "Local Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
         url: "http://localhost:8384"
         target: '_top'

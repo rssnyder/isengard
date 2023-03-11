@@ -2,6 +2,26 @@
 version: "3"
 services:
 
+  gluetun:
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp
+      - 8388:8388/tcp
+      - 8388:8388/udp
+      - 8475:8475 # qbt
+    volumes:
+      - $APPDATA/gluetun:/gluetun
+    environment:
+      VPN_SERVICE_PROVIDER: private internet access
+      VPN_TYPE: openvpn
+      OPENVPN_USER: "${VPN_USER}"
+      OPENVPN_PASSWORD: "${VPN_PASS}"
+      SERVER_REGIONS: Netherlands
+
   plex:
     image: linuxserver/plex
     container_name: plex
@@ -17,42 +37,24 @@ services:
       - /bucket/media:/media
       - /mnt/fake:/mnt/fake
 
-  qbittorrentvpn:
-    image: binhex/arch-qbittorrentvpn
-    container_name: qbittorrentvpn
-    restart: unless-stopped
-    privileged: true
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
+  qbt:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbt
+    network_mode: "service:gluetun"
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+      WEBUI_PORT: 8475
     volumes:
+      - $APPDATA/qbt:/config
       - /mnt/fake/downloads:/downloads
       - /bucket/media/movies:/movies
       - /bucket/media/tv:/tv
       - /bucket/media/syndicated:/syndicated
       - /bucket/media/books:/books
       - /bucket/media/music:/music
-      - $APPDATA/qbittorrentvpn:/config
-      - /etc/localtime:/etc/localtime:ro
-      - $APPDATA/VueTorrent:/VueTorrent
-    ports:
-      - "6881:6881"
-      - "6881:6881/udp"
-      - "7001:7001"
-      - "8118:8118"
-    environment:
-      VPN_ENABLED: "yes"
-      VPN_USER: "${VPN_USER}"
-      VPN_PASS: "${VPN_PASS}"
-      VPN_PROV: pia
-      VPN_CLIENT: wireguard
-      STRICT_PORT_FORWARD: "yes"
-      ENABLE_PRIVOXY: "yes"
-      LAN_NETWORK: "192.168.0.0/24"
-      NAME_SERVERS: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
-      WEBUI_PORT: 7001
-      UMASK: 000
-      PUID: 65534
-      PGID: 1001
+    restart: unless-stopped
 
   qbt_exporter:
     image: esanchezm/prometheus-qbittorrent-exporter
@@ -62,7 +64,7 @@ services:
       - "8119:8119"
     environment:
       QBITTORRENT_HOST: "192.168.0.6"
-      QBITTORRENT_PORT: 7001
+      QBITTORRENT_PORT: 8475
       EXPORTER_PORT: 8119
       QBITTORRENT_USER: admin
       QBITTORRENT_PASS: "${QBITTORRENT_PASS}"
@@ -280,18 +282,6 @@ services:
       STATUS: 0
       LOOP: 15
       USERS: 5
-
-  ersatztv:
-    restart: unless-stopped
-    image: jasongdove/ersatztv
-    container_name: ersatztv
-    volumes:
-      - "$APPDATA/ersatztv:/root/.local/share/ersatztv"
-      - "/bucket/media/syndicated:/syndicated:ro"
-    ports:
-      - "8409:8409"
-    environment:
-      TZ: "America/Chicago"
 
 volumes:
   send-redis:
