@@ -133,6 +133,13 @@ resource "digitalocean_record" "harrypottermoviepicker" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "bbb" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "bbb"
+  value  = var.instances["home"].ip
+}
+
 // redirects
 
 module "music" {

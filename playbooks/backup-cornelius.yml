@@ -5,25 +5,25 @@
 
   tasks:
 
-    - name: backup plex
-      shell:
-        chdir: /home/plex
-        cmd: docker-compose down && tar -czvf /bucket/backup/plex.$(date +%m.%y).tar.gz /home/plex; docker-compose up --remove-orphans -d
-
     - name: backup personal drive
       shell:
         cmd: |
           rclone copy riley: /bucket/backup/drive/
 
-    - name: backup backups
-      shell:
-        cmd: |
-          rclone copy /bucket/backup crypt:archive/backup
-    
     - name: backup photos
       shell:
         cmd: |
           rclone sync /bucket/prism             crypt:prism
+
+    # - name: backup plex
+    #   shell:
+    #     chdir: /home/plex
+    #     cmd: docker-compose down && tar -czvf /bucket/backup/plex.$(date +%m.%y).tar.gz /home/plex; docker-compose up --remove-orphans -d
+
+    - name: backup backups
+      shell:
+        cmd: |
+          rclone copy /bucket/backup crypt:archive/backup
     
     - name: backup media
       shell:
