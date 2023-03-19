@@ -80,7 +80,7 @@ module "requests" {
   private_ip = var.instances["hurley"].ip
 }
 
-module "requests" {
+module "requests_dev" {
   source = "./domain"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
