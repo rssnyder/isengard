@@ -7,7 +7,7 @@ resource "digitalocean_domain" "rileysnyder_dev" {
 }
 
 resource "digitalocean_domain" "alexsnyder_net" {
-  name = " alexsnyder.net"
+  name = "alexsnyder.net"
 }
 
 resource "digitalocean_record" "instance" {
