@@ -6,7 +6,7 @@ resource "digitalocean_domain" "rileysnyder_dev" {
   name = "rileysnyder.dev"
 }
 
-resource "digitalocean_domain" "rileysnyder_dev" {
+resource "digitalocean_domain" "alexsnyder_net" {
   name = " alexsnyder.net"
 }
 
