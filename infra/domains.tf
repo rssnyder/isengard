@@ -153,6 +153,20 @@ resource "digitalocean_record" "bbb" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "alexsnyder_root" {
+  domain = digitalocean_domain.alexsnyder_net.name
+  type   = "A"
+  name   = "@"
+  value  = var.instances["home"].ip
+}
+
+resource "digitalocean_record" "alexsnyder_www" {
+  domain = digitalocean_domain.alexsnyder_net.name
+  type   = "A"
+  name   = "www"
+  value  = var.instances["home"].ip
+}
+
 // redirects
 
 module "music" {
