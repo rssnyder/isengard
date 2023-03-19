@@ -6,6 +6,10 @@ resource "digitalocean_domain" "rileysnyder_dev" {
   name = "rileysnyder.dev"
 }
 
+resource "digitalocean_domain" "rileysnyder_dev" {
+  name = " alexsnyder.net"
+}
+
 resource "digitalocean_record" "instance" {
   for_each = var.instances
 
@@ -71,6 +75,15 @@ module "requests" {
   source = "./domain"
 
   domain     = digitalocean_domain.rileysnyder_org.name
+  name       = "requests"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
+module "requests" {
+  source = "./domain"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "requests"
   public_ip  = var.instances["home"].ip
   private_ip = var.instances["hurley"].ip
