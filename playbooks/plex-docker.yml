@@ -32,3 +32,4 @@
     - name: Docker-compose up
       community.docker.docker_compose:
         project_src: /home/plex
+        remove_orphans: true

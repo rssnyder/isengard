@@ -269,6 +269,15 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
 
+  alexsnydernet:
+    image: klakegg/hugo:0.101.0
+    container_name: alexsnydernet
+    command: server
+    volumes:
+      - $APPDATA/alexsnyder.net:/src
+    ports:
+      - 1313:1313
+
 volumes:
   db:
     driver: local

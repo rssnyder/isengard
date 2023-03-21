@@ -101,6 +101,10 @@ requests.rileysnyder.org {
     reverse_proxy 192.168.0.6:5055
 }
 
+requests.rileysnyder.dev {
+    reverse_proxy 192.168.0.6:5055
+}
+
 pushmetrics.rileysnyder.dev {
     reverse_proxy 192.168.0.3:9092
     basicauth * {
@@ -134,4 +138,12 @@ keys.rileysnyder.dev {
 
 dash.rileysnyder.dev {
     reverse_proxy 192.168.0.3:8364
+}
+
+alexsnyder.net {
+    reverse_proxy 192.168.0.3:1313
+}
+
+www.alexsnyder.net {
+    reverse_proxy 192.168.0.3:1313
 }
