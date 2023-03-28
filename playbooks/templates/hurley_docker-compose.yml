@@ -281,11 +281,20 @@ services:
   registry:
     image: registry:2
     container_name: registry
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
     ports:
       - 5000:5000
+    volumes:
+      - registry:/var/lib/registry
+      - $APPDATA/auth:/auth
 
 volumes:
   db:
+    driver: local
+  registry:
     driver: local
 networks:
   gotosocial:
