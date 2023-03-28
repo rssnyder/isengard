@@ -140,6 +140,10 @@ dash.rileysnyder.dev {
     reverse_proxy 192.168.0.3:8364
 }
 
+registry.rileysnyder.dev {
+    reverse_proxy 192.168.0.3:5000
+}
+
 alexsnyder.net {
     reverse_proxy 192.168.0.3:1313
 }
