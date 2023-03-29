@@ -36,7 +36,7 @@ resource "digitalocean_record" "www" {
 // services
 
 module "metrics" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "metrics"
@@ -45,7 +45,7 @@ module "metrics" {
 }
 
 module "s3" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "s3"
@@ -54,7 +54,7 @@ module "s3" {
 }
 
 module "pushmetrics" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "pushmetrics"
@@ -63,7 +63,7 @@ module "pushmetrics" {
 }
 
 module "files" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "files"
@@ -72,7 +72,7 @@ module "files" {
 }
 
 module "requests" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_org.name
   name       = "requests"
@@ -81,7 +81,7 @@ module "requests" {
 }
 
 module "requests_dev" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "requests"
@@ -90,7 +90,7 @@ module "requests_dev" {
 }
 
 module "send" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "send"
@@ -99,7 +99,7 @@ module "send" {
 }
 
 module "vscode" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "vscode"
@@ -108,7 +108,7 @@ module "vscode" {
 }
 
 module "keys" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "keys"
@@ -117,7 +117,7 @@ module "keys" {
 }
 
 module "dash" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "dash"
@@ -126,10 +126,19 @@ module "dash" {
 }
 
 module "registry" {
-  source = "./domain"
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "registry"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
+module "plex" {
+  source = "git@github.com:rssnyder/isengard.git//infra/external-internal-dns?ref=master"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "plex"
   public_ip  = var.instances["home"].ip
   private_ip = var.instances["hurley"].ip
 }

@@ -144,6 +144,10 @@ registry.rileysnyder.dev {
     reverse_proxy 192.168.0.3:5000
 }
 
+plex.rileysnyder.dev {
+    reverse_proxy 192.168.0.6:32400
+}
+
 alexsnyder.net {
     reverse_proxy 192.168.0.3:1313
 }
