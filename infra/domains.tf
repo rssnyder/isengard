@@ -185,6 +185,12 @@ resource "digitalocean_record" "alexsnyder_www" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "pages" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "TXT"
+  name   = "_github-pages-challenge-rssnyder"
+  value  = "5affa6f4d230839d19855811ef2712"
+}
 // redirects
 
 module "music" {
