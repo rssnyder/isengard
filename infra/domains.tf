@@ -191,6 +191,13 @@ resource "digitalocean_record" "pages" {
   name   = "_github-pages-challenge-rssnyder"
   value  = "5affa6f4d230839d19855811ef2712"
 }
+
+resource "digitalocean_record" "vhs" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "CNAME"
+  name   = "vhs"
+  value  = "rssnyder.github.io"
+}
 // redirects
 
 module "music" {
