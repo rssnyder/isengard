@@ -196,7 +196,7 @@ resource "digitalocean_record" "vhs" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "CNAME"
   name   = "vhs"
-  value  = "rssnyder.github.io"
+  value  = "rssnyder.github.io."
 }
 // redirects
 
