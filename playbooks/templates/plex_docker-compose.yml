@@ -283,9 +283,29 @@ services:
       LOOP: 15
       USERS: 5
 
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      # - JELLYFIN_PublishedServerUrl=192.168.0.5 #optional
+    volumes:
+      - jellyfin:/config
+      - /bucket/media/vhs:/data/vhs
+      # - /path/to/movies:/data/movies
+    ports:
+      - 8096:8096
+      # - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+    restart: unless-stopped
+
 volumes:
   send-redis:
   send:
   pigallery2:
   torch:
   huggingface:
+  jellyfin:

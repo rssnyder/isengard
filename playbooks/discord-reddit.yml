@@ -24,7 +24,7 @@
           - "PUSHOVER_APP={{ reddit_notifications_app }}"
           - "PUSHOVER_USER={{ pushover_user }}"
           - "SUBREDDIT=hardwareswap"
-          - "POST_TEXT='dualup;air75'"
+          - "POST_TEXT='dualup;air75;s23;SoundLink'"
           # - "POST_AUTHOR='IcyBoysenberry6215;Desolate_puppy;Sendnation12'"
         timer_desc: discord-reddit-posts-hardwareswap
         timer_minutes: 1
