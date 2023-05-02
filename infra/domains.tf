@@ -180,6 +180,13 @@ resource "digitalocean_record" "bbb" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "proxy" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "proxy"
+  value  = var.instances["oca8"].ip
+}
+
 resource "digitalocean_record" "alexsnyder_root" {
   domain = digitalocean_domain.alexsnyder_net.name
   type   = "A"
@@ -207,6 +214,7 @@ resource "digitalocean_record" "vhs" {
   name   = "vhs"
   value  = "rssnyder.github.io."
 }
+
 // redirects
 
 module "music" {

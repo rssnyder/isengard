@@ -24,6 +24,7 @@
       shell:
         cmd: |
           rclone copy /bucket/backup crypt:archive/backup
+          rclone copy /bucket/media/vhs crypt:media/vhs
     
     - name: backup media
       shell:
