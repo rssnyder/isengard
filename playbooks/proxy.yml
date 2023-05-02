@@ -1,0 +1,37 @@
+---
+- name: install tinyproxy
+  hosts: oca8
+  roles:
+    - oefenweb.tinyproxy
+  become: yes
+  vars:
+    tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
+    # tinyproxy_tinyproxy_conf:
+    #   - |
+    #     User nobody
+    #     Group nogroup
+    #     Port {{ tinyproxy_port }}
+    #     Timeout 666
+    #     DefaultErrorFile "/usr/share/tinyproxy/default.html"
+    #     StatFile "/usr/share/tinyproxy/stats.html"
+    #     LogLevel Info
+    #     PidFile "/var/run/tinyproxy/tinyproxy.pid"
+    #     MaxClients 100
+    #     MinSpareServers 5
+    #     MaxSpareServers 20
+    #     StartServers 10
+    #     MaxRequestsPerChild 0
+    #     {% for allow in tinyproxy_allow %}
+    #     Allow {{ allow }}
+    #     {% endfor %}
+    #     ViaProxyName "tinyproxy"
+    #     {% for connect_port in tinyproxy_connect_port %}
+    #     ConnectPort {{ connect_port }}
+    #     {% endfor %}
+    tinyproxy_port: 3128
+    tinyproxy_allow:
+      - "{{ ansible_lo['ipv4']['address'] }}"
+      - "{{ ansible_default_ipv4['address'] }}"
+      - "10.0.0.0/0"
+      - "173.22.88.59"
+      - "75.162.0.117"
