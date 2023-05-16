@@ -1,0 +1,63 @@
+---
+- name: zfs prometheus exporter
+  hosts: cornelius
+  become: yes
+
+  tasks:
+
+    - name: copy metrics file
+      template: 
+        src: templates/metrics.j2
+        dest: "/etc/systemd/metrics.sh"
+        mode: 0777
+
+    - name: set service info
+      set_fact:
+        app_name: zfs-exporter
+        version: 2.2.8
+        service_name: zfs-exporter
+        service_desc: zfs metrics
+        service_opts: "--web.listen-address=':9134'"
+        service_type: simple
+        service_binary: zfs_exporter
+
+    - name: create service directory
+      file: 
+        state: directory
+        path: "/etc/{{ app_name }}"
+        owner: root
+        group: root
+
+    - name: download source
+      get_url:
+        url: "https://github.com/pdf/zfs_exporter/releases/download/v{{ version }}/zfs_exporter-{{ version }}.linux-{{ arch }}.tar.gz"
+        dest: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        mode: '0700'
+    
+    - name: extract
+      unarchive:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        dest: "/etc/{{ app_name }}/"
+
+    - name: move
+      copy:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/zfs_exporter-{{ version }}.linux-{{ arch }}/{{ service_binary }}"
+        dest: "/etc/{{ app_name }}/{{ service_binary }}"
+        mode: '0700'
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes

@@ -72,6 +72,11 @@ scrape_configs:
   - targets:
     - '192.168.0.6:8119'
 
+- job_name: zfs
+  static_configs:
+  - targets:
+    - '192.168.0.6:9134'
+
 - job_name: 'pve'
   static_configs:
     - targets:

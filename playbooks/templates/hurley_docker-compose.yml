@@ -291,6 +291,12 @@ services:
       - registry:/var/lib/registry
       - $APPDATA/auth:/auth
 
+  tinyproxy_exporter:
+    build: $APPDATA/tinyproxy_exporter
+    container_name: tinyproxy_exporter
+    command: '-l 0.0.0.0:9240 -t proxy.rileysnyder.dev:3129'
+    ports:
+      - 9240:9240
 volumes:
   db:
     driver: local
