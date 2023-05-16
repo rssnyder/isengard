@@ -1,0 +1,12 @@
+name: debug tinyproxy
+
+on:
+  schedule:
+    - cron: 0 * * * *
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: self-hosted
+    steps:
+      - run: http_proxy=proxy.rileysnyder.dev:3128 curl tinyproxy.stats
