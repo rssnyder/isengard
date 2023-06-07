@@ -1,0 +1,4 @@
+users:
+- name: riley
+  ssh_authorized_keys:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7MtxnQ419a/v4Z4YX2u+goaCLk+je1+++jTrxEBn+0haeghKC9z5mPDedQjBjqCxMEhhK8l5T4HFQt02jsPBDODRCcaknJCgF/4voOhsYtzblz26nqTk55RPcBCE6J9nYh4XU0Z0QAtGasklk8RgfsGHKbpZVA5wOL5Imap6rz3EJqiZ4U0dIWHt+MggrUIOc8arRm+yPMa94bEr7YtrULon7jAm0ABaZcma1JWK9UHSHsZzANmcLO0oSkEj1U+050+dPf41dvlEGpt8hfVNwUs4EZjFVSBISWF93vjtucwCrOLZ/74liANcatz3OKyGyjeNlRsOII1DVzdLO7KFr

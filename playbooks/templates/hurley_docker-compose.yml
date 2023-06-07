@@ -291,12 +291,50 @@ services:
       - registry:/var/lib/registry
       - $APPDATA/auth:/auth
 
-  tinyproxy_exporter:
-    build: $APPDATA/tinyproxy_exporter
-    container_name: tinyproxy_exporter
-    command: '-l 0.0.0.0:9240 -t proxy.rileysnyder.dev:3129'
-    ports:
-      - 9240:9240
+  reddit-hardwareswap:
+    image: ghcr.io/rssnyder/discord-reddit-posts:0.0.1-beta.2
+    environment:
+      PUSHOVER_APP: ${PUSHOVER_APP}
+      PUSHOVER_USER: ${PUSHOVER_USER}
+      SUBREDDIT: hardwareswap
+      POST_TEXT: 'dualup;air60;air75;air90;s23;Terramaster'
+      DB: /db/hardwareswap.json
+    volumes:
+      - $APPDATA/discord-reddit-posts:/db
+  
+  reddit-mechmarket:
+    image: ghcr.io/rssnyder/discord-reddit-posts:0.0.1-beta.2
+    environment:
+      PUSHOVER_APP: ${PUSHOVER_APP}
+      PUSHOVER_USER: ${PUSHOVER_USER}
+      SUBREDDIT: mechmarket
+      POST_TEXT: 'air60;air75;air90'
+      DB: /db/mechmarket.json
+    volumes:
+      - $APPDATA/discord-reddit-posts:/db
+  
+  reddit-buildapcsales:
+    image: ghcr.io/rssnyder/discord-reddit-posts:0.0.1-beta.2
+    environment:
+      PUSHOVER_APP: ${PUSHOVER_APP}
+      PUSHOVER_USER: ${PUSHOVER_USER}
+      SUBREDDIT: buildapcsales
+      POST_TEXT: 'dualup;controller;Terramaster'
+      DB: /db/buildapcsales.json
+    volumes:
+      - $APPDATA/discord-reddit-posts:/db
+  
+  reddit-frugalmalefashion:
+    image: ghcr.io/rssnyder/discord-reddit-posts:0.0.1-beta.2
+    environment:
+      PUSHOVER_APP: ${PUSHOVER_APP}
+      PUSHOVER_USER: ${PUSHOVER_USER}
+      SUBREDDIT: frugalmalefashion
+      POST_TEXT: 'Button-Through'
+      DB: /db/frugalmalefashion.json
+    volumes:
+      - $APPDATA/discord-reddit-posts:/db
+
 volumes:
   db:
     driver: local

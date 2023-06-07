@@ -77,6 +77,16 @@ scrape_configs:
   - targets:
     - '192.168.0.6:9134'
 
+- job_name: hurley_docker
+  static_configs:
+  - targets:
+    - '192.168.0.3:9323'
+
+- job_name: cornelius_docker
+  static_configs:
+  - targets:
+    - '192.168.0.3:9323'
+
 - job_name: 'pve'
   static_configs:
     - targets:

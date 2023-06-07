@@ -8,7 +8,7 @@ newbots
 
 roles*
 
-infra/k8s/helm
+infra/k8s/values
 
 *.state
 

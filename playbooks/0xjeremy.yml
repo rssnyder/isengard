@@ -1,5 +1,5 @@
 ---
-- name: Discord bot for 0xJeremy | Alta Finance#6540 743198594420441208
+- name: Discord bot for 0xJeremy | Alta Finance#6540 743198594420441208 | deleted
   hosts: oca1
   become: yes
 

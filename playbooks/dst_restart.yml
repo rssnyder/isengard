@@ -1,0 +1,14 @@
+---
+- name: Remove discord-stock-ticker client
+  hosts: oc
+  become: yes
+
+  tasks:
+
+    - name: restart dst
+      systemd:
+        state: restarted
+        name: "{{ item.key }}.service"
+      loop: "{{ clients | dict2items }}"
+      loop_control:
+        pause: 5
