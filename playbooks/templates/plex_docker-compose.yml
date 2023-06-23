@@ -151,21 +151,21 @@ services:
       - 9487:9487
     restart: unless-stopped
 
-  handbreak:
-    image: jlesage/handbrake
-    container_name: handbrake
-    ports:
-      - 5800:5800
-    volumes:
-      - $APPDATA/handbreak:/config
-      - /bucket/media/tv:/watch
-      - /bucket/media/tv:/output
-    environment:
-      AUTOMATED_CONVERSION: 1
-      AUTOMATED_CONVERSION_PRESET: "GENERAL/Fast 1080p30"
-      AUTOMATED_CONVERSION_KEEP_SOURCE: 0
-      AUTOMATED_CONVERSION_OUTPUT_SUBDIR: SAME_AS_SRC
-      AUTOMATED_CONVERSION_VIDEO_FILE_EXTENSIONS: "ts"
+  # handbreak:
+  #   image: jlesage/handbrake
+  #   container_name: handbrake
+  #   ports:
+  #     - 5800:5800
+  #   volumes:
+  #     - $APPDATA/handbreak:/config
+  #     - /bucket/media/tv:/watch
+  #     - /bucket/media/tv:/output
+  #   environment:
+  #     AUTOMATED_CONVERSION: 1
+  #     AUTOMATED_CONVERSION_PRESET: "GENERAL/Fast 1080p30"
+  #     AUTOMATED_CONVERSION_KEEP_SOURCE: 0
+  #     AUTOMATED_CONVERSION_OUTPUT_SUBDIR: SAME_AS_SRC
+  #     AUTOMATED_CONVERSION_VIDEO_FILE_EXTENSIONS: "ts"
 
   files:
     image: svenstaro/miniserve
@@ -299,6 +299,32 @@ services:
       LOOP: 15
       USERS: 5
 
+  frigate:
+    container_name: frigate
+    privileged: true # this may not be necessary for all setups
+    restart: unless-stopped
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: "200MB" # update for your cameras based on calculation above
+    # devices:
+      # - /dev/bus/usb:/dev/bus/usb # passes the USB Coral, needs to be modified for other versions
+      # - /dev/apex_0:/dev/apex_0 # passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
+      # - /dev/dri/renderD128 # for intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $APPDATA/frigate/config.yml:/config/config.yml
+      - $APPDATA/frigate/storage:/media/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "5000:5000"
+      - "8554:8554" # RTSP feeds
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
+    environment:
+      FRIGATE_RTSP_PASSWORD: "${QBITTORRENT_PASS}"
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
@@ -318,81 +344,81 @@ services:
       - 1900:1900/udp #optional
     restart: unless-stopped
   
-  scrypted:
-    image: koush/scrypted
-    environment:
-      - SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION=Bearer XXYYZZ
-      - SCRYPTED_WEBHOOK_UPDATE=http://localhost:10444/v1/update
-      # nvidia support
-      # - NVIDIA_VISIBLE_DEVICES=all
-      # - NVIDIA_DRIVER_CAPABILITIES=all
-    # runtime: nvidia
-    container_name: scrypted
-    restart: unless-stopped
-    network_mode: host
+  # scrypted:
+  #   image: koush/scrypted
+  #   environment:
+  #     - SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION=Bearer XXYYZZ
+  #     - SCRYPTED_WEBHOOK_UPDATE=http://localhost:10444/v1/update
+  #     # nvidia support
+  #     # - NVIDIA_VISIBLE_DEVICES=all
+  #     # - NVIDIA_DRIVER_CAPABILITIES=all
+  #   # runtime: nvidia
+  #   container_name: scrypted
+  #   restart: unless-stopped
+  #   network_mode: host
 
-    # devices:
-      # hardware accelerated video decoding, opencl, etc.
-      # - /dev/dri:/dev/dri
-      # uncomment below as necessary.
-      # zwave usb serial device
-      #   - /dev/ttyACM0:/dev/ttyACM0
-      # all usb devices, such as coral tpu
-      #   - /dev/bus/usb:/dev/bus/usb
-      # coral PCI devices
-      # - /dev/apex_0:/dev/apex_0
-      # - /dev/apex_1:/dev/apex_1
+  #   # devices:
+  #     # hardware accelerated video decoding, opencl, etc.
+  #     # - /dev/dri:/dev/dri
+  #     # uncomment below as necessary.
+  #     # zwave usb serial device
+  #     #   - /dev/ttyACM0:/dev/ttyACM0
+  #     # all usb devices, such as coral tpu
+  #     #   - /dev/bus/usb:/dev/bus/usb
+  #     # coral PCI devices
+  #     # - /dev/apex_0:/dev/apex_0
+  #     # - /dev/apex_1:/dev/apex_1
 
-    volumes:
-      - $APPDATA/scrypted:/server/volume
-      # modify and add the additional volume for Scrypted NVR
-      # the following example would mount the /mnt/sda/video path on the host
-      # to the /nvr path inside the docker container.
-      # - /mnt/sda/video:/nvr
+  #   volumes:
+  #     - $APPDATA/scrypted:/server/volume
+  #     # modify and add the additional volume for Scrypted NVR
+  #     # the following example would mount the /mnt/sda/video path on the host
+  #     # to the /nvr path inside the docker container.
+  #     # - /mnt/sda/video:/nvr
 
-      # or use a network mount from one of the examples above
-      # - type: volume
-      #   source: nvr
-      #   target: /nvr
-      #   volume:
-      #     nocopy: true
+  #     # or use a network mount from one of the examples above
+  #     # - type: volume
+  #     #   source: nvr
+  #     #   target: /nvr
+  #     #   volume:
+  #     #     nocopy: true
 
-      # uncomment the following lines to expose Avahi, an mDNS advertiser.
-      # make sure Avahi is running on the host machine, otherwise this will not work.
-      # - /var/run/dbus:/var/run/dbus
-      # - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
-    # logging is noisy and will unnecessarily wear on flash storage.
-    # scrypted has per device in memory logging that is preferred.
-    logging:
-      driver: "json-file"
-      options:
-          max-size: "10m"
-          max-file: "10"
-    labels:
-      - "com.centurylinklabs.watchtower.scope=scrypted"
+  #     # uncomment the following lines to expose Avahi, an mDNS advertiser.
+  #     # make sure Avahi is running on the host machine, otherwise this will not work.
+  #     # - /var/run/dbus:/var/run/dbus
+  #     # - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+  #   # logging is noisy and will unnecessarily wear on flash storage.
+  #   # scrypted has per device in memory logging that is preferred.
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #         max-size: "10m"
+  #         max-file: "10"
+  #   labels:
+  #     - "com.centurylinklabs.watchtower.scope=scrypted"
 
-  # watchtower manages updates for Scrypted.
-  watchtower:
-    environment:
-      - WATCHTOWER_HTTP_API_TOKEN=XXYYZZ
-      - WATCHTOWER_HTTP_API_UPDATE=true
-      - WATCHTOWER_SCOPE=scrypted
-      # remove the following line to never allow docker to auto update.
-      # this is not recommended.
-      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
-    image: containrrr/watchtower
-    container_name: scrypted-watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      - "com.centurylinklabs.watchtower.scope=scrypted"
-    ports:
-        # The auto update port 10444 can be configured
-        # Must match the port in the auto update url above.
-      - 10444:8080
-    # check for updates once an hour (interval is in seconds)
-    command: --interval 3600 --cleanup --scope scrypted
+  # # watchtower manages updates for Scrypted.
+  # watchtower:
+  #   environment:
+  #     - WATCHTOWER_HTTP_API_TOKEN=XXYYZZ
+  #     - WATCHTOWER_HTTP_API_UPDATE=true
+  #     - WATCHTOWER_SCOPE=scrypted
+  #     # remove the following line to never allow docker to auto update.
+  #     # this is not recommended.
+  #     - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
+  #   image: containrrr/watchtower
+  #   container_name: scrypted-watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   labels:
+  #     - "com.centurylinklabs.watchtower.scope=scrypted"
+  #   ports:
+  #       # The auto update port 10444 can be configured
+  #       # Must match the port in the auto update url above.
+  #     - 10444:8080
+  #   # check for updates once an hour (interval is in seconds)
+  #   command: --interval 3600 --cleanup --scope scrypted
 
 volumes:
   send-redis:

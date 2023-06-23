@@ -286,7 +286,7 @@ services:
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
     ports:
-      - 5000:5000
+      - 5001:5000
     volumes:
       - registry:/var/lib/registry
       - $APPDATA/auth:/auth
@@ -319,7 +319,7 @@ services:
       PUSHOVER_APP: ${PUSHOVER_APP}
       PUSHOVER_USER: ${PUSHOVER_USER}
       SUBREDDIT: buildapcsales
-      POST_TEXT: 'dualup;controller;Terramaster'
+      POST_TEXT: 'dualup;controller;Terramaster;victus;hdd'
       DB: /db/buildapcsales.json
     volumes:
       - $APPDATA/discord-reddit-posts:/db

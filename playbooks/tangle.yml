@@ -1,0 +1,139 @@
+---
+- name: Discord bot for Tangle 383445328763813888
+  hosts: oca1
+  become: yes
+
+  tasks:
+
+    - name: copy metrics file
+      template: 
+        src: templates/metrics.j2
+        dest: "/etc/systemd/metrics.sh"
+        mode: 0777
+
+    - name: set service info
+      set_fact:
+        app_name: discord-defillama-volume
+        version: 0.0.1-beta.5
+        service_name: tangle-discord-defillama-volume-uniswap
+        service_desc: tangle-discord-defillama-volume-uniswap
+        service_opts: "-token '{{ tangle_volume_uniswap }}' -protocol uniswap -nickname -refresh=10 -header '24hr Vol ' -metrics ':9924'"
+        service_type: simple
+        service_binary: discord-defillama-volume
+
+    - name: create service dir
+      file: 
+        state: directory
+        path: "/etc/{{ app_name }}"
+        owner: root
+        group: root
+
+    - name: download source
+      get_url:
+        url: "https://github.com/rssnyder/{{ app_name }}/releases/download/{{ version }}/{{ app_name }}_{{ version }}_linux_{{ arch }}.tar.gz"
+        dest: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        mode: '0700'
+    
+    - name: extract
+      unarchive:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        dest: "/etc/{{ app_name }}/"
+    
+    - name: move
+      copy:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}"
+        dest: "/etc/{{ app_name }}/{{ service_name }}"
+        mode: '0700'
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes
+
+    - name: set service info
+      set_fact:
+        app_name: discord-defillama-tvl
+        version: 0.0.1-beta.2
+        service_name: tangle-discord-defillama-tvl-uniswap
+        service_desc: tangle-discord-defillama-tvl-uniswap
+        service_opts: "-token '{{ tangle_tvl_uniswap }}' -protocol uniswap -nickname -activity 'Uniswap TVL' -refresh=30 -metrics ':9925'"
+        service_type: simple
+        service_binary: discord-defillama-tvl
+
+    - name: create service dir
+      file: 
+        state: directory
+        path: "/etc/{{ app_name }}"
+        owner: root
+        group: root
+
+    - name: download source
+      get_url:
+        url: "https://github.com/rssnyder/{{ app_name }}/releases/download/{{ version }}/{{ app_name }}_{{ version }}_linux_{{ arch }}.tar.gz"
+        dest: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        mode: '0700'
+    
+    - name: extract
+      unarchive:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        dest: "/etc/{{ app_name }}/"
+    
+    - name: move
+      copy:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}"
+        dest: "/etc/{{ app_name }}/{{ service_name }}"
+        mode: '0700'
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes
+
+    - name: set service info
+      set_fact:
+        app_name: discord-defillama-tvl
+        version: 0.0.1-beta.2
+        service_name: tangle-discord-defillama-tvl-arrakis-finance
+        service_desc: tangle-discord-defillama-tvl-arrakis-finance
+        service_opts: "-token '{{ tangle_tvl_arrakis_finance }}' -protocol arrakis-finance -nickname -activity 'Arrakis TVL' -refresh=30 -metrics ':9926'"
+        service_type: simple
+        service_binary: discord-defillama-tvl
+
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes

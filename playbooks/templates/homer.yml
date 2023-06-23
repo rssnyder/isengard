@@ -118,9 +118,13 @@ services:
         logo: "assets/homer-icons/png/octoprint.png"
         url: "http://192.168.0.36"
         target: '_top'
+      - name: "Home Assistant"
+        logo: "assets/homer-icons/png/home-assistant.png"
+        url: "http://hurley:8123"
+        target: '_top'
       - name: "Frigate"
-        logo: "assets/homer-icons/png/octoprint.png"
-        url: "http://192.168.0.2:5000"
+        logo: "assets/homer-icons/png/nowshowing.png"
+        url: "http://cornelius:5000"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"

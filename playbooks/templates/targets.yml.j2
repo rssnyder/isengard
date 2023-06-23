@@ -87,6 +87,21 @@ scrape_configs:
   - targets:
     - '192.168.0.3:9323'
 
+- job_name: tangle_volume_uniswap
+  static_configs:
+  - targets:
+    - 'oca1:9924'
+
+- job_name: tangle_tvl_uniswap
+  static_configs:
+  - targets:
+    - 'oca1:9925'
+
+- job_name: tangle_tvl_arrakis-finance
+  static_configs:
+  - targets:
+    - 'oca1:9926'
+
 - job_name: 'pve'
   static_configs:
     - targets:

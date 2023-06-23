@@ -141,7 +141,7 @@ dash.rileysnyder.dev {
 }
 
 registry.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:5000
+    reverse_proxy 192.168.0.3:5001
 }
 
 plex.rileysnyder.dev {
