@@ -152,6 +152,15 @@ module "vhsarchive" {
   private_ip = var.instances["hurley"].ip
 }
 
+module "bothwellarchive" {
+  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "bothwellarchive"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
 resource "digitalocean_record" "parson_tesla" {
   domain = digitalocean_domain.rileysnyder_org.name
   type   = "A"
