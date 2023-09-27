@@ -28,7 +28,7 @@
 # 
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decorator = " "'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set activity = "Coingecko API"'
-               cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set apiToken = "cqt_rQtKPtgHFCY4FbXYvwJJ4bwkCdJp"'
+               cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set apiToken = "{{ covalent_token }}"'
       loop: "{{ clients | dict2items }}"
       when: item.key == client
 
