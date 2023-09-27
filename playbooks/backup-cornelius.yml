@@ -10,10 +10,10 @@
         cmd: |
           rclone copy riley: /bucket/backup/drive/
 
-    - name: backup photos
-      shell:
-        cmd: |
-          rclone sync /bucket/prism crypt:prism
+    # - name: backup photos
+    #   shell:
+    #     cmd: |
+    #       rclone sync /bucket/prism crypt:prism
 
     # - name: backup plex
     #   shell:
@@ -28,9 +28,10 @@
     - name: backup media
       shell:
         cmd: |
-          rclone copy /bucket/media/vhs/          crypt:media/vhs/
-          rclone copy /bucket/media/books/        crypt:media/books/
-          rclone copy /bucket/media/music/        crypt:media/music/
-          # rclone copy /bucket/media/syndicated/ crypt:media/syndicated/
-          # rclone copy /bucket/media/movies/     crypt:media/movies/
-          # rclone copy /bucket/media/tv/         crypt:media/tv/
+          rclone copy /bucket/media/vhs/                      crypt:media/vhs/
+          rclone copy /bucket/media/books/                    crypt:media/books/
+          rclone copy /bucket/media/music/                    crypt:media/music/
+          rclone copy -vP /bucket/media/syndicated/Survivor/  crypt:media/syndicated/
+          # rclone copy /bucket/media/syndicated/             crypt:media/syndicated/
+          # rclone copy /bucket/media/movies/                 crypt:media/movies/
+          # rclone copy /bucket/media/tv/                     crypt:media/tv/

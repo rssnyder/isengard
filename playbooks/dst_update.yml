@@ -23,11 +23,12 @@
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
-         cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 2 where name = "binancecoin"'
+        #  cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 2 where name = "goldenboys"'
+        #  cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update marketcaps set ticker = "$MCAP" where name = "goldenboys"'
 # 
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decorator = " "'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set activity = "Coingecko API"'
-        #        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 5 where name = "okidoki-social"'
+               cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set apiToken = "cqt_rQtKPtgHFCY4FbXYvwJJ4bwkCdJp"'
       loop: "{{ clients | dict2items }}"
       when: item.key == client
 

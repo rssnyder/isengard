@@ -16,6 +16,11 @@
       pip:
         name: boto3
       when: clients
+    
+    - name: Install cryptography
+      pip:
+        name: cryptography
+      when: clients
 
     - name: Backup DB
       amazon.aws.aws_s3:

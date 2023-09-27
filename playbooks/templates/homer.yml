@@ -89,7 +89,7 @@ services:
         target: '_top'
       - name: "Deluge"
         logo: "assets/homer-icons/png/deluge.png"
-        url: "http://hurley:8112"
+        url: "http://cornelius:8112"
         target: '_top'
       - name: "Overseerr"
         logo: "assets/homer-icons/png/overseerr.png"
