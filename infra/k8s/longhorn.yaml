@@ -1,3 +1,0 @@
-defaultSettings:
-  defaultDataPath: /mnt/longhorn
-namespace: <+serviceVariables.namespace>
