@@ -484,6 +484,10 @@ services:
     image: harness/gitness
     container_name: gitness
     restart: unless-stopped
+    environment:
+      GITNESS_USER_SIGNUP_ENABLED: "false"
+      GITNESS_NESTED_SPACES_ENABLED: "true"
+      GITNESS_URL_BASE: https://gitness.rileysnyder.dev
     ports:
       - 3000:3000
     volumes:
