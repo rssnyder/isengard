@@ -1,0 +1,3 @@
+app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
+image: <+artiface.image>
+namespace: <+infra.namespace>
