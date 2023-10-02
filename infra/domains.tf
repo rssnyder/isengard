@@ -217,6 +217,13 @@ resource "digitalocean_record" "vhs" {
   value  = "rssnyder.github.io."
 }
 
+resource "digitalocean_record" "gitness" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "gitness"
+  value  = var.instances["home"].ip
+}
+
 // redirects
 
 module "music" {
