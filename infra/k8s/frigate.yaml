@@ -6,32 +6,14 @@ metadata:
 
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: ata-frigate
-  namespace: frigate
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1000Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/pale/frigate"
-
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ata-frigate
+  name: frigate-media
   namespace: frigate
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: longhorn
   resources:
     requests:
-      storage: 100Gi
-  volumeName: ata-frigate
-  storageClassName: manual
+      storage: 50Gi

@@ -1,0 +1,3 @@
+service:
+  ui:
+    type: LoadBalancer

@@ -72,8 +72,6 @@ sites
 "
 }
 
-
-
 s3.rileysnyder.dev {
     reverse_proxy 192.168.0.3:9000
 }
@@ -82,23 +80,11 @@ metrics.rileysnyder.dev {
     reverse_proxy 192.168.0.3:3000
 }
 
-minecraft.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:25565
-}
-
 files.rileysnyder.dev {
     reverse_proxy 192.168.0.215:8080
     basicauth * {
         friend JDJhJDE0JExhTTFNVFhteVlhYXBZWTl4b0lwTXVtVDZ4a09VTkpDWVpTazZLV2tBN0x6NkN6RE1vNHJl
     }
-}
-
-public.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:8081
-}
-
-requests.rileysnyder.org {
-    reverse_proxy 192.168.0.215:5055
 }
 
 requests.rileysnyder.dev {
@@ -110,10 +96,6 @@ pushmetrics.rileysnyder.dev {
     basicauth * {
         metrics JDJhJDE0JHludWJMdXRJWk8yUGZFMkxvLnBSWC5aSUh4L2dGbXg4ckdDSjF0SFJhMjJHRTZURU5zN2Rx
     }
-}
-
-parson.tesla.rileysnyder.dev {
-    reverse_proxy oca0:3000
 }
 
 send.rileysnyder.dev {
@@ -158,6 +140,13 @@ bothwellarchive.rileysnyder.dev {
 
 gitness.rileysnyder.dev {
     reverse_proxy 192.168.254.3
+}
+
+cameras.rileysnyder.dev {
+    reverse_proxy 192.168.254.5
+    basicauth * {
+        admin $2a$14$vwyu.T/7M3hDK2ryGqOA0efYlzes6zM/o1D6mpR3k/Zb6QHhU6wvm
+    }
 }
 
 alexsnyder.net {

@@ -71,15 +71,6 @@ module "files" {
   private_ip = var.instances["hurley"].ip
 }
 
-module "requests" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_org.name
-  name       = "requests"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
 module "requests_dev" {
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
@@ -161,11 +152,22 @@ module "bothwellarchive" {
   private_ip = var.instances["hurley"].ip
 }
 
-resource "digitalocean_record" "parson_tesla" {
-  domain = digitalocean_domain.rileysnyder_org.name
-  type   = "A"
-  name   = "parson.tesla"
-  value  = var.instances["home"].ip
+module "gitness" {
+  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "gitness"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
+}
+
+module "cameras" {
+  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "cameras"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["hurley"].ip
 }
 
 resource "digitalocean_record" "cds" {
@@ -203,25 +205,13 @@ resource "digitalocean_record" "alexsnyder_www" {
   value  = var.instances["home"].ip
 }
 
+// github pages
+
 resource "digitalocean_record" "pages" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "TXT"
   name   = "_github-pages-challenge-rssnyder"
   value  = "5affa6f4d230839d19855811ef2712"
-}
-
-resource "digitalocean_record" "vhs" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "CNAME"
-  name   = "vhs"
-  value  = "rssnyder.github.io."
-}
-
-resource "digitalocean_record" "gitness" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "gitness"
-  value  = var.instances["home"].ip
 }
 
 // redirects

@@ -2,11 +2,11 @@
 
 # helm installs in the cluster
 
-helm upgrade -i metallb metallb/metallb --namespace metallb-system --create-namespace
+helm upgrade --install metallb metallb/metallb --namespace metallb-system --create-namespace 
 
-helm upgrade -i longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --version 1.5.1
+helm upgrade --install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --version 1.5.1 -f longhorn-values.yaml
 
-helm upgrade -i harness-delegate-work --namespace harness-delegate-work --create-namespace \
+helm upgrade --install harness-delegate-work --namespace harness-delegate-work --create-namespace \
   harness-delegate/harness-delegate-ng \
   --set delegateName=lab \
   --set accountId=wlgELJ0TTre5aZhzpt8gVA \
