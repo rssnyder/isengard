@@ -4,6 +4,19 @@ metadata:
   name: {{ .Values.namespace }}
 
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app }}-env
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app }}
+data:
+  GITNESS_USER_SIGNUP_ENABLED: "false"
+  GITNESS_NESTED_SPACES_ENABLED: "true"
+  GITNESS_URL_BASE: "https://gitness.rileysnyder.dev"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,11 +36,14 @@ spec:
       - name: gitness
         image: {{ .Values.image }}
         imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.app }}-env
         volumeMounts:
-          - name: dind-vol
-            mountPath: /var/run
-          - name: gitness-vol
-            mountPath: /data
+        - name: dind-vol
+          mountPath: /var/run
+        - name: gitness-vol
+          mountPath: /data
       - name: dind
         image: docker:dind
         securityContext:
@@ -36,11 +52,11 @@ spec:
           - name: dind-vol
             mountPath: /var/run
       volumes:
-        - name: dind-vol
-          emptyDir:
-        - name: gitness-vol
-          persistentVolumeClaim:
-            claimName: gitness-pvc
+      - name: dind-vol
+        emptyDir:
+      - name: gitness-vol
+        persistentVolumeClaim:
+          claimName: gitness-pvc
 
 ---
 apiVersion: v1

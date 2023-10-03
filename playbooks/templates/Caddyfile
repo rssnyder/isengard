@@ -157,7 +157,7 @@ bothwellarchive.rileysnyder.dev {
 }
 
 gitness.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:3000
+    reverse_proxy 192.168.254.3
 }
 
 alexsnyder.net {
