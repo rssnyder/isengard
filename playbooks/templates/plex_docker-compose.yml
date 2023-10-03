@@ -318,32 +318,6 @@ services:
       STATUS: 0
       LOOP: 15
       USERS: 5
-
-  frigate:
-    container_name: frigate
-    privileged: true # this may not be necessary for all setups
-    restart: unless-stopped
-    image: ghcr.io/blakeblackshear/frigate:stable
-    shm_size: "200MB" # update for your cameras based on calculation above
-    # devices:
-      # - /dev/bus/usb:/dev/bus/usb # passes the USB Coral, needs to be modified for other versions
-      # - /dev/apex_0:/dev/apex_0 # passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
-      # - /dev/dri/renderD128 # for intel hwaccel, needs to be updated for your hardware
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - $APPDATA/frigate/config.yml:/config/config.yml
-      - $APPDATA/frigate/storage:/media/frigate
-      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
-        target: /tmp/cache
-        tmpfs:
-          size: 1000000000
-    ports:
-      - "5000:5000"
-      - "8554:8554" # RTSP feeds
-      - "8555:8555/tcp" # WebRTC over tcp
-      - "8555:8555/udp" # WebRTC over udp
-    environment:
-      FRIGATE_RTSP_PASSWORD: "${QBITTORRENT_PASS}"
   
   vhssnyder:
     image: lscr.io/linuxserver/jellyfin:latest
@@ -458,41 +432,6 @@ services:
   #     - 10444:8080
   #   # check for updates once an hour (interval is in seconds)
   #   command: --interval 3600 --cleanup --scope scrypted
-
-  proxy:
-    image: "harness/ff-proxy:latest"
-    environment:
-      DEBUG: "true"
-      ACCOUNT_IDENTIFIER: wlgELJ0TTre5aZhzpt8gVA
-      ORG_IDENTIFIER: default
-      ADMIN_SERVICE_TOKEN: ${HARNESS_PLATFORM_API_KEY}
-      AUTH_SECRET: ${HARNESS_PROXY_AUTH_SECRET}
-      REDIS_ADDRESS: redis:6379
-      API_KEYS: ${HARNESS_PROXY_API_KEYS}
-      BYPASS_AUTH: "true"
-    volumes:
-      - proxy:/config
-    ports:
-      - 7000:${PORT:-7000}
-
-  redis:
-    image: "redis:latest"
-    ports:
-      - "6379:6379"
-  
-  gitness:
-    image: harness/gitness
-    container_name: gitness
-    restart: unless-stopped
-    environment:
-      GITNESS_USER_SIGNUP_ENABLED: "false"
-      GITNESS_NESTED_SPACES_ENABLED: "true"
-      GITNESS_URL_BASE: https://gitness.rileysnyder.dev
-    ports:
-      - 3000:3000
-    volumes:
-      - gitness:/data
-      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   send-redis:

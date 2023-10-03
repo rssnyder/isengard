@@ -1,0 +1,16 @@
+namespace: <+infra.namespace>
+app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
+
+image: <+artifact.image>
+port: <+serviceVariables.port>
+targetPort: <+serviceVariables.port>
+# serviceType: <+ <+empty(serviceVariables.serviceType)> ? "NodePort" : <+serviceVariables.serviceType> >
+serviceType: <+serviceVariables.serviceType>
+replicas: <+serviceVariables.replicas>
+
+accountId: <+account.identifier>
+orgId: <+org.identifier>
+
+adminServiceToken: <+secrets.getValue("account.harness_api_token")>
+authSecret: <+secrets.getValue("authSecret")>
+apiKeys:  <+secrets.getValue("apiKeys")>

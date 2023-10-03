@@ -317,26 +317,6 @@ services:
     volumes:
       - $APPDATA/discord-reddit-posts:/db
 
-  proxy:
-    image: "harness/ff-proxy:latest"
-    environment:
-      DEBUG: "true"
-      ACCOUNT_IDENTIFIER: wlgELJ0TTre5aZhzpt8gVA
-      ORG_IDENTIFIER: default
-      ADMIN_SERVICE_TOKEN: ${HARNESS_PLATFORM_API_KEY}
-      AUTH_SECRET: ${HARNESS_PROXY_AUTH_SECRET}
-      REDIS_ADDRESS: redis:6379
-      API_KEYS: ${HARNESS_PROXY_API_KEYS}
-    volumes:
-      - proxy:/config
-    ports:
-      - 7000:${PORT:-7000}
-
-  redis:
-    image: "redis:latest"
-    ports:
-      - "6379:6379"
-
 volumes:
   db:
     driver: local
