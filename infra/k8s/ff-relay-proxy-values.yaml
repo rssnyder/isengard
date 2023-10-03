@@ -4,7 +4,8 @@ app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
 image: <+artifact.image>
 port: <+serviceVariables.port>
 targetPort: <+serviceVariables.port>
-serviceType: <+ <+empty(serviceVariables.serviceType)> ? "NodePort" : <+serviceVariables.serviceType> >
+# serviceType: <+ <+empty(serviceVariables.serviceType)> ? "NodePort" : <+serviceVariables.serviceType> >
+serviceType: <+serviceVariables.serviceType>
 replicas: <+serviceVariables.replicas>
 
 accountId: <+account.identifier>
