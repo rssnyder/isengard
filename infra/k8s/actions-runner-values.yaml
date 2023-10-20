@@ -1,2 +1,5 @@
 githubConfigUrl: https://github.com/rssnyder
-githubConfigSecret.github_token: <+secrets.getValue("account.gh_pat")>
+githubConfigSecret:
+  github_token: <+secrets.getValue("account.gh_pat")>
+controllerServiceAccount:
+  name: test-arc-gha-runner-scale-set-controller
