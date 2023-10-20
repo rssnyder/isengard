@@ -18,6 +18,11 @@ scrape_configs:
   - targets:
     - '192.168.0.3:8235'
 
+- job_name: ff
+  static_configs:
+  - targets:
+    - '192.168.254.6:7000'
+
 # - job_name: digitalocean
 #   static_configs:
 #   - targets:

@@ -2,4 +2,4 @@
 - name: Install node exporter
   hosts: all
   roles:
-    - cloudalchemy.node_exporter  
+    - prometheus.prometheus.node_exporter

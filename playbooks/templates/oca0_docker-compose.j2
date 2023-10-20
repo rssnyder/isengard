@@ -27,3 +27,33 @@ services:
       SUBSCRIPTION_DISCORD_CHANNEL_ID: 931127052394987553
       SUBSCRIPTION_MINT_ADDRESS: 2JWRUKeQ2tvPJeMktystSWPk5kkhNnK3JWexYwUPy3WV
       DISCORD_BOT_TOKEN: {{ potatoy_6228e86ecb4ab77875a57c56_token }}
+
+  caddy:
+    image: caddy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - "443:443/udp"
+    volumes:
+      - $APPDATA/Caddyfile:/etc/caddy/Caddyfile
+
+  bothwellarchive:
+    image: lscr.io/linuxserver/jellyfin:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      # - JELLYFIN_PublishedServerUrl=
+    volumes:
+      - jellyfin:/config
+      - /mnt/vhs/bothwell:/data/vhs
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+      - 7360:7359/udp #optional
+      - 1901:1900/udp #optional
+    restart: unless-stopped
+  
+volumes:
+  jellyfin:

@@ -143,7 +143,7 @@ gitness.rileysnyder.dev {
 }
 
 cameras.rileysnyder.dev {
-    reverse_proxy 192.168.254.5
+    reverse_proxy 192.168.254.1
     basicauth * {
         admin $2a$14$vwyu.T/7M3hDK2ryGqOA0efYlzes6zM/o1D6mpR3k/Zb6QHhU6wvm
     }

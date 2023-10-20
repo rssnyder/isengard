@@ -4,7 +4,33 @@
   become: no
 
   tasks:
+    - name: Install Python and python3-pip
+      package:
+        name:
+          - python3
+          - python3-pip
+        state: present 
+
+    - name: Install docker module for Python
+      pip:
+        name: 
+          - docker
+          - docker-compose
+
+    - name: copy service file
+      copy: 
+        src: templates/oca0_docker-compose.yml
+        dest: /home/riley/docker-compose.yml
+
+    - name: copy homer file
+      copy: 
+        src: templates/homer.yml
+        dest: /home/riley/appdata/homer/config.yml
     
+    - name: Docker-compose up
+      community.docker.docker_compose:
+        project_src: /home/ubuntu
+
     - name: copy service file
       template: 
         src: templates/oca0_docker-compose.j2
@@ -12,6 +38,6 @@
     
     - name: reload
       shell:
-        cmd: docker-compose up -d --remove-orphans
+        cmd: docker compose up -d --remove-orphans
         chdir: /home/ubuntu
 

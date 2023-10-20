@@ -1,0 +1,3 @@
+bothwellarchive.rileysnyder.dev {
+    reverse_proxy bothwellarchive:8096
+}
