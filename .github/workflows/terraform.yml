@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 16
       
-      - run: sudo apt-get update && sudo apt-get install zip -y
+      - run: sudo apt-get update && sudo apt-get install zip git -y
 
       - uses: hashicorp/setup-terraform@v2
 
