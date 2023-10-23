@@ -26,6 +26,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      
+      - run: sudo apt-get install zip -y
 
       - uses: hashicorp/setup-terraform@v2
 
