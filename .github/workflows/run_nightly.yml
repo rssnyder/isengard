@@ -14,7 +14,7 @@ jobs:
         playbook:
           - "dst_backup.yml"
           - "backup-oca1.yml"
-    runs-on: self-hosted
+    runs-on: arc-runner-set
     steps:
 
     - uses: actions/checkout@v2
