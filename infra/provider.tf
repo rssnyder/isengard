@@ -14,7 +14,7 @@ terraform {
   backend "s3" {
     bucket = "isengard"
     key    = "terraform.tfstate"
-    endpoints {
+    endpoints = {
       s3 = "https://s3.rileysnyder.dev"
     }
     region                      = "main"
