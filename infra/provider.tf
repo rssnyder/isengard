@@ -12,9 +12,11 @@ terraform {
     }
   }
   backend "s3" {
-    bucket                      = "isengard"
-    key                         = "terraform.tfstate"
-    endpoint                    = "https://s3.rileysnyder.dev"
+    bucket = "isengard"
+    key    = "terraform.tfstate"
+    endpoints {
+      s3 = "https://s3.rileysnyder.dev"
+    }
     region                      = "main"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
