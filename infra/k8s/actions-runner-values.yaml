@@ -1,3 +1,5 @@
 githubConfigUrl: https://github.com/rssnyder
 githubConfigSecret.github_token: <+secrets.getValue("account.gh_pat")>
-# controllerServiceAccount.namespace: actions-runner-controller
+controllerServiceAccount:
+  name: gha-rs-controller
+  namespace: actions-runner-controller
