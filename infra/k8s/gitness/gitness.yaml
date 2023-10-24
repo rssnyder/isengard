@@ -14,9 +14,9 @@ metadata:
 data:
   GITNESS_USER_SIGNUP_ENABLED: "false"
   GITNESS_NESTED_SPACES_ENABLED: "true"
-  GITNESS_URL_BASE: "https://gitness.rileysnyder.dev"
-  GITNESS_URL_GIT: "https://gitness.rileysnyder.dev/git"
-  GITNESS_URL_API: "https://gitness.rileysnyder.dev/api"
+  GITNESS_URL_BASE: "https://{{ .Values.app }}.{{ .Values.domain }}"
+  GITNESS_URL_GIT: "https://{{ .Values.app }}.{{ .Values.domain }}/git"
+  GITNESS_URL_API: "https://{{ .Values.app }}.{{ .Values.domain }}/api"
 
 ---
 apiVersion: apps/v1
@@ -90,6 +90,16 @@ spec:
       storage: 5Gi
 
 ---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-{{ .Values.app }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /{{ .Values.app }}
+
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -97,7 +107,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   rules:
-    - host: {{ .Values.app }}.k8s.rileysnyder.dev
+    - host: {{ .Values.app }}.{{ .Values.domain }}
       http:
         paths:
           - path: /
@@ -107,7 +117,7 @@ spec:
                 name:  {{ .Values.app }}
                 port:
                   number: 80
-    - host: k8s.rileysnyder.dev
+    - host: {{ .Values.domain }}
       http:
         paths:
           - path: /{{ .Values.app }}
