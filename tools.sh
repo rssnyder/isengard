@@ -6,6 +6,7 @@
 # Ansible
 alias run="ansible-playbook --vault-password .vault_password -i hosts.yml"
 alias dst="ansible-playbook --vault-password .vault_password -i hosts.yml playbooks/discord-stock-ticker.yml --limit"
+alias tf="tofu -chdir=infra"
 
 function ansible-encrypt () {
   echo "enter var name: "

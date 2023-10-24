@@ -170,6 +170,20 @@ module "cameras" {
   private_ip = var.instances["hurley"].ip
 }
 
+resource "digitalocean_record" "k8s" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "k8s"
+  value  = var.instances["home"].ip
+}
+
+resource "digitalocean_record" "star-k8s" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.k8s"
+  value  = var.instances["home"].ip
+}
+
 resource "digitalocean_record" "cds" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

@@ -12,11 +12,9 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "isengard"
-    key    = "terraform.tfstate"
-    endpoints = {
-      s3 = "https://s3.rileysnyder.dev"
-    }
+    bucket                      = "isengard"
+    key                         = "terraform.tfstate"
+    endpoint                    = "https://s3.rileysnyder.dev"
     region                      = "main"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
@@ -29,9 +27,4 @@ provider "digitalocean" {}
 
 provider "pihole" {
   url = "http://192.168.0.3:8888"
-}
-
-provider "harness" {
-  endpoint   = "https://app.harness.io/gateway"
-  account_id = "-N_5zBuvRm2gzVAaNZ64lQ"
 }

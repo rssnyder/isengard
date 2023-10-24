@@ -23,9 +23,14 @@
         dest: /home/riley/docker-compose.yml
 
     - name: copy homer file
-      copy: 
+      template: 
         src: templates/homer.yml
         dest: /home/riley/appdata/homer/config.yml
+
+    - name: copy caddy file
+      template: 
+        src: templates/Caddyfile
+        dest: /home/riley/appdata/Caddyfile
     
     - name: Docker-compose up
       community.docker.docker_compose:

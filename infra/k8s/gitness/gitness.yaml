@@ -88,3 +88,32 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.app }}
+  namespace: {{ .Values.namespace }}
+spec:
+  rules:
+    - host: {{ .Values.app }}.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  {{ .Values.app }}
+                port:
+                  number: 80
+    - host: k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /{{ .Values.app }}
+            pathType: Prefix
+            backend:
+              service:
+                name:  {{ .Values.app }}
+                port:
+                  number: 80

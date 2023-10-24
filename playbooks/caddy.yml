@@ -6,7 +6,7 @@
   tasks:
     
     - name: copy caddy file
-      copy: 
+      template: 
         src: templates/Caddyfile
         dest: /home/riley/appdata/Caddyfile
     

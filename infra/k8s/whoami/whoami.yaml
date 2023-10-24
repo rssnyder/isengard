@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: whoami
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -38,15 +38,26 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: whoami
+  namespace: whoami
 spec:
   rules:
-  - # host: example.com
-    http:
-      paths:
-      - path: /whoami
-        pathType: Prefix
-        backend:
-          service:
-            name:  whoami
-            port:
-              name: web
+    - host: whoami.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  whoami
+                port:
+                  number: 80
+    - host: k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /whoami
+            pathType: Prefix
+            backend:
+              service:
+                name:  whoami
+                port:
+                  number: 80
