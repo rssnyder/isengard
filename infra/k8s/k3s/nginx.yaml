@@ -14,4 +14,6 @@ spec:
   repo: https://kubernetes.github.io/ingress-nginx
   chart: ingress-nginx
   targetNamespace: ingress-nginx
-  # dockerRegistrySecret: ghcr-io-secret
+  valuesContent: |-
+    controller:
+      allowSnippetAnnotations: true

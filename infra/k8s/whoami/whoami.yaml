@@ -62,3 +62,22 @@ spec:
                 name:  whoami
                 port:
                   number: 80
+
+---
+apiVersion: ccm.harness.io/v1
+kind: AutoStoppingRule
+metadata:
+  name: whoami
+  namespace: whoami
+  annotations:
+    harness.io/cloud-connector-id: rileyharnessccm
+spec:
+  service:
+    name: whoami
+    port: 80
+  ingress:
+    name: whoami
+    controllerName: nginx
+  idleTimeMins: 5
+  hideProgressPage: false
+  dependencies: []

@@ -158,11 +158,11 @@ www.alexsnyder.net {
 }
 
 k8s.rileysnyder.dev {
-    reverse_proxy 192.168.254.2
+    reverse_proxy 192.168.254.4
 }
 
 *.k8s.rileysnyder.dev {
-    reverse_proxy 192.168.254.2
+    reverse_proxy 192.168.254.4
 
     tls {
         dns digitalocean {{ digitalocean_token }}
