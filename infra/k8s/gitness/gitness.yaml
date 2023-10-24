@@ -96,6 +96,7 @@ metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
 spec:
+  ingressClassName: nginx
   rules:
     - host: {{ .Values.app }}.{{ .Values.domain }}
       http:

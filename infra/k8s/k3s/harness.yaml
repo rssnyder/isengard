@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harness-delegate-ng
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: harness-delegate-ng
+  namespace: harness-delegate-ng
+spec:
+  repo: https://app.harness.io/storage/harness-download/delegate-helm-chart
+  chart: harness-delegate-ng
+  targetNamespace: harness-delegate-ng
+  valuesContent: |-
+    delegateName: lab
+    accountId: wlgELJ0TTre5aZhzpt8gVA
+    delegateToken: {{ harness_delegate_token }}
+    managerEndpoint: https://app.harness.io/gratis
+    delegateDockerImage: harness/delegate:23.09.80505
+    replicas: 1

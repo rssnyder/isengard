@@ -1,0 +1,75 @@
+service:
+  type: LoadBalancer
+  port: 80
+config: |
+  mqtt:
+    host: "192.168.0.3"
+    port: 1883
+    user: admin
+    password: <+secrets.getValue("default_lab_password")>
+  database: 
+    path: /media/frigate.db
+  cameras:
+    back:
+      ffmpeg:
+        inputs:
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.97:554/h264Preview_01_main
+            roles:
+              - detect
+              - rtmp
+      detect:
+        width: 2560
+        height: 1920
+      record:
+        enabled: true
+    louie:
+      ffmpeg:
+        inputs:
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.98:554/h264Preview_01_main
+            roles:
+              # - detect
+              - rtmp
+      # detect:
+      #   width: 2560
+      #   height: 1440
+      record:
+        enabled: false
+    front:
+      ffmpeg:
+        inputs:
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.99:554/h264Preview_01_main
+            roles:
+              - detect
+              - rtmp
+      detect:
+        width: 2560
+        height: 1440
+      record:
+        enabled: true
+    roam:
+      ffmpeg:
+        inputs:
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.100:554/h264Preview_01_main
+            roles:
+              - detect
+              - rtmp
+      detect:
+        width: 1280
+        height: 720
+  snapshots:
+    # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
+    # This value can be set via MQTT and will be updated in startup based on retained value
+    enabled: True
+    timestamp: True
+    retain:
+      default: 30
+      objects:
+        person: 30
+extraVolumes:
+  - name: media
+    persistentVolumeClaim:
+      claimName: frigate-media
+extraVolumeMounts:
+  - name: media
+    mountPath: /media
+    subPath: media

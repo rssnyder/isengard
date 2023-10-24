@@ -1,0 +1,12 @@
+---
+- name: copy k3s manifests
+  hosts: charlie
+  become: yes
+
+  tasks:
+    
+    - template:
+        src: "{{ item }}"
+        dest: /var/lib/rancher/k3s/server/manifests/{{ item | basename | regex_replace('\.j2$', '') }}
+      with_fileglob:
+        - ../infra/k8s/k3s/*.yaml
