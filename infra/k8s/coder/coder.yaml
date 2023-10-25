@@ -67,11 +67,20 @@ metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Host $host;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection upgrade;
-      proxy_set_header Accept-Encoding gzip;
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #   proxy_set_header Host $host;
+    #   proxy_set_header Upgrade $http_upgrade;
+    #   proxy_set_header Connection upgrade;
+    #   proxy_set_header Accept-Encoding gzip;
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.org/websocket-services: {{ .Values.app }}
+    nginx.org/server-snippets: |
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection upgrade;
+        proxy_set_header Accept-Encoding gzip;
+      }
 spec:
   ingressClassName: nginx
   rules:
