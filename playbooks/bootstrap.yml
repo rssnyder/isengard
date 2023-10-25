@@ -1,0 +1,11 @@
+---
+- name: machine bootstrap
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Install packages
+      package:
+        name:
+          - zsh
+        state: present 

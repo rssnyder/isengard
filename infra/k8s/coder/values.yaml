@@ -1,0 +1,9 @@
+app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
+image: <+artifact.image>
+namespace: <+infra.namespace>
+domain: k8s.rileysnyder.dev
+
+autostop:
+  cloudConnectorId: rileyharnessccm
+  controllerName: nginx
+  idleTimeMins: 5
