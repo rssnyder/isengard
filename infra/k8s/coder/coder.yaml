@@ -26,6 +26,16 @@ spec:
         volumeMounts:
         - name: project
           mountPath: /home/coder/project
+      - name: dind
+        image: docker:dind
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: dind-vol
+            mountPath: /var/run
+      volumes:
+      - name: dind-vol
+        emptyDir:
       volumes:
       - name: project
         persistentVolumeClaim:
@@ -67,11 +77,6 @@ metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
   annotations:
-    # nginx.ingress.kubernetes.io/configuration-snippet: |
-    #   proxy_set_header Host $host;
-    #   proxy_set_header Upgrade $http_upgrade;
-    #   proxy_set_header Connection upgrade;
-    #   proxy_set_header Accept-Encoding gzip;
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.org/websocket-services: {{ .Values.app }}
     nginx.org/server-snippets: |
@@ -95,21 +100,21 @@ spec:
                 port:
                   number: 80
 
-# ---
-# apiVersion: ccm.harness.io/v1
-# kind: AutoStoppingRule
-# metadata:
-#   name: {{ .Values.app }}
-#   namespace: {{ .Values.namespace }}
-#   annotations:
-#     harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
-# spec:
-#   service:
-#     name: {{ .Values.app }}
-#     port: 80
-#   ingress:
-#     name: {{ .Values.app }}
-#     controllerName: {{ .Values.autostop.controllerName }}
-#   idleTimeMins: {{ .Values.autostop.idleTimeMins }}
-#   hideProgressPage: false
-#   dependencies: []
+---
+apiVersion: ccm.harness.io/v1
+kind: AutoStoppingRule
+metadata:
+  name: {{ .Values.app }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
+spec:
+  service:
+    name: {{ .Values.app }}
+    port: 80
+  ingress:
+    name: {{ .Values.app }}
+    controllerName: {{ .Values.autostop.controllerName }}
+  idleTimeMins: {{ .Values.autostop.idleTimeMins }}
+  hideProgressPage: false
+  dependencies: []
