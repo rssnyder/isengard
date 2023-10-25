@@ -4,6 +4,6 @@ namespace: <+infra.namespace>
 domain: k8s.rileysnyder.dev
 
 autostop:
-  cloud-connector-id: rileyharnessccm
+  cloudConnectorId: rileyharnessccm
   controllerName: nginx
   idleTimeMins: 5

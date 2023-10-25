@@ -126,7 +126,7 @@ metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
   annotations:
-    harness.io/cloud-connector-id: {{ .Values.autostop.cloud-connector-id }}
+    harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
 spec:
   service:
     name: {{ .Values.app }}
