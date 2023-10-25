@@ -8,4 +8,5 @@
       package:
         name:
           - zsh
+          - mosh
         state: present 
