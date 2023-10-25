@@ -66,6 +66,12 @@ kind: Ingress
 metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Host $host;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection upgrade;
+      proxy_set_header Accept-Encoding gzip;
 spec:
   ingressClassName: nginx
   rules:
@@ -80,21 +86,21 @@ spec:
                 port:
                   number: 80
 
----
-apiVersion: ccm.harness.io/v1
-kind: AutoStoppingRule
-metadata:
-  name: {{ .Values.app }}
-  namespace: {{ .Values.namespace }}
-  annotations:
-    harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
-spec:
-  service:
-    name: {{ .Values.app }}
-    port: 80
-  ingress:
-    name: {{ .Values.app }}
-    controllerName: {{ .Values.autostop.controllerName }}
-  idleTimeMins: {{ .Values.autostop.idleTimeMins }}
-  hideProgressPage: false
-  dependencies: []
+# ---
+# apiVersion: ccm.harness.io/v1
+# kind: AutoStoppingRule
+# metadata:
+#   name: {{ .Values.app }}
+#   namespace: {{ .Values.namespace }}
+#   annotations:
+#     harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
+# spec:
+#   service:
+#     name: {{ .Values.app }}
+#     port: 80
+#   ingress:
+#     name: {{ .Values.app }}
+#     controllerName: {{ .Values.autostop.controllerName }}
+#   idleTimeMins: {{ .Values.autostop.idleTimeMins }}
+#   hideProgressPage: false
+#   dependencies: []
