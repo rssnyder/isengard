@@ -26,6 +26,8 @@ spec:
         volumeMounts:
         - name: home
           mountPath: /home/coder
+        - name: dind-vol
+          mountPath: /var/run
       - name: dind
         image: docker:dind
         securityContext:
