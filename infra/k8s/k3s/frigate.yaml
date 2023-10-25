@@ -18,6 +18,16 @@ spec:
       storage: 50Gi
 
 ---
+apiVersion: v1
+data:
+  auth: {{ nginx_ingress_auth_secret }}
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: frigate
+type: Opaque
+
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -34,16 +44,6 @@ spec:
       http:
         paths:
           - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name:  frigate
-                port:
-                  number: 80
-    - host: k8s.rileysnyder.dev
-      http:
-        paths:
-          - path: /frigate
             pathType: Prefix
             backend:
               service:
