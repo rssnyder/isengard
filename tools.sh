@@ -299,7 +299,7 @@ function restartclient () {
   # restartclient <client>
   ###
 
-  ansible-playbook -i $HOME/Documents/isengard/hosts.yml $HOME/Documents/isengard/playbooks/restart-service.yml --limit oc -e "{\"service\":\"$1\"}"
+  ansible-playbook -i $HOME/isengard/hosts.yml $HOME/isengard/playbooks/restart-service.yml --limit oc -e "{\"service\":\"$1\"}"
 }
 
 function updateclient () {
@@ -307,9 +307,11 @@ function updateclient () {
   # updateclient <client>
   ###
 
-  ansible-playbook -i $HOME/Documents/isengard/hosts.yml $HOME/Documents/isengard/playbooks/discord-stock-ticker-update.yml --limit oracle_arm_dst -e "{\"client\":\"$1\"}"
+  ansible-playbook -i $HOME/isengard/hosts.yml $HOME/isengard/playbooks/discord-stock-ticker-update.yml --limit oracle_arm_dst -e "{\"client\":\"$1\"}"
 }
 
 function claim () {
   dbpull $1 && reclaim -db $1.state
 }
+
+alias getenv='export $(cat ../.env | xargs); export AWS_ACCESS_KEY_ID=$MINIO_USER; export AWS_SECRET_ACCESS_KEY=$MINIO_PASSWORD'

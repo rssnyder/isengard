@@ -16,3 +16,37 @@ spec:
   resources:
     requests:
       storage: 50Gi
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frigate
+  namespace: frigate
+  annotations:
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: frigate.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  frigate
+                port:
+                  number: 80
+    - host: k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /frigate
+            pathType: Prefix
+            backend:
+              service:
+                name:  frigate
+                port:
+                  number: 80

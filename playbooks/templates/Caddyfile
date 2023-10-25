@@ -81,14 +81,14 @@ metrics.rileysnyder.dev {
 }
 
 files.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:8080
+    reverse_proxy 192.168.0.6:8080
     basicauth * {
         friend JDJhJDE0JExhTTFNVFhteVlhYXBZWTl4b0lwTXVtVDZ4a09VTkpDWVpTazZLV2tBN0x6NkN6RE1vNHJl
     }
 }
 
 requests.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:5055
+    reverse_proxy 192.168.0.6:5055
 }
 
 pushmetrics.rileysnyder.dev {
@@ -99,7 +99,7 @@ pushmetrics.rileysnyder.dev {
 }
 
 send.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:8383
+    reverse_proxy 192.168.0.6:8383
 }
 
 vscode.rileysnyder.dev {
@@ -127,15 +127,15 @@ registry.rileysnyder.dev {
 }
 
 plex.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:32400
+    reverse_proxy 192.168.0.6:32400
 }
 
 vhsarchive.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:8096
+    reverse_proxy 192.168.0.6:8096
 }
 
 bothwellarchive.rileysnyder.dev {
-    reverse_proxy 192.168.0.215:8097
+    reverse_proxy 192.168.0.6:8097
 }
 
 gitness.rileysnyder.dev {
