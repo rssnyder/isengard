@@ -69,10 +69,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{ .Values.pcv.storageClassName }}
+  storageClassName: {{ .Values.pvc.storageClassName }}
   resources:
     requests:
-      storage: {{ .Values.pcv.size }}
+      storage: {{ .Values.pvc.size }}
 
 ---
 apiVersion: networking.k8s.io/v1
