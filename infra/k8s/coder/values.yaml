@@ -1,9 +1,20 @@
 app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
 image: <+artifact.image>
 namespace: <+infra.namespace>
-domain: k8s.rileysnyder.dev
+
+domain: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>.k8s.rileysnyder.dev
+
+service: 
+  type: LoadBalancer
+  port: 80
+
+pvc:
+  enable: true
+  storageClassName: longhorn
+  size: 25Gi
 
 autostop:
   cloudConnectorId: rileyharnessccm
   controllerName: nginx
   idleTimeMins: 5
+  hideProgressPage: false

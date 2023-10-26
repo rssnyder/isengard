@@ -23,6 +23,9 @@ spec:
       - name: coder
         image: {{ .Values.image }}
         imagePullPolicy: IfNotPresent
+        ports:
+        - name: webui
+          containerPort: 8080
         volumeMounts:
         - name: home
           mountPath: /home/coder
@@ -49,13 +52,13 @@ metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
 spec:
-  type: LoadBalancer
+  type: {{ .Values.service.type }}
   selector:
     app: {{ .Values.app }}
   ports:
-  - name: web
-    port: 80
-    targetPort: 8080
+  - name: webui
+    port: {{ .Values.service.port }}
+    targetPort: webui
 
 ---
 apiVersion: v1
@@ -66,10 +69,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: longhorn
+  storageClassName: {{ .Values.pcv.storageClassName }}
   resources:
     requests:
-      storage: 25Gi
+      storage: {{ .Values.pcv.size }}
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -90,7 +93,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.app }}.{{ .Values.domain }}
+    - host: {{ .Values.domain }}
       http:
         paths:
           - path: /
@@ -99,7 +102,7 @@ spec:
               service:
                 name:  {{ .Values.app }}
                 port:
-                  number: 80
+                  number: {{ .Values.service.port }}
 
 ---
 apiVersion: ccm.harness.io/v1
@@ -112,10 +115,10 @@ metadata:
 spec:
   service:
     name: {{ .Values.app }}
-    port: 80
+    port: {{ .Values.service.port }}
   ingress:
     name: {{ .Values.app }}
     controllerName: {{ .Values.autostop.controllerName }}
   idleTimeMins: {{ .Values.autostop.idleTimeMins }}
-  hideProgressPage: false
+  hideProgressPage: {{ .Values.autostop.hideProgressPage }}
   dependencies: []
