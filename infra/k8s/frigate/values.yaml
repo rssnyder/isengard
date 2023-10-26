@@ -50,7 +50,7 @@ config: |
     roam:
       ffmpeg:
         inputs:
-          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.100:554/h264Preview_01_main
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.96:554/h264Preview_01_main
             roles:
               - detect
               - rtmp
