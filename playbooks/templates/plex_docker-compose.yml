@@ -77,19 +77,19 @@ services:
       - "58846:58846"
       - "58946:58946"
 
-  # qbt_exporter:
-  #   image: esanchezm/prometheus-qbittorrent-exporter
-  #   container_name: qbt_exporter
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8119:8119"
-  #   environment:
-  #     QBITTORRENT_HOST: "192.168.0.6"
-  #     QBITTORRENT_PORT: 8475
-  #     EXPORTER_PORT: 8119
-  #     QBITTORRENT_USER: admin
-  #     QBITTORRENT_PASS: "${QBITTORRENT_PASS}"
-  #     VERIFY_WEBUI_CERTIFICATE: "false"
+  qbt_exporter:
+    image: esanchezm/prometheus-qbittorrent-exporter
+    container_name: qbt_exporter
+    restart: unless-stopped
+    ports:
+      - "8119:8119"
+    environment:
+      QBITTORRENT_HOST: "192.168.0.6"
+      QBITTORRENT_PORT: 8475
+      EXPORTER_PORT: 8119
+      QBITTORRENT_USER: admin
+      QBITTORRENT_PASS: "${QBITTORRENT_PASS}"
+      VERIFY_WEBUI_CERTIFICATE: "false"
 
   sonarr:
     image: linuxserver/sonarr
@@ -160,17 +160,17 @@ services:
       - 8181:8181
     restart: unless-stopped
 
-  # tautulli-exporter:
-  #   image: nwalke/tautulli_exporter
-  #   container_name: tautulli-exporter
-  #   environment:
-  #     TAUTULLI_API_KEY: "${TAUTULLI_KEY}"
-  #     TAUTULLI_URI: http://192.168.0.6:8181
-  #   volumes:
-  #     - $APPDATA/tautulli:/config
-  #   ports:
-  #     - 9487:9487
-  #   restart: unless-stopped
+  tautulli-exporter:
+    image: nwalke/tautulli_exporter
+    container_name: tautulli-exporter
+    environment:
+      TAUTULLI_API_KEY: "${TAUTULLI_KEY}"
+      TAUTULLI_URI: http://192.168.0.6:8181
+    volumes:
+      - $APPDATA/tautulli:/config
+    ports:
+      - 9487:9487
+    restart: unless-stopped
 
   # handbreak:
   #   image: jlesage/handbrake
