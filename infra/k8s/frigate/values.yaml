@@ -47,7 +47,7 @@ config: |
         height: 1440
       record:
         enabled: true
-    roam:
+    3dprinter:
       ffmpeg:
         inputs:
           - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.239:554/h264Preview_01_main
