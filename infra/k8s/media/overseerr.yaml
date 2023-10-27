@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: overseerr-env
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: overseerr
+data:
+  WEBUI_PORT: {{ .Values.overseerr.port }}
+  PUID: {{ .Values.PUID }}
+  PGID: {{ .Values.PGID }}
+  TZ: {{ .Values.timezone }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overseerr
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: overseerr
+  template:
+    metadata:
+      labels:
+        app: overseerr
+    spec:
+      containers:
+      - name: overseerr
+        image: {{ .Values.overseerr.image }}
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: overseerr-env
+        ports:
+        - name: webui
+          containerPort: {{ .Values.overseerr.port }}
+        volumeMounts:
+        - name: config
+          mountPath: /config
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: overseerr
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: overseerr
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.overseerr.service.type }}
+  selector:
+    app: overseerr
+  ports:
+  - name: webui
+    port: {{ .Values.overseerr.service.port }}
+    targetPort: webui
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: overseerr
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .Values.overseerr.pvc.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.overseerr.pvc.size }}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: overseerr
+  namespace: {{ .Values.namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: overseerr.{{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  overseerr
+                port:
+                  number: {{ .Values.overseerr.service.port }}

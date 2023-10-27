@@ -50,3 +50,4 @@ spec:
                 name:  frigate
                 port:
                   number: 80
+

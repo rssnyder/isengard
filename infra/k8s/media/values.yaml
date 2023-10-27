@@ -42,5 +42,32 @@ radarr:
     storageClassName: longhorn
     size: 5G
 
+prowlarr:
+  image: linuxserver/prowlarr:latest
+  port: 9696
+  service:
+    type: LoadBalancer
+    port: 80
+  pvc:
+    storageClassName: longhorn
+    size: 5G
+
+overseerr:
+  image: linuxserver/overseerr:latest
+  port: 5055
+  service:
+    type: LoadBalancer
+    port: 80
+  pvc:
+    storageClassName: longhorn
+    size: 5G
+
+files:
+  image: svenstaro/miniserve
+  port: 8080
+  service:
+    type: LoadBalancer
+    port: 80
+
 plex:
   image:

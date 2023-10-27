@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: files
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: files
+  template:
+    metadata:
+      labels:
+        app: files
+    spec:
+      containers:
+      - name: files
+        image: {{ .Values.files.image }}
+        imagePullPolicy: IfNotPresent
+        command: /downloads
+        ports:
+        - name: webui
+          containerPort: {{ .Values.files.port }}
+        volumeMounts:
+        - name: downloads
+          mountPath: /downloads
+      volumes:
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: downloads
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: files
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.files.service.type }}
+  selector:
+    app: files
+  ports:
+  - name: webui
+    port: {{ .Values.files.service.port }}
+    targetPort: webui
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: files
+  namespace: {{ .Values.namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: files.{{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  files
+                port:
+                  number: {{ .Values.files.service.port }}
