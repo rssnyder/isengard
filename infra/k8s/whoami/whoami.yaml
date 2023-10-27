@@ -52,16 +52,6 @@ spec:
                 name:  whoami
                 port:
                   number: 80
-    - host: k8s.rileysnyder.dev
-      http:
-        paths:
-          - path: /whoami
-            pathType: Prefix
-            backend:
-              service:
-                name:  whoami
-                port:
-                  number: 80
 
 ---
 apiVersion: ccm.harness.io/v1

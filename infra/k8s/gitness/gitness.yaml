@@ -108,16 +108,6 @@ spec:
                 name:  {{ .Values.app }}
                 port:
                   number: 80
-    - host: {{ .Values.domain }}
-      http:
-        paths:
-          - path: /{{ .Values.app }}
-            pathType: Prefix
-            backend:
-              service:
-                name:  {{ .Values.app }}
-                port:
-                  number: 80
 
 ---
 apiVersion: ccm.harness.io/v1

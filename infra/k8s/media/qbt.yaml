@@ -85,15 +85,13 @@ kind: Ingress
 metadata:
   name: qbt
   namespace: {{ .Values.namespace }}
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.ingress.domain }}
+    - host: qbt.{{ .Values.ingress.host }}
       http:
         paths:
-          - path: /qbt/(.*)
+          - path: /
             pathType: Prefix
             backend:
               service:

@@ -5,7 +5,7 @@ PGID: 100
 timezone: America/Chicago
 
 ingress:
-  domain: media.k8s.rileysnyder.dev
+  host: k8s.rileysnyder.dev
 
 downloads:
   pvc:
