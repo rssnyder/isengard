@@ -13,7 +13,7 @@ downloads:
     size: 50G
 
 qbt:
-  image: lscr.io/linuxserver/qbittorrent:latest
+  image: linuxserver/qbittorrent:latest
   port: 8475
   service:
     type: LoadBalancer
