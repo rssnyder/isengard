@@ -17,7 +17,8 @@ spec:
       - name: files
         image: {{ .Values.files.image }}
         imagePullPolicy: IfNotPresent
-        command: /downloads
+        command:
+        - /downloads
         ports:
         - name: webui
           containerPort: {{ .Values.files.port }}
