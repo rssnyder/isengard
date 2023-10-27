@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonarr-env
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: sonarr
+data:
+  WEBUI_PORT: {{ .Values.sonarr.port }}
+  PUID: {{ .Values.PUID }}
+  PGID: {{ .Values.PGID }}
+  TZ: {{ .Values.timezone }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: {{ .Values.sonarr.image }}
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: sonarr-env
+        ports:
+        - name: webui
+          containerPort: {{ .Values.sonarr.port }}
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: sonarr
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: downloads
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.sonarr.service.type }}
+  selector:
+    app: sonarr
+  ports:
+  - name: webui
+    port: {{ .Values.sonarr.service.port }}
+    targetPort: webui
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .Values.sonarr.pvc.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.sonarr.pvc.size }}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarr
+  namespace: {{ .Values.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /sonarr(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name:  sonarr
+                port:
+                  number: {{ .Values.sonarr.service.port }}

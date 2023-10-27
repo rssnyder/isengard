@@ -1,0 +1,46 @@
+namespace: media
+
+PUID: 99
+PGID: 100
+timezone: America/Chicago
+
+ingress:
+  domain: media.k8s.rileysnyder.dev
+
+downloads:
+  pvc:
+    storageClassName: longhorn
+    size: 50G
+
+qbt:
+  image: lscr.io/linuxserver/qbittorrent:latest
+  port: 8475
+  service:
+    type: LoadBalancer
+    port: 80
+  pvc:
+    storageClassName: longhorn
+    size: 1G
+
+sonarr:
+  image: linuxserver/sonarr:latest
+  port: 8989
+  service:
+    type: LoadBalancer
+    port: 80
+  pvc:
+    storageClassName: longhorn
+    size: 5G
+
+radarr:
+  image: linuxserver/radarr:latest
+  port: 7878
+  service:
+    type: LoadBalancer
+    port: 80
+  pvc:
+    storageClassName: longhorn
+    size: 5G
+
+plex:
+  image:
