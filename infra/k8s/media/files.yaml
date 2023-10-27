@@ -17,7 +17,7 @@ spec:
       - name: files
         image: {{ .Values.files.image }}
         imagePullPolicy: IfNotPresent
-        command:
+        args:
         - /downloads
         ports:
         - name: webui
