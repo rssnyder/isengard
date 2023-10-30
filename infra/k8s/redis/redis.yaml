@@ -38,6 +38,6 @@ spec:
   selector:
     app: {{ .Values.app }}
   ports:
-  - name: webui
+  - name: api
     port: {{ .Values.service.port }}
     targetPort: api
