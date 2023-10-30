@@ -1,0 +1,7 @@
+app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
+image: <+artifact.image>
+namespace: <+infra.namespace>
+
+service: 
+  type: LoadBalancer
+  port: 6379
