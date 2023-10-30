@@ -14,4 +14,4 @@ adminServiceToken: <+secrets.getValue("account.harness_api_token")>
 authSecret: <+secrets.getValue("authSecret")>
 apiKeys:  <+secrets.getValue("apiKeys")>
 
-redis_address: redis.redis-b.svc.cluster.local:6379
+redis_address: redis.redis.svc.cluster.local:6379
