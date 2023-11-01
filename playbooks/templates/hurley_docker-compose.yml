@@ -3,7 +3,7 @@ version: "3"
 services:
 
   caddy:
-    image: caddy
+    image: rssnyder/caddy-digitalocean
     container_name: caddy
     restart: unless-stopped
     ports:
@@ -154,15 +154,15 @@ services:
     ports:
       - 9617:9617
 
-  homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:stable
-    container_name: homeassistant
-    network_mode: host
-    privileged: true
-    restart: unless-stopped
-    volumes:
-      - $APPDATA/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
+  # homeassistant:
+  #   image: ghcr.io/home-assistant/home-assistant:stable
+  #   container_name: homeassistant
+  #   network_mode: host
+  #   privileged: true
+  #   restart: unless-stopped
+  #   volumes:
+  #     - $APPDATA/homeassistant:/config
+  #     - /etc/localtime:/etc/localtime:ro
 
   music:
     build: $APPDATA/music
@@ -176,19 +176,19 @@ services:
     ports:
       - "9877:80"
 
-  signal:
-    image: bbernhard/signal-cli-rest-api
-    container_name: signal
-    restart: unless-stopped
-    command:
-      - serve
-    environment:
-      MODE: native
-      AUTO_RECEIVE_SCHEDULE: 0 22 * * *
-    volumes:
-      - $APPDATA/signal:/home/.local/share/signal-cli
-    ports:
-      - 8911:8080
+  # signal:
+  #   image: bbernhard/signal-cli-rest-api
+  #   container_name: signal
+  #   restart: unless-stopped
+  #   command:
+  #     - serve
+  #   environment:
+  #     MODE: native
+  #     AUTO_RECEIVE_SCHEDULE: 0 22 * * *
+  #   volumes:
+  #     - $APPDATA/signal:/home/.local/share/signal-cli
+  #   ports:
+  #     - 8911:8080
 
   discord-bot-manager:
     build: $APPDATA/discord-bot-manager
@@ -251,27 +251,27 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
 
-  alexsnydernet:
-    image: klakegg/hugo:0.101.0
-    container_name: alexsnydernet
-    command: server
-    volumes:
-      - $APPDATA/alexsnyder.net:/src
-    ports:
-      - 1313:1313
+  # alexsnydernet:
+  #   image: klakegg/hugo:0.101.0
+  #   container_name: alexsnydernet
+  #   command: server
+  #   volumes:
+  #     - $APPDATA/alexsnyder.net:/src
+  #   ports:
+  #     - 1313:1313
 
-  registry:
-    image: registry:2
-    container_name: registry
-    environment:
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-    ports:
-      - 5001:5000
-    volumes:
-      - registry:/var/lib/registry
-      - $APPDATA/auth:/auth
+  # registry:
+  #   image: registry:2
+  #   container_name: registry
+  #   environment:
+  #     REGISTRY_AUTH: htpasswd
+  #     REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+  #     REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+  #   ports:
+  #     - 5001:5000
+  #   volumes:
+  #     - registry:/var/lib/registry
+  #     - $APPDATA/auth:/auth
 
 volumes:
   db:

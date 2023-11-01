@@ -12,7 +12,7 @@ downloads:
     storageClassName: longhorn
     size: 50G
 
-qbt:
+qbittorrent:
   image: linuxserver/qbittorrent:latest
   port: 8475
   service:

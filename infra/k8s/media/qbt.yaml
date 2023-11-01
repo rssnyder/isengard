@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qbt-env
+  name: qbittorrent-env
   namespace: {{ .Values.namespace }}
   labels:
-    app: qbt
+    app: qbittorrent
 data:
-  WEBUI_PORT: {{ .Values.qbt.port }}
+  WEBUI_PORT: {{ .Values.qbittorrent.port }}
   PUID: {{ .Values.PUID }}
   PGID: {{ .Values.PGID }}
   TZ: {{ .Values.timezone }}
@@ -15,28 +15,28 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbt
+  name: qbittorrent
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: qbt
+      app: qbittorrent
   template:
     metadata:
       labels:
-        app: qbt
+        app: qbittorrent
     spec:
       containers:
-      - name: qbt
-        image: {{ .Values.qbt.image }}
+      - name: qbittorrent
+        image: {{ .Values.qbittorrent.image }}
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
-            name: qbt-env
+            name: qbittorrent-env
         ports:
         - name: webui
-          containerPort: {{ .Values.qbt.port }}
+          containerPort: {{ .Values.qbittorrent.port }}
         volumeMounts:
         - name: config
           mountPath: /config
@@ -48,53 +48,53 @@ spec:
           claimName: downloads
       - name: config
         persistentVolumeClaim:
-          claimName: qbt
+          claimName: qbittorrent
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: qbt
+  name: qbittorrent
   namespace: {{ .Values.namespace }}
 spec:
-  type: {{ .Values.qbt.service.type }}
+  type: {{ .Values.qbittorrent.service.type }}
   selector:
-    app: qbt
+    app: qbittorrent
   ports:
   - name: webui
-    port: {{ .Values.qbt.service.port }}
+    port: {{ .Values.qbittorrent.service.port }}
     targetPort: webui
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: qbt
+  name: qbittorrent
   namespace: {{ .Values.namespace }}
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{ .Values.qbt.pvc.storageClassName }}
+  storageClassName: {{ .Values.qbittorrent.pvc.storageClassName }}
   resources:
     requests:
-      storage: {{ .Values.qbt.pvc.size }}
+      storage: {{ .Values.qbittorrent.pvc.size }}
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: qbt
+  name: qbittorrent
   namespace: {{ .Values.namespace }}
 spec:
   ingressClassName: nginx
   rules:
-    - host: qbt.{{ .Values.ingress.host }}
+    - host: qbittorrent.{{ .Values.ingress.host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name:  qbt
+                name:  qbittorrent
                 port:
-                  number: {{ .Values.qbt.service.port }}
+                  number: {{ .Values.qbittorrent.service.port }}
