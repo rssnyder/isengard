@@ -1,0 +1,81 @@
+---
+version: "3"
+services:
+
+  # plex:
+  #   image: linuxserver/plex
+  #   container_name: plex
+  #   restart: unless-stopped
+  #   environment:
+  #     PUID: 65534
+  #     PGID: 1001
+  #     VERSION: docker
+  #   ports:
+  #     - "32400:32400"
+  #   volumes:
+  #     - $APPDATA/plex:/config
+  #     - /bucket/media:/media
+  #     - /mnt/fake:/mnt/fake
+
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/qbittorrent:/config
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/sonarr:/config
+    ports:
+      - 9990:8989
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/radarr:/config
+    ports:
+      - 9991:7878
+
+  prowlarr:
+    image: linuxserver/prowlarr:develop
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/prowlarr:/config
+    ports:
+      - 9992:9696
+
+  overseerr:
+    image: linuxserver/overseerr
+    container_name: overseerr
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/overseerr:/config
+    ports:
+      - 9993:5055

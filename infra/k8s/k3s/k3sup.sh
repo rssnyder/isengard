@@ -1,1 +1,1 @@
-k3sup install --ip 192.168.0.54 --k3s-extra-args '--disable=servicelb,traefik' --user riley
+k3sup install --ip 192.168.0.54 --k3s-extra-args '--disable=servicelb,traefik --kubelet-arg="config=/data/rancher/kubelet.config"' --user riley

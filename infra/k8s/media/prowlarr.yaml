@@ -74,6 +74,7 @@ spec:
     requests:
       storage: {{ .Values.prowlarr.pvc.size }}
 
+{{ if .Values.ingress.enabled }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -93,3 +94,4 @@ spec:
                 name:  prowlarr
                 port:
                   number: {{ .Values.prowlarr.service.port }}
+{{- end }}

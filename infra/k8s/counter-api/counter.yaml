@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: counter
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: counter-api-env
+  namespace: counter
+  labels:
+    app: counter-api
+data:
+  PG_HOST: 192.168.0.3
+  PG_USER: counter
+  PG_PASSWORD: 93uryfhsjiu8eyifhwo2893yuiehfwi
+  PG_DB: counters
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: counter-api
+  namespace: counter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: counter-api
+  template:
+    metadata:
+      labels:
+        app: counter-api
+    spec:
+      containers:
+      - name: api
+        image: ghcr.io/rssnyder/counter-api:0.0.0-beta.2
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: counter-api-env
+        ports:
+        - name: api
+          containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-api
+  namespace: counter
+spec:
+  type: LoadBalancer
+  selector:
+    app: counter-api
+  ports:
+  - name: api
+    port: 80
+    targetPort: api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: counter-api
+  namespace: counter
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: counter.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  counter-api
+                port:
+                  number: 80
+

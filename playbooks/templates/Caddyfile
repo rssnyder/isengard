@@ -122,10 +122,6 @@ dash.rileysnyder.dev {
     reverse_proxy 192.168.0.3:8364
 }
 
-registry.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:5001
-}
-
 plex.rileysnyder.dev {
     reverse_proxy 192.168.0.6:32400
 }
@@ -138,30 +134,19 @@ bothwellarchive.rileysnyder.dev {
     reverse_proxy 192.168.0.6:8097
 }
 
-gitness.rileysnyder.dev {
-    reverse_proxy 192.168.254.3
-}
-
-cameras.rileysnyder.dev {
-    reverse_proxy 192.168.254.1
-    basicauth * {
-        admin $2a$14$vwyu.T/7M3hDK2ryGqOA0efYlzes6zM/o1D6mpR3k/Zb6QHhU6wvm
-    }
-}
-
-alexsnyder.net {
-    reverse_proxy 192.168.0.3:1313
-}
-
-www.alexsnyder.net {
-    reverse_proxy 192.168.0.3:1313
-}
-
 k8s.rileysnyder.dev {
     reverse_proxy 192.168.254.4
 }
 
 *.k8s.rileysnyder.dev {
+    reverse_proxy 192.168.254.4
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+*.media.rileysnyder.dev {
     reverse_proxy 192.168.254.4
 
     tls {

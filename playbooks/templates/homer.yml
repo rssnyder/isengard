@@ -114,6 +114,10 @@ services:
         logo: "assets/homer-icons/png/grafana.png"
         url: "https://metrics.rileysnyder.dev"
         target: '_top'
+      - name: "Coder"
+        logo: "assets/homer-icons/png/codeserver.png"
+        url: "https://vscode.rileysnyder.dev"
+        target: '_top'
       - name: "Octoprint"
         logo: "assets/homer-icons/png/octoprint.png"
         url: "http://192.168.0.36"
@@ -124,7 +128,7 @@ services:
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
-        url: "http://cornelius:5000"
+        url: "https://frigate.k8s.rileysnyder.dev"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"
