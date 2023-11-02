@@ -78,6 +78,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.sonarr.pvc.size }}
+  volumeName: sonarr
 
 {{ if .Values.ingress.enabled }}
 ---
