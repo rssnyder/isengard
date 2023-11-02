@@ -1,7 +1,3 @@
-resource "digitalocean_domain" "rileysnyder_org" {
-  name = "rileysnyder.org"
-}
-
 resource "digitalocean_domain" "rileysnyder_dev" {
   name = "rileysnyder.dev"
 }
@@ -80,15 +76,6 @@ module "requests_dev" {
   private_ip = var.instances["hurley"].ip
 }
 
-module "send" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "send"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
 module "vscode" {
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
@@ -112,15 +99,6 @@ module "dash" {
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = "dash"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "registry" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "registry"
   public_ip  = var.instances["home"].ip
   private_ip = var.instances["hurley"].ip
 }
@@ -152,35 +130,17 @@ module "bothwellarchive" {
   private_ip = var.instances["hurley"].ip
 }
 
-module "gitness" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "gitness"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "cameras" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "cameras"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-resource "digitalocean_record" "k8s" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "k8s"
-  value  = var.instances["home"].ip
-}
-
 resource "digitalocean_record" "star-k8s" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "*.k8s"
+  value  = var.instances["home"].ip
+}
+
+resource "digitalocean_record" "star-media" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.media"
   value  = var.instances["home"].ip
 }
 
@@ -195,27 +155,6 @@ resource "digitalocean_record" "harrypottermoviepicker" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "harrypottermoviepicker"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "proxy" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "proxy"
-  value  = var.instances["oca8"].ip
-}
-
-resource "digitalocean_record" "alexsnyder_root" {
-  domain = digitalocean_domain.alexsnyder_net.name
-  type   = "A"
-  name   = "@"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "alexsnyder_www" {
-  domain = digitalocean_domain.alexsnyder_net.name
-  type   = "A"
-  name   = "www"
   value  = var.instances["home"].ip
 }
 

@@ -174,3 +174,26 @@ services:
         logo: "assets/homer-icons/png/syncthing.png"
         url: "http://localhost:8384"
         target: '_top'
+  - name: "Kubernetes"
+    icon: "fa-brands fa-docker"
+    items:
+      - name: "dashboard"
+        logo: "assets/homer-icons/png/kubernetes-dashboard.png"
+        url: "https://dashboard.k8s.rileysnyder.dev/"
+        target: '_top'
+      - name: "Longhorn"
+        logo: "assets/homer-icons/png/longhorn.png"
+        url: "https://longhorn.k8s.rileysnyder.dev/"
+        target: '_top'
+      - name: "coder"
+        logo: "assets/homer-icons/png/code-server.png"
+        url: "https://coder.k8s.rileysnyder.dev/"
+        target: '_top'
+      - name: "gitness"
+        logo: "assets/homer-icons/png/gitea.png"
+        url: "https://gitness.k8s.rileysnyder.dev/"
+        target: '_top'
+      - name: "whoami"
+        logo: "assets/homer-icons/png/whoami.png"
+        url: "https://whoami.k8s.rileysnyder.dev/"
+        target: '_top'

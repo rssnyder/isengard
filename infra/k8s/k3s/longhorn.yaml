@@ -26,12 +26,14 @@ spec:
   chart: longhorn
   targetNamespace: longhorn-system
   valuesContent: |-
-    defaultSettings:
-      backupTarget: s3://k8s@us-east-1/longhorn/backups
-      backupTargetCredentialSecret: minio
     service:
       ui:
         type: LoadBalancer
+    persistence:
+      reclaimPolicy: Retain
+    defaultSettings:
+      backupTarget: s3://k8s@us-east-1/longhorn/backups
+      backupTargetCredentialSecret: minio
 
 ---
 apiVersion: v1
