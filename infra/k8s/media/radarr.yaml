@@ -73,11 +73,14 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: {{ .Values.radarr.pvc.storageClassName }}
   resources:
     requests:
       storage: {{ .Values.radarr.pvc.size }}
+  {{ if .Values.radarr.pvc.useExistingVolume }}
+  volumeName: {{ .Values.radarr.pvc.useExistingVolume }}
+  {{- end }}
 
 {{ if .Values.ingress.enabled }}
 ---

@@ -73,11 +73,14 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: {{ .Values.qbittorrent.pvc.storageClassName }}
   resources:
     requests:
       storage: {{ .Values.qbittorrent.pvc.size }}
+  {{ if .Values.qbittorrent.pvc.useExistingVolume }}
+  volumeName: {{ .Values.qbittorrent.pvc.useExistingVolume }}
+  {{- end }}
 
 {{ if .Values.ingress.enabled }}
 ---

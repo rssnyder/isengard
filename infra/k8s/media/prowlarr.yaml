@@ -68,11 +68,14 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: {{ .Values.prowlarr.pvc.storageClassName }}
   resources:
     requests:
       storage: {{ .Values.prowlarr.pvc.size }}
+  {{ if .Values.prowlarr.pvc.useExistingVolume }}
+  volumeName: {{ .Values.prowlarr.pvc.useExistingVolume }}
+  {{- end }}
 
 {{ if .Values.ingress.enabled }}
 ---

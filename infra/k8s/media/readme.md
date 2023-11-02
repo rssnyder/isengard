@@ -44,6 +44,13 @@ depending on the service/ingress you can access the services at the lb ip and po
 
 all setting applied via `values.yaml`
 
+```
+pvc:
+  useExistingVolume: true
+```
+
+The above setting is to force the PVCs to leverage existing volumes. I am doing this so that I can leverage longhorn backups when deleting/deploying this project over and over, to start from a clean slate. 
+
 ## caddyfile
 
 using [rssnyder/caddy-digitalocean](https://hub.docker.com/r/rssnyder/caddy-digitalocean) made with [digitalocean caddy plugin](https://caddyserver.com/docs/modules/dns.providers.digitalocean)

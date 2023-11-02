@@ -22,6 +22,7 @@ qbittorrent:
   pvc:
     storageClassName: longhorn
     size: 1G
+    useExistingVolume: qbittorrent
 
 sonarr:
   image: linuxserver/sonarr:latest
@@ -32,6 +33,7 @@ sonarr:
   pvc:
     storageClassName: longhorn
     size: 5G
+    useExistingVolume: sonarr
 
 radarr:
   image: linuxserver/radarr:latest
@@ -42,6 +44,7 @@ radarr:
   pvc:
     storageClassName: longhorn
     size: 5G
+    useExistingVolume: radarr
 
 prowlarr:
   image: linuxserver/prowlarr:latest
@@ -52,6 +55,7 @@ prowlarr:
   pvc:
     storageClassName: longhorn
     size: 5G
+    useExistingVolume: prowlarr
 
 overseerr:
   image: linuxserver/overseerr:latest
@@ -62,6 +66,7 @@ overseerr:
   pvc:
     storageClassName: longhorn
     size: 5G
+    useExistingVolume: overseerr
 
 files:
   image: svenstaro/miniserve
@@ -69,6 +74,3 @@ files:
   service:
     type: LoadBalancer
     port: 80
-
-plex:
-  image:

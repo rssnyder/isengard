@@ -16,3 +16,6 @@ spec:
   resources:
     requests:
       storage: {{ .Values.downloads.pvc.size }}
+  {{ if .Values.downloads.pvc.useExistingVolume }}
+  volumeName: {{ .Values.downloads.pvc.useExistingVolume }}
+  {{- end }}
