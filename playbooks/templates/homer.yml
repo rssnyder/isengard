@@ -135,12 +135,12 @@ services:
         url: "http://hurley:9000"
         target: '_top'
       - name: "Files"
-        logo: "assets/homer-icons/png/minio.png"
+        logo: "assets/homer-icons/png/plexdrive.png"
         url: "https://files.rileysnyder.dev"
         target: '_top'
       - name: "Send"
         logo: "assets/homer-icons/png/firefoxsend.png"
-        url: "https://send.rileysnyder.dev"
+        url: "https://send.k8s.rileysnyder.dev"
         target: '_top'
       - name: "Photos"
         logo: "assets/homer-icons/png/photoprism.png"
@@ -196,4 +196,31 @@ services:
       - name: "WhoAmI"
         logo: "assets/homer-icons/png/whoami.png"
         url: "https://whoami.k8s.rileysnyder.dev/"
+        target: '_top'
+  - name: "kMedia"
+    icon: "fas fa-compact-disc"
+    items:
+      - name: "qBittorrent"
+        logo: "assets/homer-icons/png/qbittorrent.png"
+        url: "https://qbittorrent.media.rileysnyder.dev"
+        target: '_top'
+      - name: "Overseerr"
+        logo: "assets/homer-icons/png/overseerr.png"
+        url: "https://overseerr.media.rileysnyder.dev"
+        target: '_top'
+      - name: "Prowlarr"
+        logo: "assets/homer-icons/png/prowlarr.png"
+        url: "https://prowlarr.media.rileysnyder.dev"
+        target: '_top'
+      - name: "Sonarr"
+        logo: "assets/homer-icons/png/sonarr.png"
+        url: "https://sonarr.media.rileysnyder.dev"
+        target: '_top'
+      - name: "Radarr"
+        logo: "assets/homer-icons/png/radarr.png"
+        url: "https://radarr.media.rileysnyder.dev"
+        target: '_top'
+      - name: "Files"
+        logo: "assets/homer-icons/png/plexdrive.png"
+        url: "https://files.media.rileysnyder.dev"
         target: '_top'

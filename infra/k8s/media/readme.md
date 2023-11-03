@@ -1,5 +1,7 @@
 # media in k8s
 
+learning k8s by setting up someting I have ran in docker for _10 years_
+
 *tested using k3s, metallb, longhorn, and nginx ingress on ubuntu x86 with caddy as an external reverse proxy*
 
 `internet`>`caddy`>`nginx-ingress`>`service`>`pod`
@@ -64,3 +66,7 @@ using [rssnyder/caddy-digitalocean](https://hub.docker.com/r/rssnyder/caddy-digi
     }
 }
 ```
+
+## notes
+
+to make a pv avalible for claim again: `kubectl patch pv <pv name> -p '{"spec":{"claimRef": null}}'`

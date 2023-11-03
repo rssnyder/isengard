@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: send
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: send
+  namespace: send
+  labels:
+    app: send
+data:
+  BASE_URL: "https://send.k8s.rileysnyder.dev"
+  PORT: "1443"
+  REDIS_HOST: "redis.redis.svc.cluster.local"
+  FILE_DIR: "/tmp"
+  MAX_FILE_SIZE: "2147483648"
+  MAX_FILES_PER_ARCHIVE: "64"
+  MAX_EXPIRE_SECONDS: "604800"
+  MAX_DOWNLOADS: "100"
+  DOWNLOAD_COUNTS: "1,2,5,10,15,25,50,100,1000"
+  EXPIRE_TIMES_SECONDS : "600,86400,604800,2592000,31536000"
+  DEFAULT_DOWNLOADS: "1"
+  DEFAULT_EXPIRE_SECONDS: "86400"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: send
+  namespace: send
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: send
+  template:
+    metadata:
+      labels:
+        app: send
+    spec:
+      containers:
+      - name: send
+        image: registry.gitlab.com/timvisee/send:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: send
+        ports:
+        - name: webui
+          containerPort: 1443
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        hostPath:
+          path: /mnt/bulk/k8s/send
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: send
+  namespace: send
+spec:
+  type: LoadBalancer
+  selector:
+    app: send
+  ports:
+  - name: webui
+    port: 80
+    targetPort: webui
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: send
+  namespace: send
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: send.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  send
+                port:
+                  number: 80
+
+---
+apiVersion: ccm.harness.io/v1
+kind: AutoStoppingRule
+metadata:
+  name: send
+  namespace: send
+  annotations:
+    harness.io/cloud-connector-id: rileyharnessccm
+spec:
+  service:
+    name: send
+    port: 80
+  ingress:
+    name: send
+    controllerName: nginx
+  idleTimeMins: 5
+  hideProgressPage: false
+  dependencies: []
