@@ -16,14 +16,14 @@ data:
   PORT: "1443"
   REDIS_HOST: "redis.redis.svc.cluster.local"
   FILE_DIR: "/tmp"
-  MAX_FILE_SIZE: "2147483648"
+  MAX_FILE_SIZE: "21474836480"
   MAX_FILES_PER_ARCHIVE: "64"
   MAX_EXPIRE_SECONDS: "604800"
   MAX_DOWNLOADS: "100"
   DOWNLOAD_COUNTS: "1,2,5,10,15,25,50,100,1000"
   EXPIRE_TIMES_SECONDS : "600,86400,604800,2592000,31536000"
-  DEFAULT_DOWNLOADS: "1"
-  DEFAULT_EXPIRE_SECONDS: "86400"
+  DEFAULT_DOWNLOADS: "10"
+  DEFAULT_EXPIRE_SECONDS: "604800"
 
 ---
 apiVersion: apps/v1
@@ -94,21 +94,21 @@ spec:
                 port:
                   number: 80
 
----
-apiVersion: ccm.harness.io/v1
-kind: AutoStoppingRule
-metadata:
-  name: send
-  namespace: send
-  annotations:
-    harness.io/cloud-connector-id: rileyharnessccm
-spec:
-  service:
-    name: send
-    port: 80
-  ingress:
-    name: send
-    controllerName: nginx
-  idleTimeMins: 5
-  hideProgressPage: false
-  dependencies: []
+# ---
+# apiVersion: ccm.harness.io/v1
+# kind: AutoStoppingRule
+# metadata:
+#   name: send
+#   namespace: send
+#   annotations:
+#     harness.io/cloud-connector-id: rileyharnessccm
+# spec:
+#   service:
+#     name: send
+#     port: 80
+#   ingress:
+#     name: send
+#     controllerName: nginx
+#   idleTimeMins: 5
+#   hideProgressPage: false
+#   dependencies: []

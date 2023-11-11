@@ -1,62 +1,15 @@
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: test-pv
-spec:
-  capacity:
-    storage: 30Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: driver.longhorn.io
-    fsType: ext4
-    volumeAttributes:
-      numberOfReplicas: "3"
-      staleReplicaTimeout: "30"
-    volumeHandle: test-pv
-  storageClassName: longhorn
-
 
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: test-pvc
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 20Gi
-  volumeName: test-pv
-
----
-apiVersion: apps/v1
-kind: Deployment
+kind: Service
 metadata:
   name: test
+  namespace: ff-relay-proxy
 spec:
-  replicas: 1
+  type: LoadBalancer
   selector:
-    matchLabels:
-      app: test
-  template:
-    metadata:
-      labels:
-        app: test
-    spec:
-      containers:
-      - name: test
-        image: alpine
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-        - name: test
-          mountPath: /test
-      volumes:
-      - name: test
-        persistentVolumeClaim:
-          claimName: test-pvc
+    app: ff-relay-proxy
+  ports:
+  - name: sdk
+    port: 7000
+    targetPort: sdk

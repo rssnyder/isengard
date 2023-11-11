@@ -35,6 +35,22 @@ services:
     container_name: pushgateway
     ports:
       - 9092:9091
+  
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: loki
+    ports:
+      - "3100:3100"
+    # volumes:
+    #   -  $APPDATA/loki:/etc/loki
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: promtail
+    # volumes:
+    #   -  $APPDATA/promtail:/etc/promtail
+    command: -config.file=/etc/promtail/config.yml
 
   grafana:
     image: grafana/grafana-oss:8.5.15
