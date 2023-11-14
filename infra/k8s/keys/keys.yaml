@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: keys
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keys
+  namespace: keys
+  labels:
+    app: keys
+data:
+  PG_HOST: 192.168.0.3
+  PG_USER: keys
+  PG_DB: keys
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keys
+  namespace: keys
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keys
+  template:
+    metadata:
+      labels:
+        app: keys
+    spec:
+      containers:
+      - name: keys
+        image: rssnyder/keys:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: keys
+        env:
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: password
+        ports:
+        - name: api
+          containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keys
+  namespace: keys
+spec:
+  type: LoadBalancer
+  selector:
+    app: keys
+  ports:
+  - name: web
+    port: 80
+    targetPort: api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keys
+  namespace: keys
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: keys.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  keys
+                port:
+                  number: 80

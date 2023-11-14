@@ -4,10 +4,8 @@ service:
   port: 80
 config: |
   mqtt:
-    host: "192.168.0.3"
+    host: "mosquitto.mosquitto.svc.cluster.local"
     port: 1883
-    user: admin
-    password: <+secrets.getValue("default_lab_password")>
   database: 
     path: /media/frigate.db
   cameras:
@@ -68,8 +66,8 @@ config: |
         person: 30
 extraVolumes:
   - name: media
-    persistentVolumeClaim:
-      claimName: frigate-media
+    hostPath:
+      path: /mnt/bulk/k8s/frigate
 extraVolumeMounts:
   - name: media
     mountPath: /media

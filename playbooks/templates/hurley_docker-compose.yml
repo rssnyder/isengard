@@ -218,18 +218,18 @@ services:
     ports:
       - "7777:7777"
 
-  keys:
-    build:
-      context: $APPDATA/keys
-      args:
-        TARGETARCH: arm64
-    ports:
-      - 8235:8080
-    environment:
-      PG_HOST: postgres
-      PG_USER: keys
-      PG_PASSWORD: "${KEYS_PG_PASSWORD}"
-      PG_DB: keys
+  # keys:
+  #   build:
+  #     context: $APPDATA/keys
+  #     args:
+  #       TARGETARCH: arm64
+  #   ports:
+  #     - 8235:8080
+  #   environment:
+  #     PG_HOST: postgres
+  #     PG_USER: keys
+  #     PG_PASSWORD: "${KEYS_PG_PASSWORD}"
+  #     PG_DB: keys
 
   mosquitto:
     image: eclipse-mosquitto

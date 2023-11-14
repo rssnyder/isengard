@@ -353,6 +353,17 @@ services:
       - 7360:7359/udp #optional
       - 1901:1900/udp #optional
     restart: unless-stopped
+
+  # bothwellvhs:
+  #   image: universalmediaserver/ums
+  #   restart: unless-stopped
+  #   ports:
+  #       - 1044:1044
+  #       - 5001:5001
+  #       - 9001:9001
+  #   volumes:
+  #       - /bucket/media/vhs/bothwell:/root/media:ro
+  #       - bothwellvhs:/root/.config/UMS"
   
   # scrypted:
   #   image: koush/scrypted
@@ -438,6 +449,7 @@ volumes:
   huggingface:
   jellyfin:
   jellyfinbothwell:
+  bothwellvhs:
   vhssnyder:
   proxy:
   gitness:
