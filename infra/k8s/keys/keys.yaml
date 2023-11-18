@@ -50,6 +50,19 @@ spec:
           containerPort: 8080
 
 ---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: keys
+  namespace: keys
+spec:
+  selector:
+    matchLabels:
+      app: keys
+  podMetricsEndpoints:
+  - port: api
+
+---
 apiVersion: v1
 kind: Service
 metadata:

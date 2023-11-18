@@ -1,0 +1,25 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: ff-relay-proxy
+  namespace: ff-relay-proxy
+spec:
+  selector:
+    matchLabels:
+      app: ff-relay-proxy
+  podMetricsEndpoints:
+  - port: sdk
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: ff-relay-proxy-read-replica
+  namespace: ff-relay-proxy
+spec:
+  selector:
+    matchLabels:
+      app: ff-relay-proxy-read-replica
+  podMetricsEndpoints:
+  - port: sdk

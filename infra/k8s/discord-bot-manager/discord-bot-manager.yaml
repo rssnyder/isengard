@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: discord-bot-manager
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: discord-bot-manager
+  namespace: discord-bot-manager
+  labels:
+    app: discord-bot-manager
+data:
+  DB_HOST: "192.168.0.3"
+  DB_DB: "dst"
+  DB_USER: "dst_manager"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-bot-manager
+  namespace: discord-bot-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discord-bot-manager
+  template:
+    metadata:
+      labels:
+        app: discord-bot-manager
+    spec:
+      containers:
+      - name: discord-bot-manager
+        image: rssnyder/discord-bot-manager:latest
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: discord-bot-manager
+        env:
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: discord-bot-manager
+              key: pgpassword
+        ports:
+        - name: api
+          containerPort: 7777
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: discord-bot-manager
+  namespace: discord-bot-manager
+spec:
+  selector:
+    matchLabels:
+      app: discord-bot-manager
+  podMetricsEndpoints:
+  - port: api
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discord-bot-manager
+  namespace: discord-bot-manager
+spec:
+  type: LoadBalancer
+  selector:
+    app: discord-bot-manager
+  ports:
+  - name: api
+    port: 80
+    targetPort: api

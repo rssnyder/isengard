@@ -206,17 +206,17 @@ services:
   #   ports:
   #     - 8911:8080
 
-  discord-bot-manager:
-    build: $APPDATA/discord-bot-manager
-    container_name: discord-bot-manager
-    restart: unless-stopped
-    environment:
-      DB_HOST: "192.168.0.3"
-      DB_DB: "dst"
-      DB_USER: "dst_manager"
-      DB_PASS: ${DST_ADMIN_PASSWORD}
-    ports:
-      - "7777:7777"
+  # discord-bot-manager:
+  #   build: $APPDATA/discord-bot-manager
+  #   container_name: discord-bot-manager
+  #   restart: unless-stopped
+  #   environment:
+  #     DB_HOST: "192.168.0.3"
+  #     DB_DB: "dst"
+  #     DB_USER: "dst_manager"
+  #     DB_PASS: ${DST_ADMIN_PASSWORD}
+  #   ports:
+  #     - "7777:7777"
 
   # keys:
   #   build:

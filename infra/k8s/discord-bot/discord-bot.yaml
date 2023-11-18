@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: discord-bot
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: discord-bot
+  namespace: discord-bot
+  labels:
+    app: discord-bot
+data:
+  NICKNAME: k3s
+  ACTIVITY: running
+  STATUS: "0"
+  REFRESH: "60"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-bot
+  namespace: discord-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discord-bot
+  template:
+    metadata:
+      labels:
+        app: discord-bot
+    spec:
+      containers:
+      - name: discord-bot
+        image: ghcr.io/rssnyder/discord-bot
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: discord-bot
+        env:
+        - name: TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: discord-bot
+              key: token
