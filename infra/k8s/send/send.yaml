@@ -41,6 +41,7 @@ spec:
       labels:
         app: send
     spec:
+      nodeName: charlie
       containers:
       - name: send
         image: registry.gitlab.com/timvisee/send:latest

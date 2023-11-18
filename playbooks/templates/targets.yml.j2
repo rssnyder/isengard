@@ -107,6 +107,15 @@ scrape_configs:
   - targets:
     - 'oca1:9926'
 
+- job_name: ff-relay-proxy
+  static_configs:
+  - targets:
+    - '192.168.254.6:7000'
+- job_name: ff-relay-proxy-read-replica
+  static_configs:
+  - targets:
+    - '192.168.254.21:7000'
+
 - job_name: 'pve'
   static_configs:
     - targets:

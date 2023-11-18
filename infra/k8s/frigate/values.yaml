@@ -72,3 +72,5 @@ extraVolumeMounts:
   - name: media
     mountPath: /media
     subPath: media
+nodeSelector:
+  kubernetes.io/hostname: charlie

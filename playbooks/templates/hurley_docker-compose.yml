@@ -186,11 +186,11 @@ services:
     ports:
       - "9876:80"
   
-  harry-potter-picker:
-    image: rssnyder/harry-potter-picker
-    container_name: harry-potter-picker
-    ports:
-      - "9877:80"
+  # harry-potter-picker:
+  #   image: rssnyder/harry-potter-picker
+  #   container_name: harry-potter-picker
+  #   ports:
+  #     - "9877:80"
 
   # signal:
   #   image: bbernhard/signal-cli-rest-api
@@ -231,16 +231,16 @@ services:
   #     PG_PASSWORD: "${KEYS_PG_PASSWORD}"
   #     PG_DB: keys
 
-  mosquitto:
-    image: eclipse-mosquitto
-    container_name: mosquitto
-    volumes:
-      - $APPDATA/mosquitto:/mosquitto
-    ports:
-      - 1883:1883
-      - 9002:9001
-    environment:
-      ALLOW_UNSECURED_MODE: 'true'
+  # mosquitto:
+  #   image: eclipse-mosquitto
+  #   container_name: mosquitto
+  #   volumes:
+  #     - $APPDATA/mosquitto:/mosquitto
+  #   ports:
+  #     - 1883:1883
+  #     - 9002:9001
+  #   environment:
+  #     ALLOW_UNSECURED_MODE: 'true'
 
   homer:
     image: b4bz/homer
