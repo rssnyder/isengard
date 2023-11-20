@@ -64,6 +64,8 @@ config: |
       default: 30
       objects:
         person: 30
+  ffmpeg:
+    hwaccel_args: preset-vaapi
 extraVolumes:
   - name: media
     hostPath:

@@ -5,20 +5,6 @@ metadata:
 
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: frigate-media
-  namespace: frigate
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 50Gi
-
----
-apiVersion: v1
 data:
   auth: {{ nginx_ingress_auth_secret }}
 kind: Secret
