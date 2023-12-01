@@ -73,19 +73,19 @@
     #   when: client is not defined or item.key == client
     
     # upgrade database
-    - name: inject gas apiToken
-      shell:
-        cmd: |
-          sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set apiToken = "{{ covalent_token }}"'
-      loop: "{{ clients | dict2items }}"
-      when: client is not defined or item.key == client
+    # - name: inject gas apiToken
+    #   shell:
+    #     cmd: |
+    #       sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set apiToken = "{{ covalent_token }}"'
+    #   loop: "{{ clients | dict2items }}"
+    #   when: client is not defined or item.key == client
     
-    - name: update frequency
-      shell:
-        cmd: |
-          sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set frequency = 7200'
-      loop: "{{ clients | dict2items }}"
-      when: client is not defined or item.key == client
+    # - name: update frequency
+    #   shell:
+    #     cmd: |
+    #       sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set frequency = 7200'
+    #   loop: "{{ clients | dict2items }}"
+    #   when: client is not defined or item.key == client
 
     - name: Start dst
       systemd:

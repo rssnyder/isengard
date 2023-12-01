@@ -160,12 +160,12 @@ resource "digitalocean_record" "harrypottermoviepicker" {
 
 // github pages
 
-resource "digitalocean_record" "pages" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "TXT"
-  name   = "_github-pages-challenge-rssnyder"
-  value  = "5affa6f4d230839d19855811ef2712"
-}
+# resource "digitalocean_record" "photos" {
+#   domain = digitalocean_domain.rileysnyder_dev.name
+#   type   = "CNAME"
+#   name   = "photos"
+#   value  = "rssnyder.github.io."
+# }
 
 // redirects
 
@@ -185,13 +185,4 @@ module "code" {
   subdomain = "code"
   url       = "https://github.com/rssnyder"
   permanent = true
-}
-
-module "photos" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.2.0"
-
-  domain    = digitalocean_domain.rileysnyder_dev.name
-  subdomain = "photos"
-  path      = "/local"
-  url       = "https://github.com/rssnyder/photos"
 }

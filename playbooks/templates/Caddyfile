@@ -15,22 +15,15 @@ sites
 +------------------+---------------------------------------------------------+--------+
 |     service      |                           url                           | public |
 +------------------+---------------------------------------------------------+--------+
-| github           | code.rileysnyder.dev                                    | true   |
-| music playlists  | music.rileysnyder.dev                                   | true   |
-| send files       | send.rileysnyder.dev                                    | true   |
+| github           | DEAD code.rileysnyder.dev                               | true   |
+| music playlists  | DEAD music.rileysnyder.dev                              | true   |
+| send files       | send.k8s.rileysnyder.dev                                | true   |
 | minecraft        | minecraft.rileysnyder.dev                               | true   |
-| photos           | photos.rileysnyder.dev                                  | true   |
+| photos           | rssnyder.github.io/photos                               | true   |
 | grafana          | metrics.rileysnyder.dev                                 | false  |
 | object store     | s3.rileysnyder.dev                                      | false  |
 | bulk storage     | files.rileysnyder.dev                                   | false  |
-| plex requests    | requests.rileysnyder.org                                | false  |
-| qbittorrent      | kate:7001                                               | false  |
-| sonarr           | kate:7002                                               | false  |
-| radarr           | kate:7003                                               | false  |
-| deluge           | kate:8112                                               | false  |
-| prowlarr         | kate:9696                                               | false  |
-| tautulli         | kate:8181                                               | false  |
-| syncthing        | kate:8384                                               | false  |
+| plex requests    | requests.rileysnyder.dev                                | false  |
 +------------------+---------------------------------------------------------+--------+
 "
 }
@@ -52,22 +45,15 @@ sites
 +------------------+---------------------------------------------------------+--------+
 |     service      |                           url                           | public |
 +------------------+---------------------------------------------------------+--------+
-| github           | code.rileysnyder.dev                                    | true   |
-| music playlists  | music.rileysnyder.dev                                   | true   |
-| send files       | send.rileysnyder.dev                                    | true   |
+| github           | DEAD code.rileysnyder.dev                               | true   |
+| music playlists  | DEAD music.rileysnyder.dev                              | true   |
+| send files       | send.k8s.rileysnyder.dev                                | true   |
 | minecraft        | minecraft.rileysnyder.dev                               | true   |
-| photos           | photos.rileysnyder.dev                                  | true   |
+| photos           | rssnyder.github.io/photos                               | true   |
 | grafana          | metrics.rileysnyder.dev                                 | false  |
 | object store     | s3.rileysnyder.dev                                      | false  |
 | bulk storage     | files.rileysnyder.dev                                   | false  |
-| plex requests    | requests.rileysnyder.org                                | false  |
-| qbittorrent      | kate:7001                                               | false  |
-| sonarr           | kate:7002                                               | false  |
-| radarr           | kate:7003                                               | false  |
-| deluge           | kate:8112                                               | false  |
-| prowlarr         | kate:9696                                               | false  |
-| tautulli         | kate:8181                                               | false  |
-| syncthing        | kate:8384                                               | false  |
+| plex requests    | requests.rileysnyder.dev                                | false  |
 +------------------+---------------------------------------------------------+--------+
 "
 }

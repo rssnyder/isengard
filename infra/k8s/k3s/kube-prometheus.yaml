@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: monitoring
+  name: kube-prometheus
 
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: grafana
-  namespace: monitoring
+  namespace: kube-prometheus
 type: Opaque
 data:
   username: {{ "admin" | b64encode }}
@@ -21,7 +21,7 @@ data:
 kind: Secret
 metadata:
   name: basic-auth
-  namespace: monitoring
+  namespace: kube-prometheus
 type: Opaque
 
 ---
@@ -29,11 +29,11 @@ apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
   name: kube-prometheus-stack
-  namespace: monitoring
+  namespace: kube-prometheus
 spec:
   repo: https://prometheus-community.github.io/helm-charts
   chart: kube-prometheus-stack
-  targetNamespace: monitoring
+  targetNamespace: kube-prometheus
   valuesContent: |-
     fullnameOverride: prometheus
 
@@ -229,6 +229,14 @@ spec:
         retention: 6h
         enableAdminAPI: true
         walCompression: true
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 50Gi
 
     thanosRuler:
       enabled: false

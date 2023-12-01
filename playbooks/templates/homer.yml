@@ -177,10 +177,6 @@ services:
   - name: "Kubernetes"
     icon: "fa-brands fa-docker"
     items:
-      - name: "Dashboard"
-        logo: "assets/homer-icons/png/kubernetes-dashboard.png"
-        url: "https://dashboard.k8s.rileysnyder.dev/"
-        target: '_top'
       - name: "Longhorn"
         logo: "assets/homer-icons/png/longhorn.png"
         url: "https://longhorn.k8s.rileysnyder.dev/"

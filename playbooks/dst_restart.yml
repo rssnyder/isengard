@@ -11,4 +11,4 @@
         name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
       loop_control:
-        pause: 5
+        pause: 10

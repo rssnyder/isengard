@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ff-test
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ff-test-v2-2
+  namespace: ff-test
+  labels:
+    app: ff-test-v2-2
+data:
+  RELAY_PROXY_ADDRESS: http://ff2-read-replica.ff2.svc.cluster.local:7000
+  FF_SDK_KEY: 29bfa44d-9b42-4509-b5d3-ea9cee41053d
+  FF_IDENTIFIER: test
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ff-test-v2-2
+  namespace: ff-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ff-test-v2-2
+  template:
+    metadata:
+      labels:
+        app: ff-test-v2-2
+    spec:
+      containers:
+      - name: ff-test-v2-2
+        image: harnesscommunity/feature-flag-relay-proxy-test:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: ff-test-v2-2

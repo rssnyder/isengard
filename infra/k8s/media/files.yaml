@@ -36,6 +36,9 @@ kind: Service
 metadata:
   name: files
   namespace: {{ .Values.namespace }}
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "files"
 spec:
   type: {{ .Values.files.service.type }}
   selector:
