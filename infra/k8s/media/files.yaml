@@ -38,7 +38,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "files"
+    tailscale.com/hostname: "files.k8s"
 spec:
   type: {{ .Values.files.service.type }}
   selector:
