@@ -56,6 +56,9 @@ kind: Service
 metadata:
   name: sonarr
   namespace: {{ .Values.namespace }}
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "sonarr"
 spec:
   type: {{ .Values.sonarr.service.type }}
   selector:

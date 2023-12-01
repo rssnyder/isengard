@@ -56,6 +56,9 @@ kind: Service
 metadata:
   name: radarr
   namespace: {{ .Values.namespace }}
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "radarr"
 spec:
   type: {{ .Values.radarr.service.type }}
   selector:

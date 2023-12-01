@@ -51,6 +51,9 @@ kind: Service
 metadata:
   name: prowlarr
   namespace: {{ .Values.namespace }}
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "prowlarr"
 spec:
   type: {{ .Values.prowlarr.service.type }}
   selector:

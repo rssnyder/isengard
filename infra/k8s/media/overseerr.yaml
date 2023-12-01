@@ -51,6 +51,9 @@ kind: Service
 metadata:
   name: overseerr
   namespace: {{ .Values.namespace }}
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "overseerr"
 spec:
   type: {{ .Values.overseerr.service.type }}
   selector:
