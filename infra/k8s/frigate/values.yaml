@@ -15,9 +15,9 @@ config: |
   go2rtc:
     streams:
       back: 
-        - "ffmpeg:http://192.168.0.97:554/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
+        - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
       back_sub: 
-        - "ffmpeg:http://192.168.0.97:554/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
+        - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
   cameras:
     back:
       ffmpeg:
