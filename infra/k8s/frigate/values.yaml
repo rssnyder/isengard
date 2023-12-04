@@ -8,13 +8,28 @@ config: |
     port: 1883
   database: 
     path: /media/frigate.db
+  # detectors:
+  #   coral:
+  #     type: edgetpu
+  #     device: usb
+  go2rtc:
+    streams:
+      back: 
+        - "ffmpeg:http://192.168.0.97:554/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
+      back_sub: 
+        - "ffmpeg:http://192.168.0.97:554/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
   cameras:
     back:
       ffmpeg:
         inputs:
-          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.97:554/h264Preview_01_main
-            roles:
-              - detect
+        - path: rtsp://127.0.0.1:8554/back?video=copy&audio=aac
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/back_sub?video=copy
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
       detect:
         width: 2560
         height: 1920
@@ -63,3 +78,6 @@ extraVolumeMounts:
     subPath: media
 nodeSelector:
   kubernetes.io/hostname: charlie
+# coral:
+#   enabled: false
+#   hostPath: /dev/bus/usb
