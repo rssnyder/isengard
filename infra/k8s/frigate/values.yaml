@@ -18,10 +18,6 @@ config: |
         - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
       back_sub: 
         - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
-      front: 
-        - "ffmpeg:http://192.168.0.99/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
-      front_sub: 
-        - "ffmpeg:http://192.168.0.99/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
   cameras:
     back:
       ffmpeg:
@@ -34,6 +30,9 @@ config: |
           input_args: preset-rtsp-restream
           roles:
             - detect
+      detect:
+        width: 2560
+        height: 1920
       record:
         enabled: true
     louie:
@@ -45,14 +44,12 @@ config: |
     front:
       ffmpeg:
         inputs:
-        - path: rtsp://127.0.0.1:8554/front?video=copy&audio=aac
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-        - path: rtsp://127.0.0.1:8554/front_sub?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.99:554/h264Preview_01_main
+            roles:
+              - detect
+      detect:
+        width: 2560
+        height: 1440
       record:
         enabled: true
     roam:
