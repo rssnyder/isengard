@@ -186,3 +186,10 @@ module "code" {
   url       = "https://github.com/rssnyder"
   permanent = true
 }
+
+// local only
+
+resource "pihole_dns_record" "cluster_local" {
+  domain = "cluster.local"
+  ip     = var.instances["charlie"].ip
+}

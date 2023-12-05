@@ -41,6 +41,8 @@ config: |
           - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.98:554/h264Preview_01_main
       record:
         enabled: false
+      detect:
+        enabled: false
     front:
       ffmpeg:
         inputs:
