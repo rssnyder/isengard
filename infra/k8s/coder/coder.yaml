@@ -104,21 +104,21 @@ spec:
                 port:
                   number: {{ .Values.service.port }}
 
----
-apiVersion: ccm.harness.io/v1
-kind: AutoStoppingRule
-metadata:
-  name: {{ .Values.app }}
-  namespace: {{ .Values.namespace }}
-  annotations:
-    harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
-spec:
-  service:
-    name: {{ .Values.app }}
-    port: {{ .Values.service.port }}
-  ingress:
-    name: {{ .Values.app }}
-    controllerName: {{ .Values.autostop.controllerName }}
-  idleTimeMins: {{ .Values.autostop.idleTimeMins }}
-  hideProgressPage: {{ .Values.autostop.hideProgressPage }}
-  dependencies: []
+# ---
+# apiVersion: ccm.harness.io/v1
+# kind: AutoStoppingRule
+# metadata:
+#   name: {{ .Values.app }}
+#   namespace: {{ .Values.namespace }}
+#   annotations:
+#     harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
+# spec:
+#   service:
+#     name: {{ .Values.app }}
+#     port: {{ .Values.service.port }}
+#   ingress:
+#     name: {{ .Values.app }}
+#     controllerName: {{ .Values.autostop.controllerName }}
+#   idleTimeMins: {{ .Values.autostop.idleTimeMins }}
+#   hideProgressPage: {{ .Values.autostop.hideProgressPage }}
+#   dependencies: []
