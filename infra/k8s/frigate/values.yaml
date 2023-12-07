@@ -8,10 +8,10 @@ config: |
     port: 1883
   database: 
     path: /media/frigate.db
-  # detectors:
-  #   coral:
-  #     type: edgetpu
-  #     device: usb
+  detectors:
+    coral:
+      type: edgetpu
+      device: usb
   go2rtc:
     streams:
       back: 
@@ -80,6 +80,6 @@ extraVolumeMounts:
     subPath: media
 nodeSelector:
   kubernetes.io/hostname: charlie
-# coral:
-#   enabled: false
-#   hostPath: /dev/bus/usb
+coral:
+  enabled: false
+  hostPath: /dev/bus/usb
