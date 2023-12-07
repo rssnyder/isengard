@@ -81,5 +81,5 @@ extraVolumeMounts:
 nodeSelector:
   kubernetes.io/hostname: charlie
 coral:
-  enabled: false
+  enabled: true
   hostPath: /dev/bus/usb
