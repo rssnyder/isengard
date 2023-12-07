@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wyze-bridge
+  namespace: frigate
+spec:
+  selector:
+    matchLabels:
+      app: wyze-bridge
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wyze-bridge
+    spec:
+      containers:
+      - name: wyze-bridge
+        image: mrlt8/wyze-bridge
+        env:
+        - name: FRIGATE_STATS_URL
+          value: http://frigate.frigate.svc.cluster.local/api/stats
+        ports:
+        - name:  webui
+          containerPort: 5000
+        - name:  hls
+          containerPort: 8888
+        - name:  rtsp
+          containerPort: 8554
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wyze-bridge
+  namespace: frigate
+spec:
+  type: LoadBalancer
+  selector:
+    app: wyze-bridge
+  ports:
+  - name: webui
+    port: 80
+    targetPort: webui
+  - name: hls
+    port: 8888
+    targetPort: hls
+  - name: rtsp
+    port: 8554
+    targetPort: rtsp
