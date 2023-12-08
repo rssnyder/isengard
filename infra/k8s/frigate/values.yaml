@@ -18,10 +18,10 @@ config: |
         - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
       back_sub: 
         - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
-      roam: 
-        - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
-      roam_sub: 
-        - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
+      # roam: 
+      #   - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
+      # roam_sub: 
+      #   - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
   cameras:
     back:
       ffmpeg:
@@ -74,14 +74,14 @@ config: |
         height: 1920
       record:
         enabled: true
-    # garage:
-    #   ffmpeg:
-    #     inputs:
-    #       - path: rtsp://192.168.254.27:8554/garage-door
-    #         roles:
-    #           - detect
-    #   record:
-    #     enabled: true
+    garage:
+      ffmpeg:
+        inputs:
+          - path: rtsp://192.168.254.27:8554/garage-door
+            roles:
+              - detect
+      record:
+        enabled: true
   snapshots:
     enabled: True
     timestamp: True
