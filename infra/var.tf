@@ -17,6 +17,9 @@ variable "instances" {
     charlie = {
       ip = "192.168.0.10"
     }
+    ingress = {
+      ip = "192.168.254.4"
+    }
     oca0 = {
       ip = "129.146.149.166"
     }

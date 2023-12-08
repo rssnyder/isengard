@@ -172,22 +172,6 @@ services:
       - 9487:9487
     restart: unless-stopped
 
-  # handbreak:
-  #   image: jlesage/handbrake
-  #   container_name: handbrake
-  #   ports:
-  #     - 5800:5800
-  #   volumes:
-  #     - $APPDATA/handbreak:/config
-  #     - /bucket/media/tv:/watch
-  #     - /bucket/media/tv:/output
-  #   environment:
-  #     AUTOMATED_CONVERSION: 1
-  #     AUTOMATED_CONVERSION_PRESET: "GENERAL/Fast 1080p30"
-  #     AUTOMATED_CONVERSION_KEEP_SOURCE: 0
-  #     AUTOMATED_CONVERSION_OUTPUT_SUBDIR: SAME_AS_SRC
-  #     AUTOMATED_CONVERSION_VIDEO_FILE_EXTENSIONS: "ts"
-
   files:
     image: svenstaro/miniserve
     container_name: files
@@ -198,29 +182,6 @@ services:
     ports:
       - 8080:8080
     command: /tmp
-
-  # send:
-  #   image: registry.gitlab.com/timvisee/send:latest
-  #   restart: always
-  #   user: "0"
-  #   ports:
-  #     - '8383:8383'
-  #   volumes:
-  #     - send:/uploads
-  #   environment:
-  #     - DHPARAM_GENERATION=false
-  #     - NODE_ENV=production
-  #     - DETECT_BASE_URL=true
-  #     - PORT=8383
-  #     - REDIS_HOST=redis
-  #     - FILE_DIR=/uploads
-  #     - MAX_FILE_SIZE=21474836480
-
-  # redis:
-  #   image: redis:alpine
-  #   restart: always
-  #   volumes:
-  #     - send-redis:/data
 
   syncthing:
     image: linuxserver/syncthing:latest
@@ -238,87 +199,6 @@ services:
       - 22000:22000/udp
       - 21027:21027/udp
     restart: unless-stopped
-
-  # photoprism:
-  #   image: photoprism/photoprism:latest
-  #   container_name: photoprism
-  #   depends_on:
-  #     - mariadb
-  #   security_opt:
-  #     - seccomp:unconfined
-  #     - apparmor:unconfined
-  #   ports:
-  #     - "2342:2342"
-  #   environment:
-  #     PHOTOPRISM_ADMIN_USER: "admin"
-  #     PHOTOPRISM_ADMIN_PASSWORD: "${QBITTORRENT_PASS}"
-  #     PHOTOPRISM_AUTH_MODE: "password"
-  #     PHOTOPRISM_SITE_URL: "https://photos.rileysnyder.org/"
-  #     PHOTOPRISM_ORIGINALS_LIMIT: 500000
-  #     PHOTOPRISM_HTTP_COMPRESSION: "gzip"
-  #     PHOTOPRISM_LOG_LEVEL: "info"
-  #     PHOTOPRISM_READONLY: "false"
-  #     PHOTOPRISM_EXPERIMENTAL: "false"
-  #     PHOTOPRISM_DISABLE_CHOWN: "false"
-  #     PHOTOPRISM_DISABLE_WEBDAV: "false"
-  #     PHOTOPRISM_DISABLE_SETTINGS: "false"
-  #     PHOTOPRISM_DISABLE_TENSORFLOW: "false"
-  #     PHOTOPRISM_DISABLE_FACES: "false"
-  #     PHOTOPRISM_DISABLE_CLASSIFICATION: "false"
-  #     PHOTOPRISM_DISABLE_RAW: "false"
-  #     PHOTOPRISM_RAW_PRESETS: "false"
-  #     PHOTOPRISM_JPEG_QUALITY: 85
-  #     PHOTOPRISM_DETECT_NSFW: "false"
-  #     PHOTOPRISM_UPLOAD_NSFW: "true"
-  #     PHOTOPRISM_DATABASE_DRIVER: "mysql"
-  #     PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"
-  #     PHOTOPRISM_DATABASE_NAME: "photoprism"
-  #     PHOTOPRISM_DATABASE_USER: "photoprism"
-  #     PHOTOPRISM_DATABASE_PASSWORD: "${QBITTORRENT_PASS}"
-  #     PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
-  #     PHOTOPRISM_SITE_DESCRIPTION: ""
-  #     PHOTOPRISM_SITE_AUTHOR: ""
-  #   working_dir: "/photoprism"
-  #   volumes:
-  #     - "/bucket/prism:/photoprism/originals"
-  #     # - "/bucket/photos:/photoprism/import"
-  #     - "/bucket/backup/syncthing/phone-pictures:/photoprism/import/pictures"
-  #     - "/bucket/backup/syncthing/phone-camera:/photoprism/import/camera"
-  #     - "$APPDATA/photoprism:/photoprism/storage"
-
-  # ofelia:
-  #   restart: unless-stopped
-  #   image: mcuadros/ofelia:latest
-  #   container_name: ofelia
-  #   volumes:
-  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  #     - "$APPDATA/photoprism/photoprism.ini:/etc/ofelia/config.ini"
-
-  # mariadb:
-  #   restart: unless-stopped
-  #   image: mariadb:10.10
-  #   security_opt: # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
-  #     - seccomp:unconfined
-  #     - apparmor:unconfined
-  #   command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
-  #   volumes:
-  #     - "$APPDATA/photoprism-db:/var/lib/mysql"
-  #   environment:
-  #     MARIADB_AUTO_UPGRADE: "1"
-  #     MARIADB_INITDB_SKIP_TZINFO: "1"
-  #     MARIADB_DATABASE: "photoprism"
-  #     MARIADB_USER: "photoprism"
-  #     MARIADB_PASSWORD: "${QBITTORRENT_PASS}"
-  #     MARIADB_ROOT_PASSWORD: "${QBITTORRENT_PASS}"
-
-  # discord-minecraft-server-stats:
-  #   image: ghcr.io/rssnyder/discord-minecraft-server-stats:0.0.3
-  #   environment:
-  #     TOKEN: "${MINECRAFT_DISCORD_TOKEN}"
-  #     DOMAIN: yourearat.com
-  #     STATUS: 0
-  #     LOOP: 15
-  #     USERS: 5
   
   vhssnyder:
     image: linuxserver/emby:latest
@@ -354,102 +234,8 @@ services:
       - 1901:1900/udp #optional
     restart: unless-stopped
 
-  # bothwellvhs:
-  #   image: universalmediaserver/ums
-  #   restart: unless-stopped
-  #   ports:
-  #       - 1044:1044
-  #       - 5001:5001
-  #       - 9001:9001
-  #   volumes:
-  #       - /bucket/media/vhs/bothwell:/root/media:ro
-  #       - bothwellvhs:/root/.config/UMS"
-  
-  # scrypted:
-  #   image: koush/scrypted
-  #   environment:
-  #     - SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION=Bearer XXYYZZ
-  #     - SCRYPTED_WEBHOOK_UPDATE=http://localhost:10444/v1/update
-  #     # nvidia support
-  #     # - NVIDIA_VISIBLE_DEVICES=all
-  #     # - NVIDIA_DRIVER_CAPABILITIES=all
-  #   # runtime: nvidia
-  #   container_name: scrypted
-  #   restart: unless-stopped
-  #   network_mode: host
-
-  #   # devices:
-  #     # hardware accelerated video decoding, opencl, etc.
-  #     # - /dev/dri:/dev/dri
-  #     # uncomment below as necessary.
-  #     # zwave usb serial device
-  #     #   - /dev/ttyACM0:/dev/ttyACM0
-  #     # all usb devices, such as coral tpu
-  #     #   - /dev/bus/usb:/dev/bus/usb
-  #     # coral PCI devices
-  #     # - /dev/apex_0:/dev/apex_0
-  #     # - /dev/apex_1:/dev/apex_1
-
-  #   volumes:
-  #     - $APPDATA/scrypted:/server/volume
-  #     # modify and add the additional volume for Scrypted NVR
-  #     # the following example would mount the /mnt/sda/video path on the host
-  #     # to the /nvr path inside the docker container.
-  #     # - /mnt/sda/video:/nvr
-
-  #     # or use a network mount from one of the examples above
-  #     # - type: volume
-  #     #   source: nvr
-  #     #   target: /nvr
-  #     #   volume:
-  #     #     nocopy: true
-
-  #     # uncomment the following lines to expose Avahi, an mDNS advertiser.
-  #     # make sure Avahi is running on the host machine, otherwise this will not work.
-  #     # - /var/run/dbus:/var/run/dbus
-  #     # - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
-  #   # logging is noisy and will unnecessarily wear on flash storage.
-  #   # scrypted has per device in memory logging that is preferred.
-  #   logging:
-  #     driver: "json-file"
-  #     options:
-  #         max-size: "10m"
-  #         max-file: "10"
-  #   labels:
-  #     - "com.centurylinklabs.watchtower.scope=scrypted"
-
-  # # watchtower manages updates for Scrypted.
-  # watchtower:
-  #   environment:
-  #     - WATCHTOWER_HTTP_API_TOKEN=XXYYZZ
-  #     - WATCHTOWER_HTTP_API_UPDATE=true
-  #     - WATCHTOWER_SCOPE=scrypted
-  #     # remove the following line to never allow docker to auto update.
-  #     # this is not recommended.
-  #     - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
-  #   image: containrrr/watchtower
-  #   container_name: scrypted-watchtower
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   labels:
-  #     - "com.centurylinklabs.watchtower.scope=scrypted"
-  #   ports:
-  #       # The auto update port 10444 can be configured
-  #       # Must match the port in the auto update url above.
-  #     - 10444:8080
-  #   # check for updates once an hour (interval is in seconds)
-  #   command: --interval 3600 --cleanup --scope scrypted
-
 volumes:
-  send-redis:
-  send:
-  pigallery2:
-  torch:
-  huggingface:
   jellyfin:
   jellyfinbothwell:
   bothwellvhs:
   vhssnyder:
-  proxy:
-  gitness:

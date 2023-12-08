@@ -189,7 +189,7 @@ module "code" {
 
 // local only
 
-resource "pihole_dns_record" "cluster_local" {
-  domain = "cluster.local"
-  ip     = var.instances["charlie"].ip
+resource "pihole_dns_record" "lab" {
+  domain = "whoami.lab"
+  ip     = var.instances["ingress"].ip
 }

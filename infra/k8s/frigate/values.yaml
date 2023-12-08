@@ -8,10 +8,10 @@ config: |
     port: 1883
   database: 
     path: /media/frigate.db
-  # detectors:
-  #   coral:
-  #     type: edgetpu
-  #     device: usb
+  detectors:
+    coral:
+      type: edgetpu
+      device: usb
   go2rtc:
     streams:
       back: 
@@ -74,14 +74,14 @@ config: |
         height: 1920
       record:
         enabled: true
-    garage:
-      ffmpeg:
-        inputs:
-          - path: rtsp://192.168.254.27:8554/garage-door
-            roles:
-              - detect
-      record:
-        enabled: true
+    # garage:
+    #   ffmpeg:
+    #     inputs:
+    #       - path: rtsp://192.168.254.27:8554/garage-door
+    #         roles:
+    #           - detect
+    #   record:
+    #     enabled: true
   snapshots:
     enabled: True
     timestamp: True
@@ -99,6 +99,6 @@ extraVolumeMounts:
     subPath: media
 nodeSelector:
   kubernetes.io/hostname: charlie
-# coral:
-#   enabled: true
-#   hostPath: /dev/bus/usb
+coral:
+  enabled: true
+  hostPath: /dev/bus/usb

@@ -35,22 +35,6 @@ services:
     container_name: pushgateway
     ports:
       - 9092:9091
-  
-  loki:
-    image: grafana/loki:2.9.2
-    container_name: loki
-    ports:
-      - "3100:3100"
-    # volumes:
-    #   -  $APPDATA/loki:/etc/loki
-    command: -config.file=/etc/loki/local-config.yaml
-
-  promtail:
-    image: grafana/promtail:2.9.2
-    container_name: promtail
-    # volumes:
-    #   -  $APPDATA/promtail:/etc/promtail
-    command: -config.file=/etc/promtail/config.yml
 
   grafana:
     image: grafana/grafana-oss:8.5.15
@@ -113,15 +97,6 @@ services:
     ports:
       - 5432:5432
 
-  # digitalocean_exporter:
-  #   image: metalmatze/digitalocean_exporter:0.6.1
-  #   container_name: digitalocean_exporter
-  #   restart: always
-  #   ports:
-  #     - 8789:9212
-  #   environment:
-  #     DIGITALOCEAN_TOKEN: "${DIGITALOCEAN_TOKEN}"
-
   minio:
     image: quay.io/minio/minio
     network_mode: host
@@ -170,77 +145,11 @@ services:
     ports:
       - 9617:9617
 
-  # homeassistant:
-  #   image: ghcr.io/home-assistant/home-assistant:stable
-  #   container_name: homeassistant
-  #   network_mode: host
-  #   privileged: true
-  #   restart: unless-stopped
-  #   volumes:
-  #     - $APPDATA/homeassistant:/config
-  #     - /etc/localtime:/etc/localtime:ro
-
   music:
     build: $APPDATA/music
     container_name: music
     ports:
       - "9876:80"
-  
-  # harry-potter-picker:
-  #   image: rssnyder/harry-potter-picker
-  #   container_name: harry-potter-picker
-  #   ports:
-  #     - "9877:80"
-
-  # signal:
-  #   image: bbernhard/signal-cli-rest-api
-  #   container_name: signal
-  #   restart: unless-stopped
-  #   command:
-  #     - serve
-  #   environment:
-  #     MODE: native
-  #     AUTO_RECEIVE_SCHEDULE: 0 22 * * *
-  #   volumes:
-  #     - $APPDATA/signal:/home/.local/share/signal-cli
-  #   ports:
-  #     - 8911:8080
-
-  # discord-bot-manager:
-  #   build: $APPDATA/discord-bot-manager
-  #   container_name: discord-bot-manager
-  #   restart: unless-stopped
-  #   environment:
-  #     DB_HOST: "192.168.0.3"
-  #     DB_DB: "dst"
-  #     DB_USER: "dst_manager"
-  #     DB_PASS: ${DST_ADMIN_PASSWORD}
-  #   ports:
-  #     - "7777:7777"
-
-  # keys:
-  #   build:
-  #     context: $APPDATA/keys
-  #     args:
-  #       TARGETARCH: arm64
-  #   ports:
-  #     - 8235:8080
-  #   environment:
-  #     PG_HOST: postgres
-  #     PG_USER: keys
-  #     PG_PASSWORD: "${KEYS_PG_PASSWORD}"
-  #     PG_DB: keys
-
-  # mosquitto:
-  #   image: eclipse-mosquitto
-  #   container_name: mosquitto
-  #   volumes:
-  #     - $APPDATA/mosquitto:/mosquitto
-  #   ports:
-  #     - 1883:1883
-  #     - 9002:9001
-  #   environment:
-  #     ALLOW_UNSECURED_MODE: 'true'
 
   homer:
     image: b4bz/homer
@@ -267,36 +176,6 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
 
-  # alexsnydernet:
-  #   image: klakegg/hugo:0.101.0
-  #   container_name: alexsnydernet
-  #   command: server
-  #   volumes:
-  #     - $APPDATA/alexsnyder.net:/src
-  #   ports:
-  #     - 1313:1313
-
-  # registry:
-  #   image: registry:2
-  #   container_name: registry
-  #   environment:
-  #     REGISTRY_AUTH: htpasswd
-  #     REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-  #     REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-  #   ports:
-  #     - 5001:5000
-  #   volumes:
-  #     - registry:/var/lib/registry
-  #     - $APPDATA/auth:/auth
-
 volumes:
   db:
     driver: local
-  registry:
-    driver: local
-  proxy:
-    driver: local
-networks:
-  gotosocial:
-    ipam:
-      driver: default
