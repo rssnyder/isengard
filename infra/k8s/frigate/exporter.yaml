@@ -18,25 +18,10 @@ spec:
         image: rhysbailey/prometheus-frigate-exporter
         env:
         - name: FRIGATE_STATS_URL
-          value: http://frigate.frigate.svc.cluster.local/api/stats
+          value: http://frigate/api/stats
         ports:
         - name:  metrics
           containerPort: 9100
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: frigate-stats
-  namespace: frigate
-spec:
-  type: LoadBalancer
-  selector:
-    app: frigate-stats
-  ports:
-  - name: metrics
-    port: 80
-    targetPort: metrics
 
 ---
 apiVersion: monitoring.coreos.com/v1

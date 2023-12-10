@@ -18,7 +18,7 @@ spec:
         image: mrlt8/wyze-bridge
         env:
         - name: FRIGATE_STATS_URL
-          value: http://frigate.frigate.svc.cluster.local/api/stats
+          value: http://frigate/api/stats
         ports:
         - name:  webui
           containerPort: 5000
