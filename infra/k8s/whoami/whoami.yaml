@@ -42,26 +42,6 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: whoami.k8s.rileysnyder.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name:  whoami
-                port:
-                  number: 80
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: whoami
-  namespace: whoami
-spec:
-  ingressClassName: nginx
-  rules:
     - host: whoami.lab
       http:
         paths:
