@@ -49,7 +49,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name:  whoami
+                name:  autostopping-router #whoami
                 port:
                   number: 80
 
