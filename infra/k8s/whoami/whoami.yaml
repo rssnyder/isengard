@@ -33,41 +33,43 @@ spec:
     port: 80
     targetPort: web
 
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: whoami
-#   namespace: whoami
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#     - host: whoami.k8s.rileysnyder.dev #whoami.lab
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  whoami
-#                 port:
-#                   number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami
+  namespace: whoami
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: 'more_set_input_headers "AutoStoppingRule: whoami-whoami";'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: whoami.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  autostopping-router
+                port:
+                  number: 80
 
-# ---
-# apiVersion: ccm.harness.io/v1
-# kind: AutoStoppingRule
-# metadata:
-#   name: whoami
-#   namespace: whoami
-#   annotations:
-#     harness.io/cloud-connector-id: rileyharnessccm
-# spec:
-#   service:
-#     name: whoami
-#     port: 80
-#   ingress:
-#     name: whoami
-#     controllerName: nginx
-#   idleTimeMins: 5
-#   hideProgressPage: false
-#   dependencies: []
+---
+apiVersion: ccm.harness.io/v1
+kind: AutoStoppingRule
+metadata:
+  name: whoami
+  namespace: whoami
+  annotations:
+    harness.io/cloud-connector-id: rileyharnessccm
+spec:
+  service:
+    name: whoami
+    port: 80
+  ingress:
+    name: whoami
+    controllerName: nginx
+  idleTimeMins: 5
+  hideProgressPage: false
+  dependencies: []
