@@ -42,7 +42,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: whoami.lab
+    - host: whoami.k8s.rileysnyder.dev #whoami.lab
       http:
         paths:
           - path: /
