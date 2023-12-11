@@ -26,6 +26,27 @@ spec:
           containerPort: 8888
         - name:  rtsp
           containerPort: 8554
+        volumeMounts:
+          - name: tokens
+            mountPath: /tokens
+      volumes:
+      - name: tokens
+        persistentVolumeClaim:
+          claimName: wyze-bridge-tokens
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wyze-bridge-tokens
+  namespace: frigate
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1M
 
 ---
 apiVersion: v1

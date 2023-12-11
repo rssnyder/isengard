@@ -2,6 +2,9 @@ fullnameOverride: frigate
 service:
   type: LoadBalancer
   port: 80
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "frigate"
 config: |
   mqtt:
     host: "mosquitto.mosquitto"
