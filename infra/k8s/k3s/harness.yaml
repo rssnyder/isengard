@@ -22,6 +22,25 @@ spec:
     replicas: 1
 
 ---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lab-hpa
+  namespace: harness-delegate-ng
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lab
+  minReplicas: 1
+  maxReplicas: 15
+  metrics:
+  - type: Pods
+    pods:
+      metricName: io_harness_custom_metric_tasks_currently_executing
+      targetAverageValue: "1"
+  
+---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:

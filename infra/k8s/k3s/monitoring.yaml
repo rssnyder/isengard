@@ -241,3 +241,20 @@ spec:
 
     thanosRuler:
       enabled: false
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: prometheus-adapter
+  namespace: kube-prometheus
+spec:
+  repo: https://prometheus-community.github.io/helm-charts
+  chart: prometheus-adapter
+  targetNamespace: kube-prometheus
+  valuesContent: |-
+    namespaceOverride: kube-prometheus
+    prometheus:
+      url: http://prometheus-prometheus.kube-prometheus
+      port: 9090
+      path: ""

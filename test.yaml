@@ -1,15 +1,22 @@
-
 ---
-apiVersion: v1
-kind: Service
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
 metadata:
-  name: test
-  namespace: ff-relay-proxy
+  name: lab-hpa
+  namespace: harness-delegate-ng
 spec:
-  type: LoadBalancer
-  selector:
-    app: ff-relay-proxy
-  ports:
-  - name: sdk
-    port: 7000
-    targetPort: sdk
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lab
+  minReplicas: 1
+  maxReplicas: 15
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: io_harness_custom_metric_tasks_currently_executing
+      target:
+        type: Value
+        value: 1
+        averageValue: 1
