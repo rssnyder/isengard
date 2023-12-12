@@ -7,3 +7,5 @@ autostop:
   cloudConnectorId: rileyharnessccm
   controllerName: nginx
   idleTimeMins: 5
+
+foo: bar

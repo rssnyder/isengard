@@ -74,3 +74,5 @@ files:
   service:
     type: LoadBalancer
     port: 80
+
+foo: bar

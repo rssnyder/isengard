@@ -18,3 +18,5 @@ autostop:
   controllerName: nginx
   idleTimeMins: 5
   hideProgressPage: false
+
+foo: bar
