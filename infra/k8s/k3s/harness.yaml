@@ -22,7 +22,7 @@ spec:
     replicas: 1
 
 ---
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: lab-hpa
@@ -37,8 +37,12 @@ spec:
   metrics:
   - type: Pods
     pods:
-      metricName: io_harness_custom_metric_tasks_currently_executing
-      targetAverageValue: "1"
+      metric:
+        name: io_harness_custom_metric_tasks_currently_executing
+      target:
+        type: Value
+        value: 1
+        averageValue: 1
   
 ---
 apiVersion: monitoring.coreos.com/v1
