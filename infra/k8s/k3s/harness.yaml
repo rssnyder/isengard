@@ -45,8 +45,7 @@ spec:
         name: io_harness_custom_metric_tasks_currently_executing
       target:
         type: Value
-        value: 1
-        averageValue: 1
+        averageValue: 0.50
   
 ---
 apiVersion: monitoring.coreos.com/v1

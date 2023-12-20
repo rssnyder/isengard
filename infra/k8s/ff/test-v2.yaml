@@ -12,7 +12,7 @@ metadata:
   labels:
     app: ff-test-v2
 data:
-  RELAY_PROXY_ADDRESS: http://ff-relay-proxy-read-replica.ff-relay-proxy.svc.cluster.local:7000
+  RELAY_PROXY_ADDRESS: http://ff-relay-proxy-read-replica.ff-relay-proxy:7000
   FF_SDK_KEY: 7689ce22-c50b-429b-9d30-34a74544eab1
   FF_IDENTIFIER: test
 
