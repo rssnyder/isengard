@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apex-aethir-discord-bot
+  namespace: discord-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apex-aethir-discord-bot
+  template:
+    metadata:
+      labels:
+        app: apex-aethir-discord-bot
+    spec:
+      containers:
+      - name: discord-bot
+        image: ghcr.io/rssnyder/discord-bot:0.0.6
+        imagePullPolicy: Always
+        env:
+        - name: NICKNAME
+          value: Aethir
+        - name: REFRESH
+          value: "600"
+        - name: TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: apex-aethir-discord-bot
+              key: token
