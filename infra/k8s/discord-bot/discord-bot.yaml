@@ -5,20 +5,6 @@ metadata:
   name: discord-bot
 
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: discord-bot
-  namespace: discord-bot
-  labels:
-    app: discord-bot
-data:
-  NICKNAME: k3s
-  ACTIVITY: running
-  STATUS: "0"
-  REFRESH: "60"
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,12 +22,13 @@ spec:
     spec:
       containers:
       - name: discord-bot
-        image: ghcr.io/rssnyder/discord-bot
+        image: ghcr.io/rssnyder/discord-bot:0.0.6
         imagePullPolicy: IfNotPresent
-        envFrom:
-        - configMapRef:
-            name: discord-bot
         env:
+        - name: NICKNAME
+          value: k3s
+        - name: REFRESH
+          value: "3600"
         - name: TOKEN
           valueFrom:
             secretKeyRef:

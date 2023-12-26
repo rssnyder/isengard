@@ -13,7 +13,7 @@
 #     app: ff-test-v2-2
 # data:
 #   RELAY_PROXY_ADDRESS: http://ff2-read-replica.ff2.svc.cluster.local:7000
-#   FF_SDK_KEY: 29bfa44d-9b42-4509-b5d3-ea9cee41053d
+#   FF_SDK_KEY: 8115b25e-b5fe-425a-9742-0ee7c8935a1d
 #   FF_IDENTIFIER: test
 
 # ---
