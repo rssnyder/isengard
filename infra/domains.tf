@@ -193,3 +193,8 @@ resource "pihole_dns_record" "lab" {
   domain = "whoami.lab"
   ip     = var.instances["ingress"].ip
 }
+
+resource "pihole_dns_record" "sonarr" {
+  domain = "sonarr.lab.io"
+  ip     = var.instances["ingress"].ip
+}

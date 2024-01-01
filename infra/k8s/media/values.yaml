@@ -6,7 +6,7 @@ timezone: America/Chicago
 
 ingress:
   enabled: true
-  host: media.rileysnyder.dev
+  host: lab.io
 
 downloads:
   pvc:

@@ -67,3 +67,15 @@ spec:
   - name: webui
     port: 80
     targetPort: webui
+  - name: synthing0
+    port: 22000
+    targetPort: 22000
+    protocol: TCP
+  - name: synthing1
+    port: 22000
+    targetPort: 22000
+    protocol: UDP
+  - name: synthing2
+    port: 21027
+    targetPort: 21027
+    protocol: UDP
