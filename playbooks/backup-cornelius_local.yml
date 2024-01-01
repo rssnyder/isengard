@@ -1,0 +1,10 @@
+---
+- name: Backup cornelius
+  hosts: cornelius
+  become: yes
+
+  tasks:
+
+    - synchronize:
+        src: /bucket/backup/
+        dest: rsync://riley@charlie/mnt/bulk/bucket_backup/backup
