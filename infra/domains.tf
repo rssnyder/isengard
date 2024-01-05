@@ -198,3 +198,28 @@ resource "pihole_dns_record" "sonarr" {
   domain = "sonarr.lab.io"
   ip     = var.instances["ingress"].ip
 }
+
+resource "pihole_dns_record" "radarr" {
+  domain = "radarr.lab.io"
+  ip     = var.instances["ingress"].ip
+}
+
+resource "pihole_dns_record" "qbittorrent" {
+  domain = "qbittorrent.lab.io"
+  ip     = var.instances["ingress"].ip
+}
+
+resource "pihole_dns_record" "prowlarr" {
+  domain = "prowlarr.lab.io"
+  ip     = var.instances["ingress"].ip
+}
+
+resource "pihole_dns_record" "overseerr" {
+  domain = "overseerr.lab.io"
+  ip     = var.instances["ingress"].ip
+}
+
+resource "pihole_dns_record" "files" {
+  domain = "files.lab.io"
+  ip     = var.instances["ingress"].ip
+}
