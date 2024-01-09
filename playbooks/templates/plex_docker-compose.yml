@@ -45,12 +45,14 @@ services:
     environment:
       PUID: 65534
       PGID: 1001
+      UMASK: 000
       TZ: America/Chicago
       WEBUI_PORT: 8475
     volumes:
       - $APPDATA/qbt:/config
       - /mnt/fake/downloads:/downloads
       - /bucket/media/movies:/movies
+      - /bucket/media/4k:/4k
       - /bucket/media/tv:/tv
       - /bucket/media/syndicated:/syndicated
       - /bucket/media/books:/books
@@ -98,6 +100,7 @@ services:
     environment:
       PUID: 65534
       PGID: 1001
+      UMASK: 000
       TZ: America/Chicago
     volumes:
       - $APPDATA/sonarr:/config
@@ -113,6 +116,7 @@ services:
     environment:
       PUID: 65534
       PGID: 1001
+      UMASK: 000
       TZ: America/Chicago
     volumes:
       - $APPDATA/radarr:/config

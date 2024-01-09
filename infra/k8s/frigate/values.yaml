@@ -43,6 +43,26 @@ config: |
         height: 1920
       record:
         enabled: true
+        required_zones:
+        - sidewalkcorner
+        - sidewalk
+      snapshots:
+        required_zones:
+          - sidewalkcorner
+          - sidewalk
+      zones:
+        sidewalkcorner:
+          coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
+          objects:
+            - person
+        sidewalk:
+          coordinates: 0,764,716,747,716,877,0,961
+          objects:
+            - person
+        louie:
+          coordinates: 1570,834,1563,902,1606,908,1649,888,1663,843
+          objects:
+            - dog
     louie:
       ffmpeg:
         inputs:

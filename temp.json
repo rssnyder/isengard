@@ -3,21 +3,21 @@
   "kind": "Namespace",
   "metadata": {
     "annotations": {
-      "objectset.rio.cattle.io/applied": "H4sIAAAAAAAA/4yPQUvEMBBG/4p8525l27S2AQ+eBY/ep8nUjW0mSzNWZOl/l+JFEHWPw2Me37uAzuGZlxySwGI9osAUxMPiiSLnMzlGgchKnpRgLyCRpKQhSd7PNLyy08xaLiGVjlRnLkO6DbsDxa88vQsvh5d1gsVU529kPRY3j0H8/YP3Sf5VCEWGRQzCbqFRr3r4CrOY3gY+5I+sHLEVmGng+c+sE+UTLJwn0zd3bWfGmo0fq9FXTWXY9G3nO26pbQz1dbtLfwzcts8AAAD//0aYpdJ3AQAA",
+      "objectset.rio.cattle.io/applied": "H4sIAAAAAAAA/4yPvU7EMBAGXwV9tS/EJJf4LFFQI1HSr+2FM0nsU7wEoSjvjiIaKPgpV7MafbOCLvGR5xJzgsWioTDEFGDxQBOXC3mGwsRCgYRgV1BKWUhiTmU/s3thL4WlmmOuPImMXMV8HXcH1I88vyWeD8/LAIuhKV/IotXVfUzh9i6EnP5UJJoYFj4Hnv/1/BllMbw6PpT3IjxhUxjJ8fhr0pnKGRbmiWrXBzJdq5vadLUzfRdObd3cHI+m50Z7rf2p3aXfxm3bRwAAAP//UxI3L28BAAA",
       "objectset.rio.cattle.io/id": "",
       "objectset.rio.cattle.io/owner-gvk": "k3s.cattle.io/v1, Kind=Addon",
-      "objectset.rio.cattle.io/owner-name": "minecraft",
+      "objectset.rio.cattle.io/owner-name": "coder",
       "objectset.rio.cattle.io/owner-namespace": "kube-system"
     },
-    "creationTimestamp": "2023-11-21T23:11:48Z",
-    "deletionTimestamp": "2023-12-11T20:23:51Z",
+    "creationTimestamp": "2024-01-06T02:02:05Z",
+    "deletionTimestamp": "2024-01-06T04:36:39Z",
     "labels": {
-      "kubernetes.io/metadata.name": "minecraft",
-      "objectset.rio.cattle.io/hash": "cda4957684f3e4df2fd2524e4968d8e6a654a936"
+      "kubernetes.io/metadata.name": "coder",
+      "objectset.rio.cattle.io/hash": "8fa0b7da864130860b876d940325587e31c11c94"
     },
-    "name": "minecraft",
-    "resourceVersion": "5978619",
-    "uid": "46ab3258-ffa6-4268-8096-0a3938961a2f"
+    "name": "coder",
+    "resourceVersion": "9192256",
+    "uid": "d944ac5d-9509-4603-8320-d2047a957be3"
   },
   "spec": {
     "finalizers": []
@@ -25,36 +25,36 @@
   "status": {
     "conditions": [
       {
-        "lastTransitionTime": "2023-12-12T22:00:34Z",
+        "lastTransitionTime": "2024-01-06T04:36:45Z",
         "message": "All resources successfully discovered",
         "reason": "ResourcesDiscovered",
         "status": "False",
         "type": "NamespaceDeletionDiscoveryFailure"
       },
       {
-        "lastTransitionTime": "2023-12-11T20:23:57Z",
+        "lastTransitionTime": "2024-01-06T04:36:45Z",
         "message": "All legacy kube types successfully parsed",
         "reason": "ParsedGroupVersions",
         "status": "False",
         "type": "NamespaceDeletionGroupVersionParsingFailure"
       },
       {
-        "lastTransitionTime": "2023-12-11T20:23:57Z",
+        "lastTransitionTime": "2024-01-06T04:36:45Z",
         "message": "All content successfully deleted, may be waiting on finalization",
         "reason": "ContentDeleted",
         "status": "False",
         "type": "NamespaceDeletionContentFailure"
       },
       {
-        "lastTransitionTime": "2023-12-11T20:23:57Z",
-        "message": "Some resources are remaining: helmcharts.helm.cattle.io has 1 resource instances",
+        "lastTransitionTime": "2024-01-06T04:36:45Z",
+        "message": "Some resources are remaining: helmcharts.helm.cattle.io has 2 resource instances",
         "reason": "SomeResourcesRemain",
         "status": "True",
         "type": "NamespaceContentRemaining"
       },
       {
-        "lastTransitionTime": "2023-12-11T20:23:57Z",
-        "message": "Some content in the namespace has finalizers remaining: wrangler.cattle.io/on-helm-chart-remove in 1 resource instances",
+        "lastTransitionTime": "2024-01-06T04:36:45Z",
+        "message": "Some content in the namespace has finalizers remaining: wrangler.cattle.io/on-helm-chart-remove in 2 resource instances",
         "reason": "SomeFinalizersRemain",
         "status": "True",
         "type": "NamespaceFinalizersRemaining"
