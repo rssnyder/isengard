@@ -43,9 +43,10 @@ config: |
         height: 1920
       record:
         enabled: true
-        required_zones:
-        - sidewalkcorner
-        - sidewalk
+        events:
+          required_zones:
+          - sidewalkcorner
+          - sidewalk
       snapshots:
         required_zones:
           - sidewalkcorner
