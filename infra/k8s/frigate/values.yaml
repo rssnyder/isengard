@@ -47,10 +47,12 @@ config: |
           required_zones:
           - sidewalkcorner
           - sidewalk
+          - door
       snapshots:
         required_zones:
           - sidewalkcorner
           - sidewalk
+          - door
       zones:
         sidewalkcorner:
           coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
@@ -63,6 +65,7 @@ config: |
         door:
           coordinates: 1570,834,1563,902,1606,908,1649,888,1663,843
           objects:
+            - person
             - dog
       objects:
         track:
