@@ -60,7 +60,7 @@ config: |
           coordinates: 0,764,716,747,716,877,0,961
           objects:
             - person
-        louie:
+        door:
           coordinates: 1570,834,1563,902,1606,908,1649,888,1663,843
           objects:
             - dog
