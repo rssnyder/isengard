@@ -10,6 +10,7 @@ service:
   port: 80
 
 pvc:
+  storageClassName: default
   enable: true
   size: 25Gi
 
