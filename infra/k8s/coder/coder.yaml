@@ -74,6 +74,7 @@ spec:
     requests:
       storage: {{ .Values.pvc.size }}
 
+{{ if .Values.ingress.enabled }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -93,7 +94,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.domain }}
+    - host: {{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -103,22 +104,20 @@ spec:
                 name:  {{ .Values.app }}
                 port:
                   number: {{ .Values.service.port }}
+{{- end }}
 
-# ---
-# apiVersion: ccm.harness.io/v1
-# kind: AutoStoppingRule
-# metadata:
-#   name: {{ .Values.app }}
-#   namespace: {{ .Values.namespace }}
-#   annotations:
-#     harness.io/cloud-connector-id: {{ .Values.autostop.cloudConnectorId }}
-# spec:
-#   service:
-#     name: {{ .Values.app }}
-#     port: {{ .Values.service.port }}
-#   ingress:
-#     name: {{ .Values.app }}
-#     controllerName: {{ .Values.autostop.controllerName }}
-#   idleTimeMins: {{ .Values.autostop.idleTimeMins }}
-#   hideProgressPage: {{ .Values.autostop.hideProgressPage }}
-#   dependencies: []
+{{ if .Values.sa.cluster_admin }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.namespace }}-cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: {{ .Values.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

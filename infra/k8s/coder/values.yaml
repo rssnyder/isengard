@@ -2,7 +2,9 @@ app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
 image: <+artifact.image>
 namespace: <+infra.namespace>
 
-domain: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>.k8s.rileysnyder.dev
+ingress:
+  enabled: true
+  domain: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>.k8s.rileysnyder.dev
 
 service: 
   type: LoadBalancer
@@ -10,13 +12,7 @@ service:
 
 pvc:
   enable: true
-  storageClassName: longhorn
   size: 25Gi
 
-autostop:
-  cloudConnectorId: rileyharnessccm
-  controllerName: nginx
-  idleTimeMins: 5
-  hideProgressPage: false
-
-foo: bar
+sa:
+  cluster_admin: false

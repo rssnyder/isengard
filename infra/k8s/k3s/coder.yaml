@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: coder
+
+# sadlfkjhsdalkjfhdskljh
+ 
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: coder-db
+  namespace: coder
+spec:
+  repo: https://charts.bitnami.com/bitnami
+  chart: postgresql
+  targetNamespace: coder
+  valuesContent: |-
+    auth:
+      username: coder
+      password: {{ k8s.secrets.coder.postgres.password }}
+      database: coder
+    persistence:
+      size: 5Gi
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: coder-db-url
+  namespace: coder
+type: Opaque
+data:
+  url: {{ ( 'postgres://coder:' + k8s.secrets.coder.postgres.password + '@coder-db-postgresql:5432/coder?sslmode=disable' ) | b64encode }}
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: coder
+  namespace: coder
+spec:
+  repo: https://helm.coder.com/v2
+  chart: coder
+  targetNamespace: coder
+  valuesContent: |-
+    coder:
+      env:
+        - name: CODER_PG_CONNECTION_URL
+          valueFrom:
+            secretKeyRef:
+              name: coder-db-url
+              key: url
+        - name: CODER_ACCESS_URL
+          value: "http://coder.r.ss"
+      service:
+        annotations:
+          tailscale.com/expose: "true"  
+          tailscale.com/hostname: "coder"
+          external-dns.alpha.kubernetes.io/hostname: coder.r.ss
+      # ingress:
+      #   enable: true
+      #   host: "coder.k8s.rileysnyder.dev"

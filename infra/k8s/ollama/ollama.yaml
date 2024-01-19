@@ -52,3 +52,23 @@ spec:
   - name: api
     port: 80
     targetPort: api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ollama
+  namespace: ollama
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ollama.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  ollama
+                port:
+                  number: 80

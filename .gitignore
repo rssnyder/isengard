@@ -13,3 +13,5 @@ infra/k8s/values
 *.state
 
 infra/.terraform*
+
+test*

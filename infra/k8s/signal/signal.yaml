@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: signal
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signal-api
+  namespace: signal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: signal-api
+  template:
+    metadata:
+      labels:
+        app: signal-api
+    spec:
+      containers:
+      - name: signal-api
+        image: bbernhard/signal-cli-rest-api
+        imagePullPolicy: Always
+        env:
+        - name: SIGNAL_CLI_CONFIG_DIR
+          value: /signal
+        - name: MODE
+          # json-rpc
+          value: native
+        - name: AUTO_RECEIVE_SCHEDULE
+          value: "0 0 * * *"
+        ports:
+        - name: api
+          containerPort: 8080
+        volumeMounts:
+        - name: signal-data
+          mountPath: /signal
+      volumes:
+      - name: signal-data
+        persistentVolumeClaim:
+          claimName: signal-api
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: signal-api
+  namespace: signal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 50M
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: signal-api
+  namespace: signal
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: signal-api.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: signal-api
+  ports:
+  - name: api
+    port: 80
+    targetPort: api
+
+# register new number with signal
+# curl -X POST http://signal-api.r.ss/v1/register/+14808407117 --data '{
+#   "captcha": "signal-hcaptcha.xxx",
+#   "use_voice": false
+# }'
+
+# verify with text recived
+# curl -X POST http://signal-api.r.ss/v1/register/+14808407117/verify/xxxxxx
+
+# add device from qr code
+# curl -X POST http://signal-api.r.ss/v1/devices/+14808407117 --data '{
+#   "uri": "sgnl://linkdevice?uuid=xxxx&pub_key=xxxx"
+# }'
+
+# recive messages
+# curl -X POST http://signal-api.r.ss/v1/receive/+14808407117
+
+# send to riley
+# curl -X POST http://signal-api.r.ss/v2/send --data '{
+#   "message": "feed me",
+#   "number": "+14808407117",
+#   "recipients": [
+#     "+15159792049"
+#   ]
+# }'
+
+# send to nicole
+# curl -X POST http://signal-api.r.ss/v2/send --data '{
+#   "message": "hello mom, love you",
+#   "number": "+14808407117",
+#   "recipients": [
+#     "+15155097579"
+#   ]
+# }'
