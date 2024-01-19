@@ -1,0 +1,17 @@
+app: <+service.name.toLowerCase().replace("_", "-").replace(" ", "-")>
+image: <+artifact.image>
+namespace: <+infra.namespace>
+
+ingress:
+  enabled: false
+
+service: 
+  type: ClusterIP
+  port: 80
+
+pvc:
+  enable: true
+  size: 25Gi
+
+sa:
+  cluster_admin: true
