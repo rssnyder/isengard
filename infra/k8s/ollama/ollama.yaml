@@ -44,6 +44,8 @@ kind: Service
 metadata:
   name: ollama
   namespace: ollama
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: ollama.r.ss
 spec:
   type: LoadBalancer
   selector:

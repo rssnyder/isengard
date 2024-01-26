@@ -4,7 +4,7 @@
 
 
 # Ansible
-alias run="ansible-playbook --vault-password .vault_password -i hosts.yml"
+alias run="ansible-playbook --vault-password .vault_password -i hosts.yml -i secrets.yml"
 alias dst="ansible-playbook --vault-password .vault_password -i hosts.yml playbooks/discord-stock-ticker.yml --limit"
 alias tf="tofu -chdir=infra"
 
@@ -310,8 +310,36 @@ function updateclient () {
   ansible-playbook -i $HOME/isengard/hosts.yml $HOME/isengard/playbooks/discord-stock-ticker-update.yml --limit oracle_arm_dst -e "{\"client\":\"$1\"}"
 }
 
+function dbpull() {
+  rclone copy s3:discord-stock-ticker/database/$1.state ./
+}
+
 function claim () {
   dbpull $1 && reclaim -db $1.state
 }
 
 alias getenv='export $(cat ../.env | xargs); export AWS_ACCESS_KEY_ID=$MINIO_USER; export AWS_SECRET_ACCESS_KEY=$MINIO_PASSWORD'
+
+function signal () {
+  message=$@
+  curl -X POST http://signal-api.r.ss/v2/send --data "
+  {
+    \"message\": \"$message\",
+    \"number\": \"+14808407117\",
+    \"recipients\": [
+      \"+15159792049\"
+    ]
+  }"
+}
+
+function signal_nicole () {
+  message=$@
+  curl -X POST http://signal-api.r.ss/v2/send --data "
+  {
+    \"message\": \"$message\",
+    \"number\": \"+14808407117\",
+    \"recipients\": [
+      \"+15155097579\"
+    ]
+  }"
+}

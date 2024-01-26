@@ -94,22 +94,3 @@ spec:
                 name:  send
                 port:
                   number: 80
-
-# ---
-# apiVersion: ccm.harness.io/v1
-# kind: AutoStoppingRule
-# metadata:
-#   name: send
-#   namespace: send
-#   annotations:
-#     harness.io/cloud-connector-id: rileyharnessccm
-# spec:
-#   service:
-#     name: send
-#     port: 80
-#   ingress:
-#     name: send
-#     controllerName: nginx
-#   idleTimeMins: 5
-#   hideProgressPage: false
-#   dependencies: []

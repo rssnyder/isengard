@@ -37,7 +37,7 @@ spec:
       containers:
       - name: gitness
         image: {{ .Values.image }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         envFrom:
         - configMapRef:
             name: {{ .Values.app }}-env

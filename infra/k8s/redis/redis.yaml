@@ -33,6 +33,8 @@ kind: Service
 metadata:
   name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.app }}.r.ss
 spec:
   type: {{ .Values.service.type }}
   selector:

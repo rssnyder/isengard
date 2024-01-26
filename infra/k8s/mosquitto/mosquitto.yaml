@@ -70,6 +70,8 @@ kind: Service
 metadata:
   name: mosquitto
   namespace: mosquitto
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: mosquitto.r.ss
 spec:
   type: LoadBalancer
   selector:

@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cnn-chart-extract
+  namespace: python-functions
+spec:
+  schedule: "0 12 * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cnn-chart-extract
+            image: rssnyder/cnn-chart-extract:latest
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: GOOGLE_AUTH_JSON
+              value: "/sa/creds"
+            - name: NOTIFY
+              value: "cnn scrape done"
+            - name: SIGNAL_API
+              value: http://signal-api.r.ss/v2/send
+            - name: SIGNAL_FROM
+              value: "+14808407117"
+            - name: SIGNAL_TO
+              value: "+15159792049"
+            volumeMounts:
+            - name: google-sheets-service-account
+              mountPath: "/sa"
+              readOnly: true
+          volumes:
+          - name: google-sheets-service-account
+            secret:
+              secretName: google-sheets-service-account

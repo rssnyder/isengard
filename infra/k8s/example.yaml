@@ -28,9 +28,9 @@ metadata:
   annotations:
     # add service to tailnet with dns name
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "frigate"
+    tailscale.com/hostname: "example"
     # add service to local dns via pihole
-    external-dns.alpha.kubernetes.io/hostname: frigate.r.ss
+    external-dns.alpha.kubernetes.io/hostname: example.r.ss
 spec:
   # give service a local ip
   type: LoadBalancer
