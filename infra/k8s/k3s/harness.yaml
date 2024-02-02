@@ -4,6 +4,20 @@ metadata:
   name: harness-delegate-ng
 
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harness-delegate-ng
+  namespace: harness-delegate-ng
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 500M
+
+---
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -18,12 +32,19 @@ spec:
     accountId: wlgELJ0TTre5aZhzpt8gVA
     delegateToken: {{ k8s.secrets.harness.delegate_token }}
     managerEndpoint: https://app.harness.io/gratis
-    delegateDockerImage: harness/delegate:23.11.81601
+    delegateDockerImage: rssnyder/delegate:latest
     replicas: 1
     cpu: 100m
     custom_envs:
       - name: DELEGATE_TASK_CAPACITY
         value: "1"
+    custom_mounts:
+      - name: persistant
+        mountPath: /storage
+    custom_volumes:
+      - name: persistant
+        persistentVolumeClaim:
+          claimName: harness-delegate-ng
 
 ---
 apiVersion: autoscaling/v2

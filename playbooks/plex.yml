@@ -25,7 +25,7 @@
 
     - name: copy service file
       copy: 
-        src: templates/plex_docker-compose.yml
+        src: templates/plex/docker-compose.yml
         dest: /home/plex/docker-compose.yml
         owner: plex
 

@@ -1,0 +1,30 @@
+---
+- name: Docker config
+  hosts: oca6
+  become: no
+  tasks:
+
+    - name: copy env file
+      template: 
+        src: templates/oca6/.env
+        dest: /home/riley/.env
+    
+    - name: create appdata
+      file:
+        path: /home/riley/appdata
+        state: directory
+        mode: '0770'
+      
+    - name: copy service file
+      copy: 
+        src: templates/oca6/docker-compose.yml
+        dest: /home/riley/docker-compose.yml
+
+    - name: copy caddy file
+      template: 
+        src: templates/oca6/Caddyfile
+        dest: /home/riley/appdata/Caddyfile
+    
+    - shell:
+        cmd: docker compose up -d --remove-orphans
+        chdir: /home/riley

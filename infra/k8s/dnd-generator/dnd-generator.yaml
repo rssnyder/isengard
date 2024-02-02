@@ -1,27 +1,29 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: counter
+  name: dnd-generator
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: counter-api
-  namespace: counter
+  name: dnd-generator-api
+  namespace: dnd-generator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: counter-api
+      app: dnd-generator-api
   template:
     metadata:
       labels:
-        app: counter-api
+        app: dnd-generator-api
     spec:
+      imagePullSecrets:
+      - name: ghcr-token
       containers:
       - name: api
-        image: ghcr.io/rssnyder/counter-api:0.0.0-beta.2
+        image: ghcr.io/rssnyder/dnd-generator:0.0.0-beta.5
         imagePullPolicy: IfNotPresent
         env:
         - name: PG_PASSWORD
@@ -32,9 +34,12 @@ spec:
         - name: PG_HOST
           value: "192.168.0.3"
         - name: PG_USER
-          value: counter
+          value: dm
         - name: PG_DB
-          value: counters
+          value: dndgenerator
+        envFrom:
+        - configMapRef:
+            name: dnd-generator-api-env
         ports:
         - name: api
           containerPort: 8080
@@ -43,12 +48,12 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: counter-api
-  namespace: counter
+  name: dnd-generator-api
+  namespace: dnd-generator
 spec:
   selector:
     matchLabels:
-      app: counter-api
+      app: dnd-generator-api
   podMetricsEndpoints:
   - port: api
 
@@ -56,12 +61,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: counter-api
-  namespace: counter
+  name: dnd-generator-api
+  namespace: dnd-generator
 spec:
   type: LoadBalancer
   selector:
-    app: counter-api
+    app: dnd-generator-api
   ports:
   - name: api
     port: 80
@@ -71,19 +76,19 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: counter-api
-  namespace: counter
+  name: dnd-generator-api
+  namespace: dnd-generator
 spec:
   ingressClassName: nginx
   rules:
-    - host: counter.k8s.rileysnyder.dev
+    - host: dnd-generator.k8s.rileysnyder.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name:  counter-api
+                name:  dnd-generator-api
                 port:
                   number: 80
 

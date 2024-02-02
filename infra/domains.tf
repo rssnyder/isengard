@@ -158,6 +158,13 @@ resource "digitalocean_record" "harrypottermoviepicker" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "s3_oca6" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "s3.oca6"
+  value  = var.instances["oca6"].ip
+}
+
 // github pages
 
 # resource "digitalocean_record" "photos" {

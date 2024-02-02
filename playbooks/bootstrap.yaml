@@ -1,0 +1,19 @@
+---
+- name: machine bootstrap
+  hosts: knapp,oca6
+  become: yes
+  # vars:
+  #   docker_apt_arch: arm64
+  #   docker_users:
+  #   - riley
+  #   - hunter
+  roles:
+  - geerlingguy.pip
+  - geerlingguy.docker
+  tasks:
+  - name: Install packages
+    package:
+      state: present 
+      name:
+      - zsh
+      - mosh

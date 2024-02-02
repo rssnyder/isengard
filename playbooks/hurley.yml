@@ -4,19 +4,30 @@
   become: no
   tasks:
 
+    - name: copy env file
+      template: 
+        src: templates/hurley/.env
+        dest: /home/riley/.env
+    
+    - name: create appdata
+      file:
+        path: /home/riley/appdata
+        state: directory
+        mode: '0770'
+      
     - name: copy service file
       copy: 
-        src: templates/hurley_docker-compose.yml
+        src: templates/hurley/docker-compose.yml
         dest: /home/riley/docker-compose.yml
 
     - name: copy homer file
       template: 
-        src: templates/homer.yml
+        src: templates/hurley/homer.yml
         dest: /home/riley/appdata/homer/config.yml
 
     - name: copy caddy file
       template: 
-        src: templates/Caddyfile
+        src: templates/hurley/Caddyfile
         dest: /home/riley/appdata/Caddyfile
     
     - shell:

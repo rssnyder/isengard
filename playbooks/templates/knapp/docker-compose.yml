@@ -1,0 +1,82 @@
+---
+version: "3"
+services:
+
+  caddy:
+    image: rssnyder/caddy-digitalocean
+    restart: unless-stopped
+    network_mode: host
+    # ports:
+    #   - 80:80
+    #   - 443:443
+    #   - "443:443/udp"
+    volumes:
+      - $APPDATA/Caddyfile:/etc/caddy/Caddyfile:r
+
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes: 
+      - $APPDATA/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  minio:
+    image: quay.io/minio/minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: "${MINIO_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_PASSWORD}"
+    volumes:
+      - $APPDATA/minio:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+
+  pihole:
+    image: cbcrowe/pihole-unbound:latest
+    container_name: pihole
+    restart: unless-stopped
+    hostname: pihole
+    domainname: pihole.local
+    ports:
+      - 8443:443/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 8888:80/tcp
+    environment:
+      FTLCONF_REPLY_ADDR4: ${FTLCONF_REPLY_ADDR4}
+      TZ: America/Chicago
+      WEBPASSWORD: ${PIHOLE_PASSWORD}
+      WEBTHEME: ${WEBTHEME:-default-light}
+      REV_SERVER: ${REV_SERVER:-false}
+      REV_SERVER_TARGET: ${REV_SERVER_TARGET}
+      REV_SERVER_DOMAIN: ${REV_SERVER_DOMAIN}
+      REV_SERVER_CIDR: ${REV_SERVER_CIDR}
+      PIHOLE_DNS_: 127.0.0.1#5335
+      DNSSEC: "true"
+      DNSMASQ_LISTENING: single
+    volumes:
+      - $APPDATA/pihole/data:/etc/pihole:rw
+      - $APPDATA/pihole/dnsmasq:/etc/dnsmasq.d:rw
+
+  syncthing:
+    image: linuxserver/syncthing:latest
+    container_name: syncthing
+    environment:
+      PUID: 0
+      PGID: 0
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/syncthing/config:/config
+      - $APPDATA/syncthing/data:/data/appdata
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped

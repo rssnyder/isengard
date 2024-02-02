@@ -31,5 +31,17 @@ provider "pihole" {
   url = "http://192.168.0.3:8888"
 }
 
-
 provider minio {}
+
+variable "minio_texas_password" {
+  type = string
+  sensitive = true
+}
+
+provider minio {
+  alias = "texas"
+  minio_server = "192.168.0.34:9000"
+  minio_user = "admin"
+  minio_password = var.minio_texas_password
+  minio_ssl = false
+}

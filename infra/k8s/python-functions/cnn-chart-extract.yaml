@@ -4,7 +4,7 @@ metadata:
   name: cnn-chart-extract
   namespace: python-functions
 spec:
-  schedule: "0 12 * * *"
+  schedule: "0 * * * *"
   jobTemplate:
     spec:
       backoffLimit: 0

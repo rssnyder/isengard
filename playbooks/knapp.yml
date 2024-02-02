@@ -1,0 +1,30 @@
+---
+- name: Docker config
+  hosts: knapp
+  become: no
+  tasks:
+
+    - name: copy env file
+      template: 
+        src: templates/knapp/.env
+        dest: /home/riley/.env
+
+    - name: create appdata
+      file:
+        path: /home/riley/appdata
+        state: directory
+        mode: '0770'
+  
+    - name: copy docker compose file
+      copy: 
+        src: templates/knapp/docker-compose.yml
+        dest: /home/riley/docker-compose.yml
+
+    - name: copy caddy file
+      template: 
+        src: templates/knapp/Caddyfile
+        dest: /home/riley/appdata/Caddyfile
+    
+    - shell:
+        cmd: docker compose up -d --remove-orphans
+        chdir: /home/riley

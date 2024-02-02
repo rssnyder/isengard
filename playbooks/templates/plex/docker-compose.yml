@@ -237,6 +237,33 @@ services:
       - 7360:7359/udp #optional
       - 1901:1900/udp #optional
     restart: unless-stopped
+  
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    restart: unless-stopped
+    ports:
+      - 8265:8265 # webUI port
+      - 8266:8266 # server port
+    environment:
+      TZ: America/Chicago
+      PUID: 65534
+      PGID: 1001
+      UMASK_SET: 777
+      serverIP: 192.168.0.6
+      serverPort: 8266
+      webUIPort: 8265
+      internalNode: "true"
+      inContainer: "true"
+      ffmpegVersion: 6
+      nodeName: cornelius
+      # NVIDIA_DRIVER_CAPABILITIES: all
+      # NVIDIA_VISIBLE_DEVICES: all
+    volumes:
+      - $APPDATA/tdarr/server:/app/server
+      - $APPDATA/tdarr/configs:/app/configs
+      - $APPDATA/tdarr/logs:/app/logs
+      - /bucket/media:/media
+      # - /transcode_cache:/temp
 
 volumes:
   jellyfin:
