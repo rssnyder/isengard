@@ -133,14 +133,6 @@ persistence:
   media:
     enabled: True
     existingClaim: media
-extraVolumes:
-  - name: media
-    hostPath:
-      path: /mnt/bulk/k8s/frigate
-extraVolumeMounts:
-  - name: media
-    mountPath: /media
-    subPath: media
 nodeSelector:
   kubernetes.io/hostname: charlie
 coral:
