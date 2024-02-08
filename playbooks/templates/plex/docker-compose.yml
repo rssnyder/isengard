@@ -24,7 +24,7 @@ services:
       SERVER_REGIONS: Netherlands
 
   plex:
-    image: linuxserver/plex
+    image: linuxserver/plex:1.32.8
     container_name: plex
     restart: unless-stopped
     environment:
@@ -39,7 +39,7 @@ services:
       - /mnt/fake:/mnt/fake
 
   qbt:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:4.6.3
     container_name: qbt
     network_mode: "service:gluetun"
     environment:
@@ -62,7 +62,7 @@ services:
     restart: unless-stopped
 
   deluge:
-    image: linuxserver/deluge
+    image: linuxserver/deluge:2.1.1
     container_name: deluge
     restart: unless-stopped
     environment:
@@ -94,7 +94,7 @@ services:
       VERIFY_WEBUI_CERTIFICATE: "false"
 
   sonarr:
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:4.0.1
     container_name: sonarr
     restart: unless-stopped
     environment:
@@ -110,7 +110,7 @@ services:
       - 7002:8989
 
   radarr:
-    image: linuxserver/radarr
+    image: linuxserver/radarr:5.2.6
     container_name: radarr
     restart: unless-stopped
     environment:
@@ -264,6 +264,13 @@ services:
       - $APPDATA/tdarr/logs:/app/logs
       - /bucket/media:/media
       # - /transcode_cache:/temp
+  
+  zfs-metrics:
+    image: matusnovak/prometheus-zfs:latest
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 9901:9901
 
 volumes:
   jellyfin:

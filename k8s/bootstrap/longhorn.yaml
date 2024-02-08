@@ -26,9 +26,9 @@ spec:
   chart: longhorn
   targetNamespace: longhorn-system
   valuesContent: |-
-    service:
-      ui:
-        type: LoadBalancer
+    # service:
+    #   ui:
+    #     type: LoadBalancer
     persistence:
       reclaimPolicy: Retain
     defaultSettings:

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: influxdb
+ 
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: influxdb
+  namespace: influxdb
+spec:
+  repo: https://helm.influxdata.com
+  chart: influxdb2
+  targetNamespace: influxdb
+  valuesContent: |-
+    persistence:
+      storageClass: "longhorn"
+      size: 50Gi
+    service:
+      type: LoadBalancer

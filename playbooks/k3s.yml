@@ -5,22 +5,38 @@
 
   tasks:
     
-    - template:
+    - name: manifests
+      template:
         src: "{{ item }}"
         dest: /var/lib/rancher/k3s/server/manifests/{{ item | basename | regex_replace('\.j2$', '') }}
       with_fileglob:
-        - ../infra/k8s/k3s/*.yaml
+        - ../k8s/manifests/*.yaml
+      when: bootstrap is not defined
+    
+    - name: bootstrap
+      template:
+        src: "{{ item }}"
+        dest: /var/lib/rancher/k3s/server/manifests/{{ item | basename | regex_replace('\.j2$', '') }}
+      with_fileglob:
+        - ../k8s/bootstrap/*.yaml
+      when: bootstrap is defined
     
     - template:
-        src: templates/kubelet.config
+        src: templates/k3s/kubelet.config
         dest: /var/lib/rancher/k3s/kubelet.config
+      when: bootstrap is defined
     
     - template:
-        src: templates/k3s-cleanup.service
-        dest: /etc/systemd/system/k3s-cleanup.service
+        src: templates/k3s/multipath.conf
+        dest: /etc/multipath.conf
+      when: bootstrap is defined
+    
+    - name: reload
+      shell:
+        cmd: systemctl restart multipathd.service
+      when: bootstrap is defined
     
     - name: reload
       shell:
         cmd: systemctl daemon-reload
-
-
+      when: bootstrap is defined

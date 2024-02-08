@@ -84,24 +84,8 @@ pushmetrics.rileysnyder.dev {
     }
 }
 
-send.rileysnyder.dev {
-    reverse_proxy 192.168.0.6:8383
-}
-
 vscode.rileysnyder.dev {
     reverse_proxy 192.168.0.3:6969
-}
-
-cds.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:9876
-}
-
-harrypottermoviepicker.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:9877
-}
-
-keys.rileysnyder.dev {
-    reverse_proxy 192.168.0.3:8235
 }
 
 dash.rileysnyder.dev {
@@ -120,12 +104,8 @@ bothwellarchive.rileysnyder.dev {
     reverse_proxy 192.168.0.6:8097
 }
 
-k8s.rileysnyder.dev {
-    reverse_proxy 192.168.254.4
-}
-
 *.k8s.rileysnyder.dev {
-    reverse_proxy 192.168.254.4
+    reverse_proxy 192.168.254.2
 
     tls {
         dns digitalocean {{ digitalocean_token }}
@@ -133,7 +113,7 @@ k8s.rileysnyder.dev {
 }
 
 *.media.rileysnyder.dev {
-    reverse_proxy 192.168.254.4
+    reverse_proxy 192.168.254.2
 
     tls {
         dns digitalocean {{ digitalocean_token }}

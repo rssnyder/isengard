@@ -165,6 +165,13 @@ resource "digitalocean_record" "s3_oca6" {
   value  = var.instances["oca6"].ip
 }
 
+resource "digitalocean_record" "azurestopping" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "azurestopping"
+  value  = "20.9.25.180"
+}
+
 // github pages
 
 # resource "digitalocean_record" "photos" {

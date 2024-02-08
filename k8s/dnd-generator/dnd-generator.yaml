@@ -23,13 +23,13 @@ spec:
       - name: ghcr-token
       containers:
       - name: api
-        image: ghcr.io/rssnyder/dnd-generator:0.0.0-beta.5
+        image: ghcr.io/rssnyder/dnd-generator-api:0.0.1-beta.2
         imagePullPolicy: IfNotPresent
         env:
         - name: PG_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: dnd-generator
               key: PG_PASSWORD
         - name: PG_HOST
           value: "192.168.0.3"
@@ -37,9 +37,24 @@ spec:
           value: dm
         - name: PG_DB
           value: dndgenerator
-        envFrom:
-        - configMapRef:
-            name: dnd-generator-api-env
+        - name: S3_HOST
+          value: https://s3.rileysnyder.dev
+        - name: S3_REGION
+          value: us-east-1
+        - name: S3_BUCKET
+          value: dndgenerator
+        - name: S3_PATH
+          value: items
+        - name: AWS_SECRET_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: dnd-generator
+              key: AWS_SECRET_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: dnd-generator
+              key: AWS_SECRET_ACCESS_KEY
         ports:
         - name: api
           containerPort: 8080

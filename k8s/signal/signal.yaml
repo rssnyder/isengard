@@ -54,7 +54,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 50M
+      storage: 250M
 
 ---
 apiVersion: v1
@@ -75,12 +75,12 @@ spec:
 
 # register new number with signal
 # curl -X POST http://signal-api.r.ss/v1/register/+14808407117 --data '{
-#   "captcha": "signal-hcaptcha.xxx",
+#   "captcha": "signal-hcaptcha.xxxx",
 #   "use_voice": false
 # }'
 
 # verify with text recived
-# curl -X POST http://signal-api.r.ss/v1/register/+14808407117/verify/xxxxxx
+# curl -X POST http://signal-api.r.ss/v1/register/+14808407117/verify/803209
 
 # add device from qr code
 # curl -X POST http://signal-api.r.ss/v1/devices/+14808407117 --data '{
@@ -90,14 +90,14 @@ spec:
 # recive messages
 # curl -X POST http://signal-api.r.ss/v1/receive/+14808407117
 
-# send to riley
-# curl -X POST http://signal-api.r.ss/v2/send --data '{
-#   "message": "feed me",
-#   "number": "+14808407117",
-#   "recipients": [
-#     "+15159792049"
-#   ]
-# }'
+send to riley
+curl -X POST http://signal-api.r.ss/v2/send --data '{
+  "message": "feed me",
+  "number": "+14808407117",
+  "recipients": [
+    "+15159792049"
+  ]
+}'
 
 # send to nicole
 # curl -X POST http://signal-api.r.ss/v2/send --data '{

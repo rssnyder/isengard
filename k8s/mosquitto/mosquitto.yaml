@@ -7,12 +7,13 @@ metadata:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mosquitto
+  name: config
   namespace: mosquitto
   labels:
-    app: mosquitto
+    app: config
 data:
-  ALLOW_UNSECURED_MODE: "true"
+  mosquitto.conf: |
+    allow_anonymous false
 
 ---
 apiVersion: apps/v1
@@ -34,35 +35,22 @@ spec:
       - name: mosquitto
         image: eclipse-mosquitto
         imagePullPolicy: IfNotPresent
-        envFrom:
-        - configMapRef:
-            name: mosquitto
+        env:
+        - name: ALLOW_UNSECURED_MODE
+          value: "true"
         ports:
         - name: mqtt
           containerPort: 1883
         - name: other
           containerPort: 9001
         volumeMounts:
-        - name: mosquitto
-          mountPath: /mosquitto
+        - name: config
+          mountPath: /mosquitto/config/mosquitto.conf
+          subPath: mosquitto.conf
       volumes:
-      - name: mosquitto
-        persistentVolumeClaim:
-          claimName: mosquitto
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mosquitto
-  namespace: mosquitto
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 100k
+      - name: config
+        configMap:
+          name: config
 
 ---
 apiVersion: v1

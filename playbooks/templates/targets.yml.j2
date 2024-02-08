@@ -46,6 +46,11 @@ scrape_configs:
   - targets:
     - '192.168.0.6:9487'
 
+- job_name: zfsnew
+  static_configs:
+  - targets:
+    - '192.168.0.6:9901'
+
 # - job_name: chihaya
 #   static_configs:
 #     - targets:

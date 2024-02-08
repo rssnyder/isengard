@@ -403,7 +403,7 @@ spec:
     spec:
       containers:
       - name: autostopping-controller
-        image: harness/autostopping-controller:k -
+        image: harness/autostopping-controller:1.1.4
         imagePullPolicy: Always
         volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
