@@ -129,6 +129,10 @@ config: |
       default: 30
       objects:
         person: 30
+persistence:
+  media:
+    enabled: True
+    existingClaim: media
 extraVolumes:
   - name: media
     hostPath:
