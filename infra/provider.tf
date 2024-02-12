@@ -45,3 +45,16 @@ provider minio {
   minio_password = var.minio_texas_password
   minio_ssl = false
 }
+
+variable "minio_k8s_password" {
+  type = string
+  sensitive = true
+}
+
+provider minio {
+  alias = "k8s"
+  minio_server = "minio.r.ss"
+  minio_user = "admin"
+  minio_password = var.minio_k8s_password
+  minio_ssl = false
+}

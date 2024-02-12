@@ -16,6 +16,6 @@ spec:
   valuesContent: |-
     persistence:
       storageClass: "longhorn"
-      size: 50Gi
+      size: 5Gi
     service:
       type: LoadBalancer

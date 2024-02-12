@@ -13,7 +13,8 @@ metadata:
     app: config
 data:
   mosquitto.conf: |
-    allow_anonymous false
+    allow_anonymous true
+    listener 1883
 
 ---
 apiVersion: apps/v1

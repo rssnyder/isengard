@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 500Gi
   hostPath:
-    path: /mnt/bulk/k8s/frigate
+    path: /mnt/bulk/k8s/frigate/media
 
 ---
 apiVersion: v1

@@ -34,7 +34,7 @@ spec:
         - name: config
           mountPath: /config
         - name: usb
-          mountPath: /dev/ttyUSB1
+          mountPath: /dev/ttyUSB0
         securityContext:
           privileged: true
       volumes:
@@ -43,7 +43,7 @@ spec:
           claimName: config
       - name: usb
         hostPath:
-          path: /dev/ttyUSB1
+          path: /dev/ttyUSB0
 
 ---
 apiVersion: v1

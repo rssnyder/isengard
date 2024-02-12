@@ -3,12 +3,6 @@ resource "minio_s3_bucket" "public" {
   acl    = "public"
 }
 
-# resource "minio_s3_bucket" "tx_public" {
-#   provider = minio.texas
-#   bucket = "public"
-#   acl    = "public"
-# }
-
 resource "minio_s3_bucket" "dndgenerator" {
   bucket = "dndgenerator"
   acl    = "public"
@@ -165,7 +159,47 @@ resource "minio_iam_user_policy_attachment" "longhorn" {
   policy_name = minio_iam_policy.longhorn.id
 }
 
+resource "minio_s3_bucket" "pg2s3" {
+  bucket = "pg2s3"
+  acl    = "private"
+}
+
 resource "minio_iam_user" "pg2s3" {
    name = "pg2s3"
    force_destroy = false
+}
+
+resource "minio_iam_policy" "pg2s3" {
+  name = "pg2s3"
+  policy= <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::pg2s3/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::pg2s3"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "minio_iam_user_policy_attachment" "pg2s3" {
+  user_name   = minio_iam_user.pg2s3.id
+  policy_name = minio_iam_policy.pg2s3.id
 }

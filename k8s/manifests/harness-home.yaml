@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harness-home
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: harness-delegate-ng
+  namespace: harness-home
+spec:
+  repo: https://app.harness.io/storage/harness-download/delegate-helm-chart
+  chart: harness-delegate-ng
+  targetnamespace: harness-home
+  valuesContent: |-
+    delegateName: home
+    accountId: -N_5zBuvRm2gzVAaNZ64lQ
+    delegateToken: {{ k8s.secrets.harness_home.delegate_token }}
+    managerEndpoint: https://app.harness.io/gratis
+    delegateDockerImage: harness/delegate:24.01.82202
+    replicas: 1
+    cpu: 100m
+  
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: lab-metrics
+  namespace: harness-home
+spec:
+  selector:
+    matchLabels:
+      harness.io/name: lab
+  podMetricsEndpoints:
+  - port: api
+    path: /api/metrics
