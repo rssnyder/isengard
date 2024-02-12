@@ -17,9 +17,6 @@ spec:
       - name: pg2s3
         image: rssnyder/pg2s3
         imagePullPolicy: Always
-        args:
-        - "-conf"
-        - "/pg2s3/pg2s3.conf"
         volumeMounts:
         - name: config
           mountPath: "/pg2s3"
