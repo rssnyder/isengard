@@ -98,30 +98,30 @@ config: |
           - 2330,901,2291,1440,2003,1440,1921,1120,2140,550
       record:
         enabled: true
-    roam:
-      ffmpeg:
-        inputs:
-        - path: rtsp://127.0.0.1:8554/roam?video=copy&audio=aac
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-        - path: rtsp://127.0.0.1:8554/roam_sub?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
-      detect:
-        width: 2560
-        height: 1920
-      record:
-        enabled: true
-    garage:
-      ffmpeg:
-        inputs:
-          - path: rtsp://wyze-bridge:8554/garage-door
-            roles:
-              - detect
-      record:
-        enabled: true
+    # roam:
+    #   ffmpeg:
+    #     inputs:
+    #     - path: rtsp://127.0.0.1:8554/roam?video=copy&audio=aac
+    #       input_args: preset-rtsp-restream
+    #       roles:
+    #         - record
+    #     - path: rtsp://127.0.0.1:8554/roam_sub?video=copy
+    #       input_args: preset-rtsp-restream
+    #       roles:
+    #         - detect
+    #   detect:
+    #     width: 2560
+    #     height: 1920
+    #   record:
+    #     enabled: true
+    # garage:
+    #   ffmpeg:
+    #     inputs:
+    #       - path: rtsp://wyze-bridge:8554/garage-door
+    #         roles:
+    #           - detect
+    #   record:
+    #     enabled: true
   snapshots:
     enabled: True
     timestamp: True
