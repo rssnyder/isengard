@@ -20,7 +20,7 @@ spec:
         app: homeassistant
     spec:
       nodeName: charlie
-      # hostNetwork: true
+      hostNetwork: true
       containers:
       - name: whoami
         image: ghcr.io/home-assistant/home-assistant:stable
@@ -78,22 +78,23 @@ spec:
     port: 80
     targetPort: web
 
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: homeassistant
-#   namespace: homeassistant
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#     - host: homeassistant.k8s.rileysnyder.dev
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  homeassistant
-#                 port:
-#                   number: 80
+# homeassistant-40411
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homeassistant
+  namespace: homeassistant
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ha.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  homeassistant
+                port:
+                  number: 80

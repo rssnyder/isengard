@@ -111,7 +111,7 @@ spec:
         storageClassName: "longhorn"
         accessModes:
           - ReadWriteOnce
-        size: 15Gi
+        size: 2.5Gi
         finalizers:
           - kubernetes.io/pvc-protection
 
@@ -313,7 +313,8 @@ spec:
           insecure: true
     singleBinary:
       replicas: 2
-
+      persistence:
+        size: 2.5Gi
 
 ---
 apiVersion: helm.cattle.io/v1

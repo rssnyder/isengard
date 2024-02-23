@@ -1,5 +1,20 @@
 ---
 version: "3"
+
+# networks:
+#   default:
+#     driver: macvlan
+#     options:
+#       parent: tailscale0
+#     config:
+#       - subnet: 100.64.0.0/10
+#         ip_range: 100.64.0.2/24
+#         gateway: 100.64.0.1
+#         aux_addresses:
+#           host1: 172.28.1.5
+#           host2: 172.28.1.6
+#           host3: 172.28.1.7
+
 services:
 
   caddy:
@@ -36,47 +51,3 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
-
-  pihole:
-    image: cbcrowe/pihole-unbound:latest
-    container_name: pihole
-    restart: unless-stopped
-    hostname: pihole
-    domainname: pihole.local
-    ports:
-      - 8443:443/tcp
-      - 53:53/tcp
-      - 53:53/udp
-      - 8888:80/tcp
-    environment:
-      FTLCONF_REPLY_ADDR4: ${FTLCONF_REPLY_ADDR4}
-      TZ: America/Chicago
-      WEBPASSWORD: ${PIHOLE_PASSWORD}
-      WEBTHEME: ${WEBTHEME:-default-light}
-      REV_SERVER: ${REV_SERVER:-false}
-      REV_SERVER_TARGET: ${REV_SERVER_TARGET}
-      REV_SERVER_DOMAIN: ${REV_SERVER_DOMAIN}
-      REV_SERVER_CIDR: ${REV_SERVER_CIDR}
-      PIHOLE_DNS_: 127.0.0.1#5335
-      DNSSEC: "true"
-      DNSMASQ_LISTENING: single
-    volumes:
-      - $APPDATA/pihole/data:/etc/pihole:rw
-      - $APPDATA/pihole/dnsmasq:/etc/dnsmasq.d:rw
-
-  syncthing:
-    image: linuxserver/syncthing:latest
-    container_name: syncthing
-    environment:
-      PUID: 0
-      PGID: 0
-      TZ: America/Chicago
-    volumes:
-      - $APPDATA/syncthing/config:/config
-      - $APPDATA/syncthing/data:/data/appdata
-    ports:
-      - 8384:8384
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp
-    restart: unless-stopped
