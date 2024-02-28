@@ -272,17 +272,17 @@ services:
     ports:
       - 9901:9901
   
-  delegate:
-    image: harness/delegate:24.02.82304
-    restart: unless-stopped
-    environment:
-      DELEGATE_NAME: cornelius
-      NEXT_GEN: "true"
-      DELEGATE_TYPE: "docker"
-      ACCOUNT_ID: wlgELJ0TTre5aZhzpt8gVA
-      LOG_STREAMING_SERVICE_URL: https://app.harness.io/gratis/log-service/
-      MANAGER_HOST_AND_PORT: https://app.harness.io/gratis
-      DELEGATE_TOKEN: "NmIzZjkzOTJmNWE4MDM3MzcyYzg2YzkwNmRkMTNjZTk="
+  # delegate:
+  #   image: harness/delegate:24.02.82304
+  #   restart: unless-stopped
+  #   environment:
+  #     DELEGATE_NAME: cornelius
+  #     NEXT_GEN: "true"
+  #     DELEGATE_TYPE: "docker"
+  #     ACCOUNT_ID: wlgELJ0TTre5aZhzpt8gVA
+  #     LOG_STREAMING_SERVICE_URL: https://app.harness.io/gratis/log-service/
+  #     MANAGER_HOST_AND_PORT: https://app.harness.io/gratis
+  #     DELEGATE_TOKEN: "NmIzZjkzOTJmNWE4MDM3MzcyYzg2YzkwNmRkMTNjZTk="
 
 
 volumes:

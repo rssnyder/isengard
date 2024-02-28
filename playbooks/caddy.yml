@@ -1,17 +1,127 @@
 ---
-- name: Docker config
-  hosts: hurley
-  become: no
+- hosts: hurley
+  become: yes
+  roles:
+    - role: caddy_ansible.caddy_ansible
+      caddy_setcap: true
+      caddy_packages:
+      - github.com/caddy-dns/digitalocean@master
+      caddy_config: |
+        rileysnyder.dev {
+            respond "
+        contact
+        +---------+---------------------+
+        | website |       handle        |
+        +---------+---------------------+
+        | email   | rileysndr@gmail.com |
+        | github  | rssnyder            |
+        | linkdin | rileysnyder         |
+        | discord | jonesbooned         |
+        | xbox    | jonesbooned         |
+        +---------+---------------------+
 
-  tasks:
-    
-    - name: copy caddy file
-      template: 
-        src: templates/Caddyfile
-        dest: /home/riley/appdata/Caddyfile
-    
-    - name: reload
-      shell:
-        cmd: docker restart caddy
-        chdir: /home/riley
+        sites
+        +------------------+---------------------------------------------------------+--------+
+        |     service      |                           url                           | public |
+        +------------------+---------------------------------------------------------+--------+
+        | github           | DEAD code.rileysnyder.dev                               | true   |
+        | music playlists  | DEAD music.rileysnyder.dev                              | true   |
+        | send files       | send.k8s.rileysnyder.dev                                | true   |
+        | minecraft        | minecraft.rileysnyder.dev                               | true   |
+        | photos           | rssnyder.github.io/photos                               | true   |
+        | grafana          | metrics.rileysnyder.dev                                 | false  |
+        | object store     | s3.rileysnyder.dev                                      | false  |
+        | bulk storage     | files.rileysnyder.dev                                   | false  |
+        | plex requests    | requests.rileysnyder.dev                                | false  |
+        +------------------+---------------------------------------------------------+--------+
+        "
+        }
 
+        www.rileysnyder.dev {
+            respond "
+        contact
+        +---------+---------------------+
+        | website |       handle        |
+        +---------+---------------------+
+        | email   | rileysndr@gmail.com |
+        | github  | rssnyder            |
+        | linkdin | rileysnyder         |
+        | discord | jonesbooned         |
+        | xbox    | jonesbooned         |
+        +---------+---------------------+
+
+        sites
+        +------------------+---------------------------------------------------------+--------+
+        |     service      |                           url                           | public |
+        +------------------+---------------------------------------------------------+--------+
+        | github           | DEAD code.rileysnyder.dev                               | true   |
+        | music playlists  | DEAD music.rileysnyder.dev                              | true   |
+        | send files       | send.k8s.rileysnyder.dev                                | true   |
+        | minecraft        | minecraft.rileysnyder.dev                               | true   |
+        | photos           | rssnyder.github.io/photos                               | true   |
+        | grafana          | metrics.rileysnyder.dev                                 | false  |
+        | object store     | s3.rileysnyder.dev                                      | false  |
+        | bulk storage     | files.rileysnyder.dev                                   | false  |
+        | plex requests    | requests.rileysnyder.dev                                | false  |
+        +------------------+---------------------------------------------------------+--------+
+        "
+        }
+
+        s3.rileysnyder.dev {
+            reverse_proxy 192.168.0.3:9000
+        }
+
+        metrics.rileysnyder.dev {
+            reverse_proxy 192.168.0.3:3000
+        }
+
+        files.rileysnyder.dev {
+            reverse_proxy 192.168.0.6:8080
+        }
+
+        requests.rileysnyder.dev {
+            reverse_proxy 192.168.0.6:5055
+        }
+
+        pushmetrics.rileysnyder.dev {
+            reverse_proxy 192.168.0.3:9092
+            basicauth * {
+                metrics JDJhJDE0JHludWJMdXRJWk8yUGZFMkxvLnBSWC5aSUh4L2dGbXg4ckdDSjF0SFJhMjJHRTZURU5zN2Rx
+            }
+        }
+
+        vscode.rileysnyder.dev {
+            reverse_proxy 192.168.0.3:6969
+        }
+
+        dash.rileysnyder.dev {
+            reverse_proxy 192.168.0.3:8364
+        }
+
+        plex.rileysnyder.dev {
+            reverse_proxy 192.168.0.6:32400
+        }
+
+        vhsarchive.rileysnyder.dev {
+            reverse_proxy 192.168.0.6:8096
+        }
+
+        bothwellarchive.rileysnyder.dev {
+            reverse_proxy 192.168.0.6:8097
+        }
+
+        *.k8s.rileysnyder.dev {
+            reverse_proxy 192.168.254.2
+
+            tls {
+                dns digitalocean {{ digitalocean_token }}
+            }
+        }
+
+        *.media.rileysnyder.dev {
+            reverse_proxy 192.168.254.2
+
+            tls {
+                dns digitalocean {{ digitalocean_token }}
+            }
+        }

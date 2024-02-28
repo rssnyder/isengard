@@ -34,6 +34,9 @@ spec:
     managerEndpoint: https://app.harness.io/gratis
     delegateDockerImage: rssnyder/delegate:latest
     replicas: 1
+    initScript: |
+      microdnf update -y
+      microdnf install jq -y
     cpu: 100m
     custom_envs:
       - name: DELEGATE_TASK_CAPACITY
