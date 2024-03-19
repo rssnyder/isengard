@@ -19,11 +19,6 @@
       copy: 
         src: templates/oca6/docker-compose.yml
         dest: /home/riley/docker-compose.yml
-
-    - name: copy caddy file
-      template: 
-        src: templates/oca6/Caddyfile
-        dest: /home/riley/appdata/Caddyfile
     
     - shell:
         cmd: docker compose up -d --remove-orphans

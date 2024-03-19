@@ -2,16 +2,16 @@
 version: "3"
 services:
 
-  caddy:
-    image: rssnyder/caddy-digitalocean
-    container_name: caddy
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 443:443
-      - "443:443/udp"
-    volumes:
-      - $APPDATA/Caddyfile:/etc/caddy/Caddyfile
+  # caddy:
+  #   image: rssnyder/caddy-digitalocean
+  #   container_name: caddy
+  #   restart: unless-stopped
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #     - "443:443/udp"
+  #   volumes:
+  #     - $APPDATA/Caddyfile:/etc/caddy/Caddyfile
 
   prometheus:
     image: prom/prometheus

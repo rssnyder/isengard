@@ -2,17 +2,6 @@
 version: "3"
 services:
 
-  caddy:
-    image: rssnyder/caddy-digitalocean
-    restart: unless-stopped
-    network_mode: host
-    # ports:
-    #   - 80:80
-    #   - 443:443
-    #   - "443:443/udp"
-    volumes:
-      - $APPDATA/Caddyfile:/etc/caddy/Caddyfile:r
-
   minio:
     image: quay.io/minio/minio
     restart: unless-stopped

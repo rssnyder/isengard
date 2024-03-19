@@ -6,7 +6,9 @@ AssertPathIsDirectory=/etc/{{ app_name }}
 Type={{ service_type }}
 SyslogIdentifier={{ service_name }}
 WorkingDirectory=/etc/{{ app_name }}
-{% if service_binary != None %}
+{% if service_binary.startswith('/') %}
+ExecStart={{ service_binary }} {{ service_opts }}
+{% elif service_binary != None %}
 ExecStart=/etc/{{ app_name }}/{{ service_binary }} {{ service_opts }}
 {% else %}
 ExecStart=/etc/{{ app_name }}/{{ app_name }} {{ service_opts }}
@@ -14,14 +16,20 @@ ExecStart=/etc/{{ app_name }}/{{ app_name }} {{ service_opts }}
 ExecReload=/bin/kill -HUP $MAINPID
 
 {% if service_type != "oneshot" %}
-Restart=always
+Restart={{ service_restart }}
+{% endif %}
+
+{% if service_max_seconds %}
+RuntimeMaxSec={{ service_max_seconds }}
 {% endif %}
 
 {% for item in service_env %}
 Environment={{ item }}
 {% endfor %}
 
+{% if service_type == "oneshot" %}
 ExecStartPost=/bin/sh /etc/systemd/metrics.sh {{ service_name }} {{ app_name }}
+{% endif %}
 
 [Install]
 WantedBy=default.target

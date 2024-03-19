@@ -24,11 +24,6 @@
       template: 
         src: templates/hurley/homer.yml
         dest: /home/riley/appdata/homer/config.yml
-
-    - name: copy caddy file
-      template: 
-        src: templates/hurley/Caddyfile
-        dest: /home/riley/appdata/Caddyfile
     
     - shell:
         cmd: docker compose up -d --remove-orphans

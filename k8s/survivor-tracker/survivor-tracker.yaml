@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: survivor-tracker
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: survivor-tracker
+  namespace: survivor-tracker
+  labels:
+    app: survivor-tracker
+data:
+  DB_HOST: "192.168.0.3"
+  DB_DB: "survivor"
+  DB_USER: "jeff"
+  SIGNAL_API: "http://192.168.254.11"
+  SIGNAL_FROM: "+14808407117"
+  SIGNAL_TO: "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: survivor-tracker
+  namespace: survivor-tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: survivor-tracker
+  template:
+    metadata:
+      labels:
+        app: survivor-tracker
+    spec:
+      containers:
+      - name: survivor-tracker
+        image: rssnyder/survivor-tracker:f791aede46a4fa20713b6461454903f6e1e8c21a
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: survivor-tracker
+        env:
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: survivor-tracker
+              key: pgpassword
+        ports:
+        - name: api
+          containerPort: 7777
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: survivor-tracker
+  namespace: survivor-tracker
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: survivor-tracker.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: survivor-tracker
+  ports:
+  - name: api
+    port: 80
+    targetPort: api

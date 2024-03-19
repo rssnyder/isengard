@@ -1,0 +1,9 @@
+[Unit]
+Description={{ timer_desc }}
+
+[Timer]
+OnCalendar=*-*-* {{ timer_hour }}:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

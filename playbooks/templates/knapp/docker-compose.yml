@@ -1,43 +1,12 @@
 ---
 version: "3"
-
-# networks:
-#   default:
-#     driver: macvlan
-#     options:
-#       parent: tailscale0
-#     config:
-#       - subnet: 100.64.0.0/10
-#         ip_range: 100.64.0.2/24
-#         gateway: 100.64.0.1
-#         aux_addresses:
-#           host1: 172.28.1.5
-#           host2: 172.28.1.6
-#           host3: 172.28.1.7
-
 services:
 
-  caddy:
-    image: rssnyder/caddy-digitalocean
+  nginx:
+    image: library/nginx
     restart: unless-stopped
-    network_mode: host
-    # ports:
-    #   - 80:80
-    #   - 443:443
-    #   - "443:443/udp"
-    volumes:
-      - $APPDATA/Caddyfile:/etc/caddy/Caddyfile:r
-
-  postgres:
-    image: postgres:14
-    restart: always
-    environment:
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-    volumes: 
-      - $APPDATA/postgres:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 8888:80
 
   minio:
     image: quay.io/minio/minio

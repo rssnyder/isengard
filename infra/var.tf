@@ -3,7 +3,7 @@ variable "instances" {
   type        = map(any)
   default = {
     home = {
-      ip = "173.22.88.59"
+      ip = "216.82.42.181"
     }
     zira = {
       ip = "192.168.0.2"
@@ -43,6 +43,9 @@ variable "instances" {
     }
     oca7 = {
       ip = "129.146.43.216"
+    }
+    tx = {
+      ip = "99.145.203.56"
     }
   }
 }

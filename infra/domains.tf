@@ -165,6 +165,34 @@ resource "digitalocean_record" "s3_oca6" {
   value  = var.instances["oca6"].ip
 }
 
+resource "digitalocean_record" "vscode_oca6" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "vscode.oca6"
+  value  = var.instances["oca6"].ip
+}
+
+resource "digitalocean_record" "test_oca6" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "test.oca6"
+  value  = var.instances["oca6"].ip
+}
+
+resource "digitalocean_record" "s3_tx" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "s3.tx"
+  value  = var.instances["tx"].ip
+}
+
+resource "digitalocean_record" "nginx_tx" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "nginx.tx"
+  value  = var.instances["tx"].ip
+}
+
 resource "digitalocean_record" "azurestopping" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

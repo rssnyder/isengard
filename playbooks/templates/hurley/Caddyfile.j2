@@ -60,6 +60,10 @@ sites
 
 s3.rileysnyder.dev {
     reverse_proxy 192.168.0.3:9000
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
 }
 
 metrics.rileysnyder.dev {

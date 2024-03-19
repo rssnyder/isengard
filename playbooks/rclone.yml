@@ -1,0 +1,42 @@
+---
+- name: rclone backup on a schedule
+  hosts: cornelius
+  become: yes
+
+  tasks:
+
+    - name: set service info
+      set_fact:
+        app_name: rclone
+        service_name: rclone
+        service_desc: rclone
+        service_binary: /usr/bin/rclone
+        service_opts: "-v copy /bucket/ crypt:bucket/ --exclude yt -L"
+        service_type: simple
+        service_env:
+          - "RCLONE_CONFIG_DIR=/root/.config/rclone"
+        service_max_seconds: "{{ 60 * 60 * 8 }}"
+        service_restart: never
+        timer_desc: rclone-nightly
+        # 4am UTC == 10pm CST
+        timer_hour: 4
+
+    - name: create dir
+      file:
+        path: /etc/{{ service_name }}
+        state: directory
+        mode: '0770'
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+
+    - name: copy timer file
+      template: 
+        src: templates/daily.j2
+        dest: "/etc/systemd/system/{{ service_name }}.timer"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
