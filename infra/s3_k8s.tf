@@ -1,19 +1,19 @@
 resource "minio_s3_bucket" "loki-chunks" {
   provider = minio.k8s
   bucket = "loki-chunks"
-  acl    = "private"
+  acl    = "public"
 }
 
 resource "minio_s3_bucket" "loki-ruler" {
   provider = minio.k8s
   bucket = "loki-ruler"
-  acl    = "private"
+  acl    = "public"
 }
 
 resource "minio_s3_bucket" "loki-admin" {
   provider = minio.k8s
   bucket = "loki-admin"
-  acl    = "private"
+  acl    = "public"
 }
 
 resource "minio_iam_user" "loki" {

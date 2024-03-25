@@ -306,11 +306,11 @@ spec:
           admin: loki-admin
         type: 's3'
         s3:
-          endpoint: minio.minio
+          endpoint: http://minio.minio.svc.cluster.local:80
           secretAccessKey: {{ k8s.secrets.loki.secret_access_key }}
           accessKeyId: {{ k8s.secrets.loki.access_key_id }}
           s3ForcePathStyle: true
-          insecure: true
+          insecure: true 
     singleBinary:
       replicas: 2
       persistence:

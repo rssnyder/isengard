@@ -2,12 +2,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: ff-relay-proxy
-  namespace: ff-relay-proxy
+  name: ff-proxy-writer
+  namespace: ff-relay-proxy-helm
 spec:
   selector:
     matchLabels:
-      app: ff-relay-proxy
+      app.kubernetes.io/component: ff-proxy-writer
   podMetricsEndpoints:
   - port: sdk
 
@@ -15,11 +15,11 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: ff-relay-proxy-read-replica
-  namespace: ff-relay-proxy
+  name: ff-proxy-read-replica
+  namespace: ff-relay-proxy-helm
 spec:
   selector:
     matchLabels:
-      app: ff-relay-proxy-read-replica
+      app.kubernetes.io/component: ff-proxy-read-replica
   podMetricsEndpoints:
   - port: sdk
