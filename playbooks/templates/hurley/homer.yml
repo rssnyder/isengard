@@ -118,13 +118,9 @@ services:
         logo: "assets/homer-icons/png/codeserver.png"
         url: "https://vscode.rileysnyder.dev"
         target: '_top'
-      - name: "Octoprint"
-        logo: "assets/homer-icons/png/octoprint.png"
-        url: "http://192.168.0.36"
-        target: '_top'
       - name: "Home Assistant"
         logo: "assets/homer-icons/png/home-assistant.png"
-        url: "http://hurley:8123"
+        url: "http://homeassistant.r.ss"
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
@@ -132,7 +128,7 @@ services:
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"
-        url: "http://hurley:9000"
+        url: "http://hurley:9001"
         target: '_top'
       - name: "Files"
         logo: "assets/homer-icons/png/plexdrive.png"
@@ -141,10 +137,6 @@ services:
       - name: "Send"
         logo: "assets/homer-icons/png/firefoxsend.png"
         url: "https://send.k8s.rileysnyder.dev"
-        target: '_top'
-      - name: "Photos"
-        logo: "assets/homer-icons/png/photoprism.png"
-        url: "http://cornelius:2342"
         target: '_top'
   - name: "Utility"
     icon: "fas fa-toolbox"
@@ -189,6 +181,10 @@ services:
         logo: "assets/homer-icons/png/codeserver.png"
         url: "https://coder.k8s.rileysnyder.dev/"
         target: '_top'
+      - name: "Files"
+        logo: "assets/homer-icons/png/plexdrive.png"
+        url: "https://files.k8s.rileysnyder.dev"
+        target: '_top'
       - name: "Gitness"
         logo: "assets/homer-icons/png/gitea.png"
         url: "https://gitness.k8s.rileysnyder.dev/"
@@ -196,6 +192,13 @@ services:
       - name: "WhoAmI"
         logo: "assets/homer-icons/png/whoami.png"
         url: "https://whoami.k8s.rileysnyder.dev/"
+        target: '_top'
+  - name: "Local Overides"
+    icon: "fas fa-gears"
+    items:
+      - name: "Frigate"
+        logo: "assets/homer-icons/png/nowshowing.png"
+        url: "https://frigate"
         target: '_top'
   - name: "kMedia"
     icon: "fas fa-compact-disc"

@@ -11,7 +11,7 @@
         service_name: rclone
         service_desc: rclone
         service_binary: /usr/bin/rclone
-        service_opts: "-v copy /bucket/ crypt:bucket/ --exclude yt -L"
+        service_opts: "-v copy /bucket/backup crypt:bucket/backup -L"
         service_type: simple
         service_env:
           - "RCLONE_CONFIG_DIR=/root/.config/rclone"

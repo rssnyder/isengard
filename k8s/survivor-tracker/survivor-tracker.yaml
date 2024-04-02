@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: survivor-tracker
-        image: rssnyder/survivor-tracker:bfdd7a2a7854e591fcb896f7cbdf87708851dbe6
+        image: rssnyder/survivor-tracker:44683c9b6f34f7b7b5cddea67e52e1d99f689d85
         imagePullPolicy: Always
         envFrom:
         - configMapRef:

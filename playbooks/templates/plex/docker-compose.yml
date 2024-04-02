@@ -180,12 +180,13 @@ services:
     image: svenstaro/miniserve
     container_name: files
     restart: always
+    environment:
+      MINISERVE_PATH: /tmp
     volumes:
       - /bucket/media:/tmp/media
       - /mnt/fake/downloads:/tmp/downloads
     ports:
       - 8080:8080
-    command: /tmp
 
   syncthing:
     image: linuxserver/syncthing:latest

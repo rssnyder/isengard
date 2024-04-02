@@ -228,6 +228,8 @@ spec:
 
     prometheus:
       enabled: true
+      service:
+        type: LoadBalancer
       prometheusSpec:
         replicas: 1
         replicaExternalLabelName: "replica"

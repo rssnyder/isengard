@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbt
+  namespace: files
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbt
+  template:
+    metadata:
+      labels:
+        app: qbt
+    spec:
+      nodeName: charlie
+      containers:
+      - name: qbt
+        image: lscr.io/linuxserver/qbittorrent:4.6.3
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PUID
+          value: "65534"
+        - name: PGID
+          value: "1001"
+        - name: UMASK
+          value: "000"
+        - name: TZ
+          value: America/Chicago
+        - name: WEBUI_PORT
+          value: "8080"
+        ports:
+        - name: http
+          containerPort: 8080
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: qbt
+      - name: downloads
+        hostPath:
+          path: /mnt/bulk/k8s/files
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbt
+  namespace: files
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1G
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbt
+  namespace: files
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "qbt"
+    external-dns.alpha.kubernetes.io/hostname: qbt.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: qbt
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
