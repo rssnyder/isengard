@@ -114,14 +114,14 @@ config: |
     #     height: 1920
     #   record:
     #     enabled: true
-    # garage:
-    #   ffmpeg:
-    #     inputs:
-    #       - path: rtsp://wyze-bridge:8554/garage-door
-    #         roles:
-    #           - detect
-    #   record:
-    #     enabled: true
+    garage:
+      ffmpeg:
+        inputs:
+          - path: rtsp://wyze-bridge:8554/garage-door
+            roles:
+              - detect
+      record:
+        enabled: true
     amcrest1:
       ffmpeg:
         inputs:

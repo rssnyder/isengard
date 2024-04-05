@@ -37,6 +37,14 @@ spec:
         volumeMounts:
         - name: signal-data
           mountPath: /signal
+        livenessProbe:
+          httpGet:
+            path: /v1/health
+            port: api
+        readinessProbe:
+          httpGet:
+            path: /v1/health
+            port: api
       volumes:
       - name: signal-data
         persistentVolumeClaim:
@@ -88,16 +96,23 @@ spec:
 # }'
 
 # recive messages
-# curl -X POST http://signal-api.r.ss/v1/receive/+14808407117
+# curl http://signal-api.r.ss/v1/receive/+14808407117 | jq .
 
-send to riley
-curl -X POST http://signal-api.r.ss/v2/send --data '{
-  "message": "feed me",
-  "number": "+14808407117",
-  "recipients": [
-    "+15159792049"
-  ]
-}'
+# send to riley
+# curl -X POST http://signal-api.r.ss/v2/send --data '{
+#   "message": "feed me",
+#   "number": "+14808407117",
+#   "recipients": [
+#     "+15159792049"
+#   ]
+# }'
+
+# curl -X POST http://signal-api.r.ss/v1/reactions/+14808407117 --data '{
+#   "reaction": "👍",
+#   "recipient": "+15159792049",
+#   "target_author": "+15159792049",
+#   "timestamp": 1712269034633
+# }'
 
 # send to nicole
 # curl -X POST http://signal-api.r.ss/v2/send --data '{
