@@ -1,6 +1,6 @@
 ---
 - name: machine bootstrap
-  hosts: knapp,oca6
+  hosts: all
   become: yes
   vars:
     docker_apt_arch: arm64
@@ -8,9 +8,13 @@
     - riley
     - hunter
   roles:
-  - geerlingguy.pip
-  - geerlingguy.docker
+  # - geerlingguy.pip
+  # - geerlingguy.docker
   tasks:
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
   - name: Install packages
     package:
       state: present 

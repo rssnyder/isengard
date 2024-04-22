@@ -144,6 +144,13 @@ resource "digitalocean_record" "star-media" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "star-app" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.app"
+  value  = var.instances["home"].ip
+}
+
 resource "digitalocean_record" "cds" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

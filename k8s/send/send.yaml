@@ -12,7 +12,7 @@ metadata:
   labels:
     app: send
 data:
-  BASE_URL: "https://send.k8s.rileysnyder.dev"
+  BASE_URL: "https://send.app.rileysnyder.dev"
   PORT: "1443"
   REDIS_HOST: "redis.redis.svc.cluster.local"
   FILE_DIR: "/tmp"
@@ -84,7 +84,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: send.k8s.rileysnyder.dev
+    - host: send.app.rileysnyder.dev
       http:
         paths:
           - path: /

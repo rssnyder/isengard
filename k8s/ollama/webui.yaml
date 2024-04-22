@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui
+  namespace: ollama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: webui
+        image: ghcr.io/open-webui/open-webui:main
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: OLLAMA_BASE_URL
+          # value: http://192.168.0.12:11434
+          value: http://192.168.0.2:11434
+        volumeMounts:
+        - name: webui
+          mountPath: /app/backend/data
+      volumes:
+      - name: webui
+        persistentVolumeClaim:
+          claimName: webui
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: webui
+  namespace: ollama
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5G
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webui
+  namespace: ollama
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: ollama-webui.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: webui
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webui
+  namespace: ollama
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ollama.app.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  webui
+                port:
+                  number: 80

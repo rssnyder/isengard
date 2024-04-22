@@ -27,6 +27,8 @@ spec:
         env:
         - name: MINISERVE_PATH
           value: /tmp
+        - name: MINISERVE_SHOW_WGET_FOOTER
+          value: "true"
         ports:
         - name: http
           containerPort: 8080
