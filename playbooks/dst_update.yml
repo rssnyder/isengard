@@ -1,6 +1,6 @@
 ---
 - name: Update dst database
-  hosts: oc
+  hosts: oca0
   become: yes
 
   tasks:
@@ -17,24 +17,26 @@
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set nickname = false'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = " "'
         #cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set ticker = " ", name = "pawswap", decorator = " "'
-        cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set name = "bitcoin" where name = "apecoin"'
+        # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set name = "bitcoin" where name = "apecoin"'
         #cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "USD", currencySymbol = "$" where name = "bitcoin"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "PHP", currencySymbol = "₱"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set currency = "AUD"'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'delete from tickers where id > 2'
         # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update gases set network = "matic"'
         #  cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decimals = 2'
-        #  cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update marketcaps set ticker = "$MCAP" where name = "goldenboys"'
+         cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update marketcaps set currency = "USD"'
 # 
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set decorator = " "'
           # cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update tickers set activity = "Coingecko API"'
               #  cmd: sqlite3 /etc/discord-stock-ticker/{{ item.key }}.state 'update holders set apiToken = "{{ covalent_token }}"'
       loop: "{{ clients | dict2items }}"
-      when: item.key == client
+      # when: item.key == client
 
     - name: Start dst
       systemd:
         state: restarted
         name: "{{ item.key }}.service"
       loop: "{{ clients | dict2items }}"
-      when: item.key == client
+      # when: item.key == client
+      loop_control:
+        pause: 10
