@@ -114,22 +114,22 @@ config: |
     #     height: 1920
     #   record:
     #     enabled: true
-    garage:
-      ffmpeg:
-        inputs:
-          - path: rtsp://wyze-bridge:8554/garage-door
-            roles:
-              - detect
-      record:
-        enabled: true
-    amcrest1:
-      ffmpeg:
-        inputs:
-          - path: rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0
-      record:
-        enabled: false
-      detect:
-        enabled: false
+    # garage:
+    #   ffmpeg:
+    #     inputs:
+    #       - path: rtsp://wyze-bridge:8554/garage-door
+    #         roles:
+    #           - detect
+    #   record:
+    #     enabled: true
+    # amcrest1:
+    #   ffmpeg:
+    #     inputs:
+    #       - path: rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0
+    #   record:
+    #     enabled: false
+    #   detect:
+    #     enabled: false
     lab:
       ffmpeg:
         inputs:

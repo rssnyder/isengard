@@ -34,6 +34,9 @@ spec:
     defaultSettings:
       backupTarget: s3://k8s@us-east-1/longhorn/backups
       backupTargetCredentialSecret: minio
+    metrics:
+      serviceMonitor:
+        enabled: true
 
 ---
 apiVersion: v1
