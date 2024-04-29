@@ -38,6 +38,9 @@ spec:
       containers:
       - name: whoami
         image: traefik/whoami
+        env:
+        - name: EXAMPLE
+          value: something
         ports:
         - name: web
           containerPort: 80
@@ -47,7 +50,7 @@ spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: storage
+          claimName: example
 
 ---
 apiVersion: v1

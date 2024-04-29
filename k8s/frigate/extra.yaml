@@ -26,3 +26,23 @@ spec:
     requests:
       storage: 500Gi
   volumeName: media
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homeassistant
+  namespace: frigate
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: homeassistant.frigate.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: frigate
+  ports:
+  - name: api
+    port: 5000
+    targetPort: 5000
+  - name: rtmp
+    port: 1935
+    targetPort: 1935
