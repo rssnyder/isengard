@@ -40,36 +40,37 @@ config: |
           input_args: preset-rtsp-restream
           roles:
             - detect
-      detect:
-        width: 2560
-        height: 1920
+      # detect:
+      #   width: 2560
+      #   height: 1920
       record:
         enabled: true
-        # events:
-        #   required_zones:
-        #   # - sidewalkcorner
-        #   # - sidewalk
+        events:
+          required_zones:
+          - sidewalkcorner
+          - sidewalk
           - door
       snapshots:
-        # required_zones:
-        #   # - sidewalkcorner
-        #   # - sidewalk
-        #   - door
+        required_zones:
+          - sidewalkcorner
+          - sidewalk
+          - door
       zones:
-        # sidewalkcorner:
-        #   coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
-        #   objects:
-        #     - person
-        # sidewalk:
-        #   coordinates: 0,764,716,747,716,877,0,961
-        #   objects:
-        #     - person
+        sidewalkcorner:
+          coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
+          objects:
+            - person
+        sidewalk:
+          coordinates: 0,764,716,747,716,877,0,961
+          objects:
+            - person
         door:
           coordinates: 1579,680,1563,902,1631,918,1668,872,1672,682
           objects:
             - dog
         car:
           coordinates: 617,1920,1419,1920,1634,1920,2027,1920,2127,638,1286,641,1268,847,402,932,0,965,0,1920
+          inertia: 1
           objects:
           - car
       objects:
@@ -152,9 +153,7 @@ config: |
     enabled: True
     timestamp: True
     retain:
-      default: 30
-      objects:
-        person: 30
+      default: 365
 persistence:
   media:
     enabled: True
