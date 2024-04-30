@@ -24,10 +24,10 @@ config: |
         - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
       back_sub: 
         - "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
-      roam: 
-        - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
-      roam_sub: 
-        - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
+      # roam: 
+      #   - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
+      # roam_sub: 
+      #   - "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
   cameras:
     back:
       ffmpeg:
@@ -45,29 +45,28 @@ config: |
         height: 1920
       record:
         enabled: true
-        events:
-          required_zones:
-          - sidewalkcorner
-          - sidewalk
+        # events:
+        #   required_zones:
+        #   # - sidewalkcorner
+        #   # - sidewalk
           - door
       snapshots:
-        required_zones:
-          - sidewalkcorner
-          - sidewalk
-          - door
+        # required_zones:
+        #   # - sidewalkcorner
+        #   # - sidewalk
+        #   - door
       zones:
-        sidewalkcorner:
-          coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
-          objects:
-            - person
-        sidewalk:
-          coordinates: 0,764,716,747,716,877,0,961
-          objects:
-            - person
+        # sidewalkcorner:
+        #   coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
+        #   objects:
+        #     - person
+        # sidewalk:
+        #   coordinates: 0,764,716,747,716,877,0,961
+        #   objects:
+        #     - person
         door:
           coordinates: 1579,680,1563,902,1631,918,1668,872,1672,682
           objects:
-            - person
             - dog
         car:
           coordinates: 617,1920,1419,1920,1634,1920,2027,1920,2127,638,1286,641,1268,847,402,932,0,965,0,1920
