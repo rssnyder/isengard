@@ -50,19 +50,19 @@ writer:
     failureThreshold: 10
     timeoutSeconds: 60
 
-  custom_envs:
-    - name: HTTP_PROXY
-      value: "192.168.0.3:8119"
-    - name: HTTPS_PROXY
-      value: "192.168.0.3:8119"
-    - name: http_proxy
-      value: "192.168.0.3:8119"
-    - name: https_proxy
-      value: "192.168.0.3:8119"
-    - name: no_proxy
-      value: "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,redis.redis"
-    - name: NO_PROXY
-      value: "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,redis.redis"
+  # custom_envs:
+  #   - name: HTTP_PROXY
+  #     value: "192.168.0.3:8119"
+  #   - name: HTTPS_PROXY
+  #     value: "192.168.0.3:8119"
+  #   - name: http_proxy
+  #     value: "192.168.0.3:8119"
+  #   - name: https_proxy
+  #     value: "192.168.0.3:8119"
+  #   - name: no_proxy
+  #     value: "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,redis.redis"
+  #   - name: NO_PROXY
+  #     value: "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,redis.redis"
 
   # nginxProxy:
   #   enabled: true
