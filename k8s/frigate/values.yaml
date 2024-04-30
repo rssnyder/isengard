@@ -73,6 +73,11 @@ config: |
           coordinates: 617,1920,1419,1920,1573,1706,1579,1455,1392,1322,983,1189,554,1216,0,1371,0,1920
           objects:
           - car
+      objects:
+        track:
+          - person
+          - dog
+          - car
     louie:
       ffmpeg:
         inputs:
