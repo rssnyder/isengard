@@ -66,12 +66,11 @@ config: |
           objects:
             - person
         door:
-          coordinates: 1579,680,1563,902,1631,918,1668,872,1672,682
+          coordinates: 592,291,544,291,542,322,578,325
           objects:
             - dog
         car:
           coordinates: 617,1920,1419,1920,1634,1920,2027,1920,2127,638,1286,641,1268,847,402,932,0,965,0,1920
-          inertia: 1
           objects:
           - car
       objects:
