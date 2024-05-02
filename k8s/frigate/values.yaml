@@ -36,6 +36,7 @@ config: |
           input_args: preset-rtsp-restream
           roles:
             - record
+            - detect
         - path: rtsp://127.0.0.1:8554/back_sub?video=copy
           input_args: preset-rtsp-restream
           roles:
