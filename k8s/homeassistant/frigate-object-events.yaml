@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate-object-events
+  namespace: homeassistant
+spec:
+  selector:
+    matchLabels:
+      app: frigate-object-events
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frigate-object-events
+    spec:
+      containers:
+      - name: frigate-object-events
+        image: ghcr.io/rssnyder/frigate-object-events:latest
+        env:
+        - name: SERVER
+          value: mosquitto.mosquitto:1883
