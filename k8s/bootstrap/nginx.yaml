@@ -17,3 +17,37 @@ spec:
   valuesContent: |-
     controller:
       allowSnippetAnnotations: true
+      config:
+        plugins: "rewrite_fwd_headers"
+        use-forwarded-headers: "true"
+        forwarded-for-header: "X-Forwarded-For"
+    
+      extraVolumeMounts:
+        - name: cm-volume-lua-plugin
+          mountPath: /etc/nginx/lua/plugins/rewrite_fwd_headers
+
+      extraVolumes:
+        - name: cm-volume-lua-plugin
+          configMap:
+            name: ingress-nginx-custom-lua
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+  name: ingress-nginx-custom-lua
+  namespace: ingress-nginx
+data:
+  main.lua: |
+    local ngx = ngx
+
+    local _M = {}
+
+    function _M.rewrite()
+      ngx.var.pass_port = 443
+      ngx.var.pass_access_scheme = "https"
+    end
+
+    return _M

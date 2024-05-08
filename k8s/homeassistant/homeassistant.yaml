@@ -22,7 +22,7 @@ spec:
       nodeName: charlie
       hostNetwork: true
       containers:
-      - name: whoami
+      - name: home-assistant
         image: ghcr.io/home-assistant/home-assistant:stable
         env:
         - name: TZ

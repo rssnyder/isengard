@@ -8,6 +8,9 @@ k3sup install --ip 192.168.0.10 --k3s-extra-args '--disable=servicelb,traefik' -
 k3sup join --ip 192.168.0.11 --server-ip 192.168.0.10 --user riley --k3s-version v1.28.5+k3s1
 
 ## kate: worker
+## https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+## restart k3s-agent
+## kubectl label nodes kate disktype=ssd
 k3sup join --ip 192.168.0.12 --server-ip 192.168.0.10 --user riley --k3s-version v1.28.5+k3s1
 
 # ock8s

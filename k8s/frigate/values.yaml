@@ -102,6 +102,11 @@ config: |
           - 2048,922,2087,1217,1984,1440,1737,1440,1656,1187,1680,950,1901,619
       record:
         enabled: true
+      onvif:
+        host: 192.168.0.99
+        port: 8000
+        user: admin
+        password: <+secrets.getValue("default_lab_password")>
     # roam:
     #   ffmpeg:
     #     inputs:
