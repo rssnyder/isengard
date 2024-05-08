@@ -86,7 +86,7 @@ config: |
       detect:
         enabled: false
       onvif:
-        host: 192.168.0.99
+        host: 192.168.0.98
         port: 8000
         user: admin
         password: <+secrets.getValue("default_lab_password")>
