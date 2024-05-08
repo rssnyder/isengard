@@ -85,6 +85,11 @@ config: |
         enabled: false
       detect:
         enabled: false
+      onvif:
+        host: 192.168.0.99
+        port: 8000
+        user: admin
+        password: <+secrets.getValue("default_lab_password")>
     front:
       ffmpeg:
         inputs:

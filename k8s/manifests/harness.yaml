@@ -41,13 +41,13 @@ spec:
     custom_envs:
       - name: DELEGATE_TASK_CAPACITY
         value: "1"
-    custom_mounts:
-      - name: persistant
-        mountPath: /storage
-    custom_volumes:
-      - name: persistant
-        persistentVolumeClaim:
-          claimName: harness-delegate-ng
+    # custom_mounts:
+    #   - name: persistant
+    #     mountPath: /storage
+    # custom_volumes:
+    #   - name: persistant
+    #     persistentVolumeClaim:
+    #       claimName: harness-delegate-ng
 
 # ---
 # apiVersion: autoscaling/v2
