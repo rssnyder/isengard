@@ -99,6 +99,14 @@ config: |
       detect:
         width: 2560
         height: 1440
+      record:
+        enabled: true
+        events:
+          required_zones:
+          - yard
+      snapshots:
+        required_zones:
+          - yard
       objects:
         mask:
           - 2048,922,2087,1217,1984,1440,1737,1440,1656,1187,1680,950,1901,619
