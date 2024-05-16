@@ -122,8 +122,6 @@ config: |
           objects:
             - person
             - car
-      record:
-        enabled: true
       onvif:
         host: 192.168.0.99
         port: 8000
