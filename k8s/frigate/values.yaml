@@ -169,10 +169,14 @@ config: |
         enabled: false
       motion:
         mask:
+          # laundry
           - 2320,125,2199,872,1828,991,1914,53
+          # chair
+          - 884,1847,1342,1516,916,1181,560,1328
       objects:
         mask:
           - 2320,125,2199,872,1828,991,1914,53
+          - 884,1847,1342,1516,916,1181,560,1328
   snapshots:
     enabled: True
     timestamp: True
