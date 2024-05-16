@@ -105,6 +105,16 @@ config: |
       motion:
         mask:
           - 2048,922,2087,1217,1984,1440,1737,1440,1656,1187,1680,950,1901,619
+      zones:
+        yard:
+          coordinates: 0,1440,2560,1440,2560,1079,1853,1014,1560,1025,1162,1018,757,992,394,971
+          objects:
+            - person
+            - car
+      objects:
+        track:
+          - person
+          - car
       record:
         enabled: true
       onvif:
