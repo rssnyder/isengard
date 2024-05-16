@@ -24,7 +24,7 @@ services:
       SERVER_REGIONS: Netherlands
 
   plex:
-    image: linuxserver/plex:1.32.8
+    image: linuxserver/plex:1.40.2
     container_name: plex
     restart: unless-stopped
     environment:

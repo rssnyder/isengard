@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frigate-object-events
-        image: ghcr.io/rssnyder/frigate-object-events:latest
+        image: ghcr.io/rssnyder/frigate-object-events:v0.0.6-beta.1
         env:
         - name: SERVER
           value: mosquitto.mosquitto:1883
