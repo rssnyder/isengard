@@ -102,6 +102,9 @@ config: |
       objects:
         mask:
           - 2048,922,2087,1217,1984,1440,1737,1440,1656,1187,1680,950,1901,619
+        track:
+          - person
+          - car
       motion:
         mask:
           - 2048,922,2087,1217,1984,1440,1737,1440,1656,1187,1680,950,1901,619
@@ -111,10 +114,6 @@ config: |
           objects:
             - person
             - car
-      objects:
-        track:
-          - person
-          - car
       record:
         enabled: true
       onvif:
