@@ -123,6 +123,7 @@ config: |
             - person
         driveway:
           coordinates: 2560,1440,2061,1440,2170,1041,2342,1041,2560,1153
+          objects:
             - car
       onvif:
         host: 192.168.0.99
