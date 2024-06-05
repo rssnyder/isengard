@@ -1,3 +1,6 @@
-- src: prometheus.prometheus.node_exporter
 - src: artis3n.tailscale
 - src: caddy_ansible.caddy_ansible
+- src: geerlingguy.pip
+- src: geerlingguy.docker
+collections:
+- prometheus.prometheus
