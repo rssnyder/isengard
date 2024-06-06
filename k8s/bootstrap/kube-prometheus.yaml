@@ -37,6 +37,9 @@ spec:
   valuesContent: |-
     fullnameOverride: prometheus
 
+    security:
+      angular_support_enabled: false
+
     defaultRules:
       create: true
       rules:

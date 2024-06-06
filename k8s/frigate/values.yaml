@@ -165,7 +165,7 @@ config: |
     lab:
       ffmpeg:
         inputs:
-          - path: rtsp://admin:admin@192.168.0.120:554/cam/realmonitor?channel=1&subtype=0
+          - path: rtsp://admin:admin@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0
       record:
         enabled: false
       detect:
