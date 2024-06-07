@@ -187,8 +187,8 @@ resource "minio_iam_policy" "pg2s3" {
         {
             "Effect": "Allow",
             "Action": [
-                "s3:GetBucketLocation",
-                "s3:ListBucket"
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
             ],
             "Resource": [
                 "arn:aws:s3:::pg2s3"
