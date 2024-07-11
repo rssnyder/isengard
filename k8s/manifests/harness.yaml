@@ -27,8 +27,6 @@ spec:
     custom_envs:
       - name: DELEGATE_TASK_CAPACITY
         value: "1"
-      - name: BLOCK_SHELL_TASK
-        value: "true"
     # custom_mounts:
     #   - name: persistant
     #     mountPath: /storage
