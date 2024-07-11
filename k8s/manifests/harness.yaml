@@ -4,20 +4,6 @@ metadata:
   name: harness-delegate-ng
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: harness-delegate-ng
-  namespace: harness-delegate-ng
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 500M
-
----
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -41,6 +27,8 @@ spec:
     custom_envs:
       - name: DELEGATE_TASK_CAPACITY
         value: "1"
+      - name: BLOCK_SHELL_TASK
+        value: "true"
     # custom_mounts:
     #   - name: persistant
     #     mountPath: /storage

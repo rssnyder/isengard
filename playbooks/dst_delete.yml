@@ -2,11 +2,6 @@
 - name: Remove discord-stock-ticker client
   hosts:
   - oca0
-  - oca2
-  - oca3
-  - oca4
-  - oca5
-  - oca7
   become: yes
 
   tasks:

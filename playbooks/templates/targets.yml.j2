@@ -3,11 +3,6 @@ global:
 
 scrape_configs:
 
-# - job_name: discord
-#   static_configs:
-#   - targets:
-#     - '192.168.0.11:8787'
-
 - job_name: bot-manager
   static_configs:
   - targets:
@@ -33,14 +28,6 @@ scrape_configs:
   - targets:
     - '192.168.0.3:9202'
 
-- job_name: 'octoprint'
-  scrape_interval: 5s
-  metrics_path: '/plugin/prometheus_exporter/metrics'
-  params:
-    apikey: ['{{ octoprint_key }}']
-  static_configs:
-    - targets: ['192.168.0.36:80']
-
 - job_name: plex
   static_configs:
   - targets:
@@ -51,26 +38,11 @@ scrape_configs:
   - targets:
     - '192.168.0.6:9901'
 
-# - job_name: chihaya
-#   static_configs:
-#     - targets:
-#       - '192.168.101.30:6880'
-
-# - job_name: bigblackbox
-#   static_configs:
-#     - targets:
-#       - '10.253.0.1:9100'
-
 - job_name: pushgateway
   static_configs:
     - targets:
       - '192.168.0.3:9092'
   honor_labels: true
-
-# - job_name: caddy
-#   static_configs:
-#     - targets:
-#       - '192.168.0.11:2019'
 
 - job_name: pihole
   static_configs:
@@ -87,55 +59,6 @@ scrape_configs:
   - targets:
     - '192.168.0.6:9134'
 
-- job_name: hurley_docker
-  static_configs:
-  - targets:
-    - '192.168.0.3:9323'
-
-- job_name: cornelius_docker
-  static_configs:
-  - targets:
-    - '192.168.0.3:9323'
-
-- job_name: tangle_volume_uniswap
-  static_configs:
-  - targets:
-    - 'oca1:9924'
-
-- job_name: tangle_tvl_uniswap
-  static_configs:
-  - targets:
-    - 'oca1:9925'
-
-- job_name: tangle_tvl_arrakis-finance
-  static_configs:
-  - targets:
-    - 'oca1:9926'
-
-- job_name: ff-relay-proxy
-  static_configs:
-  - targets:
-    - '192.168.254.6:7000'
-- job_name: ff-relay-proxy-read-replica
-  static_configs:
-  - targets:
-    - '192.168.254.21:7000'
-
-- job_name: 'pve'
-  static_configs:
-    - targets:
-      - 192.168.0.4
-  metrics_path: /pve
-  params:
-    module: [default]
-  relabel_configs:
-    - source_labels: [__address__]
-      target_label: __param_target
-    - source_labels: [__param_target]
-      target_label: instance
-    - target_label: __address__
-      replacement: 192.168.0.3:9221
-
 - job_name: node
   static_configs:
 {% for host in hostvars.items() %}
@@ -146,27 +69,36 @@ scrape_configs:
 {% endif %}
 {% endfor %}
 
-- job_name: coingecko_cache
+- job_name: remote_clusters
+  honor_labels: true
+  honor_timestamps: true
+  params:
+    match[]:
+    - '{job="prometheus"}'
+    - '{job="kubernetes-apiservers"}'
+    - '{job="kubennetes-nodes"}'
+    - '{job="kubernetes-nodes-cadvisor"}'
+    - '{job="kubernetes-service-endpoints"}'
+    - '{job="kubernetes-service-endpoints-slow"}'
+    - '{job="prometheus-pushgateway"}'
+    - '{job="kubernetes-services"}'
+    - '{job="kubernetes-pods"}'
+    - '{job="kubernetes-pods-slow"}'
+    - '{__name__=~"job:.*"}'
+  scrape_interval: 5s
+  scrape_timeout: 5s
+  metrics_path: /federate
+  scheme: http   #Depends on target endpoint http or https
+  follow_redirects: true
+  enable_http2: true
   static_configs:
-{% for host in hostvars.items() %}
-{% if 'tailscale_ip' in host[1] %}
-  - targets: [ '{{ host[1]['tailscale_ip'] }}:6380' ]
+  - targets:
+    - 100.104.6.19:8080
     labels:
-      instance: '{{ host[1]['inventory_hostname'] }}'
-{% endif %}
-{% endfor %}
-
-- job_name: tickers
-  static_configs:
-{% for host in hostvars.items() %}
-{% if 'tailscale_ip' in host[1] %}
-{% if 'clients' in host[1] %}
-{% for client in host[1]['clients'] %}
-  - targets: [ '{{ host[1]['tailscale_ip'] }}:{{ host[1]['clients'][client] }}' ]
+      cluster: oc
+      environment: prod
+  - targets:
+    - 192.168.254.22:8080
     labels:
-      instance: '{{ host[1]['inventory_hostname'] }}'
-      client: '{{ client }}'
-{% endfor %}
-{% endif %}
-{% endif %}
-{% endfor %}
+      cluster: lab
+      environment: dev

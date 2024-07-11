@@ -18,6 +18,7 @@ data:
   SIGNAL_API: "http://192.168.254.11"
   SIGNAL_FROM: "+14808407117"
   SIGNAL_TO: "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
+  CURRENT_SEASON: "04"
 
 ---
 apiVersion: apps/v1
@@ -37,7 +38,7 @@ spec:
     spec:
       containers:
       - name: survivor-tracker
-        image: rssnyder/survivor-tracker:83723ee9d68e6fe9cd431a71827ca234234d0562
+        image: rssnyder/survivor-tracker:c05f2d118af48dbef6444c4d949c78714ee1cc2a
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
