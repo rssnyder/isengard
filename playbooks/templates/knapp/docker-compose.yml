@@ -20,3 +20,21 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+  
+  ferretdb-postgres:
+    image: postgres
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=ferretdb
+      - POSTGRES_PASSWORD=${FERRETDB_POSTGRES_PASSWORD}
+      - POSTGRES_DB=ferretdb
+    volumes:
+      - $APPDATA/ferretdb-postgres/data:/var/lib/postgresql/data
+
+  ferretdb:
+    image: ghcr.io/ferretdb/ferretdb
+    restart: on-failure
+    ports:
+      - 27017:27017
+    environment:
+      - FERRETDB_POSTGRESQL_URL=postgres://ferretdb-postgres:5432/ferretdb

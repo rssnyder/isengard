@@ -170,6 +170,14 @@ resource "digitalocean_record" "harrypottermoviepicker" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "auth" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "auth"
+  value  = var.instances["home"].ip
+}
+
+
 resource "digitalocean_record" "s3_tx" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

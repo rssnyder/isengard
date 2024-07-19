@@ -40,6 +40,8 @@ spec:
         - configMapRef:
             name: keys
         env:
+        - name: GIN_MODE
+          value: release
         - name: PG_PASSWORD
           valueFrom:
             secretKeyRef:

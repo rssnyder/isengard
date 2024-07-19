@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prometheus
+  
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: prometheus
+  namespace: prometheus
+spec:
+  repo: https://prometheus-community.github.io/helm-charts
+  chart: prometheus
+  targetNamespace: prometheus
+  valuesContent: |-
+    commonMetaLabels:
+      cluster: oc
+    server:
+      service:
+        type: LoadBalancer
+        servicePort: 8080

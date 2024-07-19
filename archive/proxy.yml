@@ -1,22 +1,22 @@
-- hosts: all
+- hosts: oca0,oca1
   become: yes
-  roles:
-     - { role: ansible-role-squid }
   tasks:
 
     - name: allow 3128 over nebula
       ansible.builtin.lineinfile:
         path: /etc/iptables/rules.v4 
-        regexp: '^-A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport 3128 -j ACCEPT$'
-        line: -A INPUT -i nebula1 -p tcp -m state --state NEW -m tcp --dport 3128 -j ACCEPT
+        regexp: '^-A INPUT -s 10.0.0.0/24 -i enp0s3 -j ACCEPT$'
+        line: -A INPUT -s 10.0.0.0/24 -i enp0s3 -j ACCEPT
+        insertafter: '^-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT$'
+
+    - name: allow 3128 over nebula
+      ansible.builtin.lineinfile:
+        path: /etc/iptables/rules.v4 
+        regexp: '^-A OUTPUT -s 10.0.0.0/24 -o enp0s3 -j ACCEPT$'
+        line: -A OUTPUT -s 10.0.0.0/24 -o enp0s3 -j ACCEPT
         insertafter: '^-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT$'
     
     - name: restart iptables
       systemd:
         state: restarted
         name: iptables
-    
-    - name: Allow all access to 3128
-      community.general.ufw:
-        rule: allow
-        port: 3128

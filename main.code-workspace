@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../survivor-tracker"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../discord-bot-cryptoprices"
+		},
+		{
+			"path": "../discord-bot"
+		},
+		{
+			"path": "../charts"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,31 @@
+- name: rclone backup on a schedule
+  hosts: cornelius
+  become: yes
+
+  roles:
+  - role: systemd-timer
+    vars:
+      service_name: rclone-drive
+      service_binary: /usr/bin/rclone
+      service_opts: "-v copy riley: /bucket/backup/drive"
+      utc_hour: 3
+      service_env:
+      - "RCLONE_CONFIG_DIR=/root/.config/rclone"
+  - role: systemd-timer
+    vars:
+      service_name: rclone-photos
+      service_binary: /usr/bin/rclone
+      service_opts: "-v copy photos: /bucket/backup/photos"
+      utc_hour: 3
+      service_env:
+      - "RCLONE_CONFIG_DIR=/root/.config/rclone"
+  - role: systemd-timer
+    vars:
+      service_name: rsync-bucketbak
+      service_binary: /usr/bin/rsync
+      service_opts: "-varP /bucket/backup/ zaius:/pale/bucket/backup/"
+      utc_hour: 4
+
+
+
+

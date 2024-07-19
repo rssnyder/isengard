@@ -8,7 +8,7 @@ newbots
 
 roles*
 
-infra/k8s/values
+k8s/dst
 
 *.state
 

@@ -309,13 +309,13 @@ services:
     volumes:
       - $APPDATA/pb_data:/pb/pb_data
     ports:
-      - 8080:8080
+      - 8263:8080
   frontend:
     image: ghcr.io/dan6erbond/share-me-frontend:latest
     environment:
       POCKETBASE_URL: https://shareme.example.com
     ports:
-      - 3000:3000
+      - 8263:3000
 
 volumes:
   jellyfin:

@@ -1,0 +1,20 @@
+---
+- name: uninstall k3s node
+  hosts:
+  # - oca0
+  - oca1
+  - oca2
+  - oca3
+  - oca4
+  - oca5
+  - oca6
+  - oca7
+  - oca8
+  - oca9
+  - oca10
+  - oca11
+  become: yes
+  tasks:
+    # - shell: /usr/local/bin/k3s-agent-uninstall.sh
+    # - shell: tailscale down
+    # - shell: rm /var/lib/tailscale/tailscaled.state

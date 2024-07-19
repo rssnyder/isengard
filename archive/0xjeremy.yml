@@ -1,0 +1,105 @@
+---
+# deleted
+- name: Discord bot for 0xJeremy | Alta Finance#6540 743198594420441208 | deleted
+  hosts: oca1
+  become: yes
+
+  tasks:
+
+    - name: set service info
+      set_fact:
+        app_name: discord-alta-finance
+        version: 0.0.3
+        service_name: "0xjeremy-discord-bot-tvl"
+        service_binary: "discord-alta-finance"
+        service_desc: "0xjeremy-discord-bot-tvl"
+        service_opts: "-token '{{ xjeremy_tvl_token }}' -refresh 300 -mode tvl"
+        service_type: simple
+
+    - name: create service dir
+      file: 
+        state: directory
+        path: "/etc/{{ app_name }}"
+        owner: root
+        group: root
+
+    - name: download source
+      get_url:
+        url: "https://github.com/rssnyder/{{ app_name }}/releases/download/v{{ version }}/{{ app_name }}_{{ version }}_linux_{{ arch }}.tar.gz"
+        dest: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        mode: '0700'
+    
+    - name: extract
+      unarchive:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}.tar.gz"
+        dest: "/etc/{{ app_name }}/"
+    
+    - name: move
+      copy:
+        remote_src: yes
+        src: "/etc/{{ app_name }}/{{ app_name }}"
+        dest: "/etc/{{ app_name }}/{{ service_name }}"
+        mode: '0700'
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes
+    
+    - name: set service info
+      set_fact:
+        app_name: discord-alta-finance
+        version: 0.0.3
+        service_name: "0xjeremy-discord-bot-apr"
+        service_binary: "discord-alta-finance"
+        service_desc: "0xjeremy-discord-bot-apr"
+        service_opts: "-token '{{ xjeremy_apr_token }}' -refresh 300 -mode apr"
+    
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes
+    
+    # - name: set service info
+    #   set_fact:
+    #     app_name: discord-alta-finance
+    #     version: 0.0.3
+    #     service_name: "0xjeremy-discord-bot-treasury"
+    #     service_desc: "0xjeremy-discord-bot-treasury"
+    #     service_opts: "-token '{{ xjeremy_treasury_token }}' -refresh 300 -mode treasury"
+    
+    # - name: copy service file
+    #   template: 
+    #     src: templates/service.j2
+    #     dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    # - name: reload
+    #   shell:
+    #     cmd: systemctl daemon-reload
+
+    # - name: start
+    #   systemd:
+    #     state: restarted
+    #     name: "{{ service_name }}"
+    #     enabled: yes
