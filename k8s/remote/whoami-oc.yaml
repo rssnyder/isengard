@@ -51,18 +51,21 @@ spec:
     targetPort: web
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: whoami
 spec:
-  entryPoints:
-    - websecure
-  routes:
-  - kind: Rule
-    match: Host(`whoami.rileysnyder.dev`)
-    services:
-    - name: whoami
-      port: 80
-  tls:
-    certResolver: le
+  ingressClassName: nginx
+  rules:
+    # expose to the internet
+    - host: whoami.oc.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  whoami
+                port:
+                  number: 80

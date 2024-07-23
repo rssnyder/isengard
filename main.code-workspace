@@ -14,7 +14,12 @@
 		},
 		{
 			"path": "../charts"
+		},
+		{
+			"path": "../k3s-ansible"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"ansible.python.interpreterPath": "/home/riley/survivor-tracker/.venv/bin/python"
+	}
 }

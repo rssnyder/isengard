@@ -206,6 +206,20 @@ resource "digitalocean_record" "whoami" {
   value  = var.instances["oca0"].ip
 }
 
+resource "digitalocean_record" "star-oc" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.oc"
+  value  = var.instances["oca0"].ip
+}
+
+resource "digitalocean_record" "star-oc-dr" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.oc-dr"
+  value  = var.instances["oca8"].ip
+}
+
 // github pages
 
 # resource "digitalocean_record" "photos" {
