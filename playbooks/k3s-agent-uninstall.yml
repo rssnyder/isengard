@@ -17,4 +17,4 @@
   tasks:
     - shell: systemctl stop tailscaled
     - shell: rm -rf /var/lib/tailscale/*
-    - shell: systemctl start tailscaled
+    - shell: apt remove tailscale

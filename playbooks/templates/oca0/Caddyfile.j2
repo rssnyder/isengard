@@ -1,0 +1,8 @@
+*.oc.rileysnyder.dev {
+    reverse_proxy localhost
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
