@@ -19,4 +19,6 @@ spec:
     server:
       service:
         type: LoadBalancer
-        servicePort: 8080
+        servicePort: 9001
+    alertmanager:
+      enabled: false

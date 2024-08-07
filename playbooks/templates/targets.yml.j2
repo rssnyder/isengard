@@ -93,12 +93,17 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets:
-    - 100.81.20.52:8080
+    - {{ hostvars['oca0']['ansible_tailscale0']['ipv4']['address'] }}:9001
     labels:
       cluster: oc
       environment: prod
   - targets:
-    - 192.168.254.22:8080
+    - {{ hostvars['oca4']['ansible_tailscale0']['ipv4']['address'] }}:9001
+    labels:
+      cluster: ocdr
+      environment: prod
+  - targets:
+    - 192.168.254.22:8080-A INPUT -i enp0s3 -j ACCEPT
     labels:
       cluster: lab
       environment: dev

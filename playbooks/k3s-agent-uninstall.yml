@@ -17,4 +17,6 @@
   tasks:
     - shell: systemctl stop tailscaled
     - shell: rm -rf /var/lib/tailscale/*
-    - shell: apt remove tailscale
+    - shell: rm /etc/apt/sources.list.d/pkgs_tailscale_com_stable_ubuntu.list
+    - shell: rm /etc/apt/sources.list.d/tailscale.list
+    # - shell: apt remove tailscale

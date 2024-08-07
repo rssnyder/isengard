@@ -15,8 +15,8 @@
     - name: allow udp 8472 for k3s
       ansible.builtin.lineinfile:
         path: /etc/iptables/rules.v4 
-        regexp: '^-A INPUT -p udp -m state --state NEW -m udp --dport 8472 -j ACCEPT$'
-        line: -A INPUT -p udp -m state --state NEW -m udp --dport 8472 -j ACCEPT
+        regexp: '^-A INPUT -i enp0s3 -j ACCEPT$'
+        line: -A INPUT -i enp0s3 -j ACCEPT
         insertafter: '^-A INPUT -i lo -j ACCEPT$'
     
     - name: restart iptables

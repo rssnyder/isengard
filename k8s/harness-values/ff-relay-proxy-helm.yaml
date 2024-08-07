@@ -3,7 +3,6 @@ logLevel: DEBUG
 fullnameOverride: ff-proxy
 
 proxyKey: <+secrets.getValue("PROXY_KEY")>
-# proxyKey: sdlfhsdfhdskjfhajdshf
 
 authSecret: <+secrets.getValue("AUTH_SECRET")>
 
@@ -25,48 +24,11 @@ writer:
     requests:
       cpu: 0.1
       memory: 10Mi
-  
-  ingress:
-    enabled: true
-    hosts:
-      - host: ff-proxy-writer.k8s.rileysnyder.dev
-        paths:
-          - path: /
-            pathType: Prefix
     
   podAnnotations:
     prometheus.io/path: "/metrics"
     prometheus.io/port: "7000"
     prometheus.io/scrape: "true"
-
-  livenessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 30
-    failureThreshold: 10
-    timeoutSeconds: 60
-  readinessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 30
-    failureThreshold: 10
-    timeoutSeconds: 60
-
-  # custom_envs:
-  #   - name: HTTP_PROXY
-  #     value: "192.168.0.3:8119"
-  #   - name: HTTPS_PROXY
-  #     value: "192.168.0.3:8119"
-  #   - name: http_proxy
-  #     value: "192.168.0.3:8119"
-  #   - name: https_proxy
-  #     value: "192.168.0.3:8119"
-  #   - name: no_proxy
-  #     value: "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,redis.redis"
-  #   - name: NO_PROXY
-  #     value: "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,redis.redis"
-
-  # nginxProxy:
-  #   enabled: true
-
 
 readReplica:
   service:

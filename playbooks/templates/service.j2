@@ -1,11 +1,14 @@
 [Unit]
 Description={{ service_desc }}
-AssertPathIsDirectory=/etc/{{ app_name }}
 
 [Service]
 Type={{ service_type }}
 SyslogIdentifier={{ service_name }}
+{% if service_pwd is defined %}
+WorkingDirectory={{ service_pwd }}
+{% else %}
 WorkingDirectory=/etc/{{ app_name }}
+{% endif %}
 {% if service_binary.startswith('/') %}
 ExecStart={{ service_binary }} {{ service_opts }}
 {% elif service_binary != None %}
@@ -16,10 +19,10 @@ ExecStart=/etc/{{ app_name }}/{{ app_name }} {{ service_opts }}
 ExecReload=/bin/kill -HUP $MAINPID
 
 {% if service_type != "oneshot" %}
-Restart={{ service_restart }}
+Restart={{ service_restart | default("on-failure") }}
 {% endif %}
 
-{% if service_max_seconds %}
+{% if service_max_seconds is defined %}
 RuntimeMaxSec={{ service_max_seconds }}
 {% endif %}
 
