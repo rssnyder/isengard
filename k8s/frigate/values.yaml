@@ -42,27 +42,15 @@ config: |
             - detect
       record:
         enabled: true
-        events:
-          required_zones:
-          # - sidewalkcorner
-          # - sidewalk
-          - door
-          - car
+        # events:
+        #   required_zones:
+        #   - door
+        #   - car
       snapshots:
         required_zones:
-          # - sidewalkcorner
-          # - sidewalk
           - door
           - car
       zones:
-        # sidewalkcorner:
-        #   coordinates: 1079,797,1087,858,1280,875,1289,659,1176,668
-        #   objects:
-        #     - person
-        # sidewalk:
-        #   coordinates: 0,764,716,747,716,877,0,961
-        #   objects:
-        #     - person
         door:
           coordinates: 592,291,544,291,542,322,578,325
           objects:
@@ -100,9 +88,9 @@ config: |
         height: 1440
       record:
         enabled: true
-        events:
-          required_zones:
-          - yard
+        # events:
+        #   required_zones:
+        #   - yard
       snapshots:
         required_zones:
           - yard
