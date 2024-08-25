@@ -285,37 +285,48 @@ services:
   #     MANAGER_HOST_AND_PORT: https://app.harness.io/gratis
   #     DELEGATE_TOKEN: "NmIzZjkzOTJmNWE4MDM3MzcyYzg2YzkwNmRkMTNjZTk="
 
-  crafty:
-    container_name: crafty
-    image: registry.gitlab.com/crafty-controller/crafty-4:latest
-    restart: always
-    environment:
-      - TZ=Etc/UTC
-    ports:
-      - "8000:8000" # HTTP
-      - "8443:8443" # HTTPS
-      - "8123:8123" # DYNMAP
-      - "19132:19132/udp" # BEDROCK
-      - "25500-25600:25500-25600" # MC SERV PORT RANGE
-    volumes:
-      - $APPDATA/crafty/backups:/crafty/backups
-      - $APPDATA/crafty/logs:/crafty/logs
-      - $APPDATA/crafty/servers:/crafty/servers
-      - $APPDATA/crafty/config:/crafty/app/config
-      - $APPDATA/crafty/import:/crafty/import
+  # crafty:
+  #   container_name: crafty
+  #   image: registry.gitlab.com/crafty-controller/crafty-4:latest
+  #   restart: always
+  #   environment:
+  #     - TZ=Etc/UTC
+  #   ports:
+  #     - "8000:8000" # HTTP
+  #     - "8443:8443" # HTTPS
+  #     - "8123:8123" # DYNMAP
+  #     - "19132:19132/udp" # BEDROCK
+  #     - "25500-25600:25500-25600" # MC SERV PORT RANGE
+  #   volumes:
+  #     - $APPDATA/crafty/backups:/crafty/backups
+  #     - $APPDATA/crafty/logs:/crafty/logs
+  #     - $APPDATA/crafty/servers:/crafty/servers
+  #     - $APPDATA/crafty/config:/crafty/app/config
+  #     - $APPDATA/crafty/import:/crafty/import
 
-  server:
-    image: ghcr.io/dan6erbond/share-me-server:latest
+  # server:
+  #   image: ghcr.io/dan6erbond/share-me-server:latest
+  #   volumes:
+  #     - $APPDATA/pb_data:/pb/pb_data
+  #   ports:
+  #     - 8263:8080
+  # frontend:
+  #   image: ghcr.io/dan6erbond/share-me-frontend:latest
+  #   environment:
+  #     POCKETBASE_URL: https://shareme.example.com
+  #   ports:
+  #     - 8263:3000
+  
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    ports:
+      - 13378:80
     volumes:
-      - $APPDATA/pb_data:/pb/pb_data
-    ports:
-      - 8263:8080
-  frontend:
-    image: ghcr.io/dan6erbond/share-me-frontend:latest
+      - /bucket/media/books:/audiobooks
+      - $APPDATA/audiobookshelf/config:/config
+      - $APPDATA/audiobookshelf/metadata:/metadata
     environment:
-      POCKETBASE_URL: https://shareme.example.com
-    ports:
-      - 8263:3000
+      - TZ=America/Chicago
 
 volumes:
   jellyfin:

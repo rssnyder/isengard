@@ -177,6 +177,12 @@ resource "digitalocean_record" "auth" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "books" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "books"
+  value  = var.instances["home"].ip
+}
 
 resource "digitalocean_record" "s3_tx" {
   domain = digitalocean_domain.rileysnyder_dev.name
