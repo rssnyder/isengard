@@ -64,19 +64,19 @@ config: |
           # - person
           - dog
           - car
-    louie:
-      ffmpeg:
-        inputs:
-          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.98:554/h264Preview_01_main
-      record:
-        enabled: false
-      detect:
-        enabled: false
-      onvif:
-        host: 192.168.0.98
-        port: 8000
-        user: admin
-        password: <+secrets.getValue("default_lab_password")>
+    # louie:
+    #   ffmpeg:
+    #     inputs:
+    #       - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.98:554/h264Preview_01_main
+    #   record:
+    #     enabled: false
+    #   detect:
+    #     enabled: false
+    #   onvif:
+    #     host: 192.168.0.98
+    #     port: 8000
+    #     user: admin
+    #     password: <+secrets.getValue("default_lab_password")>
     front:
       ffmpeg:
         inputs:
@@ -167,11 +167,11 @@ config: |
         mask:
           - 2320,125,2199,872,1828,991,1914,53
           - 884,1847,1342,1516,916,1181,560,1328
-  snapshots:
-    enabled: True
-    timestamp: True
-    retain:
-      default: 365
+  # snapshots:
+  #   enabled: True
+  #   timestamp: True
+  #   retain:
+  #     default: 365
   objects:
     filters:
       person:
