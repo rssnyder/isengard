@@ -29,6 +29,20 @@ spec:
 
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frigate
+  namespace: frigate
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 50G
+
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: homeassistant

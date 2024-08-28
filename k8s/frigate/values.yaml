@@ -187,9 +187,9 @@ config: |
 persistence:
   media:
     enabled: True
-    existingClaim: media
+    existingClaim: frigate
 nodeSelector:
-  kubernetes.io/hostname: charlie
+  kubernetes.io/hostname: jack
 coral:
   enabled: true
   hostPath: /dev/bus/usb
