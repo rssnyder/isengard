@@ -8,6 +8,19 @@ service:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "frigate"
     external-dns.alpha.kubernetes.io/hostname: frigate.r.ss
+persistence:
+  media:
+    enabled: True
+    existingClaim: frigate
+nodeSelector:
+  kubernetes.io/hostname: jack
+coral:
+  enabled: true
+  hostPath: /dev/bus/usb
+resources:
+  requests:
+    cpu: 1500m
+    memory: 2Gi
 config: |
   mqtt:
     host: "mosquitto.mosquitto"
@@ -57,24 +70,12 @@ config: |
           coordinates: 0,672,766,672,807,423,351,350,0,422
           objects:
           - car
+      motion:
+        mask: 0,0.627,0.39,0.518,0.594,0.559,0.605,0.429,0.663,0.429,0.624,0.567,0.903,0.625,0.856,1,1,1,1,0,0,0
       objects:
         track:
-          # - person
           - dog
           - car
-    # louie:
-    #   ffmpeg:
-    #     inputs:
-    #       - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.98:554/h264Preview_01_main
-    #   record:
-    #     enabled: false
-    #   detect:
-    #     enabled: false
-    #   onvif:
-    #     host: 192.168.0.98
-    #     port: 8000
-    #     user: admin
-    #     password: <+secrets.getValue("default_lab_password")>
     front:
       ffmpeg:
         inputs:
@@ -115,6 +116,44 @@ config: |
         port: 8000
         user: admin
         password: <+secrets.getValue("default_lab_password")>
+    lab:
+      ffmpeg:
+        inputs:
+        - path: rtsp://127.0.0.1:8554/lab?video=copy&audio=aac
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/lab_sub?video=copy
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+      record:
+        enabled: false
+      detect:
+        enabled: false
+      motion:
+        mask:
+          # laundry
+          - 2320,125,2199,872,1828,991,1914,53
+          # chair
+          - 884,1847,1342,1516,916,1181,560,1328
+      objects:
+        mask:
+          - 2320,125,2199,872,1828,991,1914,53
+          - 884,1847,1342,1516,916,1181,560,1328
+    louie:
+      ffmpeg:
+        inputs:
+          - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.98:554/h264Preview_01_main
+      record:
+        enabled: false
+      detect:
+        enabled: false
+      onvif:
+        host: 192.168.0.98
+        port: 8000
+        user: admin
+        password: <+secrets.getValue("default_lab_password")>
     # roam:
     #   ffmpeg:
     #     inputs:
@@ -147,31 +186,6 @@ config: |
     #     enabled: false
     #   detect:
     #     enabled: false
-    lab:
-      ffmpeg:
-        inputs:
-        - path: rtsp://127.0.0.1:8554/lab?video=copy&audio=aac
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-        - path: rtsp://127.0.0.1:8554/lab_sub?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
-      record:
-        enabled: false
-      detect:
-        enabled: false
-      motion:
-        mask:
-          # laundry
-          - 2320,125,2199,872,1828,991,1914,53
-          # chair
-          - 884,1847,1342,1516,916,1181,560,1328
-      objects:
-        mask:
-          - 2320,125,2199,872,1828,991,1914,53
-          - 884,1847,1342,1516,916,1181,560,1328
   # snapshots:
   #   enabled: True
   #   timestamp: True
@@ -184,16 +198,3 @@ config: |
         min_score: 0.7
         # Optional: minimum decimal percentage for tracked object's computed score to be considered a true positive (default: shown below)
         threshold: 0.8
-persistence:
-  media:
-    enabled: True
-    existingClaim: frigate
-nodeSelector:
-  kubernetes.io/hostname: jack
-coral:
-  enabled: true
-  hostPath: /dev/bus/usb
-resources:
-  requests:
-    cpu: 1500m
-    memory: 2Gi
