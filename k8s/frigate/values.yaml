@@ -42,8 +42,8 @@ config: |
   record:
     enabled: True
     retain:
-      days: 3
-      mode: motion
+      days: 0
+      mode: all
     events:
       retain:
         default: 30
