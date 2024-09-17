@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: registry
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: htpasswd
+  namespace: registry
+data:
+  htpasswd: |
+    rssnyder:$2y$05$fUoPPlYc6ZAJmsw8toBscOJfvuzbCfPhWZYRPWnD/HtOoqmbeBvo2 
+
+---
+# get some persistance storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1G
+
+---
+# run some container in the cluster
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  selector:
+    matchLabels:
+      app: registry
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+      - name: registry
+        image: registry:2
+        # env:
+        # - name: REGISTRY_AUTH
+        #   value: /htpasswd
+        # - name: REGISTRY_AUTH_HTPASSWD_REALM
+        #   value: Registry Realm
+        # - name: REGISTRY_AUTH_HTPASSWD_PATH
+        #   value: /htpasswd
+        ports:
+        - name: api
+          containerPort: 5000
+        volumeMounts:
+        - name: storage
+          mountPath: /var/lib/registry
+        - name: htpasswd
+          mountPath: /htpasswd
+          subPath: htpasswd
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: registry
+      - name: htpasswd
+        configMap:
+          name: htpasswd
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+  namespace: registry
+  annotations:
+    # add service to tailnet with dns name
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "registry"
+    # add service to local dns via pihole
+    external-dns.alpha.kubernetes.io/hostname: registry.r.ss
+spec:
+  # give service a local ip
+  type: LoadBalancer
+  selector:
+    app: registry
+  ports:
+  - name: api
+    port: 5000
+    targetPort: api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  namespace: registry
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "500M"
+spec:
+  ingressClassName: nginx
+  rules:
+    # expose to the internet
+    - host: registry.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  registry
+                port:
+                  name: api

@@ -1,0 +1,24 @@
+---
+- name: reset node for ceph
+  hosts:
+  - charlie
+  - jack
+  - kate
+  become: yes
+  tasks:
+    - name: remove cluster data
+      shell: rm -rf /var/lib/rook
+
+    - name: zap disk
+      shell: "sgdisk --zap-all {{ ceph_disk }}"
+
+    - name: clear sata disks
+      shell: "dd if=/dev/zero of={{ ceph_disk }} bs=1M count=100 oflag=direct,dsync"
+      when: "ceph_disk.startswith('/dev/sd')"
+
+    - name: clear nvme disks
+      shell: "blkdiscard {{ ceph_disk }}"
+      when: "ceph_disk.startswith('/dev/nvme')"
+
+    - name: reload
+      shell: "partprobe {{ ceph_disk }}"

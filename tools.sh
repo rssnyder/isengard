@@ -350,3 +350,7 @@ function rm-ns-force () {
   | kubectl replace --raw /api/v1/namespaces/$1/finalize -f -
 
 }
+
+function frigate-deploy () {
+  curl -X POST -H 'content-type: application/json' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=wlgELJ0TTre5aZhzpt8gVA&orgIdentifier=default&projectIdentifier=home_lab&pipelineIdentifier=deploy&triggerIdentifier=frigate_http'
+}

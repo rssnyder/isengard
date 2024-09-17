@@ -1,16 +1,16 @@
 # lab
 
 ## charlie: master
-k3sup install --ip 192.168.0.10 --k3s-extra-args '--disable=servicelb,traefik' --user riley --k3s-version v1.30.3+k3s1
+k3sup install --ip 192.168.0.10 --k3s-extra-args '--disable=servicelb,traefik' --user riley --k3s-version v1.31.0+k3s1
 
 ## jack: worker
-k3sup join --ip 192.168.0.11 --server-ip 192.168.0.10 --user riley --k3s-version v1.30.3+k3s1
+k3sup join --ip 192.168.0.11 --server-ip 192.168.0.10 --user riley --k3s-version v1.31.0+k3s1
 
 ## kate: worker
 ## https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
 ## restart k3s-agent
 ## kubectl label nodes kate disktype=ssd
-k3sup join --ip 192.168.0.12 --server-ip 192.168.0.10 --user riley --k3s-version v1.30.3+k3s1
+k3sup join --ip 192.168.0.12 --server-ip 192.168.0.10 --user riley --k3s-version v1.31.0+k3s1
 
 # oc
 

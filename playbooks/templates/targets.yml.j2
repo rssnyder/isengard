@@ -93,12 +93,12 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets:
-    - {{ hostvars['oca0']['ansible_tailscale0']['ipv4']['address'] }}:9001
+    - {{ hostvars['oca3']['ansible_tailscale0']['ipv4']['address'] }}:9001
     labels:
       cluster: oc
       environment: prod
   - targets:
-    - {{ hostvars['oca4']['ansible_tailscale0']['ipv4']['address'] }}:9001
+    - {{ hostvars['oca7']['ansible_tailscale0']['ipv4']['address'] }}:9001
     labels:
       cluster: ocdr
       environment: prod

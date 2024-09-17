@@ -4,3 +4,6 @@
     - role: artis3n.tailscale
   vars:
     state: present
+  tasks:
+    - shell:
+        cmd: tailscale ping hurley

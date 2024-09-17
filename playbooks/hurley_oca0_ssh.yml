@@ -1,0 +1,31 @@
+---
+- name: hurley to oca0 ssh tunnel
+  hosts: hurley
+  become: yes
+
+  tasks:
+
+    - name: set service info
+      set_fact:
+        app_name: oca0-ssh
+        service_name: oca0-ssh
+        service_desc: hurley to oca0 ssh tunnel
+        service_type: simple
+        service_pwd: /root
+        service_binary: /usr/bin/ssh
+        service_opts: "-i ci/home/riley/.ssh/id_rsa ubuntu@129.146.149.166 -L 6443:localhost:6443 -N"
+
+    - name: copy service file
+      template: 
+        src: templates/service.j2
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+    
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        name: "{{ service_name }}"
+        enabled: yes
