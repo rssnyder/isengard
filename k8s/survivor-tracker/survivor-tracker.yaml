@@ -18,7 +18,7 @@ data:
   SIGNAL_API: "http://192.168.254.11"
   SIGNAL_FROM: "+14808407117"
   SIGNAL_TO: "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
-  CURRENT_SEASON: "04"
+  CURRENT_SEASON: "47"
 
 ---
 apiVersion: apps/v1

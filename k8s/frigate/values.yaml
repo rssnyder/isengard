@@ -37,10 +37,8 @@ config: |
       back_sub: "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
       lab: "rtsp://admin:admin@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
       lab_sub: "rtsp://admin:admin@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
-      amcrest: "rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
-      amcrest_sub: "rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
-      # roam: "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
-      # roam_sub: "ffmpeg:http://192.168.0.96/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
+      front: "rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
+      front_sub: "rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
   record:
     enabled: True
     retain:
@@ -51,6 +49,48 @@ config: |
         default: 30
         mode: motion
   cameras:
+    front:
+      ffmpeg:
+        inputs:
+        - path: rtsp://127.0.0.1:8554/amcrest?video=copy&audio=aac
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/amcrest_sub?video=copy
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+      record:
+        enabled: false
+      detect:
+        enabled: false
+      zones:
+        yard:
+          coordinates: 0.348,0.128,0.545,0.175,0.814,0.28,0.498,0.995,0.003,0.997,0,0.409
+          objects:
+            - person
+        driveway:
+          coordinates: 0.938,0.349,0.981,0.669,0.93,1,0.511,1,0.821,0.288
+          objects:
+            - person
+            - car
+      review:
+        detections:
+          required_zones:
+            - yard
+            - driveway
+        alerts:
+          required_zones:
+            - yard
+            - driveway
+      snapshots:
+        required_zones:
+          - yard
+          - driveway
+      objects:
+        track:
+          - person
+          - car
     back:
       ffmpeg:
         inputs:
@@ -87,36 +127,12 @@ config: |
         track:
           - dog
           - car
-    front:
+    garage:
       ffmpeg:
         inputs:
           - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.99:554/h264Preview_01_main
             roles:
               - detect
-      review:
-        detections:
-          required_zones:
-            - yard
-        alerts:
-          required_zones:
-            - yard
-      snapshots:
-        required_zones:
-          - yard
-      objects:
-        mask:
-          - 2174,918,2218,1217,2103,1377,1836,1379,1830,1189,1852,963,2052,665
-        track:
-          - person
-          - car
-      motion:
-        mask:
-          - 2174,918,2218,1217,2103,1377,1836,1379,1830,1189,1852,963,2052,665
-      zones:
-        yard:
-          coordinates: 0,1440,2560,1440,2560,1140,1844,1116,1533,1102,1161,1084,738,1049,0,1009
-          objects:
-            - person
       onvif:
         host: 192.168.0.99
         port: 8000
@@ -147,21 +163,6 @@ config: |
         mask:
           - 2320,125,2199,872,1828,991,1914,53
           - 884,1847,1342,1516,916,1181,560,1328
-    amcrest:
-      ffmpeg:
-        inputs:
-        - path: rtsp://127.0.0.1:8554/amcrest?video=copy&audio=aac
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-        - path: rtsp://127.0.0.1:8554/amcrest_sub?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
-      record:
-        enabled: false
-      detect:
-        enabled: false
     louie:
       ffmpeg:
         inputs:
@@ -175,30 +176,6 @@ config: |
         port: 8000
         user: admin
         password: <+secrets.getValue("default_lab_password")>
-    # roam:
-    #   ffmpeg:
-    #     inputs:
-    #     - path: rtsp://127.0.0.1:8554/roam?video=copy&audio=aac
-    #       input_args: preset-rtsp-restream
-    #       roles:
-    #         - record
-    #     - path: rtsp://127.0.0.1:8554/roam_sub?video=copy
-    #       input_args: preset-rtsp-restream
-    #       roles:
-    #         - detect
-    #   detect:
-    #     width: 2560
-    #     height: 1920
-    #   record:
-    #     enabled: true
-    # garage:
-    #   ffmpeg:
-    #     inputs:
-    #       - path: rtsp://wyze-bridge:8554/garage-door
-    #         roles:
-    #           - detect
-    #   record:
-    #     enabled: true
   objects:
     filters:
       person:

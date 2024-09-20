@@ -332,6 +332,18 @@ function signal () {
   }"
 }
 
+function signal_survivor () {
+  message=$@
+  curl -X POST http://signal-api.r.ss/v2/send --data "
+  {
+    \"message\": \"$message\",
+    \"number\": \"+14808407117\",
+    \"recipients\": [
+      \"group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0=\"
+    ]
+  }"
+}
+
 function signal_nicole () {
   message=$@
   curl -X POST http://signal-api.r.ss/v2/send --data "
