@@ -136,6 +136,10 @@ config: |
         port: 8000
         user: admin
         password: <+secrets.getValue("default_lab_password")>
+      record:
+        enabled: false
+      detect:
+        enabled: false
     lab:
       ffmpeg:
         inputs:
