@@ -2,4 +2,4 @@
   hosts: all
   tasks:
     - debug:
-        msg: "{{ hostvars['oca0']['ansible_tailscale0']['ipv4']['address'] }}"
+        msg: "{{ hostvars }}"
