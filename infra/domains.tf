@@ -226,6 +226,20 @@ resource "digitalocean_record" "star-oc-dr" {
   value  = var.instances["oca8"].ip
 }
 
+resource "digitalocean_record" "star-awsproxy-harness" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.awsproxy.harness"
+  value  = "52.36.176.96"
+}
+
+resource "digitalocean_record" "star-azureproxy-harness" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "*.azureproxy.harness"
+  value  = "13.89.188.232"
+}
+
 // github pages
 
 # resource "digitalocean_record" "photos" {
