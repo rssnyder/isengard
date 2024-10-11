@@ -176,6 +176,26 @@ services:
       - 22000:22000/udp
       - 21027:21027/udp
     restart: unless-stopped
+  
+  harness:
+    image: harness/harness:unstable
+    container_name: harness
+    restart: unless-stopped
+    environment:
+      GITNESS_USER_SIGNUP_ENABLED: "false"
+      GITNESS_NESTED_SPACES_ENABLED: "true"
+      GITNESS_GITSPACE_ENABLE: "true"
+      GITNESS_IDE_VSCODEWEB_PORT: "8086"
+      GITNESS_URL_BASE: "https://harness.rileysnyder.dev"
+      GITNESS_URL_GIT: "https://harness.rileysnyder.dev/git"
+      GITNESS_URL_API: "https://harness.rileysnyder.dev/api"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $APPDATA/harness:/data
+    ports:
+      - 3001:3000
+      - 3022:3022
+      - 8086:8086
 
 volumes:
   db:
