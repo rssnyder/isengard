@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: whoami
+  description: a test web server
+  namespace: default
+  annotations:
+    harness.io/project-url: https://app.harness.io/ng/account/wlgELJ0TTre5aZhzpt8gVA/cd/orgs/default/projects/home_lab
+    harness.io/services: >
+      whoami: https://app.harness.io/ng/account/wlgELJ0TTre5aZhzpt8gVA/cd/orgs/default/projects/home_lab/services/whoami
+    harness.io/pipelines: |
+      CD: https://app.harness.io/ng/account/wlgELJ0TTre5aZhzpt8gVA/all/orgs/default/projects/home_lab/pipelines/deploy/pipeline-studio?storeType=INLINE
+    'backstage.io/kubernetes-id': lab
+    'backstage.io/kubernetes-namespace': whoami
+spec:
+  type: service
+  owner: admins
+  system: home_lab
+  lifecycle: experimental
