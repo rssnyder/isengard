@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: whoami
-        backstage.io/kubernetes-id': <BACKSTAGE_ENTITY_NAME>
+        backstage.io/kubernetes-id: whoami
     spec:
       containers:
       - name: whoami
