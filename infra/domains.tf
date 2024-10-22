@@ -233,6 +233,13 @@ resource "digitalocean_record" "harness" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "awslb-harness" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "CNAME"
+  name   = "*.awslb.harness"
+  value  = "snyder-lab-alb-2080643085.us-west-2.elb.amazonaws.com."
+}
+
 resource "digitalocean_record" "star-awsproxy-harness" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

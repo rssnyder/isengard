@@ -12,13 +12,37 @@ metadata:
   labels:
     app: survivor-tracker
 data:
-  DB_HOST: "192.168.0.3"
-  DB_DB: "survivor"
-  DB_USER: "jeff"
-  SIGNAL_API: "http://192.168.254.11"
-  SIGNAL_FROM: "+14808407117"
-  SIGNAL_TO: "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
-  CURRENT_SEASON: "47"
+  config.toml: |
+    [survivor]
+    season = "47"
+
+    [signal]
+    api = "192.168.254.11"
+    number = "+14808407117"
+    group = "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
+
+    [tautulli]
+    api = "192.168.0.6:8181"
+
+    [plex_players]
+    "riley_snyder" = "Riley and Nicole"
+    "hmfis" = "Hannah and Sweepy"
+    "mose162" = "Hunter"
+    "barry.sa" = "Barry and Marcin"
+
+    [signal_players]
+    "+15125207105" = "mose162"
+    "+13193271020" = "hmfis"
+    "+12628447075" = "hmfis"
+    "+18473385345" = "barry.sa"
+    "+12245671029" = "barry.sa"
+    "+15159792049" = "riley_snyder"
+    "+15155097579" = "riley_snyder"
+
+    [database]
+    host = "192.168.0.3"
+    db = "survivor"
+    user = "jeff"
 
 ---
 apiVersion: apps/v1
@@ -38,20 +62,40 @@ spec:
     spec:
       containers:
       - name: survivor-tracker
-        image: rssnyder/survivor-tracker:c05f2d118af48dbef6444c4d949c78714ee1cc2a
+        image: rssnyder/survivor-tracker:32c48ba61c0850a4b9c05533405951ba626936c6
         imagePullPolicy: Always
-        envFrom:
-        - configMapRef:
-            name: survivor-tracker
         env:
         - name: DB_PASS
           valueFrom:
             secretKeyRef:
               name: survivor-tracker
               key: pgpassword
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.toml
+          subPath: config.toml
         ports:
         - name: api
           containerPort: 7777
+      - name: spoiler-timestamps
+        image: rssnyder/survivor-tracker:32c48ba61c0850a4b9c05533405951ba626936c6
+        imagePullPolicy: Always
+        command: ["python"]
+        args: ["spoilers.py"]
+        env:
+        - name: TAUTULLI_KEY
+          valueFrom:
+            secretKeyRef:
+              name: survivor-tracker
+              key: tautullipassword
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.toml
+          subPath: config.toml
+      volumes:
+      - name: config
+        configMap:
+          name: survivor-tracker
 
 ---
 apiVersion: v1

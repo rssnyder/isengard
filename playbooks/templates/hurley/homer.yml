@@ -70,6 +70,10 @@ links:
     icon: "fas fa-book"
     url: "https://desmoines.craigslist.org/search/sya"
     target: '_top'
+  - name: "craigslist"
+    icon: "fa-brands fa-docker"
+    url: "https://hub.docker.com/u/rssnyder"
+    target: '_top'
 
 services:
   - name: "Media"
@@ -77,35 +81,35 @@ services:
     items:
       - name: "Plex"
         logo: "assets/homer-icons/png/plex.png"
-        url: "http://cornelius:32400"
+        url: "http://cornelius.corvus-salmon.ts.net:32400"
         target: '_top'
       - name: "Tautulli"
         logo: "assets/homer-icons/png/tautulli.png"
-        url: "http://cornelius:8181/home"
+        url: "http://cornelius.corvus-salmon.ts.net:8181/home"
         target: '_top'
       - name: "qBittorrent"
         logo: "assets/homer-icons/png/qbittorrent.png"
-        url: "http://cornelius:8475"
+        url: "http://cornelius.corvus-salmon.ts.net:8475"
         target: '_top'
       - name: "Deluge"
         logo: "assets/homer-icons/png/deluge.png"
-        url: "http://cornelius:8112"
+        url: "http://cornelius.corvus-salmon.ts.net:8112"
         target: '_top'
       - name: "Overseerr"
         logo: "assets/homer-icons/png/overseerr.png"
-        url: "http://cornelius:5055"
+        url: "http://cornelius.corvus-salmon.ts.net:5055"
         target: '_top'
       - name: "Prowlarr"
         logo: "assets/homer-icons/png/prowlarr.png"
-        url: "http://cornelius:9696"
+        url: "http://cornelius.corvus-salmon.ts.net:9696"
         target: '_top'
       - name: "Sonarr"
         logo: "assets/homer-icons/png/sonarr.png"
-        url: "http://cornelius:7002"
+        url: "http://cornelius.corvus-salmon.ts.net:7002"
         target: '_top'
       - name: "Radarr"
         logo: "assets/homer-icons/png/radarr.png"
-        url: "http://cornelius:7003"
+        url: "http://cornelius.corvus-salmon.ts.net:7003"
         target: '_top'
   - name: "Services"
     icon: "fas fa-gears"
@@ -120,7 +124,7 @@ services:
         target: '_top'
       - name: "Home Assistant"
         logo: "assets/homer-icons/png/home-assistant.png"
-        url: "http://homeassistant.r.ss"
+        url: "https://ha.k8s.rileysnyder.dev"
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
@@ -128,7 +132,7 @@ services:
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"
-        url: "http://hurley:9001"
+        url: "http://hurley.corvus-salmon.ts.net:9001"
         target: '_top'
       - name: "Files"
         logo: "assets/homer-icons/png/plexdrive.png"
@@ -143,24 +147,24 @@ services:
     items:
       - name: "Omada"
         logo: "assets/homer-icons/png/omada.png"
-        url: "https://hurley:8043"
+        url: "https://hurley.corvus-salmon.ts.net:8043"
         target: '_top'
       - name: "Pihole"
         logo: "assets/homer-icons/png/pihole.png"
         type: "PiHole"
-        url: "http://hurley:8888"
+        url: "http://hurley.corvus-salmon.ts.net:8888"
         target: '_top'
       - name: "Prometheus"
         logo: "assets/homer-icons/png/prometheus.png"
-        url: "http://hurley:9090/targets"
+        url: "http://hurley.corvus-salmon.ts.net:9090/targets"
         target: '_top'
       - name: "Cornelius Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://cornelius:8384"
+        url: "http://cornelius.corvus-salmon.ts.net:8384"
         target: '_top'
       - name: "Hurley Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://cornelius:8384"
+        url: "http://cornelius.corvus-salmon.ts.net:8384"
         target: '_top'
       - name: "Local Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
@@ -192,38 +196,4 @@ services:
       - name: "WhoAmI"
         logo: "assets/homer-icons/png/whoami.png"
         url: "https://whoami.k8s.rileysnyder.dev/"
-        target: '_top'
-  - name: "Local Overides"
-    icon: "fas fa-gears"
-    items:
-      - name: "Frigate"
-        logo: "assets/homer-icons/png/nowshowing.png"
-        url: "https://frigate"
-        target: '_top'
-  - name: "kMedia"
-    icon: "fas fa-compact-disc"
-    items:
-      - name: "qBittorrent"
-        logo: "assets/homer-icons/png/qbittorrent.png"
-        url: "https://qbittorrent.media.rileysnyder.dev"
-        target: '_top'
-      - name: "Overseerr"
-        logo: "assets/homer-icons/png/overseerr.png"
-        url: "https://overseerr.media.rileysnyder.dev"
-        target: '_top'
-      - name: "Prowlarr"
-        logo: "assets/homer-icons/png/prowlarr.png"
-        url: "https://prowlarr.media.rileysnyder.dev"
-        target: '_top'
-      - name: "Sonarr"
-        logo: "assets/homer-icons/png/sonarr.png"
-        url: "https://sonarr.media.rileysnyder.dev"
-        target: '_top'
-      - name: "Radarr"
-        logo: "assets/homer-icons/png/radarr.png"
-        url: "https://radarr.media.rileysnyder.dev"
-        target: '_top'
-      - name: "Files"
-        logo: "assets/homer-icons/png/plexdrive.png"
-        url: "https://files.media.rileysnyder.dev"
         target: '_top'

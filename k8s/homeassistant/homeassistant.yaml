@@ -23,7 +23,7 @@ spec:
       hostNetwork: true
       containers:
       - name: home-assistant
-        image: ghcr.io/home-assistant/home-assistant:stable
+        image: ghcr.io/home-assistant/home-assistant:2024.10
         env:
         - name: TZ
           value: America/Chicago

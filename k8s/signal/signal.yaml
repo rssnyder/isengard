@@ -28,9 +28,9 @@ spec:
           value: /signal
         - name: MODE
           # json-rpc
-          value: native
-        - name: AUTO_RECEIVE_SCHEDULE
-          value: "0 0 * * *"
+          value: json-rpc
+        # - name: AUTO_RECEIVE_SCHEDULE
+        #   value: "0 0 * * *"
         ports:
         - name: api
           containerPort: 8080
