@@ -14,6 +14,7 @@ metadata:
     'backstage.io/kubernetes-namespace': whoami
     'backstage.io/kubernetes-id': whoami
     'backstage.io/kubernetes-label-selector': 'app=whoami'
+    github.com/project-slug: rssnyder/isengard
 spec:
   type: service
   owner: admins
