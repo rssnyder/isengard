@@ -54,25 +54,17 @@ links:
     icon: "fab fa-github"
     url: "https://github.com/rssnyder"
     target: '_top'
-  - name: "news"
-    icon: "fas fa-book"
-    url: "https://news.google.com/"
-    target: '_top'
-  - name: "tech news"
-    icon: "fas fa-book"
-    url: "https://news.ycombinator.com/"
-    target: '_top'
-  - name: "register"
-    icon: "fas fa-book"
-    url: "https://www.desmoinesregister.com/"
-    target: '_top'
-  - name: "craigslist"
-    icon: "fas fa-book"
-    url: "https://desmoines.craigslist.org/search/sya"
-    target: '_top'
-  - name: "craigslist"
+  - name: ""
     icon: "fa-brands fa-docker"
     url: "https://hub.docker.com/u/rssnyder"
+    target: '_top'
+  - name: ""
+    icon: "fa-regular fa-newspaper"
+    url: "https://www.desmoinesregister.com/"
+    target: '_top'
+  - name: ""
+    icon: "fa-solid fa-cart-shopping"
+    url: "https://desmoines.craigslist.org/search/sya"
     target: '_top'
 
 services:

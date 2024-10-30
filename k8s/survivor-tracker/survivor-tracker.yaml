@@ -24,7 +24,48 @@ data:
     [tautulli]
     api = "192.168.0.6:8181"
 
-    [plex_players]
+    [plex_users]
+    "riley_snyder" = "Riley and Nicole"
+    "hmfis" = "Hannah and Sweepy"
+    "mose162" = "Hunter"
+    "barry.sa" = "Barry and Marcin"
+
+    [signal_players]
+    "+15125207105" = "mose162"
+    "+13193271020" = "hmfis"
+    "+12628447075" = "hmfis"
+    "+18473385345" = "barry.sa"
+    "+12245671029" = "barry.sa"
+    "+15159792049" = "riley_snyder"
+    "+15155097579" = "riley_snyder"
+
+    [database]
+    host = "192.168.0.3"
+    db = "survivor"
+    user = "jeff"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: survivor-tracker-test
+  namespace: survivor-tracker
+  labels:
+    app: survivor-tracker-test
+data:
+  config.toml: |
+    [survivor]
+    season = "47"
+
+    [signal]
+    api = "192.168.254.11"
+    number = "+14808407117"
+    group = "group.V3pxUUFzSmliN3RvbHRhQXZpUmFHS3JyNzlSSGRSRkJzZkpsNG5JSWE5Yz0="
+
+    [tautulli]
+    api = "192.168.0.6:8181"
+
+    [plex_users]
     "riley_snyder" = "Riley and Nicole"
     "hmfis" = "Hannah and Sweepy"
     "mose162" = "Hunter"
@@ -62,7 +103,7 @@ spec:
     spec:
       containers:
       - name: survivor-tracker
-        image: rssnyder/survivor-tracker:32c48ba61c0850a4b9c05533405951ba626936c6
+        image: rssnyder/survivor-tracker:ddc6b361079683db7634406418f16ad3461ac914
         imagePullPolicy: Always
         env:
         - name: DB_PASS
@@ -78,11 +119,13 @@ spec:
         - name: api
           containerPort: 7777
       - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:32c48ba61c0850a4b9c05533405951ba626936c6
+        image: rssnyder/survivor-tracker:ddc6b361079683db7634406418f16ad3461ac914
         imagePullPolicy: Always
         command: ["python"]
         args: ["spoilers.py"]
         env:
+        - name: LOGLEVEL
+          value: DEBUG
         - name: TAUTULLI_KEY
           valueFrom:
             secretKeyRef:
@@ -96,6 +139,45 @@ spec:
       - name: config
         configMap:
           name: survivor-tracker
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: survivor-tracker-test
+  namespace: survivor-tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: survivor-tracker-test
+  template:
+    metadata:
+      labels:
+        app: survivor-tracker-test
+    spec:
+      containers:
+      - name: spoiler-timestamps
+        image: rssnyder/survivor-tracker:ddc6b361079683db7634406418f16ad3461ac914
+        imagePullPolicy: Always
+        command: ["python"]
+        args: ["spoilers.py"]
+        env:
+        - name: LOGLEVEL
+          value: DEBUG
+        - name: TAUTULLI_KEY
+          valueFrom:
+            secretKeyRef:
+              name: survivor-tracker
+              key: tautullipassword
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.toml
+          subPath: config.toml
+      volumes:
+      - name: config
+        configMap:
+          name: survivor-tracker-test
 
 ---
 apiVersion: v1

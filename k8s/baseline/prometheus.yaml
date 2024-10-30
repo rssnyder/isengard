@@ -15,7 +15,7 @@ spec:
   targetNamespace: prometheus
   valuesContent: |-
     commonMetaLabels:
-      cluster: lab
+      cluster: {{ cluster_name}}
     server:
       service:
         type: LoadBalancer

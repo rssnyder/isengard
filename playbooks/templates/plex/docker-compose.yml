@@ -36,7 +36,7 @@ services:
     volumes:
       - $APPDATA/plex:/config
       - /bucket/media:/media
-      - /mnt/fake:/mnt/fake
+      - /flash:/flash
 
   qbt:
     image: lscr.io/linuxserver/qbittorrent:4.6.3
@@ -50,8 +50,9 @@ services:
       WEBUI_PORT: 8475
     volumes:
       - $APPDATA/qbt:/config
-      - /mnt/fake/downloads:/downloads
+      - /flash/downloads:/downloads
       - /bucket/media/movies:/movies
+      - /bucket/media/cc:/cc
       - /bucket/media/4k:/4k
       - /bucket/media/tv:/tv
       - /bucket/media/syndicated:/syndicated
@@ -105,7 +106,7 @@ services:
     volumes:
       - $APPDATA/sonarr:/config
       - /bucket/media/tv:/tv
-      - /mnt/fake/downloads:/downloads
+      - /flash/downloads:/downloads
     ports:
       - 7002:8989
 
@@ -121,7 +122,7 @@ services:
     volumes:
       - $APPDATA/radarr:/config
       - /bucket/media/movies:/movies
-      - /mnt/fake/downloads:/downloads
+      - /flash/downloads:/downloads
     ports:
       - 7003:7878
 
@@ -184,7 +185,7 @@ services:
       MINISERVE_PATH: /tmp
     volumes:
       - /bucket/media:/tmp/media
-      - /mnt/fake/downloads:/tmp/downloads
+      - /flash/downloads:/tmp/downloads
     ports:
       - 8080:8080
 
