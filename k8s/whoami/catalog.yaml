@@ -9,11 +9,12 @@ metadata:
     harness.io/services: >
       whoami: https://app.harness.io/ng/account/wlgELJ0TTre5aZhzpt8gVA/cd/orgs/default/projects/home_lab/services/whoami
     harness.io/pipelines: |
-      CD: https://app.harness.io/ng/account/wlgELJ0TTre5aZhzpt8gVA/all/orgs/default/projects/home_lab/pipelines/deploy/pipeline-studio?storeType=INLINE
-    'backstage.io/cluster-id': lab
+      ansible: https://app.harness.io/ng/account/wlgELJ0TTre5aZhzpt8gVA/all/orgs/default/projects/home_lab/pipelines/ansible/pipeline-studio?storeType=INLINE
+    'backstage.io/cluster-id': lab_remote
     'backstage.io/kubernetes-namespace': whoami
     'backstage.io/kubernetes-id': whoami
     'backstage.io/kubernetes-label-selector': 'app=whoami'
+    github.com/project-slug: rssnyder/isengard
 spec:
   type: service
   owner: admins
