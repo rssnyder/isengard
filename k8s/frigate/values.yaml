@@ -39,7 +39,7 @@ config: |
       lab_sub: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
       front: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
       front_sub: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
-      blx1c: "ffmpeg:rtsps://bblp:<+secrets.getValue("blx1c_cloud_key")>@192.168.0.79:322/streaming/live/1"
+      blx1c: "ffmpeg:rtsps://bblp:<+secrets.getValue("blx1c_cloud_key")>@192.168.0.79/streaming/live/1"
   record:
     enabled: True
     retain:
@@ -169,7 +169,7 @@ config: |
     blx1c:
       ffmpeg:
         inputs:
-        - path: rtsp://127.0.0.1:8554/blx1c?video=copy
+        - path: rtsp://127.0.0.1:8554/blx1c
           input_args: preset-rtsp-restream
       record:
         enabled: false
