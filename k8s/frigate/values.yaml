@@ -35,10 +35,11 @@ config: |
     streams:
       back: "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>#video=copy#audio=copy#audio=opus"
       back_sub: "ffmpeg:http://192.168.0.97/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password=<+secrets.getValue("default_lab_password")>"
-      lab: "rtsp://admin:admin@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
-      lab_sub: "rtsp://admin:admin@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
-      front: "rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
-      front_sub: "rtsp://admin:admin@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
+      lab: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
+      lab_sub: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.95:554/cam/realmonitor?channel=1&subtype=0"
+      front: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
+      front_sub: "rtsp://admin:<+secrets.getValue("amcrest_password")>@192.168.0.119:554/cam/realmonitor?channel=1&subtype=0"
+      blx1c: "rtsp://bblp:<+secrets.getValue("blx1c_cloud_key")>@192.168.0.79:322/streaming/live/1"
   record:
     enabled: True
     retain:
@@ -165,6 +166,15 @@ config: |
         mask:
           - 2320,125,2199,872,1828,991,1914,53
           - 884,1847,1342,1516,916,1181,560,1328
+    blx1c:
+      ffmpeg:
+        inputs:
+        - path: rtsp://127.0.0.1:8554/blx1c?video=copy
+          input_args: preset-rtsp-restream
+      record:
+        enabled: false
+      detect:
+        enabled: false
     louie:
       ffmpeg:
         inputs:
