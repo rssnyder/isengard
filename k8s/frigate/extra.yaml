@@ -60,3 +60,6 @@ spec:
   - name: rtmp
     port: 1935
     targetPort: 1935
+  - name: go2rtc
+    port: 8554
+    targetPort: 8554
