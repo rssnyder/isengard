@@ -48,6 +48,8 @@ metadata:
   name: homeassistant
   namespace: frigate
   annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "ha-frigate"
     external-dns.alpha.kubernetes.io/hostname: homeassistant.frigate.r.ss
 spec:
   type: LoadBalancer
