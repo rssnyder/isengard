@@ -132,15 +132,21 @@ config: |
       ffmpeg:
         inputs:
           - path: rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.0.99:554/h264Preview_01_main
+            roles:
+              - record
+              - detect
       onvif:
         host: 192.168.0.99
         port: 8000
         user: admin
         password: <+secrets.getValue("default_lab_password")>
-      record:
-        enabled: false
-      detect:
-        enabled: false
+      objects:
+        track:
+          - person
+      # record:
+      #   enabled: false
+      # detect:
+      #   enabled: false
     lab:
       ffmpeg:
         inputs:
