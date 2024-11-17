@@ -65,33 +65,33 @@ config: |
         enabled: false
       detect:
         enabled: false
-      zones:
-        yard:
-          coordinates: 0.348,0.128,0.545,0.175,0.814,0.28,0.498,0.995,0.003,0.997,0,0.409
-          objects:
-            - person
-        driveway:
-          coordinates: 0.938,0.349,0.981,0.669,0.93,1,0.511,1,0.821,0.288
-          objects:
-            - person
-            - car
-      review:
-        detections:
-          required_zones:
-            - yard
-            - driveway
-        alerts:
-          required_zones:
-            - yard
-            - driveway
-      snapshots:
-        required_zones:
-          - yard
-          - driveway
-      objects:
-        track:
-          - person
-          - car
+      # zones:
+      #   yard:
+      #     coordinates: 0.348,0.128,0.545,0.175,0.814,0.28,0.498,0.995,0.003,0.997,0,0.409
+      #     objects:
+      #       - person
+      #   driveway:
+      #     coordinates: 0.938,0.349,0.981,0.669,0.93,1,0.511,1,0.821,0.288
+      #     objects:
+      #       - person
+      #       - car
+      # review:
+      #   detections:
+      #     required_zones:
+      #       - yard
+      #       - driveway
+      #   alerts:
+      #     required_zones:
+      #       - yard
+      #       - driveway
+      # snapshots:
+      #   required_zones:
+      #     - yard
+      #     - driveway
+      # objects:
+      #   track:
+      #     - person
+      #     - car
     back:
       ffmpeg:
         inputs:
