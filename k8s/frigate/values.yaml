@@ -53,11 +53,11 @@ config: |
     front:
       ffmpeg:
         inputs:
-        - path: rtsp://127.0.0.1:8554/amcrest?video=copy&audio=aac
+        - path: rtsp://127.0.0.1:8554/front?video=copy&audio=aac
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://127.0.0.1:8554/amcrest_sub?video=copy
+        - path: rtsp://127.0.0.1:8554/front_sub?video=copy
           input_args: preset-rtsp-restream
           roles:
             - detect
