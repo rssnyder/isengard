@@ -62,9 +62,9 @@ config: |
           roles:
             - detect
       record:
-        enabled: false
+        enabled: true
       detect:
-        enabled: false
+        enabled: true
       zones:
         yard:
           coordinates: 0.348,0.128,0.545,0.175,0.814,0.28,0.498,0.995,0.003,0.997,0,0.409
@@ -143,10 +143,10 @@ config: |
       objects:
         track:
           - person
-      # record:
-      #   enabled: false
-      # detect:
-      #   enabled: false
+      record:
+        enabled: false
+      detect:
+        enabled: false
     lab:
       ffmpeg:
         inputs:
