@@ -66,8 +66,8 @@ metadata:
   name: homeassistant
   namespace: homeassistant
   annotations:
-    # tailscale.com/expose: "true"
-    # tailscale.com/hostname: "homeassistant"
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "homeassistant"
     external-dns.alpha.kubernetes.io/hostname: homeassistant.r.ss
 spec:
   type: LoadBalancer

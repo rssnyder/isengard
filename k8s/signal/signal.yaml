@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: signal-api
-        image: bbernhard/signal-cli-rest-api
+        image: bbernhard/signal-cli-rest-api:0.89
         imagePullPolicy: Always
         env:
         - name: SIGNAL_CLI_CONFIG_DIR
@@ -78,7 +78,7 @@ spec:
     app: signal-api
   ports:
   - name: api
-    port: 8273
+    port: 80
     targetPort: api
 
 # register new number with signal
@@ -124,19 +124,19 @@ spec:
 # }'
 
 
-curl -X POST http://oca0:8273/v2/send --data "
-  {
-    \"message\": \"test\",
-    \"number\": \"+14808407117\",
-    \"recipients\": [
-      \"+15159792049\"
-    ]
-  }"
+# curl -X POST http://oca0:8273/v2/send --data "
+#   {
+#     \"message\": \"test\",
+#     \"number\": \"+14808407117\",
+#     \"recipients\": [
+#       \"+15159792049\"
+#     ]
+#   }"
 
 
-curl oca0:8273/v1/configuration --data '	
-{
-  "logging": {
-    "Level": "debug"
-  }
-}'
+# curl oca0:8273/v1/configuration --data '	
+# {
+#   "logging": {
+#     "Level": "debug"
+#   }
+# }'

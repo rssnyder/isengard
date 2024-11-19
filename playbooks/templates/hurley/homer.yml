@@ -120,7 +120,7 @@ services:
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
-        url: "https://frigate.k8s.rileysnyder.dev"
+        url: "http://frigate.corvus-salmon.ts.net/"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"

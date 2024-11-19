@@ -76,7 +76,7 @@ config: |
           objects:
             - person
         driveway:
-          coordinates: 0.938,0.349,0.981,0.669,0.93,1,0.511,1,0.821,0.288
+          coordinates: 0.928,0.323,0.981,0.669,0.976,0.815,0.687,0.716,0.825,0.278
           objects:
             - person
             - car
@@ -120,7 +120,7 @@ config: |
           - door
       zones:
         door:
-          coordinates: 592,291,544,291,542,322,578,325
+          coordinates: 0.661,0.433,0.607,0.433,0.601,0.508,0.633,0.523
           objects:
             - dog
         car:
