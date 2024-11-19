@@ -1,7 +1,11 @@
+# public assets
+
 resource "minio_s3_bucket" "public" {
   bucket = "public"
   acl    = "public"
 }
+
+# storing dndgenerator images
 
 resource "minio_s3_bucket" "dndgenerator" {
   bucket = "dndgenerator"
@@ -38,6 +42,8 @@ resource "minio_iam_user_policy_attachment" "dgapi-dndgenerator_put" {
   user_name   = minio_iam_user.dgapi.id
   policy_name = minio_iam_policy.dndgenerator_put.id
 }
+
+# dst backups
 
 resource "minio_s3_bucket" "discord-stock-ticker" {
   bucket = "discord-stock-ticker"
@@ -79,18 +85,30 @@ resource "minio_iam_user_policy_attachment" "isengard-dst_admin" {
   policy_name = minio_iam_policy.dst_admin.id
 }
 
-resource "minio_s3_bucket" "harness" {
-  bucket = "harness"
+# velero
+
+resource "minio_s3_bucket" "velero" {
+  bucket = "velero"
   acl    = "private"
 }
 
-resource "minio_iam_user" "harness_work" {
-   name = "harness_work"
+resource "minio_iam_user" "lab_velero" {
+   name = "lab_velero"
    force_destroy = false
 }
 
-resource "minio_iam_policy" "harness_admin" {
-  name = "harness_admin"
+resource "minio_iam_user" "oc_velero" {
+   name = "oc_velero"
+   force_destroy = false
+}
+
+resource "minio_iam_user" "ocdr_velero" {
+   name = "ocdr_velero"
+   force_destroy = false
+}
+
+resource "minio_iam_policy" "velero" {
+  name = "velero"
   policy= <<EOF
 {
     "Version": "2012-10-17",
@@ -101,7 +119,7 @@ resource "minio_iam_policy" "harness_admin" {
                 "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::harness*"
+                "arn:aws:s3:::velero*"
             ]
         }
     ]
@@ -109,134 +127,32 @@ resource "minio_iam_policy" "harness_admin" {
 EOF
 }
 
-resource "minio_iam_user_policy_attachment" "harness_work-harness_admin" {
-  user_name   = minio_iam_user.harness_work.id
-  policy_name = minio_iam_policy.harness_admin.id
+resource "minio_iam_user_policy_attachment" "lab_velero" {
+  user_name   = minio_iam_user.lab_velero.id
+  policy_name = minio_iam_policy.velero.id
 }
 
-resource "minio_s3_bucket" "k8s" {
-  bucket = "k8s"
-  acl    = "private"
+resource "minio_iam_user_policy_attachment" "oc_velero" {
+  user_name   = minio_iam_user.oc_velero.id
+  policy_name = minio_iam_policy.velero.id
 }
 
-resource "minio_iam_user" "longhorn" {
-   name = "longhorn"
-   force_destroy = false
+resource "minio_iam_user_policy_attachment" "ocdr_velero" {
+  user_name   = minio_iam_user.ocdr_velero.id
+  policy_name = minio_iam_policy.velero.id
 }
 
-resource "minio_iam_policy" "longhorn" {
+module "s3_longhorn" {
+  source  = "./simple-bucket"
   name = "longhorn"
-  policy= <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:*"
-            ],
-            "Resource": [
-                "arn:aws:s3:::k8s/longhorn/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetBucketLocation",
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::k8s"
-            ]
-        }
-    ]
-}
-EOF
 }
 
-resource "minio_iam_user_policy_attachment" "longhorn" {
-  user_name   = minio_iam_user.longhorn.id
-  policy_name = minio_iam_policy.longhorn.id
+module "s3_harness" {
+  source  = "./simple-bucket"
+  name = "harness"
 }
 
-resource "minio_s3_bucket" "pg2s3" {
-  bucket = "pg2s3"
-  acl    = "private"
-}
-
-resource "minio_iam_user" "pg2s3" {
-   name = "pg2s3"
-   force_destroy = false
-}
-
-resource "minio_iam_policy" "pg2s3" {
+module "s3_pg2s3" {
+  source  = "./simple-bucket"
   name = "pg2s3"
-  policy= <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:*"
-            ],
-            "Resource": [
-                "arn:aws:s3:::pg2s3/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket",
-                "s3:GetBucketLocation"
-            ],
-            "Resource": [
-                "arn:aws:s3:::pg2s3"
-            ]
-        }
-    ]
-}
-EOF
-}
-
-resource "minio_iam_user_policy_attachment" "pg2s3" {
-  user_name   = minio_iam_user.pg2s3.id
-  policy_name = minio_iam_policy.pg2s3.id
-}
-
-## harbor
-
-resource "minio_s3_bucket" "harbor" {
-  bucket = "harbor"
-  acl    = "public"
-}
-
-resource "minio_iam_user" "harbor" {
-   name = "harbor"
-   force_destroy = false
-}
-
-resource "minio_iam_policy" "harbor" {
-  name = "harbor"
-  policy= <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:*"
-            ],
-            "Resource": [
-                "arn:aws:s3:::harbor*"
-            ]
-        }
-    ]
-}
-EOF
-}
-
-resource "minio_iam_user_policy_attachment" "harbor" {
-  user_name   = minio_iam_user.harbor.id
-  policy_name = minio_iam_policy.harbor.id
 }

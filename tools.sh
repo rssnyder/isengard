@@ -4,8 +4,8 @@
 
 
 # Ansible
-alias run="ansible-playbook --vault-password .vault_password -i hosts.yml -i secrets.yml"
-alias dst="ansible-playbook --vault-password .vault_password -i hosts.yml playbooks/discord-stock-ticker.yml --limit"
+alias run="ansible-playbook -i hosts.yml -i secrets.yml"
+alias dst="ansible-playbook -i hosts.yml playbooks/discord-stock-ticker.yml --limit"
 alias tf="tofu -chdir=infra"
 
 function ansible-encrypt () {
@@ -13,7 +13,7 @@ function ansible-encrypt () {
   read name
   echo "enter var secret: "
   read secret
-  ansible-vault encrypt_string --vault-password-file .vault_password "$secret" --name "$name"
+  ansible-vault encrypt_string "$secret" --name "$name"
 }
 
 # DST

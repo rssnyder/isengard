@@ -78,9 +78,6 @@ kind: Service
 metadata:
   name: dnd-generator-api
   namespace: dnd-generator
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "dnd-generator"
 spec:
   type: LoadBalancer
   selector:

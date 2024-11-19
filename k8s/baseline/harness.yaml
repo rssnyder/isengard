@@ -16,9 +16,9 @@ spec:
   valuesContent: |-
     delegateName: {{ cluster_name }}
     accountId: wlgELJ0TTre5aZhzpt8gVA
-    delegateToken: {{ k8s.secrets.harness.delegate_token }}
+    delegateToken: {{ harness.delegate_token }}
     managerEndpoint: https://app.harness.io/gratis
-    delegateDockerImage: harness/delegate:{{ latest_harness_delegate }}
+    delegateDockerImage: harness/delegate:{{ harness.latest_delegate }}
     replicas: 1
     cpu: 100m
     memory: 1500

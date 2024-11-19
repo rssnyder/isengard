@@ -78,7 +78,7 @@ spec:
     app: signal-api
   ports:
   - name: api
-    port: 80
+    port: 8273
     targetPort: api
 
 # register new number with signal
@@ -122,3 +122,21 @@ spec:
 #     "+15155097579"
 #   ]
 # }'
+
+
+curl -X POST http://oca0:8273/v2/send --data "
+  {
+    \"message\": \"test\",
+    \"number\": \"+14808407117\",
+    \"recipients\": [
+      \"+15159792049\"
+    ]
+  }"
+
+
+curl oca0:8273/v1/configuration --data '	
+{
+  "logging": {
+    "Level": "debug"
+  }
+}'

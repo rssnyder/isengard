@@ -66,8 +66,6 @@ metadata:
   name: qbt
   namespace: files
   annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "qbt"
     external-dns.alpha.kubernetes.io/hostname: qbt.r.ss
 spec:
   type: LoadBalancer

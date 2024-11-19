@@ -50,8 +50,6 @@ metadata:
   name: homebridge
   namespace: homeassistant
   annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "homebridge"
     external-dns.alpha.kubernetes.io/hostname: homebridge.r.ss
 spec:
   type: LoadBalancer

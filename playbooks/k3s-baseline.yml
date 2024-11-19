@@ -1,17 +1,13 @@
 ---
 - name: copy k3s manifests
-  hosts:
-  - charlie
-  - oca0
-  - oca4
-  - zaius
+  hosts: all
   become: yes
 
   tasks:
 
-    - name: baseline
-      template:
-        src: "{{ item }}"
-        dest: /var/lib/rancher/k3s/server/manifests/{{ item | basename | regex_replace('\.j2$', '') }}
-      with_fileglob:
-        - ../k8s/baseline/*.yaml
+    - name: prune all images on a daily basis
+      cron:
+        name: "prune images"
+        minute: "0"
+        hour: "3"
+        job: "crictl rmi --prune"

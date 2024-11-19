@@ -17,7 +17,7 @@ terraform {
     bucket                      = "isengard"
     key                         = "terraform.tfstate"
     # endpoint                    = "https://s3.rileysnyder.dev"
-    endpoint                    = "http://192.168.0.3:9000"
+    endpoint                    = "http://192.168.2.2:9000"
     region                      = "main"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
@@ -29,12 +29,12 @@ terraform {
 provider "digitalocean" {}
 
 provider "pihole" {
-  url = "http://192.168.0.3:8888"
+  url = "http://192.168.2.2:8888"
 }
 
 provider minio {
   # minio_server = "s3.rileysnyder.dev"
-  minio_server = "192.168.0.3:9000"
+  minio_server = "192.168.2.2:9000"
   minio_ssl = false
 }
 

@@ -9,10 +9,10 @@ variable "instances" {
       ip = "192.168.0.2"
     }
     cornelius = {
-      ip = "192.168.0.6"
+      ip = "192.168.2.3"
     }
     hurley = {
-      ip = "192.168.0.3"
+      ip = "192.168.2.2"
     }
     charlie = {
       ip = "192.168.0.10"
