@@ -12,17 +12,21 @@ resource "digitalocean_record" "instance" {
 }
 
 resource "digitalocean_record" "root" {
+  for_each = toset(var.github_pages)
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "@"
-  value  = var.instances["home"].ip
+  value  = each.key
+  ttl = 1800
 }
 
 resource "digitalocean_record" "www" {
+  for_each = toset(var.github_pages)
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = "www"
-  value  = var.instances["home"].ip
+  value  = each.key
+  ttl = 1800
 }
 
 // services

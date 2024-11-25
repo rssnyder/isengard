@@ -17,7 +17,7 @@ spec:
       hostNetwork: true
       containers:
       - name: homebridge
-        image: homebridge/homebridge:latest
+        image: homebridge/homebridge:2024-10-25
         ports:
         - name: web
           containerPort: 8581
@@ -50,6 +50,8 @@ metadata:
   name: homebridge
   namespace: homeassistant
   annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "homebridge"
     external-dns.alpha.kubernetes.io/hostname: homebridge.r.ss
 spec:
   type: LoadBalancer
