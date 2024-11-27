@@ -1,10 +1,6 @@
 ---
 - name: copy k3s manifests
-  hosts:
-  - charlie
-  - oca0
-  - oca4
-  - zaius
+  hosts: server
   become: yes
 
   tasks:

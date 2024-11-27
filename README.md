@@ -41,3 +41,18 @@ using ansible vault with a password in a local file
 ```shell
 ansible-vault encrypt_string --vault-password-file .vault_password 'bar' --name 'foo'
 ```
+
+## cidr
+
+|              | cidr           | notes                           |
+|--------------|----------------|---------------------------------|
+| home         | 192.168.2.0/24 |                                 |
+| tailscale    | 100.64.0.0/10  |                                 |
+| lab cluster  | 10.42.0.0/16   |                                 |
+| lab svc      | 10.43.0.0/16   |                                 |
+| oc cluster   | 10.42.0.0/16   | need to migrate to 10.44.0.0/16 |
+| oc svc       | 10.43.0.0/16   | need to migrate to 10.45.0.0/16 |
+| ocdr cluster | 10.46.0.0/16   |                                 |
+| ocdr svc     | 10.47.0.0/16   |                                 |
+| oc2 cluster  | 10.48.0.0/16   |                                 |
+| oc2 svc      | 10.49.0.0/16   |                                 |
