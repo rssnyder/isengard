@@ -34,6 +34,3 @@ spec:
     defaultSettings:
       backupTarget: s3://{{ longhorn.bucket }}@{{ s3.region }}/backups
       backupTargetCredentialSecret: minio
-    # metrics:
-    #   serviceMonitor:
-    #     enabled: true
