@@ -43,7 +43,7 @@ config: |
   record:
     enabled: True
     retain:
-      days: 0
+      days: 1
       mode: all
     events:
       retain:
