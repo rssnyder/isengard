@@ -16,6 +16,8 @@ spec:
   targetNamespace: ingress-nginx
   valuesContent: |-
     controller:
+      ingressClass:
+        setAsDefaultIngress: true
       allowSnippetAnnotations: true
       config:
         plugins: "rewrite_fwd_headers"

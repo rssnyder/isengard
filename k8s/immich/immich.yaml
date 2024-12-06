@@ -1,0 +1,210 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: immich
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: library
+  namespace: immich
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10G
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cache
+  namespace: immich
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5G
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: db
+  namespace: immich
+spec:
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:15-v0.3.0
+  instances: 1
+  enableSuperuserAccess: true
+  storage:
+    # storageClass: longhorn
+    size: 1Gi
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      database: immich
+      owner: app
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  namespace: immich
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: server
+        image: ghcr.io/immich-app/immich-server:release
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: REDIS_HOSTNAME
+          value: redis.redis.svc.cluster.local
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-superuser
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-superuser
+              key: password
+        - name: DB_HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-superuser
+              key: host
+        ports:
+        - name: http
+          containerPort: 2283
+        volumeMounts:
+        - name: library
+          mountPath: /usr/src/app/upload
+      volumes:
+      - name: library
+        persistentVolumeClaim:
+          claimName: library
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: http
+  namespace: immich
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "immich"
+    external-dns.alpha.kubernetes.io/hostname: immich.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: server
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: machine-learning
+  namespace: immich
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: machine-learning
+  template:
+    metadata:
+      labels:
+        app: machine-learning
+    spec:
+      containers:
+      - name: machine-learning
+        image: ghcr.io/immich-app/immich-machine-learning:release
+        imagePullPolicy: IfNotPresent
+        # env:
+        # - name: REDIS_HOSTNAME
+        #   value: redis.redis.svc.cluster.local
+        # - name: DB_USERNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: db-superuser
+        #       key: username
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: db-superuser
+        #       key: password
+        # - name: DB_HOSTNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: db-superuser
+        #       key: host
+        ports:
+        - name: api
+          containerPort: 3003
+        volumeMounts:
+        - name: cache
+          mountPath: /cache
+      volumes:
+      - name: cache
+        persistentVolumeClaim:
+          claimName: cache
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: immich-machine-learning
+  namespace: immich
+spec:
+  type: LoadBalancer
+  selector:
+    app: machine-learning
+  ports:
+  - name: api
+    port: 3003
+    targetPort: api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: immich.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  http
+                port:
+                  number: 80

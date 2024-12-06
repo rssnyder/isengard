@@ -16,7 +16,8 @@ spec:
       nodeName: charlie
       containers:
       - name: qbt
-        image: lscr.io/linuxserver/qbittorrent:4.6.3
+        # image: lscr.io/linuxserver/qbittorrent:4.6.3
+        image: binhex/arch-qbittorrentvpn
         imagePullPolicy: IfNotPresent
         env:
         - name: PUID
@@ -29,6 +30,26 @@ spec:
           value: America/Chicago
         - name: WEBUI_PORT
           value: "8080"
+        - name: VPN_ENABLED
+          value: "yes"
+        - name: VPN_USER
+          value: "p9412958"
+        - name: VPN_PASS
+          value: "tuqfy1-tuWzex-damten"
+        - name: VPN_PROV
+          value: "pia"
+        - name: VPN_CLIENT
+          value: "openvpn"
+        - name: STRICT_PORT_FORWARD
+          value: "yes"
+        - name: NAME_SERVERS
+          value: "84.200.69.80,37.235.1.174,1.1.1.1,37.235.1.177,84.200.70.40,1.0.0.1"
+        - name: VPN_INPUT_PORTS
+          value: "1234"
+        - name: VPN_OUTPUT_PORTS
+          value: "5678"
+        - name: USERSPACE_WIREGUARD
+          value: "no"
         ports:
         - name: http
           containerPort: 8080

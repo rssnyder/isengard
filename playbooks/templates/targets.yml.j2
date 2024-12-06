@@ -103,12 +103,7 @@ scrape_configs:
       cluster: ocdr
       environment: prod
   - targets:
-    - 192.168.254.21:9090
+    - 192.168.254.12:9090
     labels:
       cluster: lab
       environment: dev
-  - targets:
-    - {{ hostvars['zaius']['ansible_tailscale0']['ipv4']['address'] }}:9090
-    labels:
-      cluster: urbandale
-      environment: prod

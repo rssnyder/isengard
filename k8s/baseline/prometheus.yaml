@@ -20,5 +20,11 @@ spec:
       service:
         type: LoadBalancer
         servicePort: 9090
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "{{ cluster_name}}-prometheus"
+      defaultFlagsOverride:
+        - --storage.tsdb.retention.size=7GB
+        - --config.file=/etc/config/prometheus.yml
     alertmanager:
       enabled: false

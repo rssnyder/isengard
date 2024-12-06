@@ -237,6 +237,13 @@ resource "digitalocean_record" "harness" {
   value  = var.instances["home"].ip
 }
 
+resource "digitalocean_record" "photos" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "photos"
+  value  = var.instances["home"].ip
+}
+
 resource "digitalocean_record" "awslb-harness" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "CNAME"
