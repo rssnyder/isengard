@@ -17,8 +17,6 @@ env:
 
 jobs:
   terraform:
-    name: "Terraform"
-    concurrency: terraform
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
