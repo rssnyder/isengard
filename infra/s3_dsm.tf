@@ -156,3 +156,8 @@ module "s3_pg2s3" {
   source  = "./simple-bucket"
   name = "pg2s3"
 }
+
+module "s3_cnpg" {
+  source  = "./simple-bucket"
+  name = "cnpg"
+}

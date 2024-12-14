@@ -13,5 +13,6 @@ k8s/dst
 *.state
 
 infra/.terraform*
+localstack/.terraform*
 
 test*

@@ -1,0 +1,58 @@
+---
+version: "3"
+services:
+
+  gluetun:
+    image: qmcgaw/gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp
+      - 8388:8388/tcp
+      - 8388:8388/udp
+      - 8475:8475 # qbt
+    volumes:
+      - $APPDATA/gluetun:/gluetun
+    environment:
+      VPN_SERVICE_PROVIDER: private internet access
+      VPN_TYPE: openvpn
+      OPENVPN_USER: "${VPN_USER}"
+      OPENVPN_PASSWORD: "${VPN_PASS}"
+      SERVER_REGIONS: Netherlands
+
+  qbt:
+    image: lscr.io/linuxserver/qbittorrent:4.6.3
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+    environment:
+      PUID: 65534
+      PGID: 1001
+      UMASK: 000
+      TZ: America/Chicago
+      WEBUI_PORT: 8475
+    volumes:
+      - $APPDATA/qbt:/config
+      - $SCRATCH_STORAGE/downloads:/downloads
+      # - /bucket/media/movies:/movies
+      # - /bucket/media/cc:/cc
+      - $SCRATCH_STORAGE/4k:/4k
+      # - /bucket/media/tv:/tv
+      # - /bucket/media/syndicated:/syndicated
+      # - /bucket/media/books:/books
+      # - /bucket/media/music:/music
+
+  minio:
+    image: quay.io/minio/minio
+    restart: unless-stopped
+    volumes:
+    - $SCRATCH_STORAGE/minio:/data
+    ports:
+    - 9001:9001
+    - 9000:9000
+    environment:
+      MINIO_ROOT_USER: "${MINIO_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_PASSWORD}"
+    command: server /data --console-address ":9001"

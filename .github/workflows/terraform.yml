@@ -19,7 +19,7 @@ jobs:
   terraform:
     name: "Terraform"
     concurrency: terraform
-    runs-on: arc-runner-set
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       
@@ -32,17 +32,14 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Format
-        id: fmt
         working-directory: infra/
         run: terraform fmt -check
 
       - name: Terraform Init
-        id: init
         working-directory: infra/
         run: terraform init
       
       - name: Terraform Validate
-        id: validate
         working-directory: infra/
         run: terraform validate -no-color
 

@@ -56,6 +56,17 @@ spec:
   postgresql:
     shared_preload_libraries:
       - "vectors.so"
+  backup:
+    barmanObjectStore:
+      destinationPath: "immich/db"
+      endpointURL: cnpg.us-east1.s3.rileysnyder.dev
+      s3Credentials:
+        accessKeyId:
+          name: minio
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: minio
+          key: ACCESS_SECRET_KEY
 
 ---
 apiVersion: apps/v1
@@ -208,3 +219,12 @@ spec:
                 name:  http
                 port:
                   number: 80
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: backup-example
+  namespace: immich
+spec:
+  cluster:
+    name: db

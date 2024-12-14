@@ -1,0 +1,59 @@
+---
+- name: Docker config
+  hosts: zira
+  become: no
+  tasks:
+
+    - name: add docker apt key
+      become: yes
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: add docker repo
+      become: yes
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: install docker
+      become: yes
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+    
+    - name: install python and docker deps
+      become: yes
+      package:
+        name:
+          - python3
+          - python3-pip
+          - python3-docker
+          # - python3-docker-compose
+        state: present 
+
+    - name: add user to docker group
+      become: yes
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    # - name: Install docker module for Python
+    #   become: yes
+    #   pip:
+    #     name: 
+    #       - docker
+    #       - docker-compose
+
+    - name: copy compose file
+      copy: 
+        src: "templates/{{ ansible_hostname }}/docker-compose.yml"
+        dest: "/home/{{ ansible_user }}/docker-compose.yml"
+        owner: "{{ ansible_user }}"
+
+    - name: compose up
+      community.docker.docker_compose_v2:
+        project_src: "/home/{{ ansible_user }}"
+        remove_orphans: true

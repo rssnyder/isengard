@@ -79,6 +79,6 @@ spec:
         - --registry=noop
         - --policy=upsert-only
         - --provider=pihole
-        - --pihole-server=http://192.168.0.3:8888/
+        - --pihole-server=http://192.168.2.2:8888/
       securityContext:
         fsGroup: 65534
