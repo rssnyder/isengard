@@ -16,49 +16,45 @@ env:
   HARNESS_PLATFORM_API_KEY: ${{ secrets.HARNESS_PLATFORM_API_KEY }}
 
 jobs:
-  terraform:
+  tofu:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       
       - uses: actions/setup-node@v3
-        with:
-          node-version: 16
+        # with:
+        #   node-version: 16
       
-      - run: sudo apt-get update && sudo apt-get install zip git -y
+      # - run: sudo apt-get update && sudo apt-get install zip git -y
 
-      - uses: hashicorp/setup-terraform@v2
+      - uses: opentofu/setup-opentofu@v1
 
-      - name: Terraform Format
-        working-directory: infra/
-        run: terraform fmt -check
+      - working-directory: infra/
+        run: tofu fmt -check
 
-      - name: Terraform Init
-        working-directory: infra/
-        run: terraform init
+      - working-directory: infra/
+        run: tofu init
       
-      - name: Terraform Validate
-        working-directory: infra/
-        run: terraform validate -no-color
+      - working-directory: infra/
+        run: tofu validate -no-color
 
-      - name: Terraform Plan
-        id: plan
+      - id: plan
         if: github.event_name == 'pull_request'
         working-directory: infra/
-        run: terraform plan -no-color
+        run: tofu plan -no-color
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "tofu\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            const output = `#### tofu Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### tofu Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### tofu Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### tofu Plan 📖\`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
@@ -77,12 +73,12 @@ jobs:
               body: output
             })
 
-      - name: Terraform Plan Status
+      - name: tofu Plan Status
         if: steps.plan.outcome == 'failure'
         working-directory: infra/
         run: exit 1
 
-      - name: Terraform Apply
+      - name: tofu Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         working-directory: infra/
-        run: terraform apply -auto-approve
+        run: tofu apply -auto-approve
