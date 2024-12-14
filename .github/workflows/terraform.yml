@@ -25,7 +25,7 @@ jobs:
         # with:
         #   node-version: 16
       
-      # - run: sudo apt-get update && sudo apt-get install zip git -y
+      - run: sudo apt-get update && sudo apt-get install zip git -y
 
       - uses: opentofu/setup-opentofu@v1
 
