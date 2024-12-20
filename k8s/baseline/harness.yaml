@@ -14,7 +14,7 @@ spec:
   chart: harness-delegate-ng
   targetNamespace: harness-delegate-ng
   valuesContent: |-
-    delegateName: {{ cluster_name }}
+    delegateName: {{ cluster_context }}
     accountId: wlgELJ0TTre5aZhzpt8gVA
     delegateToken: {{ harness.delegate_token }}
     managerEndpoint: https://app.harness.io/gratis

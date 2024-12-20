@@ -73,35 +73,35 @@ services:
     items:
       - name: "Plex"
         logo: "assets/homer-icons/png/plex.png"
-        url: "http://cornelius.corvus-salmon.ts.net:32400"
+        url: "http://t480-1.corvus-salmon.ts.net:32400"
         target: '_top'
       - name: "Tautulli"
         logo: "assets/homer-icons/png/tautulli.png"
-        url: "http://cornelius.corvus-salmon.ts.net:8181/home"
+        url: "http://t480-1.corvus-salmon.ts.net:8181/home"
         target: '_top'
       - name: "qBittorrent"
         logo: "assets/homer-icons/png/qbittorrent.png"
-        url: "http://cornelius.corvus-salmon.ts.net:8475"
+        url: "http://zira.corvus-salmon.ts.net:8475"
         target: '_top'
       - name: "Deluge"
         logo: "assets/homer-icons/png/deluge.png"
-        url: "http://cornelius.corvus-salmon.ts.net:8112"
+        url: "http://zira.corvus-salmon.ts.net:8112"
         target: '_top'
       - name: "Overseerr"
         logo: "assets/homer-icons/png/overseerr.png"
-        url: "http://cornelius.corvus-salmon.ts.net:5055"
+        url: "http://zira.corvus-salmon.ts.net:5055"
         target: '_top'
       - name: "Prowlarr"
         logo: "assets/homer-icons/png/prowlarr.png"
-        url: "http://cornelius.corvus-salmon.ts.net:9696"
+        url: "http://zira.corvus-salmon.ts.net:9696"
         target: '_top'
       - name: "Sonarr"
         logo: "assets/homer-icons/png/sonarr.png"
-        url: "http://cornelius.corvus-salmon.ts.net:7002"
+        url: "http://zira.corvus-salmon.ts.net:7002"
         target: '_top'
       - name: "Radarr"
         logo: "assets/homer-icons/png/radarr.png"
-        url: "http://cornelius.corvus-salmon.ts.net:7003"
+        url: "http://zira.corvus-salmon.ts.net:7003"
         target: '_top'
   - name: "Services"
     icon: "fas fa-gears"
@@ -152,15 +152,15 @@ services:
         target: '_top'
       - name: "Prometheus"
         logo: "assets/homer-icons/png/prometheus.png"
-        url: "http://hurley.corvus-salmon.ts.net:9090/targets"
+        url: "http://t480-0.corvus-salmon.ts.net:9090/targets"
         target: '_top'
-      - name: "Cornelius Syncthing"
+      - name: "zira Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://cornelius.corvus-salmon.ts.net:8384"
+        url: "http://zira.corvus-salmon.ts.net:8384"
         target: '_top'
       - name: "Hurley Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://cornelius.corvus-salmon.ts.net:8384"
+        url: "http://zira.corvus-salmon.ts.net:8384"
         target: '_top'
       - name: "Local Syncthing"
         logo: "assets/homer-icons/png/syncthing.png"

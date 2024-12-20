@@ -13,11 +13,10 @@
         src: targets.yml.j2
         dest: /home/riley/appdata/prometheus.yml
         owner: riley
-        group: riley
-      when: inventory_hostname == 'hurley'
+      when: inventory_hostname == 't480-0'
     
     - name: reload
       uri:
-        url: http://192.168.0.3:9090/-/reload
+        url: http://t480-0:9090/-/reload
         method: POST
-      when: inventory_hostname == 'hurley'
+      when: inventory_hostname == 't480-0'

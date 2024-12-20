@@ -1,0 +1,15 @@
+---
+- name: nix config
+  hosts: t480-0,plex
+  become: yes
+  tasks:
+
+    - name: copy config file
+      copy: 
+        src: "templates/{{ ansible_hostname }}/configuration.nix"
+        dest: "/etc/nixos/configuration.nix"
+        owner: root
+        group: root
+
+    - name: rebuild
+      shell: nixos-rebuild switch

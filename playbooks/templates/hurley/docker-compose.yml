@@ -13,29 +13,29 @@ services:
   #   volumes:
   #     - $APPDATA/Caddyfile:/etc/caddy/Caddyfile
 
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-      - $APPDATA/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - 9090:9090
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--web.enable-admin-api'
-      - '--web.enable-lifecycle'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.enable-remote-write-receiver'
+  # prometheus:
+  #   image: prom/prometheus
+  #   container_name: prometheus
+  #   restart: unless-stopped
+  #   volumes:
+  #     - $APPDATA/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #     - 9090:9090
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--web.enable-admin-api'
+  #     - '--web.enable-lifecycle'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+  #     - '--web.console.templates=/usr/share/prometheus/consoles'
+  #     - '--web.enable-remote-write-receiver'
 
-  pushgateway:
-    image: prom/pushgateway
-    restart: always
-    container_name: pushgateway
-    ports:
-      - 9092:9091
+  # pushgateway:
+  #   image: prom/pushgateway
+  #   restart: always
+  #   container_name: pushgateway
+  #   ports:
+  #     - 9092:9091
 
   grafana:
     image: grafana/grafana-oss:11.0.0
@@ -136,15 +136,15 @@ services:
       - $APPDATA/pihole:/etc/pihole:rw
       - $APPDATA/pihole-dnsmasq:/etc/dnsmasq.d:rw
     
-  pihole_exporter:
-    image: ekofr/pihole-exporter:latest
-    container_name: pihole_exporter
-    environment:
-      PIHOLE_HOSTNAME: pihole
-      PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
-      PORT: 9617
-    ports:
-      - 9617:9617
+  # pihole_exporter:
+  #   image: ekofr/pihole-exporter:latest
+  #   container_name: pihole_exporter
+  #   environment:
+  #     PIHOLE_HOSTNAME: pihole
+  #     PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
+  #     PORT: 9617
+  #   ports:
+  #     - 9617:9617
 
   music:
     build: $APPDATA/music

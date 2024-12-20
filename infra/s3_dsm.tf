@@ -107,6 +107,11 @@ resource "minio_iam_user" "ocdr_velero" {
    force_destroy = false
 }
 
+resource "minio_iam_user" "urban_velero" {
+   name = "urban_velero"
+   force_destroy = false
+}
+
 resource "minio_iam_policy" "velero" {
   name = "velero"
   policy= <<EOF
@@ -139,6 +144,11 @@ resource "minio_iam_user_policy_attachment" "oc_velero" {
 
 resource "minio_iam_user_policy_attachment" "ocdr_velero" {
   user_name   = minio_iam_user.ocdr_velero.id
+  policy_name = minio_iam_policy.velero.id
+}
+
+resource "minio_iam_user_policy_attachment" "urban_velero" {
+  user_name   = minio_iam_user.urban_velero.id
   policy_name = minio_iam_policy.velero.id
 }
 

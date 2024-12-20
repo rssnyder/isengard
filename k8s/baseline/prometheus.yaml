@@ -15,14 +15,14 @@ spec:
   targetNamespace: prometheus
   valuesContent: |-
     commonMetaLabels:
-      cluster: {{ cluster_name}}
+      cluster: {{ cluster_context}}
     server:
       service:
         type: LoadBalancer
         servicePort: 9090
         annotations:
           tailscale.com/expose: "true"
-          tailscale.com/hostname: "{{ cluster_name}}-prometheus"
+          tailscale.com/hostname: "{{ cluster_context}}-prometheus"
       defaultFlagsOverride:
         - --storage.tsdb.retention.size=7GB
         - --config.file=/etc/config/prometheus.yml

@@ -4,13 +4,14 @@
   imports =
     [
       ./hardware-configuration.nix
-      (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
     ];
+
+  nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "t480-0";
+  networking.hostName = "plex";
 
   networking.networkmanager.enable = true;
 
@@ -39,12 +40,26 @@
     variant = "";
   };
 
+  # users.groups.plex = {};
+  # users.users.plex = {
+  #   isSystemUser = true;
+  #   group = "plex";
+  # };
+
   users.users.riley = {
     isNormalUser = true;
     description = "riley";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
     packages = with pkgs; [
+      zsh
+      htop
       kubectl
+      ansible
+      python312
       oh-my-zsh
       zsh-completions
       zsh-syntax-highlighting
@@ -56,16 +71,26 @@
     ];
   };
 
+  security.sudo.extraRules= [
+    {  users = [ "riley" ];
+      commands = [
+        { command = "ALL" ;
+          options= [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   programs.firefox.enable = true;
 
   environment.systemPackages  = with pkgs; [
     vim
-    zsh
     git
-    htop
     unzip
+    screen
     gnumake
     tailscale
+    smartmontools
     github-runner
   ];
 
@@ -73,24 +98,73 @@
 
   networking.firewall.allowedTCPPorts = [
     22
+    8787
   ];
 
-  virtualisation.docker.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    autoPrune.enable = true;
+    dockerCompat = true;
+    defaultNetwork.settings = {
+      dns_enabled = true;
+    };
+  };
+  networking.firewall.interfaces."podman+".allowedUDPPorts = [ 53 ];
 
   services.logind.lidSwitch = "ignore";
 
-  services.vscode-server.enable = true;
+  services.tailscale.enable = true;
+  services.tailscale.port = 41641;
+  networking.firewall.allowedUDPPorts = [ 41641 ];
 
-  services.github-runners = {
-    isengard = {
-      enable = true;
-      name = "isengard";
-      tokenFile = "/home/riley/.isengard_runner";
-      url = "https://github.com/rssnyder/isengard";
-    };
+  virtualisation = {
+      oci-containers.containers = {
+        prometheus-node-exporter-textfiles = {
+          image = "quay.io/galexrt/node-exporter-textfiles:v20220922-124518-926";
+          environment = {
+            SCRIPT = "smartmon.sh";
+          };
+          cmd = [
+            "/entrypoint.sh --by-id"
+          ];
+          volumes = [
+            "/home/riley/appdata/node_exporter:/var/lib/node_exporter"
+          ];
+          extraOptions = [ "--privileged" ];
+        };
+      };
+  };
+  
+  services.plex = {
+    enable = true;
+    openFirewall = true;
+  };
+  services.tautulli = {
+    enable = true;
+    openFirewall = true;
   };
 
-  services.tailscale.enable = true;
+  services.prometheus.exporters.node = {
+    enable = true;
+    port = 9100;
+    enabledCollectors = [ "systemd" ];
+    extraFlags = [
+      "--collector.ethtool"
+      "--collector.softirqs"
+      "--collector.tcpstat"
+      "--collector.textfile.directory=/home/riley/appdata/node_exporter"
+     ];
+  };
+
+  fileSystems."/mnt/scratch" = {
+    device = "192.168.2.6:/scratch";
+    fsType = "nfs";
+  };
+
+  fileSystems."/mnt/bucket" = {
+    device = "192.168.2.6:/bucket";
+    fsType = "nfs";
+  };
 
   system.stateVersion = "24.05";
 }

@@ -26,7 +26,7 @@ spec:
   valuesContent: |-
     operatorConfig:
       defaultTags:
-      - "tag:{{ cluster_name}}-k8s-operator"
-      hostname: "{{ cluster_name}}-k8s-operator"
+      - "tag:{{ cluster_context}}-k8s-operator"
+      hostname: "{{ cluster_context}}-k8s-operator"
     proxyConfig:
-      defaultTags: "tag:{{ cluster_name}}-k8s"
+      defaultTags: "tag:{{ cluster_context}}-k8s"

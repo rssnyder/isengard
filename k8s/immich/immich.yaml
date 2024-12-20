@@ -7,20 +7,6 @@ metadata:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: library
-  namespace: immich
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 10G
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
   name: cache
   namespace: immich
 spec:
@@ -84,6 +70,11 @@ spec:
       labels:
         app: server
     spec:
+      volumes:
+      - name: zira
+        nfs:
+          server: 192.168.2.6
+          path: /scratch/immich
       containers:
       - name: server
         image: ghcr.io/immich-app/immich-server:release
@@ -110,12 +101,8 @@ spec:
         - name: http
           containerPort: 2283
         volumeMounts:
-        - name: library
+        - name: zira
           mountPath: /usr/src/app/upload
-      volumes:
-      - name: library
-        persistentVolumeClaim:
-          claimName: library
 
 ---
 apiVersion: v1
@@ -156,24 +143,6 @@ spec:
       - name: machine-learning
         image: ghcr.io/immich-app/immich-machine-learning:release
         imagePullPolicy: IfNotPresent
-        # env:
-        # - name: REDIS_HOSTNAME
-        #   value: redis.redis.svc.cluster.local
-        # - name: DB_USERNAME
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: db-superuser
-        #       key: username
-        # - name: DB_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: db-superuser
-        #       key: password
-        # - name: DB_HOSTNAME
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: db-superuser
-        #       key: host
         ports:
         - name: api
           containerPort: 3003
@@ -219,12 +188,3 @@ spec:
                 name:  http
                 port:
                   number: 80
-
-apiVersion: postgresql.cnpg.io/v1
-kind: Backup
-metadata:
-  name: backup-example
-  namespace: immich
-spec:
-  cluster:
-    name: db
