@@ -4,12 +4,14 @@
   become: yes
   tasks:
 
-    - name: copy config file
-      copy: 
-        src: "templates/{{ ansible_hostname }}/configuration.nix"
-        dest: "/etc/nixos/configuration.nix"
+    - name: baseline
+      template:
+        src: "{{ item }}"
+        dest: /etc/nixos/{{ item | basename | regex_replace('\.j2$', '') }}
         owner: root
         group: root
+      with_fileglob:
+        - "templates/{{ ansible_hostname }}/*.nix"
 
     - name: rebuild
-      shell: nixos-rebuild switch
+      shell: nixos-rebuild test

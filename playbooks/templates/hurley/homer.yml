@@ -73,11 +73,11 @@ services:
     items:
       - name: "Plex"
         logo: "assets/homer-icons/png/plex.png"
-        url: "http://t480-1.corvus-salmon.ts.net:32400"
+        url: "http://plex.corvus-salmon.ts.net:32400"
         target: '_top'
       - name: "Tautulli"
         logo: "assets/homer-icons/png/tautulli.png"
-        url: "http://t480-1.corvus-salmon.ts.net:8181/home"
+        url: "http://plex.corvus-salmon.ts.net:8181/home"
         target: '_top'
       - name: "qBittorrent"
         logo: "assets/homer-icons/png/qbittorrent.png"

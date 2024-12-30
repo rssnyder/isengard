@@ -23,7 +23,7 @@ spec:
       hostNetwork: true
       containers:
       - name: home-assistant
-        image: ghcr.io/home-assistant/home-assistant:2024.11
+        image: ghcr.io/home-assistant/home-assistant:2024.12
         imagePullPolicy: Always
         env:
         - name: TZ
