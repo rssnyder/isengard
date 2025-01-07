@@ -1,6 +1,45 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
+  imports =
+    [
+      ./hardware-configuration.nix
+      ./k3s.nix
+    ];
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.hostName = "ben";
+
+  networking.networkmanager.enable = true;
+
+  time.timeZone = "America/Chicago";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
+  };
+
+  services.xserver.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
+
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  programs.firefox.enable = true;
 
   programs.zsh.enable = true;
 
@@ -11,15 +50,12 @@
     extraGroups = [
       "networkmanager"
       "wheel"
-      "docker"
     ];
     packages = with pkgs; [
+      zsh
       htop
       tmux
       kubectl
-      ansible
-      opentofu
-      python312
       oh-my-zsh
       zsh-completions
       zsh-syntax-highlighting
@@ -43,12 +79,9 @@
 
   environment.systemPackages  = with pkgs; [
     vim
-    git
-    unzip
-    gnumake
+    cron
+    python312
     tailscale
-    smartmontools
-    github-runner
   ];
 
   services.openssh.enable = true;
@@ -57,21 +90,11 @@
     22
   ];
 
-  virtualisation.docker.enable = true;
-
   services.tailscale.enable = true;
   services.tailscale.port = 41641;
   networking.firewall.allowedUDPPorts = [
     41641
   ];
 
-  fileSystems."/mnt/scratch" = {
-    device = "192.168.2.6:/scratch";
-    fsType = "nfs";
-  };
-
-  fileSystems."/mnt/bucket" = {
-    device = "192.168.2.6:/bucket";
-    fsType = "nfs";
-  };
+  system.stateVersion = "24.11";
 }

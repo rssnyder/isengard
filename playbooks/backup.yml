@@ -15,12 +15,16 @@
         cmd: rclone copy /bucket/{{ item }}    crypt:bucket/{{ item }}
       loop:
       - backup
+      - media/vhs
+      - media/books
+      - media/cds
+      - media/music
 
     - name: backup scratch to gdrive
       shell:
         cmd: rclone copy /scratch/{{ item }}    crypt:scratch/{{ item }}
       loop:
-      - youtue
+      - youtube
     
     - name: backup bucket to zaius
       shell:

@@ -1,6 +1,9 @@
 ---
 - name: nix config
-  hosts: t480-0,plex
+  hosts:
+  - t480-0
+  - plex
+  - ben
   become: yes
   tasks:
 

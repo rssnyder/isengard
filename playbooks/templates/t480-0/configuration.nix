@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ./riley.nix
+      ./timers.nix
       (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
     ];
 
@@ -135,5 +136,5 @@
     port = 6969;
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }
