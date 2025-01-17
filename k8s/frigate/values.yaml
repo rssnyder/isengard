@@ -79,11 +79,14 @@ config: |
           coordinates: 0.358,0.149,0.55,0.198,0.803,0.286,0.554,1,0,1,0,0.74,0.229,0.543,0.184,0.23
           objects:
             - person
+            - car
+            - dog
         driveway:
           coordinates: 0.927,0.374,0.968,0.664,0.963,0.733,0.73,0.607,0.814,0.322
           objects:
             - person
             - car
+            - dog
       review:
         detections:
           required_zones:
@@ -101,6 +104,7 @@ config: |
         track:
           - person
           - car
+          - dog
     back:
       ffmpeg:
         inputs:
@@ -124,7 +128,7 @@ config: |
           - door
       zones:
         door:
-          coordinates: 0.661,0.433,0.607,0.433,0.601,0.508,0.633,0.523
+          coordinates: 0.661,0.433,0.599,0.431,0.566,0.503,0.661,0.511
           objects:
             - dog
         yard:
@@ -183,15 +187,6 @@ config: |
       #   mask:
       #     - 2320,125,2199,872,1828,991,1914,53
       #     - 884,1847,1342,1516,916,1181,560,1328
-    blx1c:
-      ffmpeg:
-        inputs:
-        - path: rtsp://127.0.0.1:8554/blx1c?video=copy
-          input_args: preset-rtsp-restream
-      record:
-        enabled: false
-      detect:
-        enabled: false
     louie:
       ffmpeg:
         inputs:
