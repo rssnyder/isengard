@@ -40,7 +40,7 @@ metadata:
   name: db
   namespace: keys
 spec:
-  schedule: "0 0 * * * *"
+  schedule: "0 0 */6 * * *"
   backupOwnerReference: cluster
   immediate: false
   cluster:

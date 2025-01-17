@@ -51,6 +51,8 @@ config: |
         mode: motion
   snapshots:
     enabled: True
+    retain:
+      default: 730
   cameras:
     front:
       ffmpeg:
