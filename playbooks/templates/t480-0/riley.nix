@@ -14,14 +14,18 @@
       "docker"
     ];
     packages = with pkgs; [
+      go
+      bws
       htop
       tmux
+      k9s
       kubectl
       ansible
       opentofu
       python312
       oh-my-zsh
       zsh-completions
+      kubernetes-helm
       zsh-syntax-highlighting
       zsh-history-substring-search
     ];
@@ -55,6 +59,7 @@
 
   networking.firewall.allowedTCPPorts = [
     22
+    8000
   ];
 
   virtualisation.docker.enable = true;

@@ -23,7 +23,7 @@ spec:
       - name: ghcr-token
       containers:
       - name: api
-        image: ghcr.io/rssnyder/dnd-generator-api:0.0.1-beta.2
+        image: ghcr.io/rssnyder/dnd-generator-api:0.0.1-beta.1
         imagePullPolicy: IfNotPresent
         env:
         - name: PG_PASSWORD
@@ -58,19 +58,6 @@ spec:
         ports:
         - name: api
           containerPort: 8080
-
----
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: dnd-generator-api
-  namespace: dnd-generator
-spec:
-  selector:
-    matchLabels:
-      app: dnd-generator-api
-  podMetricsEndpoints:
-  - port: api
 
 ---
 apiVersion: v1

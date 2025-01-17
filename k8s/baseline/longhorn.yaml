@@ -25,10 +25,12 @@ spec:
   repo: https://charts.longhorn.io
   chart: longhorn
   targetNamespace: longhorn-system
+  version: v1.7.2
   valuesContent: |-
     service:
       ui:
         type: LoadBalancer
+
     persistence:
       reclaimPolicy: Retain
     defaultSettings:
@@ -39,3 +41,17 @@ spec:
       autoDeletePodWhenVolumeDetachedUnexpectedly: true
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       nodeDrainPolicy: always-allow
+
+---
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: default-daily
+  namespace: longhorn-system
+spec:
+  cron: "0 10 * * *"
+  task: "backup"
+  groups:
+  - default
+  retain: 7
+  concurrency: 1

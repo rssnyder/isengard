@@ -11,8 +11,19 @@
   networking.firewall.enable = false;
   services.k3s = {
     enable      =  true;
-    role = "server";
-    # clusterInit =  true;
+    role        = "server"; # "agent";
+    #serverAddr = "https://192.168.2.65:6443";
+    #token = "";
     extraFlags  = "--cluster-cidr=10.50.0.0/16 --service-cidr=10.51.0.0/16 --disable servicelb,traefik";
-};
- }
+  };
+
+  # needed for longhorn, along with kyverno in manifests dir
+  systemd.tmpfiles.rules = [
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+  ];
+
+  services.openiscsi = {
+    enable = true;
+    name = "iqn.2020-08.org.linux-iscsi.initiatorhost:ben";
+  };
+}

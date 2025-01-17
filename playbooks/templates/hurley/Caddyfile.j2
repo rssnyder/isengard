@@ -58,6 +58,13 @@ sites
 "
 }
 
+(protect) {
+  @external {
+    not remote_ip 192.168.0.0/24
+  }
+  respond @external 403
+}
+
 s3.rileysnyder.dev {
     reverse_proxy 192.168.2.2:9000
 
@@ -101,10 +108,6 @@ books.rileysnyder.dev {
     reverse_proxy 192.168.2.6:13378
 }
 
-registry.rileysnyder.dev {
-    reverse_proxy oc-example.corvus-salmon.ts.net:8080
-}
-
 auth.rileysnyder.dev {
     reverse_proxy 192.168.254.2
 }
@@ -118,26 +121,13 @@ photos.rileysnyder.dev {
 }
 
 *.k8s.rileysnyder.dev {
-    reverse_proxy 192.168.254.2
+    reverse_proxy 192.168.253.3
 
     tls {
         dns digitalocean {{ digitalocean_token }}
     }
 }
 
-*.media.rileysnyder.dev {
-    reverse_proxy 192.168.254.2
-
-    tls {
-        dns digitalocean {{ digitalocean_token }}
-    }
+keys.rileysnyder.dev {
+    reverse_proxy 192.168.253.3
 }
-
-*.app.rileysnyder.dev {
-    reverse_proxy 192.168.254.2
-
-    tls {
-        dns digitalocean {{ digitalocean_token }}
-    }
-}
-

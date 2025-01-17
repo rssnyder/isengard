@@ -2,7 +2,9 @@
 - name: copy k3s manifests
   hosts: server
   become: yes
-
+  vars:
+    manifest_dir: /var/lib/rancher/k3s/server/manifests
+    skip_baseline: []
   tasks:
 
     - name: prune all images on a daily basis
@@ -15,14 +17,15 @@
     - name: baseline
       template:
         src: "{{ item }}"
-        dest: /var/lib/rancher/k3s/server/manifests/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: "{{ manifest_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
       with_fileglob:
         - ../k8s/baseline/*.yaml
+      when: (item | basename | regex_replace('\.j2$', '')) not in skip_baseline
     
     - name: manifests
       template:
         src: "{{ item }}"
-        dest: /var/lib/rancher/k3s/server/manifests/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: "{{ manifest_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
       with_fileglob:
         - "../k8s/manifests/{{ cluster_context }}/*.yaml"
     

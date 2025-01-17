@@ -30,7 +30,7 @@ spec:
               name: postgres
               key: PG_PASSWORD
         - name: PG_HOST
-          value: "192.168.0.3"
+          value: "192.168.2.2"
         - name: PG_USER
           value: counter
         - name: PG_DB

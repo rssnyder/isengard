@@ -17,6 +17,8 @@ spec:
     commonMetaLabels:
       cluster: {{ cluster_context}}
     server:
+      persistentVolume:
+        storageClass: local-path
       service:
         type: LoadBalancer
         servicePort: 9090

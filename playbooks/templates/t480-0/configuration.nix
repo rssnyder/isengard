@@ -65,6 +65,11 @@
     6969
   ];
 
+  systemd.tmpfiles.rules = [
+        "d /etc/letsencrypt 0770 root docker -"
+        "d /var/lib/letsencrypt 0770 root docker -"
+  ];
+
   virtualisation = {
       podman = {
         enable = true;
@@ -103,6 +108,17 @@
             "/dev/dri:/dev/dri"
           ];
         };
+        # certbot = {
+        #   image = "certbot/dns-digitalocean";
+        #   cmd = [
+        #     "certonly --config=/config/le.ini --dns-digitalocean --dns-digitalocean-credentials=/config/do.ini -d=lab.rileysnyder.dev -d='*.lab.rileysnyder.dev'"
+        #   ];
+        #   volumes = [
+        #     "/home/riley/appdata/certbot:/config"
+        #     "/etc/letsencrypt:/etc/letsencrypt"
+        #     "/var/lib/letsencrypt:/var/lib/letsencrypt"
+        #   ];
+        # };
       };
   };
 
@@ -136,5 +152,22 @@
     port = 6969;
   };
 
+  services.dockerRegistry = {
+    enable = true;
+    enableDelete = true;
+    listenAddress = "0.0.0.0";
+    openFirewall = true;
+    # extraConfig = {
+    #   log.level = "debug";
+    #   http.host = "registry.lab.rileysnyder.dev:5000";
+    #   http.tls.certificate = "/etc/letsencrypt/live/lab.rileysnyder.dev/cert.pem";
+    #   http.tls.key = "/etc/letsencrypt/live/lab.rileysnyder.dev/privkey.pem";
+    #   http.tls.clientcas = [
+    #     "/etc/letsencrypt/live/lab.rileysnyder.dev/fullchain.pem"
+    #   ];
+    # };
+  };
+
+  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11";
 }

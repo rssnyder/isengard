@@ -50,19 +50,6 @@ spec:
           containerPort: 7777
 
 ---
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: discord-bot-manager
-  namespace: discord-bot-manager
-spec:
-  selector:
-    matchLabels:
-      app: discord-bot-manager
-  podMetricsEndpoints:
-  - port: api
-
----
 apiVersion: v1
 kind: Service
 metadata:

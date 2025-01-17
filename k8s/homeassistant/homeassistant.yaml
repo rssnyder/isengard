@@ -19,7 +19,7 @@ spec:
       labels:
         app: homeassistant
     spec:
-      nodeName: charlie
+      nodeName: jack
       hostNetwork: true
       containers:
       - name: home-assistant
@@ -45,6 +45,10 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: config
+      # - name: config
+      #   nfs:
+      #     server: 192.168.2.6
+      #     path: /bucket/k8s/lab/homeassistant
       - name: usb
         hostPath:
           path: /dev/ttyUSB0
@@ -56,6 +60,7 @@ metadata:
   name: config
   namespace: homeassistant
 spec:
+  volumeName: pvc-ffe07a23-cc0b-44c6-bc6e-3ae60effb9ba
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn

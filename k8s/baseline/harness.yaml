@@ -22,3 +22,27 @@ spec:
     replicas: 1
     cpu: 100m
     memory: 1500
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harness-autostopping
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: harness-ccm-autostopping
+  namespace: harness-autostopping
+spec:
+  repo: https://rssnyder.github.io/harness-ccm-autostopping
+  chart: harness-ccm-autostopping
+  targetnamespace: harness-autostopping
+  valuesContent: |-
+    accountId: wlgELJ0TTre5aZhzpt8gVA
+    connectorId: _{{ cluster_context }}_ccm
+    apiToken: {{ k8s.secrets.harness.autostopping_api_key }}
+    controller:
+      image:
+        tag: 1.1.6

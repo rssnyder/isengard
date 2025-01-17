@@ -57,6 +57,7 @@ metadata:
   name: signal-api
   namespace: signal
 spec:
+  volumeName: pvc-565ab154-e062-44ed-8a9c-76f2e475b25d
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn

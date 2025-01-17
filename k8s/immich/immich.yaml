@@ -28,8 +28,7 @@ spec:
   instances: 1
   enableSuperuserAccess: true
   storage:
-    # storageClass: longhorn
-    size: 1Gi
+    size: 2Gi
   monitoring:
     enablePodMonitor: true
   bootstrap:
@@ -43,16 +42,53 @@ spec:
     shared_preload_libraries:
       - "vectors.so"
   backup:
+    retentionPolicy: "30d"
     barmanObjectStore:
-      destinationPath: "immich/db"
-      endpointURL: cnpg.us-east1.s3.rileysnyder.dev
+      destinationPath: "s3://cnpg/immich-new"
+      endpointURL: https://s3.rileysnyder.dev
       s3Credentials:
         accessKeyId:
           name: minio
-          key: ACCESS_KEY_ID
+          key: AWS_ACCESS_KEY_ID
         secretAccessKey:
           name: minio
-          key: ACCESS_SECRET_KEY
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+
+# for recovery
+
+  bootstrap:
+    recovery:
+      source: db
+
+  externalClusters:
+    - name: db
+      barmanObjectStore:
+        destinationPath: "s3://cnpg/immich"
+        endpointURL: https://s3.rileysnyder.dev
+        s3Credentials:
+          accessKeyId:
+            name: minio
+            key: AWS_ACCESS_KEY_ID
+          secretAccessKey:
+            name: minio
+            key: AWS_SECRET_ACCESS_KEY
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: db-hourly
+  namespace: immich
+spec:
+  schedule: "0 0 * * * *"
+  backupOwnerReference: cluster
+  immediate: true
+  cluster:
+    name: db
 
 ---
 apiVersion: apps/v1
@@ -110,10 +146,6 @@ kind: Service
 metadata:
   name: http
   namespace: immich
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "immich"
-    external-dns.alpha.kubernetes.io/hostname: immich.r.ss
 spec:
   type: LoadBalancer
   selector:

@@ -4,8 +4,8 @@
   systemd.timers."k8s-delete-nodeports" = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnBootSec = "1h";
-      OnUnitActiveSec = "1h";
+      OnBootSec = "10m";
+      OnUnitActiveSec = "10m";
       Unit = "k8s-delete-nodeports.service";
     };
   };

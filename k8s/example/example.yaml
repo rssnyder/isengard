@@ -4,7 +4,7 @@ metadata:
   name: example
 
 ---
-# get some persistance storage
+# get some persistent storage
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -17,6 +17,51 @@ spec:
   resources:
     requests:
       storage: 1M
+
+---
+# create a postgres database for the app
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: db
+  namespace: example
+spec:
+  instances: 1
+  storage:
+    size: 1Gi
+    storageClass: local-path
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: "7d"
+    barmanObjectStore:
+      destinationPath: "s3://cnpg/micro/example"
+      endpointURL: https://s3.rileysnyder.dev
+      s3Credentials:
+        accessKeyId:
+          name: minio
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: minio
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+
+---
+# and schedule a daily backup
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: db
+  namespace: example
+spec:
+  schedule: "0 8 * * * *"
+  backupOwnerReference: cluster
+  immediate: false
+  cluster:
+    name: db
 
 ---
 # run some container in the cluster
@@ -41,6 +86,27 @@ spec:
         env:
         - name: EXAMPLE
           value: something
+        # add postgres connection details
+        - name: PG_DB
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: dbname
+        - name: PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: username
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: password
+        - name: PG_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: host
         ports:
         - name: web
           containerPort: 80

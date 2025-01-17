@@ -27,6 +27,10 @@ spec:
         - name: config
           mountPath: /config
       volumes:
+      # - name: config
+      #   persistentVolumeClaim:
+      #     claimName: config
       - name: config
-        persistentVolumeClaim:
-          claimName: config
+        nfs:
+          server: 192.168.2.6
+          path: /bucket/k8s/lab/homeassistant

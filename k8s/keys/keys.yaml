@@ -4,17 +4,47 @@ metadata:
   name: keys
 
 ---
-apiVersion: v1
-kind: ConfigMap
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
 metadata:
-  name: keys
+  name: db
   namespace: keys
-  labels:
-    app: keys
-data:
-  PG_HOST: 192.168.0.3
-  PG_USER: keys
-  PG_DB: keys
+spec:
+  instances: 1
+  storage:
+    size: 1Gi
+    storageClass: local-path
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: "7d"
+    barmanObjectStore:
+      destinationPath: "s3://cnpg/micro/keys"
+      endpointURL: https://s3.rileysnyder.dev
+      s3Credentials:
+        accessKeyId:
+          name: minio
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: minio
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: db
+  namespace: keys
+spec:
+  schedule: "0 0 * * * *"
+  backupOwnerReference: cluster
+  immediate: false
+  cluster:
+    name: db
 
 ---
 apiVersion: apps/v1
@@ -34,50 +64,34 @@ spec:
     spec:
       containers:
       - name: keys
-        image: rssnyder/keys:latest
+        image: rssnyder/keys:test
         imagePullPolicy: IfNotPresent
-        envFrom:
-        - configMapRef:
-            name: keys
         env:
         - name: GIN_MODE
           value: release
+        - name: PG_DB
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: dbname
+        - name: PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: username
         - name: PG_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: db-app
               key: password
+        - name: PG_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-app
+              key: host
         ports:
         - name: api
           containerPort: 8080
-
----
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: keys
-  namespace: keys
-spec:
-  selector:
-    matchLabels:
-      app: keys
-  podMetricsEndpoints:
-  - port: api
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: keys
-  namespace: keys
-spec:
-  type: LoadBalancer
-  selector:
-    app: keys
-  ports:
-  - name: web
-    port: 80
-    targetPort: api
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -88,7 +102,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: keys.k8s.rileysnyder.dev
+    - host: keys.rileysnyder.dev
       http:
         paths:
           - path: /

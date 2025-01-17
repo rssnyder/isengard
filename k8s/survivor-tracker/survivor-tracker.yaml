@@ -17,7 +17,7 @@ data:
     season = "47"
 
     [signal]
-    api = "192.168.254.11"
+    api = "signal-api.signal"
     number = "+14808407117"
     group = "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
 
