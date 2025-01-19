@@ -5,6 +5,16 @@ metadata:
   name: discord-bot
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: discord-bot
+  namespace: discord-bot
+spec:
+  encryptedData:
+    token: AgC6H7v88iLdBBlccdab8oKHJqMAFK/3D5YyaO69giHae1pk78kdEeP99QUYh2mdnSwExNmVRdZiIu3TBtZwtqJqEY4RyrpLPt87xXckA3Dm7e6qVAufg+/JHh4V8ZmfnHnHFTwb6z8oJo4dwG915mBZTiCqddOM7w2DrNDiqnOmSsn9g7ThP1m2DGoRCmExxvKAqdPfSMlh5sDf91ifieFhrZ/AYfodTI6XEfO3Teet3fIr3nGr4NIuJJ+jINyGo/uc4ERBxzBa+Eijj0LLV5Q8AaF81tynQbLTGZOrPm9j/F0yOuAikNlI/byY2vasdJD6toyYVH/v5j/9S7A8hll1t5VsrhZF28lm7YcBVV6d5dakWVGZaAuoC18TPARp+faYikeiZ4/oQpHyHarG/PE0hHDd4/6bMIEAwXLQJjym5Vu8Uq2BN0D5NUN0WqbREUVj64aJFSHRLhMbgx7iNLu/yi41Z1zWHuqZS0LHuFRjeykrvt93I/LrmimzTjMJfntd8nUCAn+FM3gWhiZH/rOQPGp8FkQ8T/sdHM/CVvOy/2c/PJUXH/oi7wlUMxjECkEfARSrEm6+gb0XvO28VH3I9RcbT4Vg0ooRvQQ+6U/oVJ9xnd8YXMc6DzMX0zM0vX29/M8HR9N2pqCTwTw31df9tjnEpkhV0y/46pRkRTf19Nx76dHT+v/gimW1HRMxGXSW9JBEd9/w24s7SubtaBltlEihhsTuNq2BTOpdxcwX4AEKiikozx9YaEJICNwFVTA4GIiNUcPPjYl8wHXllq/J+VGQwpDN
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

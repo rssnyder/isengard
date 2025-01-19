@@ -20,6 +20,7 @@
       tmux
       k9s
       kubectl
+      kubeseal
       ansible
       opentofu
       python312

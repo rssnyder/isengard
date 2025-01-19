@@ -4,6 +4,16 @@ metadata:
   name: discord-bot-manager
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: discord-bot-manager
+  namespace: discord-bot-manager
+spec:
+  encryptedData:
+    pgpassword: AgAh+GQme+aqx1cBb/VDXp9LoFfB6WqTVR4nS0PBhGEoHcu7mBAYzSR3hQxIEPkri3fFNIWcrKQ5wvJ+cL+oS2zyodw/cm/g2k8lx2g6P6Xmov9oBSk70pb4vO8nUd0YwzY9iR0PwcaMr/4KjtlM76Ma9Pz22PCv0np//qPej3F7TWJ1JVCGHcAyX+AqUcb616rO9s+QgTfBmDeB1AkhF5EAUdYE1mYpfORGgRGFJWhVZQiFIQ73cwybCzNdjUWrdhiLzilRG2mjf5BnxZY7qHeYclsejat3jsHlaOjcZrmQ2Is/XmLdsDxNJzwStFtPepxUTqReFkoVvir0U+B8trHdr8N2mOLp0n5Pzd2Nvf8eT8Ac7UQAv/Zy/5D4JXYWlEDjRthssJqoIpwbi2SE2NXArk5jZ0HJOiFr3vch9epoki/fsvDow2508CShM41t/Mwr6hjSA9P8yFEABXRIWNgqLcrFLGNpPMm9sgJ+6lawXuv49FJRi5JryzV1htamfYN/AtxseO5VrQTL6XtVvt3J+TLavDLdOvzJBkOc1ZyrA6JD99n0MXD9Nqr6mkKWeohS5tUOU6h1GWSyB8hdu2hNB+OL1ynuwqxmCyPAbj+2XkobVaCmAwFRw52ZsCLbHC/Bp/N3x9qz+sgkCkn8kS1UlI67yg36WWXDfURWAGirB1fov+YGYpp0cLok/HZ6Kf6hrZB2MkLKaEY1K3+pzag8q5yvMFKVd9csDDE7cFqTO7KOrROtausOvJPp/MnH3tesaQ==
+
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:

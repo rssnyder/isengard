@@ -14,7 +14,7 @@
     role        = "server"; # "agent";
     #serverAddr = "https://192.168.2.65:6443";
     #token = "";
-    extraFlags  = "--cluster-cidr=10.50.0.0/16 --service-cidr=10.51.0.0/16 --disable servicelb,traefik";
+    extraFlags  = "--cluster-cidr=10.50.0.0/16 --service-cidr=10.51.0.0/16 --disable servicelb,traefik --kube-apiserver-arg='feature-gates=ImageVolume=true'";
   };
 
   # needed for longhorn, along with kyverno in manifests dir

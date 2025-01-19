@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: signal-api
-        image: bbernhard/signal-cli-rest-api:0.89
+        image: bbernhard/signal-cli-rest-api:0.91
         imagePullPolicy: Always
         env:
         - name: SIGNAL_CLI_CONFIG_DIR
@@ -81,63 +81,3 @@ spec:
   - name: api
     port: 80
     targetPort: api
-
-# register new number with signal
-# curl -X POST http://signal-api.r.ss/v1/register/+14808407117 --data '{
-#   "captcha": "signal-hcaptcha.xxxx",
-#   "use_voice": false
-# }'
-
-# verify with text recived
-# curl -X POST http://signal-api.r.ss/v1/register/+14808407117/verify/803209
-
-# add device from qr code
-# curl -X POST http://signal-api.r.ss/v1/devices/+14808407117 --data '{
-#   "uri": "sgnl://linkdevice?uuid=xxxx&pub_key=xxxx"
-# }'
-
-# recive messages
-# curl http://signal-api.r.ss/v1/receive/+14808407117 | jq .
-
-# send to riley
-# curl -X POST http://signal-api.r.ss/v2/send --data '{
-#   "message": "feed me",
-#   "number": "+14808407117",
-#   "recipients": [
-#     "+15159792049"
-#   ]
-# }'
-
-# curl -X POST http://signal-api.r.ss/v1/reactions/+14808407117 --data '{
-#   "reaction": "👍",
-#   "recipient": "+15159792049",
-#   "target_author": "+15159792049",
-#   "timestamp": 1712269034633
-# }'
-
-# send to nicole
-# curl -X POST http://signal-api.r.ss/v2/send --data '{
-#   "message": "hello mom, love you",
-#   "number": "+14808407117",
-#   "recipients": [
-#     "+15155097579"
-#   ]
-# }'
-
-
-# curl -X POST http://oca0:8273/v2/send --data "
-#   {
-#     \"message\": \"test\",
-#     \"number\": \"+14808407117\",
-#     \"recipients\": [
-#       \"+15159792049\"
-#     ]
-#   }"
-
-
-# curl oca0:8273/v1/configuration --data '	
-# {
-#   "logging": {
-#     "Level": "debug"
-#   }
-# }'

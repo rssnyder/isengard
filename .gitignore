@@ -16,3 +16,5 @@ infra/.terraform*
 localstack/.terraform*
 
 test*
+
+result

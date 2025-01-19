@@ -4,6 +4,16 @@ metadata:
   name: counter
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: postgres
+  namespace: counter
+spec:
+  encryptedData:
+    PG_PASSWORD: AgA/arL5Z7WlkkiH1qDu1lnI1sOF81vXcEE1j11S9IFeo3eAmwMFlDQRLwKLshECna0PRIjIqbF9sWAMTdgrskh0iQ19KW3a7RFlf4m3lIjYkr58sgyeYqMB4ggPMfcwR6Zy7a7Py+6g3toQiB0kSof0MtGzZvV2/C0+t+dk2ZRQ1B2luOu0j96wEaFUQSRTJcDNsWKbtNrphDmRUfeYGnCv/Ka/BDT4hRayYK2/yNqrlL1ZnUAUpple06yaze4QeDTjk4SsUKwrma7/1MTG+0NOEdJG8BSweU0t6xNNzcIr9S4KweFR4URoxj/HO0YeSiX5yGVUIt+sS6S99AYe8jLJd7moDgngoZdWRUcVkrwUtRtAFeGjwjNoXK8PxZPee2Qe+JqyqYyLAFB/ltkl1AC5VIkcqmgMktnVv9FCk+jQkQky7ft8W/Z8mt9ub0HFDBHdqSEWL6SAP4fQpTuTP60QHShzRHGsWPtqKn1pseLwNykAbMa+4xSu+anIbSlTJ8pq7omVfZmRx7Mo2PyKR5n/9jkTJc3VoDbKFoUwUJ5Ku3yVtJe3S6riNt0tx1k17ecb52yPRfCoEoP7sfJrFznhQmaViX+ZauFMofcT+Ovj9cRm+H5c8tGikojKxeKypn93yvXDAPsQLKG0ognrkCebTw4tJFVytNWUdATZ/Cj+BVoMCWzIJPLkxWcKo47+maIvTCNx+q5yxO8qE081Nql20DBZp01EQVM3EnGspPvZ
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

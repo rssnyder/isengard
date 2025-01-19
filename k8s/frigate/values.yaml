@@ -12,6 +12,14 @@ persistence:
   media:
     enabled: True
     existingClaim: frigate
+extraVolumes:
+- name: snapshot-html
+  image:
+    reference: rssnyder/frigate-snapshot-html:latest
+    pullPolicy: Always
+extraVolumeMounts:
+- name: snapshot-html
+  mountPath: /opt/frigate/web/snapshots
 nodeSelector:
   kubernetes.io/hostname: jack
 coral:

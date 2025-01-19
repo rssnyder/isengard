@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: relay
+  namespace: signal
+  labels:
+    app: relay
+data:
+  config.toml: |
+    logLevel = "debug"
+
+    [signal]
+    api = "signal-api"
+    number = "+14808407117"
+    recipient = "+15159792049"
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: relay
+  namespace: signal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: relay
+  template:
+    metadata:
+      labels:
+        app: relay
+    spec:
+      containers:
+      - name: relay
+        image: rssnyder/signal-message-relay:98aa34bce4cb4bca0f416ad29cfa8d958a91e16f
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.toml
+          subPath: config.toml
+      volumes:
+      - name: config
+        configMap:
+          name: relay
