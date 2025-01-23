@@ -1,118 +1,190 @@
-# :eye: isengard :eye:
+(mostly) everything-as-code (some code, somewhere)
 
-code for my homelab
+i enjoy breaking and rebuilding things so everything is in constant motion
 
-## compute
+# playbooks
 
-most machines in my lab are ones i save from the dumpster or recycler, mostly laptops and a few desktops used for network storage. the only machine i have purchased is the raspberry pi.
+Here are all my ansible playbooks for various tasks performed across many machines. These range from taking backups of my important data to setting up a machine with a baseline set of tools.
 
-all servers are named after characters from lost, except for my storage server which switches off between the names "zira" and "cornelius" (named after the chimpanzees from the original planet of the apes) with every rebuild, we are currently on zira iv.
+Some of the primary playbooks are `nix` which copies across nix-configs and rebuilds the OS, `caddy` which reloads my various reverse-proxies, and `backup` which pull important data from the cloud to backup locally, important local data offsite, and soon to push another copy to another cloud to complete my 3-2-1 backup.
 
-i historically used ubuntu server for all my servers, and kde neon for desktops/laptops. i am now moving everything to [nixos](https://nixos.org/) and [xfce](https://www.xfce.org/) with only my storage server and lab cluster nodes left to migrate.
+# infra
 
-### rack
+As most of my infrastructure is bare-metal I don't provision much through [OpenTofu](https://opentofu.org/), mainly my DNS records.
 
-my main network is a tp-link router and switch which are mounted in a custom 3d printed rack that hangs from the underside of my sit/stand desk. my switch has four poe ports which are routed to:
+I manage public DNS through [DigitalOcean](https://www.digitalocean.com/) (a free service with amazing TF support) and locally through [PiHole](https://pi-hole.net/). I have a [local module](https://github.com/rssnyder/isengard/tree/master/infra/external-internal-dns) written to make public DNS recods resolve to local IPs when using my external services from within my lab.
 
-- tp-link access point in my living room
-- amcrest camera in my lab
-- amcrest camera mounted on my roof covering the front yard
-- poe pass through switch in my garage
+# k8s
 
-the custom rack also has custom mounts for the following devices:
+All of my various Kubernetes manifests live here. I run several k3s clusters, but am working in my local "micro" cluster 99% of the time. I also have a single node cluster offsite and a four node cluster in [Oracle Cloud](https://www.oracle.com/cloud/free-1/) running the few remaining Discord Bots I am paid to host. Check out their free tier, seriously.
 
-- aplifier for my desktop speakers
-- hurley [`pi 4` | `debian`]: networking entrypoint (caddy), granafa instance, random other lightweight services
-- ben [`gmktec g3` | `nixos`]: k3s single node server
-- hdhomerun: for recording local over-the-air tv
+The following describe the various service I use to build my local platform.
 
-### laundry room
+## storage
 
-i also run ethernet to a switch in my laundry room storage shelves where i have a few more machines:
+### [longhorn](https://longhorn.io/)
 
-- zira [`custom dell optiplex` | `ubuntu`]: zfs storage server
-  - pools
-    - bucket - media + long term storage
-      - x2 18tb mirror
-      - x2 24tb mirror
-      - 42tb usable
-    - scratch - download cache, misc. files
-      - x2 2tb zfs raid zero
-      - 4tb usable
-- charlie [`dell precision t1700` | `ubuntu`]: k3s "lab" master
-  - runs home assistant using a zigbee usb receiver
-- jack [`dell precision 7520` | `ubuntu`]: k3s "lab" worker
-  - runs frigate with a [coral tpu](https://coral.ai/products/accelerator) usb
+Ranchers storage offering. Stupid simple to set up (but does require some hacks to get working on nixos).
 
-### garage
+Has proven useful many times. I have been able to yank nodes offline and workloads rebalance and volumes recreate on avalible nodes no problems.
 
-the poe pass through switch in my garage provides internet to three thinkpad laptops mounted to pegboard next to my 3d printer on my workspace:
+Nightly backups of all volumes are done to my self-hosted S3 provider (Minio). This allows backup/restore from any cluster local or remote. I have tested DR from local cluster to a cloud cluster and it works perfectly.
 
-- t480-0 [`thinkpad t480` | `nixos`]: i do all my development remotely on this machine (vscode server) and it also runs my central prometheus server that gathers metrics on all my machines/clusters
-- claire [`thinkpad t470p` | `ubuntu`]: k3s "lab" worker
-- plex `[thinkpad t480` | `ubuntu`]: runs plex and tautuli, accesses media via nfs shares on storage server
+I know something like ceph would be better for performance, but at the moment I don't need iops and don't want the pain of managing it. I have looked at rook-ceph a few time but never wanted to commit to deploying it. That also requires second disks on nodes and right now a lot of my nodes only have one drive slot.
 
-it also has a free port which i use when i work on machines in the garage.
+I also use the OS disk as the storage disk which is very bad. I am planning on changing this soon.
 
-### backup
+## network
 
-- zaius [`dell precision t1700` | `ubuntu`]: backup server,  k3s single node server
-  - pools
-    - pale - offsite backup
-      - x1 10tb
-      - 10tb usable
+### [metallb](https://metallb.io/)
 
-## hosting
+To implement a local "load balancer" I use MetalLB that has been given a /24 local subnet. This lets me expose local-only services as well as services I want to eventually make public via ingress.
 
-i am starting to run newer services in kubernetes, because i was running on docker compose for many years and needed a new challenge. most mission critical things are still run using plain docker or systemd.
+### [nginx](https://github.com/kubernetes/ingress-nginx)
 
-![network diagram](https://github.com/rssnyder/isengard/assets/7338312/a0c83b34-a182-4eff-b3e5-0c046c335af2)
+For public services I use nginx ingress. I do not do HTTPS termination in the cluster so theres no special config here. My public caddy server has a wildcard record for `*.k8s.rileysnyder.dev` so I can expose services just by creating an ingress resource.
 
-### docker compose
+When I have full production apps, I create a new DNS record via DO+TF, update my caddyfile, and then everything routes to the ingress controller just fine.
 
-my [arr stack](https://wiki.servarr.com/) runs using the docker compose file located at `playbooks/templates/zira/docker-compose.yaml`.
+### [tailscale](https://tailscale.com/kb/1236/kubernetes-operator)
 
-### kubernetes
+For "internal" services that I want reachable while I am out and about, I use the tailscale operator to connect services to my tailnet.
 
-- applications are (usually) launched as a deployment
-- when a service is created of type `LoadBalancer` [metallb](https://metallb.universe.tf/) provisions the service an ip address on my local network
-  - optionally the service is added to the [tailnet](https://tailscale.com/) using the [tailscale operator](https://tailscale.com/kb/1236/kubernetes-operator) and/or given a [local dns](https://pi-hole.net/) entry (usually `<service>.r.ss`) using [external dns](https://github.com/kubernetes-sigs/external-dns).
-- if external public access is needed an [ingress](https://github.com/kubernetes/ingress-nginx) record is created with a `<service>.k8s.rileysnyder.dev` domain
-  - routed from a [caddy](https://caddyserver.com/) reverse proxy acting as the entrypoint to my local network (pi4)
-- [longhorn](https://longhorn.io/) for storage within the cluster, nfs for critical items (using main storage server)
-- manifests are under `infra/k8s` applied either with kubectl, [k3s manifests directory](https://docs.k3s.io/installation/packaged-components), or [harness](https://www.harness.io/) (both regular deployments and gitops), because i need to try everything
+This is done simply by adding a few annotations:
 
-applications are deployed using `kubectl apply`, whereas cluster baselines and core services are created by running an ansible playbook that places manifests on the master nodes [manifest directory](https://docs.k3s.io/installation/packaged-components#auto-deploying-manifests-addons). i strive to be simple.
-
-a few apps like frigate and home assistant are deployed using [harness](https://www.harness.io/) (my current employer).
-
-my "lab" cluster is my main cluster, i have another running in oracle cloud using their [free tier](https://gist.github.com/rssnyder/51e3cfedd730e7dd5f4a816143b25dbd) where i run some paid services, and one at my parents which serves as my offsite backup. all clusters remote-write their metrics to my main prometheus server which I use with grafana to create dashboards and alerts.
-
-### secrets
-
-using ansible vault with a password in a local file
-
-#### encrypt
-
-```shell
-ansible-vault encrypt_string --vault-password-file .vault_password 'bar' --name 'foo'
+```
+tailscale.com/expose: "true"
+tailscale.com/hostname: "example"
 ```
 
-# notes
+## database
 
-## cidr
+### [cloud native postgres](https://cloudnative-pg.io/)
 
-|              | cidr             | notes                           |
-|--------------|------------------|---------------------------------|
-| home         | 192.168.2.0/24   |                                 |
-| lab          | 192.168.254.0/24 |                                 |
-| micro        | 192.168.253.0/24 |                                 |
-| tailscale    | 100.64.0.0/10    |                                 |
-| lab cluster  | 10.42.0.0/16     |                                 |
-| lab svc      | 10.43.0.0/16     |                                 |
-| oc cluster   | 10.42.0.0/16     | need to migrate to 10.44.0.0/16 |
-| oc svc       | 10.43.0.0/16     | need to migrate to 10.45.0.0/16 |
-| ocdr cluster | 10.46.0.0/16     |                                 |
-| ocdr svc     | 10.47.0.0/16     |                                 |
-| oc2 cluster  | 10.48.0.0/16     |                                 |
-| oc2 svc      | 10.49.0.0/16     |                                 |
+If an application needs a database, I run the cnpg operator to get per-application clusters deployed. CNPG sold me when I saw how easy it was to pass the credentials to an app with automatically created secrets.
+
+For backups, CNPG supports backup and restore from S3 using [PGBarman](https://docs.pgbarman.org/release/3.12.1/user_guide/). For most clusters I schedule nightly backups, and again have tested recovery both locally and to the cloud.
+
+## secrets
+
+### [sealed secrets](https://github.com/bitnami-labs/sealed-secrets)
+
+I used to deploy my secerts by putting the string in ansible-vault, and rendering the secret manifests on the server's manifest directory. This created a problem where secrets were deployed seperatly from the application and I always hated this. My reasoning being I wanted everything in git.
+
+I recently discovered Sealed Secrets which let me put the full secret resource right in the application manifest (no jinja2) and deploy it along with the app. I still need to figure out DR for this as redeploying to a new cluster (with a new sealing key) would result in needed to reseal the secrets (change the manifest). I just need to schedule exporing the sealing key, backing it up, and add restoring it to my cluster baseline.
+
+I really need to use an external secret store, but running vault at this point isnt something I am interested in.
+
+## deployments
+
+### [baseline](https://github.com/rssnyder/isengard/tree/master/k8s/baseline)
+
+To provision the cluser baseline, I use ansible to provision the baseline manifests to the k3s server manifests directory.
+
+This way I can do a machine and cluster bootstrap with ansible, and easily template the manifests depending on the host (cluster) we are deploying to.
+
+I have provisioned clusters with an ansible role, k3sup, and now by hand with nix-configs. K3sup is amazing and I highly recommend it if you want to get start quickly (I am a huge fan of Alex).
+
+### applications
+
+For everything else in the cluster, unfortunetly I deploy everything with `kubectl apply -f` (or more accuratly the ohmyzsh alias `kaf`).
+
+I work for a company that makes a CI/CD tool, so I do it all day long, and just want a break when I swap laptops after 5pm.
+
+To see everything work together, I keep a running example of using all of the above services [here](https://github.com/rssnyder/isengard/blob/master/k8s/example/example.yaml).
+
+# servers
+
+All servers are named after characters from Lost.
+
+The only exception is my storage server, which each time I rebuild it the names changes between "cornelius" and "zira" from the origional planet of the apes, which for nostalgic reasons is my favorite movie.
+
+My offsite backup server is "zaius", named for the antagonist from the same movie. 
+
+## hurley (raspberry pi 4 | raspian)
+
+The entrypoint of my network is my pi. This runs my main Caddy reverse proxy, and my home router forwards 80/443 here to be redirected to various applications. Some local, external but reachable through tailscale.
+
+This machine also runs various services using docker-compose, like Grafana, Minio (S3), Omada Controller, and Postgres.
+
+I used to do all my development on this machine using VSCode web, but have since migrated to t480-0 below.
+
+Currently mounted in my custom 3d printed rack.
+
+## t480-0 (lenovo thinkpad t480 | nixos)
+
+This is my new main development machine. I do all development here via VSCode Server.
+
+I also run Prometheus (used to run on my pi but was causing performance issues), serveral Minecraft servers, GitHub runners (hopefully no one from work sees this), and a local container registry.
+
+Mounted in my freezing garage and needs to be renamed.
+
+![20241223_123418](https://github.com/user-attachments/assets/285af0c1-acb0-480f-a3b4-e40e56286d07)
+
+## plex (lenovo thinkpad t480 | nixos )
+
+Hosting my Plex and *arr stack through docker-compose is another t480 (sourced from a clean dumpster). Accesses my ZFS pool for media storage via NFS.
+
+Also mounted in my garage.
+
+## zira (custom | ubuntu server)
+
+Made from various dumpster Dell desktops and Ebay parts, this is my storage server.
+
+It runs my file server and bittorrent clients using docker-compose.
+
+- zfs pools
+    - bucket - media + long term storage
+        - x2 18tb mirror
+        - x2 24tb mirror
+        - 42tb usable
+    - scratch - download cache, misc. files
+        - x2 2tb zfs raid zero
+        - 4tb usable
+
+In my storage/laundry room, below the water main, proving ambiant heat for my basil plants.
+
+![20250121_103205](https://github.com/user-attachments/assets/a190190f-c91d-4824-9db7-43c60adfb623)
+
+The side panel was off to do some data migration to an extra drive.
+
+## ben (gmtec g3 | nixos)
+
+Traded an old dumpster laptop for this off marketplace. It is the server (master) node in my local k3s cluster.
+
+Also mounted in my rack, the namesake of my "micro" cluster.
+
+## jack (dell precision 7520 | ubuntu server)
+
+The agent (worker) node of my local "micro" cluster. Has a [coral tpu](https://coral.ai/products/) and zigbee reciver for running frigate and home assistant for security and automation.
+
+Also provides heat to my plants.
+
+## claire (lenovo thinkpad t480 | nixos)
+
+Another dumpster laptop, was an agent node in the previous iteration of my local cluster, but these days idle and looking for work.
+
+Another garage machine.
+
+## zaius (dell precision t1700 | ubuntu server)
+
+Wouldn't you guess, another dumpster machine. Has a single disk 10TB ZFS pool for backing up critical data, and runs a single node k3s cluster "urban" which dosn't have anything running on it at the moment.
+
+Currently in my parents basement.
+
+# hardware
+
+My main network is a TP-Link router and switch which are mounted in a custom 3d printed rack that hangs from the underside of my sit/stand desk. My switch has four POE ports which are routed to:
+- TP-Link access point in my living room
+- Amcrest camera in my lab (what I call my office)
+- Amcrest camera mounted on my roof covering the front yard
+- POE pass through switch in my garage
+
+The custom rack also has mounts for the following devices:
+- Aplifier: for my desktop speakers
+- Hurley (listed above)
+- Ben (listed above)
+- HDHomerun: for recording local over-the-air tv via Plex
+
+![20250122_191507](https://github.com/user-attachments/assets/680871de-9db4-4b28-9914-b40eee83ac17)
+
