@@ -95,6 +95,12 @@ To see everything work together, I keep a running example of using all of the ab
 
 # servers
 
+All servers are named after characters from Lost.
+
+The only exception is my storage server, which each time I rebuild it the names changes between "cornelius" and "zira" from the origional planet of the apes, which for nostalgic reasons is my favorite movie.
+
+My offsite backup server is "zaius", named for the antagonist from the same movie. 
+
 ## hurley (raspberry pi 4 | raspian)
 
 The entrypoint of my network is my pi. This runs my main Caddy reverse proxy, and my home router forwards 80/443 here to be redirected to various applications. Some local, external but reachable through tailscale.
