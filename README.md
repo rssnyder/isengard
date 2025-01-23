@@ -48,9 +48,10 @@ When I have full production apps, I create a new DNS record via DO+TF, update my
 
 ### [tailscale](https://tailscale.com/kb/1236/kubernetes-operator)
 
-For "internal" services that I was reachable while I am out and about, I use the tailscale operator to connect services to my tailnet.
+For "internal" services that I want reachable while I am out and about, I use the tailscale operator to connect services to my tailnet.
 
 This is done simply by adding a few annotations:
+
 ```
 tailscale.com/expose: "true"
 tailscale.com/hostname: "example"
@@ -62,7 +63,7 @@ tailscale.com/hostname: "example"
 
 If an application needs a database, I run the cnpg operator to get per-application clusters deployed. CNPG sold me when I saw how easy it was to pass the credentials to an app with automatically created secrets.
 
-For backups, CNPG supports backup and restore from S3 using Barman Object Store. For most cluster I schedule nightly backups, and again have tested recovery both locally and to the cloud.
+For backups, CNPG supports backup and restore from S3 using [PGBarman](https://docs.pgbarman.org/release/3.12.1/user_guide/). For most clusters I schedule nightly backups, and again have tested recovery both locally and to the cloud.
 
 ## secrets
 
