@@ -121,7 +121,7 @@ photos.rileysnyder.dev {
 }
 
 *.k8s.rileysnyder.dev {
-    reverse_proxy 192.168.253.3
+    reverse_proxy 192.168.253.254
 
     tls {
         dns digitalocean {{ digitalocean_token }}
@@ -129,5 +129,5 @@ photos.rileysnyder.dev {
 }
 
 keys.rileysnyder.dev {
-    reverse_proxy 192.168.253.3
+    reverse_proxy 192.168.253.254
 }

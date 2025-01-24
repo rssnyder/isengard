@@ -43,9 +43,21 @@
 
   programs.firefox.enable = true;
 
+  system.autoUpgrade = {
+    enabled = true;
+    dates = "weekly";
+  };
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 10d";
+  };
+  nix.settings.auto-optimise-store = true;
+
   networking.firewall.allowedTCPPorts = [
     6969
     9090
+    19132
   ];
 
   services.logind.lidSwitch = "ignore";
@@ -63,6 +75,7 @@
 
   networking.firewall.allowedUDPPorts = [
     6969
+    19132
   ];
 
   systemd.tmpfiles.rules = [
@@ -106,6 +119,19 @@
             "/mnt/bucket/media:/media"
             "/tmp:/temp"
             "/dev/dri:/dev/dri"
+          ];
+        };
+        bedrock = {
+          image = "itzg/minecraft-bedrock-server";
+          ports = [
+            "19132:19132/udp"
+          ];
+          environment = {
+            EULA= "TRUE";
+            SERVER_NAME = "The DeSoto Dropouts";
+          };
+          volumes = [
+            "/home/riley/appdata/bedrock:/data"
           ];
         };
         # certbot = {

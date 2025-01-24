@@ -130,6 +130,16 @@ module "bothwellarchive" {
   private_ip = var.instances["hurley"].ip
 }
 
+module "l301" {
+  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
+
+  domain     = digitalocean_domain.rileysnyder_dev.name
+  name       = "l301"
+  public_ip  = var.instances["home"].ip
+  private_ip = var.instances["t480-0"].ip
+}
+
+
 resource "digitalocean_record" "star-k8s" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

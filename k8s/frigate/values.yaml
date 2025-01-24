@@ -211,7 +211,8 @@ config: |
   objects:
     filters:
       person:
-        # Optional: minimum score for the object to initiate tracking (default: shown below)
-        min_score: 0.6
-        # Optional: minimum decimal percentage for tracked object's computed score to be considered a true positive (default: shown below)
-        threshold: 0.7
+        min_score: 0.7
+        threshold: 0.8
+      dog:
+        min_score: 0.7
+        threshold: 0.8

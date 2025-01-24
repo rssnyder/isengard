@@ -30,7 +30,7 @@ spec:
   backup:
     retentionPolicy: "7d"
     barmanObjectStore:
-      destinationPath: "s3://cnpg/micro/keys"
+      destinationPath: "s3://cnpg/micro/keys1"
       endpointURL: https://s3.rileysnyder.dev
       s3Credentials:
         accessKeyId:
@@ -43,6 +43,23 @@ spec:
         compression: gzip
       data:
         compression: gzip
+
+  bootstrap:
+    recovery:
+      source: db
+
+  externalClusters:
+    - name: db
+      barmanObjectStore:
+        destinationPath: "s3://cnpg/micro/keys"
+        endpointURL: https://s3.rileysnyder.dev
+        s3Credentials:
+          accessKeyId:
+            name: minio
+            key: AWS_ACCESS_KEY_ID
+          secretAccessKey:
+            name: minio
+            key: AWS_SECRET_ACCESS_KEY
 
 ---
 apiVersion: postgresql.cnpg.io/v1

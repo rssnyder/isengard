@@ -14,3 +14,17 @@ spec:
   repo: https://kyverno.github.io/kyverno
   chart: kyverno
   targetNamespace: kyverno
+  valuesContent: |-
+    backgroundController:
+      rbac:
+        clusterRole:
+          extraResources:
+          - apiGroups:
+              - ''
+            resources:
+              - pods
+            verbs:
+              - create
+              - update
+              - delete
+              - patch

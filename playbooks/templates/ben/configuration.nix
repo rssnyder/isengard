@@ -55,6 +55,7 @@
       zsh
       htop
       tmux
+      helm
       kubectl
       oh-my-zsh
       zsh-completions

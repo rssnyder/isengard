@@ -16,6 +16,8 @@ spec:
   targetNamespace: ingress-nginx
   valuesContent: |-
     controller:
+      service:
+        loadBalancerIP: 192.168.253.254
       ingressClass:
         setAsDefaultIngress: true
       allowSnippetAnnotations: true

@@ -19,6 +19,7 @@
       htop
       tmux
       k9s
+      rclone
       kubectl
       kubeseal
       ansible
