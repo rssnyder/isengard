@@ -50,7 +50,32 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: whoami
+  name: whoami-internal
+  namespace: whoami
+  # add annotation so harness knows what rule to associate traffic with
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: 'more_set_input_headers "AutoStoppingRule: whoami-whoami";'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: whoami.r.ss
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                # change to forward to autostopping router
+                # name: whoami
+                name:  autostopping-router
+                port:
+                  number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-external
   namespace: whoami
 spec:
   ingressClassName: nginx
@@ -79,7 +104,7 @@ spec:
     name: whoami
     port: 80
   ingress:
-    name: whoami
+    name: whoami-external
     controllerName: nginx
   idleTimeMins: 5
   hideProgressPage: false
