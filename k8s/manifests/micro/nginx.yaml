@@ -25,6 +25,7 @@ spec:
         plugins: "rewrite_fwd_headers"
         use-forwarded-headers: "true"
         forwarded-for-header: "X-Forwarded-For"
+        annotations-risk-level: Critical
     
       extraVolumeMounts:
         - name: cm-volume-lua-plugin

@@ -134,10 +134,6 @@ services:
         logo: "assets/homer-icons/png/plexdrive.png"
         url: "https://files.rileysnyder.dev"
         target: '_top'
-      - name: "Send"
-        logo: "assets/homer-icons/png/firefoxsend.png"
-        url: "https://send.k8s.rileysnyder.dev"
-        target: '_top'
   - name: "Utility"
     icon: "fas fa-toolbox"
     items:
@@ -154,42 +150,18 @@ services:
         logo: "assets/homer-icons/png/prometheus.png"
         url: "http://t480-0.corvus-salmon.ts.net:9090/targets"
         target: '_top'
-      - name: "zira Syncthing"
-        logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://zira.corvus-salmon.ts.net:8384"
-        target: '_top'
-      - name: "Hurley Syncthing"
-        logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://zira.corvus-salmon.ts.net:8384"
-        target: '_top'
-      - name: "Local Syncthing"
-        logo: "assets/homer-icons/png/syncthing.png"
-        url: "http://localhost:8384"
-        target: '_top'
   - name: "Kubernetes"
     icon: "fa-brands fa-docker"
     items:
-      - name: "Grafana"
-        logo: "assets/homer-icons/png/grafana.png"
-        url: "https://grafana.k8s.rileysnyder.dev"
-        target: '_top'
       - name: "Longhorn"
         logo: "assets/homer-icons/png/longhorn.png"
-        url: "https://longhorn.k8s.rileysnyder.dev/"
+        url: "http://192.168.253.3"
         target: '_top'
-      - name: "Coder"
-        logo: "assets/homer-icons/png/codeserver.png"
-        url: "https://coder.k8s.rileysnyder.dev/"
+      - name: "WhoAmI External"
+        logo: "assets/homer-icons/png/whoami.png"
+        url: "https://whoami.k8s.rileysnyder.dev/"
         target: '_top'
-      - name: "Files"
-        logo: "assets/homer-icons/png/plexdrive.png"
-        url: "https://files.k8s.rileysnyder.dev"
-        target: '_top'
-      - name: "Gitness"
-        logo: "assets/homer-icons/png/gitea.png"
-        url: "https://gitness.k8s.rileysnyder.dev/"
-        target: '_top'
-      - name: "WhoAmI"
+      - name: "WhoAmI Internal"
         logo: "assets/homer-icons/png/whoami.png"
         url: "https://whoami.k8s.rileysnyder.dev/"
         target: '_top'

@@ -4,6 +4,21 @@ metadata:
   name: harness-delegate-ng
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: delegate-token
+  namespace: harness-delegate-ng
+spec:
+  encryptedData:
+    DELEGATE_TOKEN: AgCrhCrNdVSZAFJ16OmOHhu03+z/hbFv6/2HfyfRgtnB2XVFv2B+97+9LKnjUAPBiDjwL4eJW4sqxXq4goYxZO/v6vP4HWd5wbE0pAjggjaJNTaNzIaHMGydZWI7CKk4iLZERpwfWWKLn24ozVoB/Y8YogKC+Gyo/IREXlMsRGJq33OLmfce3U3ruRC2rQbw2BwrQ0bSFnS26HvrhEqh30fcc8pifnc/BzReF5kpY4gPD4NSKw5DNJj1oadCYE6Tz46maWPZ2z+wP2Smv69GdQfIfRaA/fS/Rcjlwmtg/s/gZimXFsvktZKuh3wkaZfKe238/V7vM8FE7YYewbUpqOAHYEtKPsbFz4OIHrnjIS/HnzraIIGE8TT2JqIMVOfIZuDh8XQIW2s3LuLcDxdq2qoctZ3iuxVy0eUrxuj6ISdCddzk7jxtc/ex9LhbxjgcuObip2syk4PDm+C/NzLQtn1IoW+w+H6Bnh/tSjc/hqB8wwZdPFb5uIqkdIzwwFapzas09/C1t+SwZbF1mfYqFhSm2Huq0Sos2zTQBx/M+xhJvDhmQHW0vGgp+C2PR24lFwGuaiTDaHbVGzurEt1K1xXwwAdFfH98dHpdalL14BH+MmPb3Gs6o9Cjuhs+VTaEEuUeWaEXK5QguqaH0J1iui4+nAF6qpI/lQFMRzqur5VlDcwWMQoGkuaH3guFMAzFGojmAZoJGdtPUR6MYmX2XLBHmNrYZIMRdzzcmkvQ/4q4ma3ZxdL7nIiZqyn65w==
+  template:
+    metadata:
+      name: delegate-token
+      namespace: harness-delegate-ng
+    type: Opaque
+
+---
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -16,18 +31,35 @@ spec:
   valuesContent: |-
     delegateName: {{ cluster_context }}
     accountId: wlgELJ0TTre5aZhzpt8gVA
-    delegateToken: {{ harness.delegate_token }}
+    existingDelegateToken: delegate-token
     managerEndpoint: https://app.harness.io/gratis
     delegateDockerImage: harness/delegate:{{ harness.latest_delegate }}
     replicas: 1
     cpu: 100m
     memory: 1500
+    nodeSelector:
+      kubernetes.io/hostname: jack
 
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: harness-autostopping
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: harness-api-key
+  namespace: harness-autostopping
+spec:
+  encryptedData:
+    token: AgA3F+anxNin5WhZ1z0D6Z4seezXP/SXcvarWDcQg6Y14cpZ2rJYFcGiDYv410RE6Ze33Gu4CXVeKgbN4jOxMJFe060hZgMTXLxqCGF9G2dkJZVR5cEB7iKlSNiZ92zOwxTGB8c9+kR+xaqRfnvAAC3ntxzEwGRdEjG5N0iqk/Yqb1VSmY17q8CGJG6JvSm/h61EfKowJ1o6bre3CXEgKAsIQglAVqfNTP3odBu5Mnvy1uALpOXUhcTYtubv6//9vRKbdml5C5o1sQ371hVjYcSkDlSD4ZuIsdhGkHmqxIaxeq9i6v1fIn1VXx8VkQHnf33GwMAXZwD8UMhxyQzI7qUlrZc5+WamK+XhKRFukk7+bZj3S4YXjRxM9ak7Gnpi9+h/H/S8xKLTwdYqLVl5bAKrGt6+FqZh7FvZF9HGp2blaarXrrfXElzyWo1jgiH+gkF/JKEQeNek00Q0ZY4+aJOFjSBKTLDPH/bKWensX2PvCGoavm3hzlgyKSODtwZqcwf3QD9fCvsaxBHSrqe6IRI0mxEE1oxXMLOzTj7WsD2eb5u3T76lW0yMaOLvCVzvUMcr6vIijJbajzI+SMYd5xOHdAFFY9HDwxdbjU7sRw0MZecHzOJC0saEugx1M2w8hRdGc+GgrkOcOIh7G4d0znujGJS40/69vKYfTMplk7bBMIu38VQ349ORXMFX/kL9Bo6cD1X6pMRYxFqS9fbtvKtZUkLYtVh04LJ0PWIcEnFbQV5jDoxySdmlYI1M87+SLm0kgKbCierogAAdbXH+J/409xXfedwmkQE=
+  template:
+    metadata:
+      name: harness-api-key
+      namespace: harness-autostopping
+    type: Opaque
 
 ---
 apiVersion: helm.cattle.io/v1
@@ -42,7 +74,7 @@ spec:
   valuesContent: |-
     accountId: wlgELJ0TTre5aZhzpt8gVA
     connectorId: _{{ cluster_context }}_ccm
-    apiToken: {{ k8s.secrets.harness.autostopping_api_key }}
+    existingApiKey: harness-api-key
     controller:
       image:
-        tag: 1.1.6
+        tag: 1.2.1

@@ -43,10 +43,10 @@
 
   programs.firefox.enable = true;
 
-  system.autoUpgrade = {
-    enabled = true;
-    dates = "weekly";
-  };
+  # system.autoUpgrade = {
+  #   enabled = true;
+  #   dates = "weekly";
+  # };
   nix.gc = {
     automatic = true;
     dates = "daily";
@@ -192,6 +192,14 @@
     #     "/etc/letsencrypt/live/lab.rileysnyder.dev/fullchain.pem"
     #   ];
     # };
+  };
+
+  services.nginx = {
+    enable = true;
+    virtualHosts."files.r.ss" = {
+      forceSSL = false;
+      root = "/var/www/files";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;
