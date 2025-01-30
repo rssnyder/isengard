@@ -15,6 +15,7 @@ spec:
   hostPath:
     path: "/mnt/hdd/k3s/frigate"
 
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
