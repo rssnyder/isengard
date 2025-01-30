@@ -155,6 +155,7 @@ config: |
           - dog
           - car
           - person
+          - cat
     garage:
       ffmpeg:
         inputs:
