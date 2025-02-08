@@ -64,7 +64,7 @@ config: |
     enabled: True
     provider: ollama
     model: "llava:13b"
-    base_url: http://192.168.2.4::11434
+    base_url: "http://192.168.2.4:11434"
     prompt: "Describe the {label} in the sequence of images with as much detail as possible. Do not describe the background."
   cameras:
     front:
