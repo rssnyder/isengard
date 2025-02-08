@@ -57,6 +57,14 @@ config: |
     enabled: True
     retain:
       default: 730
+  semantic_search:
+    enabled: True
+    reindex: True
+  genai:
+    enabled: True
+    provider: ollama
+    base_url: http://192.168.2.4::11434
+    prompt: "Describe the {label} in the sequence of images with as much detail as possible. Do not describe the background."
   cameras:
     front:
       ffmpeg:
