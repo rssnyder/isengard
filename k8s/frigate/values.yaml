@@ -53,10 +53,6 @@ config: |
     retain:
       days: 3
       mode: all
-    events:
-      retain:
-        default: 30
-        mode: motion
   snapshots:
     enabled: True
     retain:
