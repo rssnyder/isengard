@@ -30,7 +30,7 @@ spec:
   backup:
     retentionPolicy: "7d"
     barmanObjectStore:
-      destinationPath: "s3://cnpg/micro/keys1"
+      destinationPath: "s3://cnpg/micro/keys2"
       endpointURL: https://s3.rileysnyder.dev
       s3Credentials:
         accessKeyId:
@@ -51,7 +51,7 @@ spec:
   externalClusters:
     - name: db
       barmanObjectStore:
-        destinationPath: "s3://cnpg/micro/keys"
+        destinationPath: "s3://cnpg/micro/keys1"
         endpointURL: https://s3.rileysnyder.dev
         s3Credentials:
           accessKeyId:

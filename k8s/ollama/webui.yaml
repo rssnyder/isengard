@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ollama
+  
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -23,8 +28,7 @@ spec:
           containerPort: 8080
         env:
         - name: OLLAMA_BASE_URL
-          # value: http://192.168.0.12:11434
-          value: http://192.168.0.2:11434
+          value: http://192.168.2.4:11434
         volumeMounts:
         - name: webui
           mountPath: /app/backend/data
@@ -45,7 +49,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 5G
+      storage: 1G
 
 ---
 apiVersion: v1
@@ -73,7 +77,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: ollama.app.rileysnyder.dev
+    - host: ollama.k8s.rileysnyder.dev
       http:
         paths:
           - path: /

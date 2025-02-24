@@ -37,6 +37,8 @@ spec:
     replicas: 1
     cpu: 100m
     memory: 1500
+    upgrader:
+      enabled: false
     nodeSelector:
       kubernetes.io/hostname: jack
 

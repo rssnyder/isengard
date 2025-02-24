@@ -93,6 +93,19 @@ I work for a company that makes a CI/CD tool, so I do it all day long, and just 
 
 To see everything work together, I keep a running example of using all of the above services [here](https://github.com/rssnyder/isengard/blob/master/k8s/example/example.yaml).
 
+# recovery
+
+below is a live document recording what it takes to re-deploy the cluster.
+
+backups are taken every 6hrs of volumes, if the destruction of the cluster is planned i sometimes take new backups before destroying, but I like to simulate an unexpected disaster and go from whatever last backup exists.
+
+0. join worker nodes, example: k3sup join --ip 192.168.2.11 --server-ip 192.168.2.65 --user riley --k3s-version v1.31.1+k3s1
+1. apply sealed secrets key: `kaf files.r.ss/sealed-secrets-key.yaml`
+2. create kyverno, for modifying longhorn PATH for nixos compatibilty: kaf k8s/manifests/micro/kyverno.yaml; kaf k8s/manifests/micro/kyverno-longhorn.yaml
+2. provision baseline: `ansible-playbook -i secrets.yml -i k8s/inventory/micro.yaml playbooks/k3s.yml`
+3. create pv/pvc of volumes as needed from backup: done in the longhorn ui
+4. modify cnpg database manifests to restore from backup of previous cluster, modify new backup location to use a new key (cant reuse same s3 path)
+4. re-deploy nessesary manifests as needed
 # servers
 
 All servers are named after characters from Lost.
@@ -187,4 +200,3 @@ The custom rack also has mounts for the following devices:
 - HDHomerun: for recording local over-the-air tv via Plex
 
 ![20250122_191507](https://github.com/user-attachments/assets/680871de-9db4-4b28-9914-b40eee83ac17)
-

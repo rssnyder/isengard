@@ -51,3 +51,23 @@ spec:
   - name: go2rtc
     port: 8554
     targetPort: 8554
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frigate
+  namespace: frigate
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: frigate.k8s.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  homeassistant
+                port:
+                  number: 5000

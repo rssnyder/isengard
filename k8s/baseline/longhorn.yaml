@@ -36,7 +36,7 @@ spec:
     defaultSettings:
       backupTarget: s3://{{ longhorn.bucket }}@{{ s3.region }}/backups
       backupTargetCredentialSecret: minio
-      
+      defaultDataLocality: best-effort
       orphanAutoDeletion: false
       autoDeletePodWhenVolumeDetachedUnexpectedly: true
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod

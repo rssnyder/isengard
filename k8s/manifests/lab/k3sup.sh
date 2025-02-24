@@ -6,7 +6,7 @@
 k3sup install --ip 192.168.0.10 --k3s-extra-args '--disable=servicelb,traefik' --user riley --k3s-version v1.31.0+k3s1
 
 ## jack: worker
-k3sup join --ip 192.168.0.11 --server-ip 192.168.0.10 --user riley --k3s-version v1.31.0+k3s1
+k3sup join --ip 192.168.0.11 --server-ip 192.168.2.65 --user riley --k3s-version v1.31.1+k3s1
 
 ## kate: worker
 ## https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html

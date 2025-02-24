@@ -17,6 +17,9 @@ variable "instances" {
     charlie = {
       ip = "192.168.0.10"
     }
+    desktop-5cdkr1f = {
+      ip = "192.168.2.4"
+    }
     ingress = {
       ip = "192.168.254.4"
     }

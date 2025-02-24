@@ -53,10 +53,16 @@ config: |
     retain:
       days: 3
       mode: all
+    detections:
+      retain:
+        days: 90
   snapshots:
     enabled: True
     retain:
       default: 730
+    quality: 100
+    bounding_box: True
+    crop: False
   semantic_search:
     enabled: True
     reindex: True

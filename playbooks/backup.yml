@@ -9,23 +9,7 @@
       shell:
         cmd: |
           rclone copy riley: /bucket/backup/drive/
-    
-    # - name: backup bucket to gdrive
-    #   shell:
-    #     cmd: rclone copy /bucket/{{ item }}    crypt:bucket/{{ item }}
-    #   loop:
-    #   - backup
-    #   - media/vhs
-    #   - media/books
-    #   - media/cds
-    #   - media/music
-
-    # - name: backup scratch to gdrive
-    #   shell:
-    #     cmd: rclone copy /scratch/{{ item }}    crypt:scratch/{{ item }}
-    #   loop:
-    #   - youtube
-    
+        
     - name: backup bucket to zaius
       shell:
         cmd: rsync -varP /bucket/{{ item }}/ zaius:/pale/bucket/{{ item }}/

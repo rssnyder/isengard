@@ -260,6 +260,17 @@ services:
       - $APPDATA/audiobookshelf/metadata:/metadata
     environment:
       - TZ=America/Chicago
+  
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    network_mode: 'host'
+    volumes:
+      - $APPDATA/jellyfin:/config
+      - type: bind
+        source: /scratch/youtube
+        target: /media
+    restart: 'unless-stopped'
 
 volumes:
   immich-model-cache:

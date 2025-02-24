@@ -9,7 +9,7 @@ metadata:
 data:
   SUBREDDIT: "buildapcsales"
   DB: "/db/buildapcsales.json"
-  POST_TEXT: "dualup;n100;LN1301;keyboard"
+  POST_TEXT: "dualup;n100;LN1301;keyboard;router"
 
 ---
 apiVersion: apps/v1
