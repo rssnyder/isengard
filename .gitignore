@@ -18,3 +18,5 @@ localstack/.terraform*
 test*
 
 result
+
+*secret.yaml

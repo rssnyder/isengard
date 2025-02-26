@@ -12,7 +12,7 @@ metadata:
 spec:
   encryptedData:
     pgpassword: AgBHBOgTWnIhPg66oORywyTvTmeIajhIrrF166fSVexi0Hzu0bjeZw0uKa9ZoFlROQCz20m+7e39VGWd/jM9cYFIO+7J3nkp+JDmR2L2Y2fvEPwDQUu5smgGZt8nSrdNBMtrsXFypMg+aE4EMcebJdC5xkH7HNv6cpnLvNAV8wBkReOI2nBreoGUd0Wzwl6BfbRqpejCosusB8vdjR8FMj8IimHTo4Cx6G+QhqPD4V4ukgKViR1oG/omQAg1BxO/DqaKrCI4XPVGwWA6PJYdjVjaDXKTMGI4/N93OaxhxJTA1+/xNJ8z/7YZpsRvKx7OmcJThc+MtPDFxfbhFmUdcrPpzqHtijSVfa9AqfVhOcl37pBoOzm9qF9cZRn93UvTZlQdiQJYF4u7z0dQ2/5DoKttM93wNKwQ6RWbGhtiof1DC6nmCodel3QeIRIsH4ASgXChOFnFuCXF9ydSwxAPf9srAwjZsoqjmq9RvwfXs7E3n7c73aylM/FZ5mFr7f2GisiVcBagO4baf1aqci297tL9WzoK8gil4ChJ9LQnh9VurA4JIRZcQUsVNPrWMYlGKhW8LPsL3Qh7J6ig3IYeRqA8zGdOre5xzh1dzw2f/YSEH63ewnMBnC8LyCtrHzob0drOpo60f+5ECSjKPXc2xO6I7HkbcZwKsFIoGd90FHE1cERzxOHkrzuvh1DaQYjsWo8CrAqcQN6P+CLa7WVTfLjF/9o2x3KeK0Vhh6xTJ/CZJsFaBYt3fM9e
-    tautullipassword: AgB+xCFU6WxINnD+7rSUEaXJa8FlppO7urJFBtSlxt3MpU8b7AvhGhDoBzsYj/xBRA+YzvG7rIF6naaaOVKTX+GhjBYEvTMK+XNrx0VPxlwmTntx99/BRjQcLRnv/vKFXDdQXTK+7QdM4qTV5B2ptUe8R7FR6JPAaF6HxlTCehAVTDAf24rSq7mHhwCsLA+pSORff0PuQmjYxOxWinXP5JEJK436vOM9TY0e4xkHqBnNgh+A8yNIsTlXJUnmB4oXg2VAJ3zji/BzdHTgg6x33eQy2xhQv9XawHoYLlhBHqCfrI0QUS9FiLcmNj6mUz6WZXSEkZNqVLVekJE5GHJ7pZbfKOsIF5YREz6ZJiPK0ALU+MET2N6o9YHudSmbMBxe5q4yhtOkuAGA4GPHDturwMvpie1oXL6FvNW6ut5V2P8UB0eM/CZ9PYPPyOumHAvcBPlU3Wwk4dNTa6LgILR0lexJCQqt3L8IvWMnrgv+c/B0tXqfGOIIKPSP0WE/qNW+RW0GSC8zw2WVFdJoWyNAXPCcmWHYhrcvjWlq35+7P3EvNRT03st4Rzw91l4+as9jlMEK2Fg7oOubF8DAJ8vXu7zC41dM+WnvbHunxrDakcyDF7mfoJcH8Z7GAdawisWhWB3j4obckSna21mDA9Hz+gKBI2gUxrxmmyRjW70QB3qF2em0ht0bGpIt9JpDUoXIHu9a3Mt54s7eoZEOHVu26bwJJWJL2DuAaxLTdAe1ZTW7NA==
+    tautullipassword: AgB8GlSgRISJIQgZt8W6LU+61zaPoUkYmBy9lyUVk9uSPtB+mrc9Svcg0BFqpRLnk5nXJotfzRz815wdOfuOX3GTsIQl5VmUhs3a/nWqBWOoMyC5ar0BZP5eO0FvOJcKqNCtmqV810Yy2+w1vmHs2cP6PmHWaaqsq1EkPRq0udJUzdTtPZKR/LaHz3cvXcb2461uLKmzR05i8FOK0fTacgPxVn4O/ThFeYGEk2BtePydiTaWCXWZyTkXV5Si5aqlcmRumpCFmTdvUMed8aYbzvkPgICvU1MQFvG/52bMjMRvGHcNeKo+t/lvTbgTK56gSm7LWRaRwNZPvaKpzbd3uPHb3/EB/FUbJiWsPJvp+AvdFjFl22Ms89FEOy2qIdtOjJivrfA3MT6wYQzYro6PYgBSFUKHLpBGX9QYs2WwC1j+Tx5YyblWvEwbzAayGLp5JgIvT/4iPaaj6UK6rEjZXZvQ7CqCVHPxhIa6PRHklt5mp4GsBeLiY4uuPweQRa3h4g4VUKz9+jphI43NpQTz1N0dSvCqt35d49oxx4fI6TrhXlFaCThBrl49qhRprEeNSJWRJMaRm7JRHdRCkaG/bXDqiZOhCqFf7FYswG2PIq48POPwBWBjSX4Zyd9/28xS76mJATWZvsMxX0xGVorVXL+VZWA6it+mS25uIgjCtPpZBj7znMW5aOR+KhlxPIeHaTFLvEH8lCmP2zoZQqXeEi+xu5Cz6BrYN2TyAqDRKUX29g==
 
 ---
 apiVersion: v1
@@ -25,7 +25,7 @@ metadata:
 data:
   config.toml: |
     [survivor]
-    season = "47"
+    season = "48"
 
     [signal]
     api = "signal-api.signal"
@@ -33,7 +33,7 @@ data:
     group = "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
 
     [tautulli]
-    api = "192.168.2.3:8181"
+    api = "192.168.2.68:8181"
 
     [plex_users]
     "riley_snyder" = "Riley and Nicole"
@@ -66,15 +66,15 @@ metadata:
 data:
   config.toml: |
     [survivor]
-    season = "47"
+    season = "48"
 
     [signal]
-    api = "192.168.254.11"
+    api = "signal-api.signal"
     number = "+14808407117"
     group = "group.V3pxUUFzSmliN3RvbHRhQXZpUmFHS3JyNzlSSGRSRkJzZkpsNG5JSWE5Yz0="
 
     [tautulli]
-    api = "192.168.2.3:8181"
+    api = "192.168.2.68:8181"
 
     [plex_users]
     "riley_snyder" = "Riley and Nicole"
@@ -114,7 +114,7 @@ spec:
     spec:
       containers:
       - name: survivor-tracker
-        image: rssnyder/survivor-tracker:ddc6b361079683db7634406418f16ad3461ac914
+        image: rssnyder/survivor-tracker:773b0745eed9ccb57bf574dc94b90747d5e7a731
         imagePullPolicy: Always
         env:
         - name: DB_PASS
@@ -130,7 +130,7 @@ spec:
         - name: api
           containerPort: 7777
       - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:ddc6b361079683db7634406418f16ad3461ac914
+        image: rssnyder/survivor-tracker:773b0745eed9ccb57bf574dc94b90747d5e7a731
         imagePullPolicy: Always
         command: ["python"]
         args: ["spoilers.py"]
@@ -151,44 +151,44 @@ spec:
         configMap:
           name: survivor-tracker
 
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: survivor-tracker-test
-#   namespace: survivor-tracker
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: survivor-tracker-test
-#   template:
-#     metadata:
-#       labels:
-#         app: survivor-tracker-test
-#     spec:
-#       containers:
-#       - name: spoiler-timestamps
-#         image: rssnyder/survivor-tracker:ddc6b361079683db7634406418f16ad3461ac914
-#         imagePullPolicy: Always
-#         command: ["python"]
-#         args: ["spoilers.py"]
-#         env:
-#         - name: LOGLEVEL
-#           value: DEBUG
-#         - name: TAUTULLI_KEY
-#           valueFrom:
-#             secretKeyRef:
-#               name: survivor-tracker
-#               key: tautullipassword
-#         volumeMounts:
-#         - name: config
-#           mountPath: /app/config.toml
-#           subPath: config.toml
-#       volumes:
-#       - name: config
-#         configMap:
-#           name: survivor-tracker-test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: survivor-tracker-test
+  namespace: survivor-tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: survivor-tracker-test
+  template:
+    metadata:
+      labels:
+        app: survivor-tracker-test
+    spec:
+      containers:
+      - name: spoiler-timestamps
+        image: rssnyder/survivor-tracker:773b0745eed9ccb57bf574dc94b90747d5e7a731
+        imagePullPolicy: Always
+        command: ["python"]
+        args: ["spoilers.py"]
+        env:
+        - name: LOGLEVEL
+          value: DEBUG
+        - name: TAUTULLI_KEY
+          valueFrom:
+            secretKeyRef:
+              name: survivor-tracker
+              key: tautullipassword
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.toml
+          subPath: config.toml
+      volumes:
+      - name: config
+        configMap:
+          name: survivor-tracker-test
 
 ---
 apiVersion: v1
