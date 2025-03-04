@@ -114,7 +114,7 @@ spec:
     spec:
       containers:
       - name: survivor-tracker
-        image: rssnyder/survivor-tracker:773b0745eed9ccb57bf574dc94b90747d5e7a731
+        image: rssnyder/survivor-tracker:3d56a3c5988317415bc69462d153edd888e95639
         imagePullPolicy: Always
         env:
         - name: DB_PASS
@@ -130,7 +130,7 @@ spec:
         - name: api
           containerPort: 7777
       - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:773b0745eed9ccb57bf574dc94b90747d5e7a731
+        image: rssnyder/survivor-tracker:3d56a3c5988317415bc69462d153edd888e95639
         imagePullPolicy: Always
         command: ["python"]
         args: ["spoilers.py"]
@@ -169,7 +169,7 @@ spec:
     spec:
       containers:
       - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:773b0745eed9ccb57bf574dc94b90747d5e7a731
+        image: rssnyder/survivor-tracker:3d56a3c5988317415bc69462d153edd888e95639
         imagePullPolicy: Always
         command: ["python"]
         args: ["spoilers.py"]
