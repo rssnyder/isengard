@@ -1,0 +1,180 @@
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: burrito-system
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: minio
+  namespace: burrito-system
+spec:
+  encryptedData:
+    AWS_ACCESS_KEY_ID: AgAjX6IQBoKyOI837bB1cLCmri5tfNWzvzdKmremRwMDwyRSiJpXz8xXZkau2jnDmeIlvJBnwl1CVL+EFU3vz5hONPEQKLU6MA38VLhlq6KOKJ03N4LxcKTZ9rZpKKjYDxtVMv58Mdjxy9D23XuOhDsom+Xg4r0gLURwA7GAIBxds7ms723+DBvHpLhQ+9lLkMX0pWjx7Pc6qEGfowoVMBYLjOccPY7Cokqt48V2UkORIqaoVpm3YMGpgThk8dkWmfVCeHwjMRi7+1vJJ1iQgnIY5l2Jw2RcysLgA8b3iU9hsx8eBxAQEsuDSw/1ADsjZfnfXwGQebcl759IbIoQeWlOydPT7XNloKQgvihZ8s9KZSOEHrPGu1uuxJyrSSii3OUWBIAqpy33bjmqCUxp0T6MajBVACLQwTllZ+0hW3QY9WLELzBmjEV7CN1QRn+L1R3RiJm+WMs/WDqlC8yhJrHJVE3mYcOoKBzPBp5Uoe7eRfS5iKSPgCXSQ30+y0xc+3gCJxyj5mCpC1rB6Q5iSCCXp1CuOzAcuXY3Ao6Q8cMC/JTr2qYobw26n8MYmox1UeGw//k6JffOJYvK1vu0YWszLeC2bWdlfiLLkFgzIm4Mui48OdrvuQREwgQ2yuGEhied6P6sPLedWBXlrGUSss0ntR+uqwz6KJrIgyBN/nKT0bANS8RBdClmSdNwTGwqsledez+z3myq3wDUJNb8IVLAYXjXSw==
+    AWS_ENDPOINT_URL_S3: AgCsFdYdoQqG4dtVg6j8ruNmTIgqT+OtvqADwkCRXTdmo4mFanhyG2YzxeESRr8qZK11+HCDxBiNAWMacp66pAm3vTczDoi5Tg1Auah1eXWilgcsyMhtfvtP8BbU2ByTc5aFmSNwCW4mRuJ7/sjIRfI37D00HI3wARpOQN14Ua7YbpxOlomVOVDZGXP/7rCD/UfzDKcnT/y2ccNxaExwWepjwJ7E21fkYzJq4hgrnfw1DPVsaulBCYsf/xZONcJvpB/bNMzAR/zY61aFK+ufYkDMDMwcz/AMbI6YVXbDwK7VHfFtHTpqPxlTJCz9obWENUvLI1fBM+6wGCWmKPRgFLfr2JWWxMnWqPVNBs0ulv2QMPmI12oPMfBRWzEr/m4CaoRqGLyDK33+vXc6JnDBIGTt3hhXONZYZs5syQ3LqOgDuff+sGvr5J7IjeWXZspgyYrw1FHDB3GVDt+Xy67P08WdaNetTLR45jN8JbGPDvywJgR/f5U0jPQLB4mfxSFh4EsH3Kc329kqRm2ENfDmPstuqsKIdr8srCNXBuwSQw/IqbP6glY5P7xy5GE+TMBFvDSGUvlno4UNj12mMIWSZdpCkMXkdmknBjYJFz01hsj5jNCObwWUlxpkRHJoau85A2xoG7gBWIRVHkcxdFxe8tlbGDlmrgaFD4sY0Z+VQtDwef/Sx7V7aU50wF9bsS6Uf8BJjqNKe1+SbD4DTl+nkhv0BqktghUGsHhFxA==
+    AWS_REGION: AgCcNIp7TvjIMGY37oNAupYOqX5sU1lXgJozYP26c7tXra48cvAvDOOMzws2YNRpeVL6W4H4pc6qwqwUDQCFiKCFRzChLN9ol0H/+CSmO68RhdZkTlKMATIbiSs0agngYEOpHIks3q4QgtP0pOPBoOpjZiqkPTP2EiL9Pyr3N5LNO2rgyO0Zzg7vORnMrz2YHnjpL6dUgqXPsJvMCSyCyH6dKzHuXDxiRbbOIIf79egIB7kWCSiNkDeHn140VA83JcQDNgdCF/EN6ISVfTcJhNeV8zp9rByg+nUtmAipEMg5XuWaNBvqvmR8TSGESGTBKO1YHVszbMA2eX//Nn7dtGRVuOE6ArjIA1sZJ2zgsz0fm5i3gq+Su/k+woyR8lBSS5FoYmewJ4i/pUfiHE1xxgxco0agJsgYknlMYI9yLydPwYbZlS+9RXvEgJTcv4KhjM2P12dlG4VBf6FYwUiv3u9NlY9dBaOPhT3d6MpY+nibE2OjmLJPFdJUo1Ff3DWTw+X4uCFGg3GaaRcPkUao1Pht3+ALEEF+luT0x4l43QNPjvayW1w1sWc8Xoi8YRwm+obprdLW/MT2fEl1inh5tVzOZri5TBqnajv4AfqseRu1hH2UrNLqO47330r8Y2u7tQtLLtgJv3uFUFutV9API3ee/MunbvUaVobAVyFvvO8a9DvECr+s9/rRrMXSZhZIZ7r9OB4RjA==
+    AWS_SECRET_ACCESS_KEY: AgAFlawaxeGvArvADTq5QTh2UC8g6BAE9ZQafUWt87DEw8GujBkPzEmNAafYGvRj0xoWPde5Mz0yZBq59tSIPGciAjlZ6d6u2YND5Hogc2vgakGV/ZglnbsBwRv7sK4j6SJoWCcTN09iyjz5jcBh9JyuuozrqbVZcfouYECFCDbqQw4EuHlKU6Ddu0GpiZ2qHEOOvYqwLxPtW+srC6H8DyiU3l8Da8V6zTp8WH2HB8YFi/PQP13B1GJgI7xQcZKdbrNH8VynJMmfgPad+A/2iGuqHt6qiCIc3gxV1IKWGdAJy8z4W5NatqlDmUF4KK3120MGuDVci+S9PpSyWF1VrF0uB5kyZp9Yn4cAc0uU826jCBRZnCq2F9SNmBMVZlQ2amlzHOlFZylziMrI5khTMph2GCBsFEjyDlc/OkKdCsOoH/OQ3KHJPYuocOyLHQyaw/L+ls06RPB052LHnWcLsIpvy9HFojr848FwIkU3QWgg7Ae6w6z844KcA8L4s0kl+e2dm6jr5V/nmL97aPmN12TNLM4ZVW/PTuscOPryyYj+8ciW2kNofGqFKRkP/whLJdxcG6U5bBlHbZMp6ZLXgcQx+eHC4nprzpUpWGSMw2SQxeyJ10BbpyT1HLdSlOz+WQMP/tZrZ8ckJ0W/JAgeg85RT2CAnO626yJiZeSqM2CXIkRNK6WAEMFcJ6ArDKWxvZLCL3g+M3Qf6XqA7TxTS44GnC2LAQ3cYpE4Qc3YgwH6qywbAzMK63Ny
+  template:
+    metadata:
+      name: minio
+      namespace: burrito-system
+    type: Opaque
+
+
+---
+# helm install burrito oci://ghcr.io/padok-team/charts/burrito -n burrito-system --create-namespace -f k8s/manifests/micro/tacos-values.yaml
+# apiVersion: helm.cattle.io/v1
+# kind: HelmChart
+# metadata:
+#   name: burrito
+#   namespace: burrito-system
+# spec:
+#   repo: oci://ghcr.io/padok-team/charts/burrito
+#   chart: burrito
+#   targetNamespace: burrito-system
+#   valuesContent: |-
+#     config:
+#       datastore:
+#         storage:
+#           s3:
+#             bucket: burrito
+#             usePathStyle: true
+    
+#     datastore:
+#       deployment:
+#         envFrom:
+#           - secretRef:
+#             name: minio
+
+#     tenants:
+#       - namespace:
+#           create: true
+#           name: "isengard"
+#         serviceAccounts:
+#           - name: "isengard"
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: gh-rssnyder
+  namespace: isengard
+spec:
+  encryptedData:
+    sshPrivateKey: AgAKI49ifk4hltHxt5U+2JLolHmlaEX1+ybQxYpjoud/ENLj9CFwta8r0WaK+TJqScpGQx5ZhZ6SyrNDTknH7z6AuivefWjnxIa2PS7SHfxOLGjiTEdIpqh4jDsutcgOTcWEJTgPUSaJK19Rf/x8cwOk06LBWpXBlpsp9+ggW/CQK1CmpqiHd0aKpbdKi8nq/ILz/vS9N2xMQN9K1dB6MukAJknpxDhq7a6mcFfYX+JOL+o6T87Hau4FSSF31qrijtxIOiZzbZXK5UQSG8mFvf/jLUAMvNE8mI6iBnMGYqF8ahGwaQH90qzZDS28cl7VakgvfHL9tsnW81KaZzy2+26ZwtJH7zEUBs5guTXO9okgyktnaw8Sn+Iz1kgD9nfxd1pPTfWR41q4pM4dKDklC8QrtofP6o6DBSR/NqUpxSBB6HvcWwcShItLpt9UMHvUVHKnZJt9u+3wieo+QDTg7HkkTnLJ9fO7SdH6yQ36F3X/PY+a4VxMVKlieBqUuU6osjapE2Oy1eSHP3mrhnssIkOkSjozQCLJzGzB9CxlisB3Q7WMPebbXNARu3+zkoVBEYxITEQ0V5v0JDXsTkhvMdPB837o17563eUM61Do4JEAHw9gfoK35VNnrJosBpwkOGJ6vvUCROBqX1YwyUHBx+oM1k0y/gKHKno1eWzXUYe/JyJyStsc5jASve0GDMSTxSFXL4q1SyHTeWmlUwT6OfjivVEKNEhPBGiiE6oUODvLJZQm2KjpRp5vr0TuTKLUyA8HCQy+rxAPiLLq8GVMI6dEeJbeqzrVsiBD91KA8K0zn1HEZsbEP4G8F+3ZDO+Khedr43YkJ+EYcjMiPeWPlqgynWwRV1XH19wSkFSGXTERNVFqukSyQfuBf6G/d2L1jzZMBhJPd+cveG/S9Xtv27kim0JCrpOpT5h/SitVwQNytOLPOaNVifKepLLT1Wmx3SloSsCysVzzt+/oDawyoU/+FsB8gxKT3q0JleCd/Lq74PFQc3uEYfDZBeVDGVw7PL0zgzCk6KcWF6WHZaNa1ZEUPBv9imWSyFIepNRdcw2Dj+YuhX6Ihxz45RhDh+RoB0V43JqtJtCTXL7E0ZGpe1n5jpmh7U+l63/HUaVv290AWsEcpOOYVWaZ49AOMOiY+paAi8OKtrSGPuccguxuBe/j4syTsQoC5a7+3TlphFCMYQx472CnO65jT20yWk6E9/K5irsa4/RuYgZ06ohK1/H3y9CM+y3Q7ClZlY3ohmxJhGEejA==
+    username: AgCTpMVePeX6CTyJMDa5rRalWtchM983gyRoR2qTQG6+ARbK2AhKNbwxjHW+826kUdQF7W7C0IK0IerIiYQqD1+iMZmk1fpVTfbq78NTke68TaZaxiczo2rEvoQCXle9qf4Du3ZzfF39vn3nXmvUGsYmi9dWKcVnK5daA2Vt312qSne8lkvlumvepHvHuJ3EJnL/n7hcfhsFYaDVWCtAnyvXS93Kd3RctpJSOi5GehQ9seOCJLn55On6gb28BD7IhD1Zl0gdTmLlC4mk2RzxSebEZ/sLSqKn2FHFomrVQwpOiB0FyFAMkJQvmGgFn6Lx5EmSvsIDwg398WNf0uMLHWQqR3Ywlu7HA1aIUHqsyfLXLOLCIgmK78HvN1PN1rg36KXYSg2fHooMusdiXpYuZIl2NUTX2wUYH+0Wut2EuKWJ6kspgGtk5RJdE1JrgSvBhZJUiyrq5dPGDd77GMTOg1tECxSIVCsoLQnq2XfjFciuaeVmdLxOC24QBbev8qz4zKsi+cGeQpYrwOX3KkkTLDq0ah54B4y1aFfyT9mO3UzIJ6EjIxvMbvOJ0sPjTDrW+mOCrcfOcdAA8KIf4fgypXcbLTq6B2v4NrVBBY3/1O2RglzCTEgkHuvZglBr/jiu1Viws1jWVZH94MH41Hufw1umHfBHtX2LMGaNtzU0d//RbVWnaToo0j4QIvQV7lYzXQvDXWuXXVDVbg==
+  template:
+    metadata:
+      name: gh-rssnyder
+      namespace: isengard
+    type: Opaque
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: gh-rssnyder-pat
+  namespace: isengard
+spec:
+  encryptedData:
+    TENV_GITHUB_TOKEN: AgCfrWtxlB+1yVlgZjvAJfblvALkCLsHtR2GRTvMpLxRQDIAhFh9F1VVtB4mgelLgi4p7i4BCwMjlpZ9AS8UBZYcXkV/jzDOz3t63BuB1PWtZYncZ/dCKbt4+AmtnCBi+mK4gh+Fbr7B9Qp9GO9H9VMrfMFJPtHq0hoKbG8UxoRIbnnnXH/wz0FvwvrODhMGIZneVo3GkG0SJdNwolbteelhYQ8pK7wJC6qQvGnEu05edR8GEPN2z3hTmf4dRmt52Y+dosVHaNeE8IuK+pMbyqHnFuVwQT/eRcjW+bvzqGRatDPiAbuPYPBBVnyM1Bhx/HMcOlbdPDM+1JYDEXhBo1HX2AvWNPScrvnQv/nTt6oW2cmECsrS3NWONbouk60068JH2tsseH3Hl+NIw6jR/IxXaLF0Kupdckh0x9FO3gxxT1oPEKy0p6YIdHQWIHYnS22HavB9qkGnGrxjBEKT7otxwLZ3bKs+DvsONHbGjYQL3EfkPB7B92iSvqLPNxIJ4lIXQMkSSgo3P0EOdtCJGuqOErmguEL+gA6lM1xVFBZh3TBLkis3OLQ/g0vqR6n7rR3eIMI3fhVPZ4BhM8MTOvbPCs49iPiP31IBec3Mm1VoBvRqGl/r6XlmBZuZWy/RFIZolp+IwcIhTeRX7zk2v04AirRsCXED44UU3apr25XNbYY1fE/PtHwfjMih2u0Eo5CfYUHlN/MjakN3l0Vj8y9nCh8hHEc1HXGNIWFEO0d6clFfD75a92ttiXadkMtwdBCwoxQZfklG9A1Yk/p8pTcNMpWimhbIrN5XMBpn5gnCgtjFTNPrGq+JdQMFV2A=
+  template:
+    metadata:
+      name: gh-rssnyder-pat
+      namespace: isengard
+    type: Opaque
+
+
+---
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformRepository
+metadata:
+  name: test
+  namespace: isengard
+spec:
+  repository:
+    url: git@github.com:rssnyder/test.git
+    secretName: gh-rssnyder
+  overrideRunnerSpec:
+    envFrom:
+    - secretRef:
+        name: gh-rssnyder-pat
+
+---
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformLayer
+metadata:
+  name: nonsensetf
+  namespace: isengard
+spec:
+  opentofu:
+    version: "1.9.0"
+    enabled: true
+  path: "nonsensetf"
+  branch: "master"
+  repository:
+    name: test
+    namespace: isengard
+  remediationStrategy:
+    autoApply: true
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: tf-isengard
+  namespace: isengard
+spec:
+  encryptedData:
+    AWS_ACCESS_KEY_ID: AgBT9nK6TKuSWKcXPH79SfTYRMUCMlPlJfEFVIjoQtwtrietqGEN/+Dw3nPTgkKfeQLJXb1oAfL8KZmrkgqcFYUXTZ5x48XXWnuB+8B5fcDzO1GajXIsIxFja8ODDIudWat3F1UfFAx+pGD08I/AUF9nLOPOtH5dVJvSVbYDNz3xxZlXqhXlrErDPuWholC//sLOSNjBiPf0zKHtV43Wxa+gr+Q5AtzWWtLXCxKYlCGTp0zm+WTX6VvfpfNTGW/wTSFblY6m/GumbTeTm0lq924sgTaWjZLOBFkp2oMP0daEjKy1un2Zsy9Nv4HfAoQUqQb9egxdN6LltEkve6m69FB/+g1E7DhfDSNk8/Qz7T0MhdJe7gWag+Veauyk3FGmbgym/YAdpjmnAZ9Lyscnyp5227tzZVEabc/cBKcJPT4nMJsRqTndJx7MzrZ3Q4VO+EBFUPHN1Wo1AEcYuGHzACqAu3rFI3V/z3++J2tm2Wy5ubl848rQijtIdWC2WIwxlT35NX19l/tQC0pfVTimWHEWdBfgdcGrmv/NGRask/ahk78JxzfACZzKjeyUS02XvcKtuIVOXDwYL8a3mf32suyyZYeOJjKPI+4SZDRHAoFJhZlTUhm2KfumBBjLa6niplYHpXqe221RHJ2HI2mGzJw1JxaG9O9oyQPxSX6HKWXepAdQJ27i0K/U8A4PJ3RR0qqbnsDEeICOKpg3NHZsloCS
+    AWS_SECRET_ACCESS_KEY: AgCBY1xNgSUsDZwC5SP5j7NgLM8ly24P6Q5czb8KiXTRHxRXfXkxRPOPeewFodtQxRGbXqfTSbJwUKA6V6nvpocW7LjlDNLy6it3Mjn1XQB7TM9v3enD40anWNaOY7lBC0epVcorQxRlKzSzEKJKihDdpWDuazj3zKClstceFP85rXr366iydYc75FSLC6nImSqJm+Y6hhfVJBt+4wSszqCgve9nF7vyjrjfnhVMT8M996NdHWZGE4J2MFAzVprxlqFSSumGY3HudxFHu39d66cDmnMUA+If63gu5qDiBnXjWYNt9yUn39awuLIJPBxMciJKKLMoPx2q/PsfLiNI6yfJK0cvp0WG8pX1eplG/hO6hdwOGy6NYQ3ZuUFSTBqE+rpkvBFNO5gzz7kT6995rHdgyoiXZRAe/DC/tl5d/aUQ3+mGvpCKrx1JV/wArUhuhUoIqI9J7ODV1sPZaS09yvYLY4STHtjHah63kARgMGMjFACqxZiaHai4xY56z4USwAThh2Lmn6CU+ysfpF9UJ2Tg2x48Hf7ogDs1JkG+jG9f/3oWUjkC0Cj+JsETS1nPYrJr1ow+W4rGS/A9pb/BU51fabSusHrXpGZMNj8Xa67N+5MOo+Dfccz2Ewdo1aIf5G7fbqA2Ef5OAuD2WPw2IaVMrX4fQrTi7j5rgMu2vuRDLX+GONujF/8VgiD+Q8sSrK13QmYDdKUtjc2dB4S1fuhBD2+2clvGlJLQ6bU3FIcc+lRkpVU=
+    DIGITALOCEAN_TOKEN: AgAqCGqdSuWSf1TSzriCUEfcwW31Zn3TOPKck1pWHQetOjZM8M4AVlUZgP+eD9Z0zhdtZ2i7ys9A92MkH1c/P4/8XZ7QzYZC06054VbhcyAJcAlYf+E7DVo/QJPmaMHy6rOwai2e6mxJl0+q3+9pkpG0h9Yv1Y/48zoMDP15TKauCTZN8le0e8EwtL+gNJoQIOPAUsY3INqegMsdieWkfQ3z/AK1s6Ppxlcb3nBgokbPV3BQ2jzdn3RLqIwPwI/nZ3/DDagTqWBED+bkfFrFuZFY57uVDSnczXKZzH3zVKS/WTt8GpunTg0C85//H9WzMv2VK+WtepIBC2iaoZ7ULp796v9Oo2T8zJW7CQ6xpauGtRMLxL2eWfUfxqMeyeApD+obWMS5PwdNf8MPCLOka61sYxeb8Tx019IFw4ukWpNmWVP22N28PaMICwJFRs+MK4jvVCqmx2q5zaAxSYTxyZl76LfzUCHuf8lUzDUm1wVc4HQgEieKtDoQX27MXaEDHpxOiVe7Slh8bPB0/D7u6m7AA+l8AUYHn9JyHuDsm/qkpSW6OvQFs8W/XS2tYX8bT0r/osP/DAHGm9bwNtt2l+McWhqL1xTdmZI+66fSH5pdPFPbhK4Dctp4VxBFxId60nCfI/B0cbK2zGX79d15HUKkCdGssADV+re9/yp1dr3oAzap9DgYBQgSFnj6J9hNLpGAyxkxyvct1I+xzhlNjY0qoyGzRm34rTnMSYJaAq2eOOZkwMv7wq07gAS4A2QWqGIy4Jatc1DqgQDXh0bofBPpfCQXsZBeBg==
+    MINIO_ENABLE_HTTPS: AgAckQ13bz/qV22J+xdn8UCiZROhffbJAX1tcxJEF0jIXjiO/fFjTaWpXnSG8ntx6aCZIx1nV6XEfgRHLl94F8Oc2EJ4am/zocG1w+1CD0uAyrYzynwE9AxYpqz49BkLSe7RbEYxVptR1NdJOgWevMbja38VuKiuujbJl0TzCt+QL5RUN1K0CkV8ZnIYAoAkYmQex0La4p9DMSThlnjQTZ7fJShHnalEEZaBR460WqG34Vbq2c+xrLT9jEFRJiMju48XRE7MSM8UhIeaoXEKbgy8cLEpndZXfg44+ggo+LXfVitsxkZjMwxQXnzMNx25DHnkhxPU6pHpfAl6Oe72lHAlW1nMi+hPO0LXzcCDnL5JB0+Nibx55cDyakzkaZu9EemAbIb+/dU7kYHxsESGlXohU0UHQ44VM7n0PcSklJ63D8BDva+paWZ7lumaawqHiJ0/EzktWERf94h+U0rugkT3Z71JPXUCrT7zERcqLFH/Hz95Ge0hON4pLxeYDDueHfbGbteVc6P4lV7tQrMOyedyvkIWLqJHFLpga0TyYI7ka5NGEvGKUdccF1vP8+CfazbJLCXVOunlCvYtotxheG5vS9tGfP5CpDeH/+LrpXomHtNPAzdYBqzQNmsIcjmkjrMKW+fo+sE5ncQ4KE6FXV0cALGj25fcD74hmbHM44MvbQ37GTBRWUjQXn8HORtx3D1/HS5x
+    MINIO_ENDPOINT: AgCWWQ/etzrmklinhTUDBlF0qUzPqR5PzJQ6/QkIXjbpnGhWSJRtSdvZiJB+Aqdox4z7FYD5EJaINZjx/BlNXQuvlUavgpHDVKPDdBbfq5tZJrZwKv3LqVlQF1yA2wrbbzsiwPhpXNp0jK8L2r+RGb4RlQ0mEPXus7HRvElvkD5usBRLz+Vw6yqQoTnW7YU4OhAsYJl4aUIYy+5SBuC4a7Pqd0A+q2mp5s4huJT8q2drHC6d1HuIB63oyTN5kO7kagkVUuwMDMolA0YpZJkSkLk8rUee5KWoVZ0ree/K11EARmMsXs4SlaW01jrAcJpyWN4jXH4PzvkHprXaQpZ1jynuN+bkCekuQHsjP6BZH6EjolWZLJMK3pAgkjAtPudlmhGzrjYgnTOHB4cgl3Gqt2C92/X+21ve+Ark+DS2rryY3QmD563PAQsOooorPUEm7+DdWZTW+IIWBrFpqNYFsBTE+TFyW4CHRPsvii8X4Wu97QrscyLFUZPA/O7smd0q9HEv/6E0OI3Trj79R90LnECi8avtS0daGjKDaLKpcm08lmbxJjmR+js7vtr9lWEhHXeKab4nA/Mo8NNOBve+o+oTx+7DZe6KtK1+98psC2HRO9VeiwT4dtA6y6D5C8jNSDPVdruSdG8/n9bdNyFWOhm8MKvDuZryK4nbxWHDpxZXcol3KzTxcu9EedISzq8CeL+cA6yAoXGrAQinE2Kt8Id+flM=
+    MINIO_PASSWORD: AgAl2JhFXxwFxNOD4q1I3hZUCJU8NnFZMwzJfFxZI6dYI7qrxKCyplEn8eXlRFJQ2oWVvqKMVbuXazjUE1SGsELRykRYL4g2TlpLJGADd/QuBqZS3wHt7boe3Z38p7d47SR2EjOnsYQ0EvD1rYdgOYkkjO0l1wrJemZb5JS0xZcp/801fASCPo6klOYviCE2hlDZTzBmhyJBqFQRgFAgWXQ+dNWl2iifaOIXGHvsMgYvECXMeusWSAUzX4nmBelO7FEV2aF5JGN7AHmHRuphXczDQ0sqZ/65wmL114weFlIkJaGUwUjEU2hUF9e9IjJ+TE1hGfG1KJA2GP3oNIcU5StGg25V1rHVXL2XB8TvCF3KVzWGz0OUOtTSvH+FNvRWuDRDn/SY8QR6UZdtjbcwA7Tg8jMI06SaesmCA71Yt+IzeVRHaB5Zes1oAexdw/Vw6c3F/EePE/jiigS9wN6R7WU5anhvun51pGOSHMj7ARYUD6Bku4zygv/or3W6pw2zma01XGwFBQtgBB7RYlAN0Wc1f5RJvQsLQ7vC+pl63A8hjZNKPjmc8AObMTTFRoYGcZy0vl3We3YGxvmFL/oJIMdoYGyIiwSYjwCpyHEgj+pCekLmJLJQDI4Rkpec8/V351ZDbRajXgA4hxBo2qOm/DAgihrf6Kk9/cFeFHJHyNlDcziEMyLRq0I7TuszQAsfcjjy1cuj4iLR6b2RN1A6rEKUHIC0mpiOyK3noF7CKfDR4oJ07Og=
+    MINIO_USER: AgCDH+9e2LRK8POR1nghOOGahkBehoK+jvI8JIF+w6GmyKZMFbykyenocA6JzTVNOfUkf8LvN0a5JOYXp0nKuIOIGDTELfpjU/iBev7fecTnkzcKe9W0VzTTO6mhONNHAZb//jezuNDxXwPCnpNSTl74gt/Oyjl9+yAh2pRp/d9nzEjp9269jslkUCPjuaQIf0lhsMZNss427EkzcF9+tnXTI5dBMo2CP0iCzHTQlRtT9sLMTNkm+aSrb5nYqDtsBG6fehWQMf6emAZgOppHexTAjyCoz2a7cpVMGJ9oY0xzAdOVqz/roAuK5EHTC5oJCQfnCK+lQ6RmKkbZIA9rGErQplgrruLHgiCYcYs0S/l6a3V5pr1IfatiD9uel/SJwKkjcf3/YrRrp80xjTeUUCwh57TNTOQo7jDxWQr3ySCsFxmLE/UgUKlSqL8OTfashx1aGlLbLIjfQa+6Jyf+P5/Ueq67Kn0E8twDWKe22SHeVyLTY/30otlvppERUJSRf2yFRVvq9nl+c1x7J1IJGJH/OKHHP7PsdxwUQzn79XQtHLwhhQSN6bBw96jDbd8kZQYCFHvF/QrLPVWfs8TGHAphb5Y/MqCyuUbpXVly0Wf/DXn2NSG6nnX69k31iZlMYUJUDD4Tn3L3x/zOzr7Y9Oeg6Uhhz4pv+y2rpBhRfV/XSMuf7eoAgmRb+QiuQXMnRP2JYElLLw4H4O9aZlRz49Fc
+    PIHOLE_PASSWORD: AgAL2X93vBua8bq6UgPfCxLBcIEA5PUVdTVF2nBMs4pjzHK0CwPGyPUkKyT83TzaIJgYi63IfvQ9YKDmXRZeJaHsUYDL8Kbn5qoPcLclEti2Q/3geRg+Cn38Vwfs1nErNUL9Y/a8B1MZDVC+GM1f8YCmXoHQyahzAQOjhuD1ME+3yH/D3zOlYgDY+HGb1r+nHRfQdROXhZm583xopzVaTcMhs7zihR0WoBAk9omcqWwj9XoK8SYFBsJxfW0junEiH9XRBiGeAJq0fHMHylTvPKs+WhCzpMRA922wXgE1vrN+b1J/h4VkqN9+9+8+l4JboUwq5jjKIzgq7SY9ySJf4cZCe5ll26aZzxCln0dAFVHA2VqTCdaHspgosCQ0v4A2MHx41js+ELAvS9rOY3f0XF+n1YU1K7oMa29Cbwqs5W/lvFvHprYmSkFAS78dbQQTKGfdk3NcIV7/I5poQZObb9m4AYg/3j7FrvoMPBiqGyuiVw5HEf3iCIKTW3ctR1dIjgS2genVq/9U4F51gn5E4OGHrBLOC0ACgyb+SgzfL9EwDyS4MOEGERFETPpmFnESrhlFDIRrq1mzDd68xxY6+WfObW9sAw2+t1qO9o8r00Dbl/Ifw0ninErzGanUa+kdSFLdN9bhJ83f5uuZ/akK7OJgjQoXiB0ZcjqvQ4yHDKR7TIVqkirUlrRFIEO4rSOi+D9vYZLUjJkomA==
+    TF_VAR_minio_k8s_password: AgAHU02zk2/ub6t0tCSlbrtX9O8ZkWgObACuZx7pK38UpcscWZ3AC5R7l3clKF6Jbp0D1od35UwdabaJgUu8Dzb56I5aawagMmVLoesiSXvVi82CRGaxxHkqbyjthOCLhh/rAzhQZoedsRtOt3M71Hyp9EHTf6xYGXxqshD3zXKr+OUtSIncHXooINwzRUBo3uh+4q0EmCynBH8UMNnZJv8s3RnPQcWlbc9MCleySWSWDP2DFJID4JBSV3LxEB+wwXaPz6cOTpDTExdYKOMmLO5Hxs40XbfHnx5iLbKsNV5nzNab+vwHgUQHr3mC+g07cOCyZWz3/SrHy6FIWqB0nrhZVLPc1ZTwkW2r6Ewh9yBNkTKERqj7LYS+DZs6uxWSSWHFHE2TJCNAHxFnZs2TAVJKCSETicV+LsPygr6LBzRe2+SvoGKDGewlN6IqxMniPJ6+MzdyxqGcpjZSPZUOwOOnK+YvgnGp8kFWsGZHVi83DhW7BbruB7zNOcuLzkgYEXy7lQFFUVmaujJI12KODdwE9a2Tp8T65rc4wsz+j0Uz8GFcZ4TOcH82P0A2ZB8MbnrzIv3+edrtePqxFR7rR/jbeh06NxM/1cx7ivVKaijQHhN3zv3jZNszPayvhbeuY+KaUHFSha00NjJ3/rDcr9POoC/JigZoO4JGMGGOTLLZBf01Lkd7A21lvUzuDqia4WQ2NDoJlVtrNYZsdYBR6j92ZDIiDRloZ3ow7mFZ9pD/j3RH4dvX8A==
+    TF_VAR_minio_texas_password: AgAjxiwrx8Q9b0Tyt0dsAnTokJqlJugGvv/q3ZklKYz6qMfzOM7ixIe+vWD5Z/zqOJCR3sE47YpCaLHQfpinUKwijo+mEz+ACQ+cWBciS9K9W8UMSOz2o+i0FRRKKkNWH6q+41f/x/KBMdOabUYXtmjSHYNUF4cR3iQfoqvs0oNJHuygEFYoomASg/wQ6Yv4AnTbtssEbfGJdfpGSl1pG+xTKItyfFYT46R04wT4mefs3hrjq7WvKyaK+FlabIjTOeZM8sIqRkNTYNj8xW5dDBCA/MDANb7Nzfp3zli2+pllwuLU7qJJIDnkr/VNykLdo/iYTMlxYSxwZWrGW30GgB2I8lsAfk+MEavu1l/pCEdUL8Bb48fpf6GCeFEIdc0eR6/YbBhuscf3QpJpyTr72EZXTw6Mwa3hU+ynOD2of4nixFdNAulXj2h52zcr3iI+aMvLbJTZUMYPpyk+22CDXlkXcs9M3CxRqjvlaOStUqF8/f0sQU0rHstpYZcaOf5/6yLWV5JkOfn9vEQINVFH0NBmhw2YVIdqgmhSVk3jEu8tUFvVV0lCJzibiYs5T2+YwUM/yZB7S52StFFHbksYM/iI7Q3EA84awSi7Lrzt5IYW6wTZ4lVYwiicSgftd/WhxsR54pMwOGW/XPWFHiogQ51XForRve9WyTI25x3aRnBwcBkoeJOR1IthowPoYl9QMXmnWjX03lGM8JtuSQEMsjT7dZYsnUYZbm5998tlIyoK0g==
+  template:
+    metadata:
+      name: tf-isengard
+      namespace: isengard
+    type: Opaque
+
+
+---
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformRepository
+metadata:
+  name: isengard
+  namespace: isengard
+spec:
+  repository:
+    url: git@github.com:rssnyder/isengard.git
+    secretName: gh-rssnyder
+  overrideRunnerSpec:
+    envFrom:
+    - secretRef:
+        name: gh-rssnyder-pat
+
+---
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformLayer
+metadata:
+  name: isengard
+  namespace: isengard
+spec:
+  opentofu:
+    version: "1.9.0"
+    enabled: true
+  path: infra
+  branch: master
+  repository:
+    name: isengard
+    namespace: isengard
+  overrideRunnerSpec:
+    envFrom:
+    - secretRef:
+        name: tf-isengard

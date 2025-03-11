@@ -1,0 +1,24 @@
+config:
+  burrito:
+    datastore:
+      storage:
+        s3:
+          bucket: burrito
+          usePathStyle: true
+
+datastore:
+  deployment:
+    envFrom:
+    - secretRef:
+        name: minio
+        
+server:
+  service:
+    type: LoadBalancer
+
+tenants:
+- namespace:
+    create: true
+    name: "isengard"
+  serviceAccounts:
+  - name: "isengard"

@@ -171,3 +171,8 @@ module "s3_cnpg" {
   source  = "./simple-bucket"
   name = "cnpg"
 }
+
+module "s3_burrito" {
+  source  = "./simple-bucket"
+  name = "burrito"
+}
