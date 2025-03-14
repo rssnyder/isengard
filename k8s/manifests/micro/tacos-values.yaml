@@ -5,6 +5,10 @@ config:
         s3:
           bucket: burrito
           usePathStyle: true
+    runner:
+      image:
+        repository: rssnyder/burrito
+        tag: dev
 
 datastore:
   deployment:
