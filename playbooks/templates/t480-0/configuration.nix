@@ -58,6 +58,7 @@
     6969
     9090
     19132
+    8554
   ];
 
   services.logind.lidSwitch = "ignore";
@@ -199,6 +200,19 @@
     virtualHosts."files.r.ss" = {
       forceSSL = false;
       root = "/var/www/files";
+    };
+  };
+
+  services.mediamtx = {
+    enable = true;
+    allowVideoAccess = true;
+    settings = {
+      paths = {
+        plants = {
+          runOnInit = "${pkgs.ffmpeg}/bin/ffmpeg -f v4l2 -i /dev/video0 -c:v libx264 -preset ultrafast -b:v 600k -f rtsp rtsp://localhost:8554/plants";
+          runOnInitRestart = true;
+        };
+      };
     };
   };
 

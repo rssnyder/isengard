@@ -52,6 +52,7 @@
     git
     unzip
     gnumake
+    mediamtx
     tailscale
     smartmontools
     github-runner
