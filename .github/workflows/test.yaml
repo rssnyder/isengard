@@ -1,0 +1,15 @@
+on: [workflow_dispatch]
+
+jobs:
+  KubeDiagrams:
+    runs-on: ubuntu-latest
+    name: guacamole-static-check
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@main
+      - name: Run KubeDiagrams action
+        id: KubeDiagrams
+        uses: rssnyder/KubeDiagrams@feat/action
+        with:
+          fileName: k8s/keys
+          output: k8s/keys/keys.png
