@@ -105,11 +105,29 @@ spec:
 apiVersion: config.terraform.padok.cloud/v1alpha1
 kind: TerraformLayer
 metadata:
-  name: nonsensetf
+  name: nonsensetofu
   namespace: isengard
 spec:
   opentofu:
-    version: "1.9.0"
+    version: "~> 1.9.0"
+    enabled: true
+  path: "nonsensetf"
+  branch: "master"
+  repository:
+    name: test
+    namespace: isengard
+  remediationStrategy:
+    autoApply: true
+
+---
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformLayer
+metadata:
+  name: nonsenseterraform
+  namespace: isengard
+spec:
+  terraform:
+    version: "~> 1.11.0"
     enabled: true
   path: "nonsensetf"
   branch: "master"

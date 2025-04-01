@@ -1,6 +1,6 @@
 ---
 - name: Docker config
-  hosts: zira
+  hosts: all
   become: no
   tasks:
 

@@ -153,19 +153,15 @@ services:
   - name: "Kubernetes"
     icon: "fa-brands fa-docker"
     items:
+      - name: "Prometheus"
+        logo: "assets/homer-icons/png/prometheus.png"
+        url: "http://192.168.253.2"
+        target: '_top'
       - name: "Longhorn"
         logo: "assets/homer-icons/png/longhorn.png"
-        url: "http://192.168.253.3"
+        url: "http://192.168.253.1"
         target: '_top'
-      - name: "WhoAmI External"
-        logo: "assets/homer-icons/png/whoami.png"
-        url: "https://whoami.k8s.rileysnyder.dev/"
-        target: '_top'
-      - name: "WhoAmI Internal"
-        logo: "assets/homer-icons/png/whoami.png"
-        url: "https://whoami.k8s.rileysnyder.dev/"
-        target: '_top'
-      - name: "Photos"
-        logo: "assets/homer-icons/png/immich.png"
-        url: "https://immich.k8s.rileysnyder.dev"
+      - name: "Burrito"
+        icon: "assets/homer-icons/png/terraform.png"
+        url: "http://192.168.253.15"
         target: '_top'
