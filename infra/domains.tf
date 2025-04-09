@@ -13,20 +13,20 @@ resource "digitalocean_record" "instance" {
 
 resource "digitalocean_record" "root" {
   for_each = toset(var.github_pages)
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "@"
-  value  = each.key
-  ttl = 1800
+  domain   = digitalocean_domain.rileysnyder_dev.name
+  type     = "A"
+  name     = "@"
+  value    = each.key
+  ttl      = 1800
 }
 
 resource "digitalocean_record" "www" {
   for_each = toset(var.github_pages)
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "www"
-  value  = each.key
-  ttl = 1800
+  domain   = digitalocean_domain.rileysnyder_dev.name
+  type     = "A"
+  name     = "www"
+  value    = each.key
+  ttl      = 1800
 }
 
 // services
@@ -245,27 +245,6 @@ resource "digitalocean_record" "photos" {
   value  = var.instances["home"].ip
 }
 
-resource "digitalocean_record" "awslb-harness" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "CNAME"
-  name   = "*.awslb.harness"
-  value  = "snyder-lab-alb-2080643085.us-west-2.elb.amazonaws.com."
-}
-
-resource "digitalocean_record" "star-awsproxy-harness" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "*.awsproxy.harness"
-  value  = "52.36.176.96"
-}
-
-resource "digitalocean_record" "star-azureproxy-harness" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "*.azureproxy.harness"
-  value  = "13.89.188.232"
-}
-
 // github pages
 
 # resource "digitalocean_record" "photos" {
@@ -274,6 +253,17 @@ resource "digitalocean_record" "star-azureproxy-harness" {
 #   name   = "photos"
 #   value  = "rssnyder.github.io."
 # }
+
+//work
+
+resource "digitalocean_record" "cshrns" {
+  for_each = toset(["ns-559.awsdns-05.net", "ns-2043.awsdns-63.co.uk", "ns-446.awsdns-55.com", "ns-1083.awsdns-07.org"])
+
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "NS"
+  name   = "cshrns"
+  value  = each.key
+}
 
 // redirects
 

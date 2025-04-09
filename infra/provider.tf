@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     digitalocean = {
-      source  = "digitalocean/digitalocean"
+      source = "digitalocean/digitalocean"
     }
     pihole = {
       source = "ryanwholey/pihole"
@@ -14,8 +14,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket                      = "isengard"
-    key                         = "terraform.tfstate"
+    bucket = "isengard"
+    key    = "terraform.tfstate"
     # endpoint                    = "https://s3.rileysnyder.dev"
     endpoint                    = "http://192.168.2.2:9000"
     region                      = "main"
@@ -32,34 +32,34 @@ provider "pihole" {
   url = "http://192.168.2.2:8888"
 }
 
-provider minio {
+provider "minio" {
   # minio_server = "s3.rileysnyder.dev"
   minio_server = "192.168.2.2:9000"
-  minio_ssl = false
+  minio_ssl    = false
 }
 
 variable "minio_texas_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
-provider minio {
-  alias = "texas"
-  minio_server = "192.168.0.34:9000"
-  minio_user = "admin"
+provider "minio" {
+  alias          = "texas"
+  minio_server   = "192.168.0.34:9000"
+  minio_user     = "admin"
   minio_password = var.minio_texas_password
-  minio_ssl = false
+  minio_ssl      = false
 }
 
 variable "minio_k8s_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
-provider minio {
-  alias = "k8s"
-  minio_server = "minio.r.ss"
-  minio_user = "admin"
+provider "minio" {
+  alias          = "k8s"
+  minio_server   = "minio.r.ss"
+  minio_user     = "admin"
   minio_password = var.minio_k8s_password
-  minio_ssl = false
+  minio_ssl      = false
 }

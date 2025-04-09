@@ -66,11 +66,11 @@ variable "instances" {
 }
 
 variable "local_domain" {
-  type = string
+  type    = string
   default = "r.ss"
 }
 
 variable "github_pages" {
-  type = list
-  default = ["185.199.108.153","185.199.109.153","185.199.110.153","185.199.111.153"]
+  type    = list(any)
+  default = ["185.199.108.153", "185.199.109.153", "185.199.110.153", "185.199.111.153"]
 }
