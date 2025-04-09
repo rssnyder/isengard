@@ -42,13 +42,13 @@ data:
     "barry.sa" = "Barry and Marcin"
 
     [signal_players]
-    "+15125207105" = "mose162"
-    "+13193271020" = "hmfis"
-    "+12628447075" = "hmfis"
-    "+18473385345" = "barry.sa"
-    "+12245671029" = "barry.sa"
-    "+15159792049" = "riley_snyder"
-    "+15155097579" = "riley_snyder"
+    "Hunter Moser" = "mose162"
+    "Hannah Mortensen" = "hmfis"
+    "Adam Mortensen" = "hmfis"
+    "Marcin Mocarski" = "barry.sa"
+    "Barry Mocarski" = "barry.sa"
+    "Riley Snyder" = "riley_snyder"
+    "Nicole Williams" = "riley_snyder"
 
     [database]
     host = "192.168.2.2"
@@ -83,13 +83,13 @@ data:
     "barry.sa" = "Barry and Marcin"
 
     [signal_players]
-    "+15125207105" = "mose162"
-    "+13193271020" = "hmfis"
-    "+12628447075" = "hmfis"
-    "+18473385345" = "barry.sa"
-    "+12245671029" = "barry.sa"
-    "+15159792049" = "riley_snyder"
-    "+15155097579" = "riley_snyder"
+    "Hunter Moser" = "mose162"
+    "Hannah Mortensen" = "hmfis"
+    "Adam Mortensen" = "hmfis"
+    "Marcin Mocarski" = "barry.sa"
+    "Barry Mocarski" = "barry.sa"
+    "Riley Snyder" = "riley_snyder"
+    "Nicole Williams" = "riley_snyder"
 
     [database]
     host = "192.168.2.2"
@@ -130,7 +130,7 @@ spec:
         - name: api
           containerPort: 7777
       - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:3d56a3c5988317415bc69462d153edd888e95639
+        image: rssnyder/survivor-tracker:df78fc8d1c34482110d63f66a77714db471d095e
         imagePullPolicy: Always
         command: ["python"]
         args: ["spoilers.py"]
@@ -171,7 +171,7 @@ spec:
     spec:
       containers:
       - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:3d56a3c5988317415bc69462d153edd888e95639
+        image: rssnyder/survivor-tracker:df78fc8d1c34482110d63f66a77714db471d095e
         imagePullPolicy: Always
         command: ["python"]
         args: ["spoilers.py"]
