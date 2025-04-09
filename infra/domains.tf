@@ -257,7 +257,7 @@ resource "digitalocean_record" "photos" {
 //work
 
 resource "digitalocean_record" "cshrns" {
-  for_each = toset(["ns-559.awsdns-05.net", "ns-2043.awsdns-63.co.uk", "ns-446.awsdns-55.com", "ns-1083.awsdns-07.org"])
+  for_each = toset(["ns-559.awsdns-05.net.", "ns-2043.awsdns-63.co.uk.", "ns-446.awsdns-55.com.", "ns-1083.awsdns-07.org."])
 
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "NS"

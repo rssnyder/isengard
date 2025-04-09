@@ -192,6 +192,8 @@ spec:
   repository:
     name: isengard
     namespace: isengard
+  remediationStrategy:
+    autoApply: true
   overrideRunnerSpec:
     envFrom:
     - secretRef:
