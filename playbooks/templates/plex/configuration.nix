@@ -1,5 +1,16 @@
 { config, pkgs, ... }:
-
+let
+  customPlex = pkgs.plex.override {
+    plexRaw = pkgs.plexRaw.overrideAttrs(old: rec {
+      src = pkgs.fetchurl {
+        # manually set plex version to upgrade before nix-stable
+        version = "1.41.6.9685-d301f511a";
+        url = "https://downloads.plex.tv/plex-media-server-new/1.41.6.9685-d301f511a/debian/plexmediaserver_1.41.6.9685-d301f511a_amd64.deb";
+        sha256 = "sha256-4ZbSGQGdkXCCZZ00w0/BwRHju4DJUQQBGid0gBFK0Ck=";
+      };
+    });
+  };
+in
 {
   imports =
     [
@@ -39,12 +50,6 @@
     layout = "us";
     variant = "";
   };
-
-  # users.groups.plex = {};
-  # users.users.plex = {
-  #   isSystemUser = true;
-  #   group = "plex";
-  # };
 
   nix.gc = {
     automatic = true;
@@ -99,6 +104,7 @@
     tailscale
     smartmontools
     github-runner
+    plex
   ];
 
   services.openssh.enable = true;
@@ -143,6 +149,7 @@
   };
   
   services.plex = {
+    package = customPlex;
     enable = true;
     openFirewall = true;
   };
