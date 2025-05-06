@@ -1,0 +1,57 @@
+# helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --namespace flux-system
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+  annotations:
+    fluxcd.controlplane.io/reconcileEvery: "1h"
+    fluxcd.controlplane.io/reconcileArtifactEvery: "10m"
+    fluxcd.controlplane.io/reconcileTimeout: "5m"
+spec:
+  distribution:
+    version: "2.x"
+    registry: "ghcr.io/fluxcd"
+    artifact: "oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests"
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+    - image-reflector-controller
+    - image-automation-controller
+  cluster:
+    type: kubernetes
+    multitenant: false
+    networkPolicy: true
+    domain: "cluster.local"
+  kustomize:
+    patches:
+      - target:
+          kind: Deployment
+          name: "(kustomize-controller|helm-controller)"
+        patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --concurrent=10
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --requeue-dependency=5s
+
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.x"
+    registry: "ghcr.io/fluxcd"
+  sync:
+    kind: GitRepository
+    url: "https://github.com/rssnyder/isengard.git"
+    ref: "refs/heads/master"
+    path: "k8s/manifests/oci/23"
+    # pullSecret: "flux-system"
