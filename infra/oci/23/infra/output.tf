@@ -17,3 +17,7 @@ output "node_pool_id" {
 output "kubernetes_version" {
   value = var.kubernetes_version
 }
+
+output "lbsecuritygroup" {
+  value = oci_core_network_security_group.ingress_lb.id
+}
