@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esphome
+  namespace: homeassistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: esphome
+      app.kubernetes.io/name: esphome
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: esphome
+        app.kubernetes.io/name: esphome
+    spec:      
+      containers:
+      - name: esphome-esphome-release
+        env:
+        - name: TZ
+          value: America/Chiacago
+        image: esphome/esphome:stable
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 6052
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 6052
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 6052
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 6052
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+        - mountPath: /cache
+          name: cache-volume
+      # dnsPolicy: "None"
+      # dnsConfig:
+      #   nameservers:
+      #     - 192.168 # YOUR DNS SERVER
+      #   searches:
+      #     - lan  # YOUR DOMAIN NAME
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim: 
+          claimName: esphome
+      - name: cache-volume
+        emptyDir:
+          sizeLimit: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: esphome
+  namespace: homeassistant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: esphome
+  namespace: homeassistant
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "esphome"
+    external-dns.alpha.kubernetes.io/hostname: esphome.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/instance: esphome
+    app.kubernetes.io/name: esphome
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
