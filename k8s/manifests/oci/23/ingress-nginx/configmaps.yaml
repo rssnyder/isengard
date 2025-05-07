@@ -8,13 +8,13 @@ data:
     oci:
       lbsecuritygroup: ocid1.networksecuritygroup.oc1.phx.aaaaaaaa444s2v24esgg6azkdit4d2nh5dvkk2zy2aswqcl7kbd4qr73yo2a
 
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: oci-nlb-sg-id
-  namespace: teleport
-data:
-  values.yaml: |
-    oci:
-      nlbsecuritygroup: ocid1.networksecuritygroup.oc1.phx.aaaaaaaa444s2v24esgg6azkdit4d2nh5dvkk2zy2aswqcl7kbd4qr73yo2a
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: oci-nlb-sg-id
+#   namespace: teleport
+# data:
+#   values.yaml: |
+#     oci:
+#       nlbsecuritygroup: ocid1.networksecuritygroup.oc1.phx.aaaaaaaa444s2v24esgg6azkdit4d2nh5dvkk2zy2aswqcl7kbd4qr73yo2a
