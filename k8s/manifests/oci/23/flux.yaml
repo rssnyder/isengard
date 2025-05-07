@@ -38,20 +38,8 @@ spec:
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --requeue-dependency=5s
-
----
-apiVersion: fluxcd.controlplane.io/v1
-kind: FluxInstance
-metadata:
-  name: flux
-  namespace: flux-system
-spec:
-  distribution:
-    version: "2.x"
-    registry: "ghcr.io/fluxcd"
   sync:
     kind: GitRepository
     url: "https://github.com/rssnyder/isengard.git"
     ref: "refs/heads/master"
     path: "k8s/manifests/oci/23"
-    # pullSecret: "flux-system"
