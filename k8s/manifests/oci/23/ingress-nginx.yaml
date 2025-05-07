@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./ingress-nginx
+  path: ./k8s/manifests/oci/23/ingress-nginx
   prune: true
   sourceRef:
     kind: GitRepository
