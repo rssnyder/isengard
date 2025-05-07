@@ -15,3 +15,16 @@ spec:
       kind: Deployment
       name: ingress-nginx-controller
       namespace: ingress-nginx
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: sealed-secrets
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/manifests/oci/23/sealed-secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
