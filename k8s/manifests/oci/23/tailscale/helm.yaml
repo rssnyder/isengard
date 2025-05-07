@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tailscale
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: operator-oauth
+  namespace: tailscale
+spec:
+  encryptedData:
+    client_id: AgBKz15axe/Zz1wWm53pdUH4H2c9ehY1YTf6qKO1xLlDjCclajyIWhxuHJzF3nEEfGKsnSqr5T0g5WIIderNZxLNHp0btfbxZD2M7T3oBXoQbJlP3kgpoOLPmPEgmLTGu2D9sJbLBY2hE6beyvxbulejFbZTxD9qqlv4xOGk0+LmHuX6lKuTwJmECR+lD5eq6ULpf2TyWbB01Ql8DWPGr9cRVDNN39KYNC+aMa7wY0tLID9AQWsIyPzhldiHzI/K8cH5WEuz2JVfud7sLaKP6j5JP4Z28EWpVKrTcMWkK3dGoYDFMYdj2gK/grYE8YcOY5oQMaZQ2j+rEuyXCZ7NJCsWEywpu9NTrPXRHmAd5sQDLwT1QBMfCvbbveFbhlxckzJaIsGY/+PltRj3xuOv4bW1GYD5yBxcLLLaYbQUD2f5nlBgQhuklNz5WWNFPmRlxUQAVE3+8Fbc65nIsKu6g9IHXG8WChwGW1PuGJN+ip58fftgT0dfXRwcwG65xnxTwImSoYAN55m2tyqHo27EL7x8cffoE21Ue0D+KsNiPjbPAxU6G9t3vPnEUFAJ8yo3gQXriIEOTqPox9VrjC4KiW6YLXGcnCHr7PeAZXX/jiP0xpRyjvXET6Twl8Cu5ixGJvqUXEsfMUMhhCC6v1WIMefGzwn5h3w1s40QiJ9ZX92INeLjWm4hxGzgpGyq40MXwswVhKdS7pIsASPAwMwhPiwMnA==
+    client_secret: AgCtRs042jF6L4eksHIqcC6Sa7f9Al+DQI1gZgNBpUBcJytMzUXiy5xmi7cuN9imnmxu/+1xrfvwBEiv9RztF6O6ueOXo7Bb7RMW/O166iUHamGpW4iA/T1fRj1NbQTeb28fKTC8Wq+u4fR/8I2FFsCQHfyyJL8WzZ+JX6V5lFjH6tQuT4Z+YPh6QwsBNTNuR6s26YBVa9mJlwkHcK6z85Y44i1ESsQftTTnCkffAw1V0gNSId7kkkwbjrq7eJmjgppSZxBTznlIDfM6k8ixIugwKIfoVqtorMqU0692Zd+JIqR9bHAHkdo/mI33a0BR4YSY+L968Cp+NQzIKf1hZExCgLY9ZrlbDYURGgDAWkXMm4K7Z315E+rBqoxReYEF99yD2Ec5V8nnMmuSOwH7vM+720CkkB8m2+0iRfplUNFSNkt0R0NyEIMRprItJatzoEBfCieuRLQ8E6um6CD61rq8h2G5RebopKa/NndnXL0YHRKqMxCOtV2VTOmNjWJtBY1e5CUX/QT+P8p9UmkxEOsQGHNRbVYbmPBaFUY8ek/dOpk23U6zlm5+ZNWSSMDkQWOobT+6uMOiUXXZX42myV+JR999K7T/3+JFuUrKigen6SbAg7Ls54Y2pDsHefbXmn2wE7pbcsHSthBkoId85ODhPjmYl2vnt67ML8r5TatlUshcOzvKSb7O9CsqhYXHW2k6336huOvRyS0DyiCk0xaipb5LB6MBvmy/nXFzT+l7z9JsSmsYSeZRtvMsP92YeamCoriVN6BbIa2TtelvJmXO
+  template:
+    metadata:
+      name: operator-oauth
+      namespace: tailscale
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: tailscale
+  namespace: tailscale
+spec:
+  interval: 5m
+  url: https://pkgs.tailscale.com/helmcharts
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale
+  namespace: tailscale
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: tailscale-operator
+      version: "1.82.5"
+      sourceRef:
+        kind: HelmRepository
+        name: tailscale-operator
+      interval: 5m
+  releaseName: tailscale-operator
+  values:
+    operatorConfig:
+      defaultTags:
+      - "tag:oci23-k8s-operator"
+      hostname: "oci23-k8s-operator"
+    proxyConfig:
+      defaultTags: "tag:oci23-k8s"
