@@ -56,4 +56,4 @@ spec:
     proxyConfig:
       defaultTags: "tag:oci23-k8s"
     apiServerProxyConfig:
-      mode: true
+      mode: "true"
