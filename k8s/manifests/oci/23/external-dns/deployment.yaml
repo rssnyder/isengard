@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-dns
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: token
+  namespace: external-dns
+spec:
+  encryptedData:
+    DO_TOKEN: AgCypNO3CI8UQy0Cvm+RW9OxnUA0DQ9i8GQD5t4ZCr4x6P2F9LruwusYmZHJSKlcbKHJMPt5D/TuqcDMaa5QRQlErAjI2uqWZ9dotQyqFGqCxliZC8Qu+GTEU69TA3ki7LcpocvtGe/cgUbK3l8qAgjllP/Y7lmBKZiEDMXgUOWHgm3W1jovQnRKjE61s+XC+jopVrL20KKRMODHpRjAEwoidf5yQwfr+q947tZ1Nn78jzwpW94nQD0O20HMqiA+3qTDMXfunevKLTeClt9q+5aJWiYf/z2pGa1EOpnaKc3maCnKEwyTw2mD2knh/rMYUQczk5nLq9pY0n2tsyEGr5oxqfXG0lVEJxC7GTFAiDvBhuoLhHGHU1laBx9JcayQVqR6Pbi40ap/nY0iK9RQANEIVMVYraLzeiFLGntLKTLWs/K/FJ2ZHvPbFY7isuf7u7E8+G5/4ZhpJukdbY7PHCcnGjbw2weiELqKGDjfphkzV+JVwarZ9bKcDOr50k3S4eq/DStlA6KpsToDOD+kLvNqvtjv0H37o7/lpenpkPmKcYvqy66/vJcuITX77VNmfurjpeDWWkmC1VaZGLTPA5oAz8vrB5/ovr8hMNH1MVhnKczzOkavBI3MxfAalCBnqRN2WMIN+8jOqyq6j8oaF6fRmLSJW91xgERvQds18oN2QUWoDK96hu1B9FJaWmLbw8661ZKyEhekSrjAkUmi4OE3mGF1gyE6iWoOb+OSGLOb/aWZXWnWZcySPkWVOFHrPDJIPfQGwIPR8LYV0MoXIDV5gBTObN7GbQ==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: token
+      namespace: external-dns
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: external-dns
+  namespace: external-dns
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: external-dns
+rules:
+- apiGroups: [""]
+  resources: ["services","endpoints","pods"]
+  verbs: ["get","watch","list"]
+- apiGroups: ["extensions","networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["get","watch","list"]
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["list","watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: external-dns-viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: external-dns
+subjects:
+- kind: ServiceAccount
+  name: external-dns
+  namespace: external-dns
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  namespace: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+      - name: external-dns
+        image: registry.k8s.io/external-dns/external-dns:v0.14.0
+        envFrom:
+        - secretRef:
+            name: pihole
+        args:
+        - --source=ingress
+        - --domain-filter=rileysnyder.dev
+        - --provider=digitalocean
+        env:
+        - name: DO_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: token
+              key: DO_TOKEN
