@@ -76,10 +76,7 @@ spec:
       serviceAccountName: external-dns
       containers:
       - name: external-dns
-        image: registry.k8s.io/external-dns/external-dns:v0.14.0
-        envFrom:
-        - secretRef:
-            name: pihole
+        image: registry.k8s.io/external-dns/external-dns:v0.16.1
         args:
         - --source=ingress
         - --domain-filter=rileysnyder.dev
