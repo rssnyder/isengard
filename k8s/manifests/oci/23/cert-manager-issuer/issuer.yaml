@@ -7,8 +7,8 @@ spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: rileysndr@gmail.com
-    # privateKeySecretRef:
-    #   name: letsencrypt-staging
+    privateKeySecretRef:
+      name: letsencrypt-staging
     solvers:
       - http01:
           ingress:
@@ -24,8 +24,8 @@ spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: rileysndr@gmail.com
-    # privateKeySecretRef:
-    #   name: letsencrypt-prod
+    privateKeySecretRef:
+      name: letsencrypt-prod
     solvers:
       - http01:
           ingress:
