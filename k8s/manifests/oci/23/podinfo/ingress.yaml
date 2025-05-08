@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: podinfo
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: podinfo.rileysnyder.dev
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - podinfo.rileysnyder.dev
+    secretName: podinfo-tls
+  rules:
+    - host: podinfo.rileysnyder.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  podinfo
+                port:
+                  number: 9898
