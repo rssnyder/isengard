@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: b4w
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: b4w
+  namespace: b4w
+spec:
+  capacity:
+    storage: 10M
+  accessModes:
+    - ReadWriteOnce
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: b4w
+  namespace: b4w
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10M
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b4w
+  namespace: b4w
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: b4w
+  template:
+    metadata:
+      labels:
+        app: b4w
+    spec:
+      containers:
+        - name: b4w-backend
+          image: huntermo/b4w-backend:513849
+          ports:
+            - name: api
+              containerPort: 8002
+          env:
+            - name: DB_PATH
+              value: /db/game.db
+            - name: SECRET_KEY
+              value: harleyisschmoobs
+            - name: ALGORITHM
+              value: HS256
+            - name: ACCESS_TOKEN_EXPIRE_MINUTES
+              value: "10080"
+          volumeMounts:
+            - name: b4w-storage
+              mountPath: /db/
+        - name: b4w-frontend
+          image: huntermo/b4w-frontend:513849
+          ports:
+            - name: http
+              containerPort: 3002
+      volumes:
+        - name: b4w-storage
+          persistentVolumeClaim:
+            claimName: b4w
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: b4w
+spec:
+  selector:
+    app: b4w
+  ports:
+    - port: 80
+      targetPort: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: b4w
+spec:
+  selector:
+    app: b4w
+  ports:
+    - port: 80
+      targetPort: api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: b4w
+  namespace: b4w
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: b4w.rileysnyder.dev
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - b4w.rileysnyder.dev
+    secretName: b4w-tls
+  rules:
+    - host: b4w.rileysnyder.dev
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name:  backend
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  frontend
+                port:
+                  number: 80
