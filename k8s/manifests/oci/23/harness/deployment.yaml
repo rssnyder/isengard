@@ -3,46 +3,6 @@ kind: Namespace
 metadata:
   name: harness
 
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: b4w
-#   namespace: b4w
-# spec:
-#   capacity:
-#     storage: 10M
-#   accessModes:
-#     - ReadWriteOnce
-
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: b4w
-#   namespace: b4w
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 10M
-
----
-# get some persistent storage
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: example
-  namespace: example
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 1M
-
 ---
 apiVersion: apps/v1
 kind: Deployment
