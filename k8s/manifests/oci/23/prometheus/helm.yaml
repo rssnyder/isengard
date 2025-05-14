@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prometheus
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: prometheus
+  namespace: prometheus
+spec:
+  interval: 5m
+  url: https://prometheus-community.github.io/helm-charts
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus
+  namespace: prometheus
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: prometheus
+      version: "27.14.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus
+      interval: 5m
+  releaseName: prometheus
+  values:
+    commonMetaLabels:
+      cluster: oci23
+    server:
+      persistentVolume:
+        enabled: false
+      service:
+        servicePort: 9090
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: oci23-prometheus
+      defaultFlagsOverride:
+        - --storage.tsdb.retention.size=10GB
+    alertmanager:
+      enabled: false

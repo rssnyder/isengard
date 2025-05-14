@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: longhorn-system
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: minio
+  namespace: longhorn-system
+spec:
+  encryptedData:
+    AWS_ACCESS_KEY_ID: AgBW1Rgx39zQ4w7EsPumhxvvLQsPvLZQaxTxSPPvkATwpH39uq++663CvPPxbPSxLrXu6N36gjKcAwvS6kiwIJvhJLkzZzWwRVofTpcTVoGXfiS4NOPh6Z8I9pRs6K20CP2+uTxWE5l+9fxWyjNzbx5KBzZtcpb6xpTlb/hiAw7Ozt/xtu1Io/1AJ6+flxJYgWf1hktc51Gs6Y/5VPIOiQ4HnAvZrGI+zJOdihFcMuDtX29wL2iCcEcrIOeToh1QkdBZ603AaVHO/8si2gNTFzTwy5lj1Z+nwM7uKKNNC0tchUrbgQTHzXDNubo7T1QztPZ1s8aGdBaU+I7Pe3X8I7VKRNt+y5I0V4LAY8uVkXTVWaWvy6d12O38FXnXTJTZdeudRFTejXHfZdMczyn2RE5QRtLK9cxR2e8tkPvM6pjXho7Po3ET0HZVlgMJq9L7AGIoH05HLYTbPztA+TdY3f27NEHYMQ0z6efh+ki9NNlb5mA1uiMElwIic+h/xRknNvEJycyYDEYIz8jdXV/xlbjnxfHEKkSevjn2joWlzmSrroR8H5WRNnxppZxtrZmHUJcrPJawrfFfBFN8+Sx1P3VcT/yMfNls1F2zCIaDYtoghPEN2Ls+kvSceAEtU80zyNF46VJRXsdEDIAX33w5f3FYp48Axg9zxsiFLDvSHy48oJsZXIoyK2nMy+yNW1LH7K/95Vayxw==
+    AWS_ENDPOINTS: AgC0M03hAsemLxuXCAOcFCt9feFNZh2mlcPHNcbSwMpm7+OhgPQg48uzVM/30QruoqwFQSxcZvIFNe3c35J5Y/kW0yF8zUtUZF7xdiBF3Zm4nCDUaVh2NzUdvnEh3fOEHA36D7cW/EEYZ47It1RLV5sCIfaW2SZZ1KRPvf2Tf6DwVlQALTRB8/Ve66ZBjHXLsan1XdXRfP3EZEWl448e34W4WR8vcwspw6FdTEUqeaNYDEL1yvLYwgtxr0v3V8PoWhIatfyNIBgU2zL/BNxikJLh2LqwdpgsbbUsjDudAuJJ48Zpwv1f+cNaxQiZ+DkKlUSRaSpkuUSFxll4ZZGLWZ3t15PDJqgvWGmxgxyOj8nIwGaaBQ0RB9kuOgJ1DjqPmcEeuFrJ+dHKWX2hdGie2R8VkaeWIIST3DfHDAmIlpGiuAHOnEJMCjT/i9jRfFHUPKStFTSv2T0lWTW8OzFBXGfs7TTdedDy28odq/pLAuKCY27p8QXHSQdN0B2WXQt/+jUO9xk2u2W9KXLalc5D84G+H4ZWhVN1tSN+C74fwIhu/E9EktsEE6vR8GvClbddJaR4dPSE+Z6fhx90PhVq35RScmWRbpqGHuA8WtMG6I/64Glr2UEqVPvNvXwsNYuJ8U8Ncx08hSQjg7e4AjkJMDn/RBfZM0lzrKLCEQU/kxEQmhGtnWyLxyoP4S2SdUezfwM4Ioirm0ek6YnuJ4Uq2zrPyHkyzidfGnoLrA==
+    AWS_SECRET_ACCESS_KEY: AgClBabT+sorlH+m1bicYa1Hm9qjJAv3+lIgF3gF1zbyvb92CUA2TwRyTxpvkgc9PGQvDC8OnKvZHSPrSKRyMeSCu2X+PL2O0hxoOYzByMYzMIBlK88NnB3V+Xnw5DHIvVy52EmMWMZYwD2c252mlOe+327SFjzZjqmFAm/CwcPRbjtNFYkYGU8pq/REgK5a1FO/MmH6CiQOIjii45ivK4DQdCPMtJghhz6vH2Exs/TcmDG+nIC3LDu+f/vf+cj4XJsSuz2Of+6MCkbxAmbVSj9O/oFPM+xTrVMnAfpVtpkwV57dRdFJSM3UDksyaiGOAG7KfGRzgrK8yM67oSCUvgxWw4NqNl/lmyWGaFrMsCBJ+bBRytkOy8jXHwh/kss1Fg/AJXuVGu34G31TIrO8BzfZEliPwpA/Sqv7RHBNL/HA6gDPEgAOe+p6j+zG/jw43zc/2sg+DA1PJmxrX5ACZtpu/GmfseMLVniyj5px+7hi2jQtbl5h8N7ju77AWH22WnZLDlU6Q4Jocey5dkscSxhexbJfokFpoCgdFnUSGhtvziUIRIFQENvkFX2IJVLHDT7/GnDahur0wQhFgfsLRfNHhoVPRhsIqsupuIWSgKtP3vTJRaLYkgjyq2yTE7IkYgk8rs3yaJRI9yd1QNb7Cm15IjXmPRoEy6luyEDmXh1/XeNNDfRSW7qeawYJw8MYjbdo2kXKNFJYM+rLT0mUbHEUrM8frRn88iNH9JegDI7QDFhtg63iUVpY
+  template:
+    metadata:
+      creationTimestamp: null
+      name: minio
+      namespace: longhorn-system
+    type: Opaque
+
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  interval: 5m
+  url: https://charts.longhorn.io
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: longhorn
+      version: "1.8.1"
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+      interval: 5m
+  releaseName: longhorn
+  values:
+    defaultSettings:
+      backupTarget: s3://longhorn@us-east-1/backups
+      backupTargetCredentialSecret: minio
+      defaultDataLocality: best-effort
+      orphanAutoDeletion: false
+      autoDeletePodWhenVolumeDetachedUnexpectedly: true
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+      nodeDrainPolicy: always-allow
+
+---
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: default-daily
+  namespace: longhorn-system
+spec:
+  cron: "0 10 * * *"
+  task: "backup"
+  groups:
+  - default
+  retain: 7
+  concurrency: 1
