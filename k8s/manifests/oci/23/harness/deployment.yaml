@@ -29,6 +29,21 @@ metadata:
 #       storage: 10M
 
 ---
+# get some persistent storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example
+  namespace: example
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1M
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

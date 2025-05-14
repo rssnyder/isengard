@@ -44,9 +44,12 @@ spec:
       labels:
         app: b4w
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
         - name: b4w-backend
-          image: huntermo/b4w-backend:513849
+          image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
+          imagePullPolicy: Always
           ports:
             - name: api
               containerPort: 8002
@@ -63,10 +66,11 @@ spec:
             - name: b4w-storage
               mountPath: /db/
         - name: b4w-frontend
-          image: huntermo/b4w-frontend:513849
+          image: harness.rileysnyder.dev/b4w/b4w/frontend:nginx
+          imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: 3002
+              containerPort: 80
       volumes:
         - name: b4w-storage
           emptyDir: {}

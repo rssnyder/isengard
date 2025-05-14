@@ -53,13 +53,14 @@ spec:
   releaseName: longhorn
   values:
     defaultSettings:
-      backupTarget: s3://longhorn@us-east-1/backups
-      backupTargetCredentialSecret: minio
       defaultDataLocality: best-effort
       orphanAutoDeletion: false
       autoDeletePodWhenVolumeDetachedUnexpectedly: true
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       nodeDrainPolicy: always-allow
+    defaultBackupStore:
+      backupTarget: s3://longhorn@us-east-1/oci23/backups
+      backupTargetCredentialSecret: minio
 
 # ---
 # apiVersion: longhorn.io/v1beta1
