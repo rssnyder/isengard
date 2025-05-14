@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: podinfo
+  namespace: default
 spec:
   minReadySeconds: 3
   revisionHistoryLimit: 5
@@ -84,6 +85,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: podinfo
+  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -106,6 +108,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: podinfo
+  namespace: default
 spec:
   type: ClusterIP
   selector:
@@ -125,6 +128,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: podinfo
+  namespace: default
   annotations:
     external-dns.alpha.kubernetes.io/hostname: podinfo.rileysnyder.dev
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
