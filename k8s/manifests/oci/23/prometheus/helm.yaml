@@ -44,5 +44,6 @@ spec:
           tailscale.com/hostname: oci23-prometheus
       defaultFlagsOverride:
         - --storage.tsdb.retention.size=10GB
+        - --config.file=/etc/config/prometheus.yml
     alertmanager:
       enabled: false
