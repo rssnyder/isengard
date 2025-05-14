@@ -61,7 +61,9 @@ spec:
     defaultBackupStore:
       backupTarget: s3://longhorn@us-east-1/oci23/backups
       backupTargetCredentialSecret: minio
-
+    persistence:
+      defaultClassReplicaCount: 2
+      defaultDataLocality: best-effort
 # ---
 # apiVersion: longhorn.io/v1beta1
 # kind: RecurringJob
