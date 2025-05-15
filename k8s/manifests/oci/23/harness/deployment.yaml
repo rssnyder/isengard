@@ -45,6 +45,8 @@ spec:
           value: https://harness.rileysnyder.dev
         - name: GITNESS_URL_REGISTRY
           value: https://harness.rileysnyder.dev
+        - name: GITNESS_REGISTRY_FILESYSTEM_ROOT_DIRECTORY
+          value: /data/registry
         volumeMounts:
         - name: data
           mountPath: /data
