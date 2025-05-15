@@ -1,3 +1,4 @@
+# no dependencies
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -16,25 +17,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: prometheus
+  name: sealed-secrets
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/manifests/oci/23/prometheus
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: longhorn
-  namespace: flux-system
-spec:
-  interval: 1h
-  path: ./k8s/manifests/oci/23/longhorn
+  path: ./k8s/manifests/oci/23/sealed-secrets
   prune: true
   sourceRef:
     kind: GitRepository
@@ -68,15 +55,18 @@ spec:
     kind: GitRepository
     name: flux-system
 
+# dependent on secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: sealed-secrets
+  name: tailscale
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: sealed-secrets
   interval: 1h
-  path: ./k8s/manifests/oci/23/sealed-secrets
+  path: ./k8s/manifests/oci/23/tailscale
   prune: true
   sourceRef:
     kind: GitRepository
@@ -89,8 +79,27 @@ metadata:
   name: external-dns
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: sealed-secrets
   interval: 1h
   path: ./k8s/manifests/oci/23/external-dns
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+# dependent on tailscale
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: prometheus
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: tailscale
+  interval: 1h
+  path: ./k8s/manifests/oci/23/prometheus
   prune: true
   sourceRef:
     kind: GitRepository
@@ -100,9 +109,28 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: longhorn
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: tailscale
+  interval: 1h
+  path: ./k8s/manifests/oci/23/longhorn
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+# dependant on ingress-nginx
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: cert-manager
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: ingress-nginx
   interval: 1h
   path: ./k8s/manifests/oci/23/cert-manager
   prune: true
@@ -138,6 +166,9 @@ metadata:
   name: harness
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: longhorn
+    - name: ingress-nginx
   interval: 1h
   path: ./k8s/manifests/oci/23/harness
   prune: true
@@ -152,6 +183,8 @@ metadata:
   name: podinfo
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: ingress-nginx
   interval: 1h
   path: ./k8s/manifests/oci/23/podinfo
   prune: true
