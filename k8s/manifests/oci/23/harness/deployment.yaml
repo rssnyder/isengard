@@ -4,6 +4,21 @@ metadata:
   name: harness
 
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: config
+  namespace: harness
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  numberOfReplicas: 
+  resources:
+    requests:
+      storage: 50M
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,7 +59,8 @@ spec:
           privileged: true
       volumes:
       - name: data
-        emptyDir: {}
+        persistentVolumeClaim:
+            claimName: config
       - name: docker
         emptyDir: {}
 

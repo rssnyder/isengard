@@ -283,10 +283,26 @@ spec:
     - name: oci-23-infra-ssh
       secret:
         secretName: oci-23-infra-ssh
+        defaultMode: 384
         # items:
         # - key: ssh-privatekey
           # path: t480-0.pem
     volumeMounts:
     - name: oci-23-infra-ssh
       mountPath: /home/burrito/.ssh/t480-0.pem
-      readOnly: true
+      readOnly: false
+    # initContainers:
+    # - name: fix-permissions
+    #   image: busybox
+    #   command: ["sh", "-c", "chmod 600 /home/burrito/.ssh/t480-0.pem"]
+    #   volumeMounts:
+    #   - name: oci-23-infra-ssh
+    #     mountPath: /home/burrito/.ssh/t480-0.pem
+    #     readOnly: true
+    # - name: fix-owners
+    #   image: busybox
+    #   command: ["sh", "-c", "chown 65532:root /home/burrito/.ssh/t480-0.pem"]
+    #   volumeMounts:
+    #   - name: oci-23-infra-ssh
+    #     mountPath: /home/burrito/.ssh/t480-0.pem
+    #     readOnly: true
