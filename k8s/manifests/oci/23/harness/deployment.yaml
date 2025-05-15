@@ -16,7 +16,7 @@ spec:
   numberOfReplicas: 
   resources:
     requests:
-      storage: 50M
+      storage: 5G
 
 ---
 apiVersion: apps/v1
