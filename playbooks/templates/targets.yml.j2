@@ -57,3 +57,8 @@ scrape_configs:
     labels:
       cluster: oci23
       environment: prod
+
+- job_name: b4w
+  static_configs:
+    - targets:
+      - 'pop-os:8002/metrics'
