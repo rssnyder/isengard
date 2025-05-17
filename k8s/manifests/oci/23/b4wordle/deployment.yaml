@@ -38,8 +38,9 @@ spec:
       - name: regcred
       containers:
         - name: b4w-backend
-          image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
-          imagePullPolicy: Always
+          #image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
+          image: ghcr.io/moserhu/battle-for-wordle-backend:c1523955284e1574f55dc15cae28a977deed63e7
+            #imagePullPolicy: Always
           ports:
             - name: api
               containerPort: 8002
@@ -56,8 +57,9 @@ spec:
             - name: b4w-storage
               mountPath: /db/
         - name: b4w-frontend
-          image: harness.rileysnyder.dev/b4w/b4w/frontend:nginx
-          imagePullPolicy: Always
+          #image: harness.rileysnyder.dev/b4w/b4w/frontend:nginx
+          #imagePullPolicy: Always
+          image: ghcr.io/moserhu/battle-for-wordle-backend:c1523955284e1574f55dc15cae28a977deed63e7
           ports:
             - name: http
               containerPort: 80
