@@ -72,7 +72,7 @@ config: |
     provider: ollama
     model: "llava:13b"
     base_url: "http://192.168.2.4:11434"
-    prompt: "Describe the {label} in the sequence of images in a concise paragraph. The images are from a security camera, do not mention this. Do not describe the background."
+    prompt: "Describe the {label} in the sequence of images in a concise paragraph. The images are from a security camera, do not mention this. Do not describe the background. If you think the person is carrying mail, say that. Do not mention the image or videos in the description."
   cameras:
     front:
       ffmpeg:
