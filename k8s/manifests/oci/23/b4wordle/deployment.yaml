@@ -59,7 +59,7 @@ spec:
         - name: b4w-frontend
           #image: harness.rileysnyder.dev/b4w/b4w/frontend:nginx
           #imagePullPolicy: Always
-          image: ghcr.io/moserhu/battle-for-wordle-backend:c1523955284e1574f55dc15cae28a977deed63e7
+          image: ghcr.io/moserhu/battle-for-wordle-frontend:c1523955284e1574f55dc15cae28a977deed63e7
           ports:
             - name: http
               containerPort: 80

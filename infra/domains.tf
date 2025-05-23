@@ -249,12 +249,12 @@ resource "digitalocean_record" "photos" {
 
 //work
 
-resource "digitalocean_record" "cshrns" {
-  for_each = toset(["ns-559.awsdns-05.net.", "ns-2043.awsdns-63.co.uk.", "ns-446.awsdns-55.com.", "ns-1083.awsdns-07.org."])
+resource "digitalocean_record" "isehrns" {
+  for_each = toset(["ns-1627.awsdns-11.co.uk.","ns-418.awsdns-52.com.","ns-1167.awsdns-17.org.","ns-597.awsdns-10.net."])
 
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "NS"
-  name   = "cshrns"
+  name   = "isehrns"
   value  = each.key
 }
 
