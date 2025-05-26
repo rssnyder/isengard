@@ -1,0 +1,242 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dst
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: rssnyder
+  namespace: dst
+spec:
+  interval: 5m
+  url: https://rssnyder.github.io/charts
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: miguel-angel-btc
+  namespace: dst
+spec:
+  encryptedData:
+    ID: AgCCQehFAk1HmuhNHI+Qzr4blAiiEunwhyERuzsm7rHdN0IaL31CubKqBp1GvZVcuWPoS8w87hrUhhwmpiNEt7/VxGcgPWQYr9Gns41soWkqUYMSUJBqGgmIVn4wr/9tXECfYSfMPVJJZV77FaWD51ubZGLh3h/17ghUtwYlViilmDsDaWGLb8redBSjzGmXbhWQscq5Wswr2/02Q3Wtn67xYEV8Qm3YaSycyMz/V0Yp2gA7hMm0T81qHFftKZciGtVQErIjQHYbJRUx4K1E4ERIspeQ+lM+0Vm3QciHk8iSijcDSm2bBhV5NCGBnXAW7RaNVhM5a52J9pjqcVniW8tK3EOwAG1+OiT1nF8lsa7lrZvzxcVrQrf/JtQGt11DVjEzNrKHguI2AC8TP9L5vMW3mtwrXGhrite7w7fIV0K8FSpCM96a1gQXPaIUTTQZQLUUMIgGchJwXTfu7Mb6anzSa8U/m3tqVf6+PF6T8coc5oIfIJj3PP16362JJ1oHINoPIuTFp+7E447XvmX4XhoASB6sju/EURK+qHEB5tB3eAdy0iZ9AJRHffpMmwTXHSGZezWuvYIVr/dHdrbjk56XepINlqXvATAFmJPj5ExTJDudtfp9PUWw7dzoSnfJIuPGW2mLLJd5HaGUQU2FTp9guHVnhCnsqT8X2S83XRIDudx3kI4ZI22kCNC8nRrGcDz5rW0Zcu0kgfHfmev0t0D+YcU=
+    TOKEN: AgCjQSI8+jDtzojMl7h1kQNeM+jY0/2/E6SMHwlVuVssj7lLJ+PJzqAj98wUw/Xx5M9+S5/UGIRhAfS0PkNHoQTGDRFso24VSkU61ryq/LcuP2dRbAd6T1XW9lCBX7SZg2wk29kqNndVtFLho7fAlr2ntTXGh3FqBKmAzoB/uHP+47azocczBYwViOgP/H7rmCq9ljRcoGzajEvgBb1bqFIamvA/CRosHRrrqm7XcPdR4vhUT5qjQ1H3gBx4Y6WJ+E9BWj/dL4YsmStVA+oc+BC28UphJCooKuUfORK2rDFghL1o91PplsCfdR43vkaAdwHt/LrxIMAiAfoz2EqIDppIayQfJ9P48VEEF+NB7ns3EQhX887di0necZVtmtN7p0EgvoOgKYv9pnIJ4pxe2bkUgEEb3v3e+axWhxTBTe/sZMsdyulHaQJ7lbRutMvDrtCfKKXqO7oBifwwZhU9MlMxuUKS68lpTxu910ZG+Xb3jRJ9I+63DH89hyMnVIGy37J5WJ6qYFrZhHJr5ntKd7z5YvUAd1LpG6G4uUc8y0+LzszLCKkJsyWvlNph2khFY56rC61fVeljA52ISz5l4/E/BnHgymndeHIusy6RQ+EPrWl0efH+UlpT4XesMXSoH7kW+/1JGG7MoJPpg/UaWiWcGmNwZl0+bC4qUPbDS5oScZtVjpLwGpVIi1L5sH15yqlHmem8XKbqj9yvNibWLIwC6aULDuetiIIXU4SlgxlQUJ/HTggzGvk28piLdvo7C65RZCxkAkKhhhJMTg==
+  template:
+    metadata:
+      name: miguel-angel-btc
+      namespace: dst
+    type: Opaque
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miguel-angel-btc
+  namespace: dst
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: discord-bot-cryptoprices
+      version: "0.0.4"
+      sourceRef:
+        kind: HelmRepository
+        name: rssnyder
+      interval: 5m
+  values:
+    symbol: BTC
+    existingToken: miguel-angel-btc
+    refresh: 1800
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: miguel-angel-etc
+  namespace: dst
+spec:
+  encryptedData:
+    ID: AgA2bD/6lf8SgSzcfzuVhnH0D7+Wy/AXkg5nN5fPOcHcL2FjeXb1MvertaIpz/JtrG0F2wZKGri9IhO64ud+/guYHFZMbOyXKePmMiYBoPoBPjjt13FZDDXE1OqO9CtknPXrbWk/8m0/o4B380g171qpjPK0EUyMyVaZMMdJz6wzOEbJPS8NbfPjXp1TG2cqcHC/xqYjfA1JNuGf1dWMLvsPg0gfSSZQfgutFG9jLKtpb3YE3CRJ5Tl867C29LrRGjIXdTeI4UI8NRvYf4D5OizsTZPlaqBDb+3kkiztX4MKYTM1DKzqF7YvHzBnBQNVhHg+RsKSMIFBCbxfsaQHWqBmaqY54+vNJkWdUlrTdPiA2u1PRCYLGIERuhR7PBiVFQW0eYWh1O3yEPXivcoHVaQ8uJrWsG4+6xYIAByJwVQ8sO+H1vFCvVaF868GctnfZNKURmctqJwHTnDwrCONO2z5Bf7LSGLzYUz9HYRQwcX/kFiI/kdh2Tb1QwdE68HUQNfIX19UyczwsTtT8XR1D6iXMyFd8ErOWxIGhNfXP0aGrnPukrPayHfUlWbixCvOKw4NY/DE4murJYRdGdf7FHyflMhKgUmFLLyAZzdNlVBTfeRPZvnEXXATDja+Hmh/tIBGnBXiTRJKrSNKwgJVZ3/E5uu6GDCPxy7VvgTesFyDmNPCcXMDPWNncYjcBooo4m08qTJihmNQWruOcR/3S222FdU=
+    TOKEN: AgC3ikwuxsHdlkuik2wVQvac5VIDYPIJ4xLu0n5IHvzszfeiFx7AEmfq0NxMX40RIwiO1xpXrie/3kLK0tIMzc/i3syvYUQy3GxxWpB/PRwFHPQb6hfH/X9rS8qaEnlvQYEKO9mpLaHeOoOwogMKPHoV0PygR3dx51WO7cUZzWmP1zQZ82fReZk21nAZ1LsZYsXxYdmk8SJj9AcHKMp7fRXRYh9NLzF8YBrn/A153pVPaHPyDej6+RRNN150CDtEdQ6UD6OCbgpMKLG1Zr3sVg/Q7I49NVfEKnKTUPcAxBtjuFtFIHGBq+qXmhujLoRKbSf8J7UmxBrSRHmJCFVjyrK7dWkafCXHaG/1+HQ62D455uS0waAp9S5yD9I6F2Q9HTwuCk2Z9KJo8n5yNLbuqhzBTmJT4XjKc1j3hPsBMtYvwTOAcAjgvC2D+ba7Px5Y1EsRHRUo6yNH3F/AbVxzfghjV9oNnFTCIzf2l23Sd+vV/QWhFs4o+/mfVIBEfLeiqCh3yT0L4/J7kHB7YBqWpGWXw/lLvG2qt/iU8J+BxoyFk3qKo9f19iPwBEpDPBJzkPBOPx/a5q/QH54Up7VyhzvW8hKZ8IjxTPzWsrZYMtiTdIj/A3Ny3KOTomXihHLZSc3cIkAy41iKR4OimVktZp4hyCqOpIhdOUSxrDDpELp3Iooknw9JNW6hBH/0d8BTvegUS3Pwaq/TFvwDRQR73tzXFH6LnPxJf6WWmj0+WkEyOUOajEFJKZbjQvC1HGM+FxBOTjVFPl0SL4EN0A==
+  template:
+    metadata:
+      name: miguel-angel-etc
+      namespace: dst
+    type: Opaque
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miguel-angel-eth
+  namespace: dst
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: discord-bot-cryptoprices
+      version: "0.0.4"
+      sourceRef:
+        kind: HelmRepository
+        name: rssnyder
+      interval: 5m
+  values:
+    symbol: ETH
+    existingToken: miguel-angel-eth
+    refresh: 1800
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: miguel-angel-bnb
+  namespace: dst
+spec:
+  encryptedData:
+    ID: AgCyqiGpimANFcJTwDzRlhAaDAxIubBQbteRXH6KcOURMgH4mptXQ160oZipNGUTngdRqd8AIVZQyG0eWfUjWHs3oGId+YVTdIfd6aZCLDsWLqyRpKIWFd3RxMOFqZnvn4c2LWOQZlkDNVOKH3HIk0yjFymCmL736BlkjK6BJC6P82G1VlBLsMoDhZo7XYOVPKIKjrBaIzEx5wuYITdR046xvQTsO+hbmronGz3d+nrp43ic+uHJ6UVYJ7onvcSqwPGQFaUUikT+st8JWBWWwNVEXvk7j7B4XKiWP0G6viNwu71Qz/Caft+tZMjqcNmpn31JSRqMqmoWk5yA+cVDbbL+5ydHb2A+Bu260xJi4aD3JbZoP0ge0q701o6/2MGGuc3VttiHY9tm/S8mIbhQ9+pVkV1bSVkHhOBYLkMS3WIoc46rYxMdTbl3DzvjpWuC9jQR0LkhyO83UU9ovi9nM8pcsOmbS0EtsyfnmOYGplop18Q4gi1vfsr7vffyu/YFRaRKoPPAh04HoENwbMit7n6bFHdF674I8PQTGuOPtfC8fEFp65yG9NQcuC+MJSacmqr9AaERfYFRUkD2QuJt7THTOQZoto2PqnJMwOG/7jrz9GD41lyWU1NhzyLNTqA8wJIswaUEhGXZGauSqKbFhIjKrY4BpQzOeC+jzjMFZnAF/uS2EXUN7FP3dL9ldETIpB8H4Rnu4n02AYhTbHl2q9xoiow=
+    TOKEN: AgCIEbZtEU3yxq0tV6eUbznfxnWXXRnZdsVFxXmdS+PvvHCLrAwzi1aN46yKT7NvVDjK6kJioPuC9DZ7jV0vEk9AEzQTxsWFER168ZINk4HnJAqkspC2wqjmwpJhPR0u8BHZk9p/s8uRp+3jG8sid6CtXYwwAsfPAcAsyo+2r21bpaCb7FaUWVkESGceJl4vlhX905xNl1Mlbv2ysq8EHMF9D/HJYR+7MHxs1HEGdy7jiOYS3sR0IiCENoRUtLRjoyFyA+qZikKn3SvEK9y4hwGNlj3syUClxOD+t1c0WTvnNHtORgETBhAiBfVDsE9iFX0N65h6/YHs422/2lWsqZoBOwzAuukTgqwrzO39v9aWzMbHAChNzIbBlbNLcARGgVES9fkrvJqmsfadKphRxGh2whLW0HqgrKpb6WbZjOU02HQA1gng9mxC1oJ5jxtoEpywTgG64am1DKS/hZxq4OOSFWmkjsFKiwG2jEQFYheNd9qEO0DPU/4Euw/I3wu4NOpaYD88/VqKs0PnvNcMMyWts6U7Kk53CRdGeS+imY8nN8n/zRUwIyyzKC+t2DgHUGEkw/tkfUntn060a7tY3rbMUGmQWsGHKraGp2tr4APUsrGhUSXdVsxidEpdeYXLZDikquCJumWXJJyJZnOkj2KB8adDSyF2rW1huU3rfFNBQi6wGJWqm9g7GXSHeVlaYaP8Qq3iFYUtoirbZuOCPwHo5hyXyJ0g+MOyBQ+Ox2rRGSnPvtREQV9wvqCMKL3fE0C7U/Dqs5zSv5LeYw==
+  template:
+    metadata:
+      name: miguel-angel-bnb
+      namespace: dst
+    type: Opaque
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miguel-angel-bnb
+  namespace: dst
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: discord-bot-cryptoprices
+      version: "0.0.4"
+      sourceRef:
+        kind: HelmRepository
+        name: rssnyder
+      interval: 5m
+  values:
+    symbol: BNB
+    existingToken: miguel-angel-bnb
+    refresh: 1800
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: miguel-angel-sol
+  namespace: dst
+spec:
+  encryptedData:
+    ID: AgAAWS6QRntvqeuXisrvyziv7ICQo+R4jTg7xkinOBzKC/92SKLYBwECArva7TpBNPyObVtVWbWTLg9TEbSpFObjm8PDXyHoWNPvf4NetFqz/0pZ6BxvC/kgKjEO/Bof5C9wKq4N3Pax9Mcq8Goq/5re+6fHfB1tKP/6eKDsOTf54s9P5QC5UzGyAc2wl3+C7hD6XHpJXnHWs8S0SjYLoMItvsp1Bs3EbzkCSKv0HhGBjPwIO3jChXKAMrxP5t843/IopDxgTUI2ffc4ui3bKvJlmtW3GvXjQ4/HoedSyOmC69n4xwZvB+Y6QP8Zbs1/5djmSZ+Y/X/bMl/ZqJZeXa2QKOq3eXNfQW/1+z+pnJ0XuxW2qj9mYtVFob3yU48o9YBXmNyjNxlqbvvpQuPS/+Ehj2WRH7WqyUKU9l8Alzk4hPWvoEZM1j5y/rpZdH7NXE7eqCkMy706UZdySYZiXU3v3urZpUN3/19sos9m4DRNYITf2Y2wJG7r47//T0Qu63KezU/99yTnngACvJoCUOuCp2OpSiwx2n2kGSPiqtTKiJDK4Br4WFyGt352RLQwi2M10QF+/eAwLhkOnhoRrjQwI/eCTLVdJPcqxjlEaUYZWxPf7tXHS4dkX5HsLVUKydTJX36bmAx4oRoWzqtM0xRjYIq+T15B/pMiH2U8/pN8RjnIA+CO7ZmLDdbqo7Pbl9XieE+4Lg4fYGDWq1cVc/F396Q=
+    TOKEN: AgBH6z09cvZ/5ETu7lWlo1/sYaqTsN310EmtRcJGvl7vGMYCaYgtLnIv1gX07clk+LI1+Ixo3cRiXGpKCgYuoIKBjGIFeBqJWLIP4yS6y9pnZ7WOHCQAofMo2rpMh1hbXAH6EZekRWghvwwBz9EzsyTpqXxehxlv0r3U+AmlbX4oYOP+OF+tW2h8QgApeOCr/0v0SPJUurBzA2Fzb0UglOxh+r99Fsg6pI/4nW6ANojL5hYAYPWhcDZni1XQK9qvNQJNU1QQVjXmkYE7l+WPNa1s7JAXoNsxiYWq+7lzfH1f9YyiCV+jui6XyXL0ibz6OSSSb3hvckKpOZQlIpcuxOv6CflVa31V1yD7Aynv60bKsl52u80N96sX155Hu0z8j117byzxLdASSQPmvnUv0NfslpCfpLdw96TeTCC6H6gIvEuYXdAbnelSeEljHOsC6HJG7xC/OPS05UF1nIw/TfaDrBqyisuzxgeGsuPvLROTSE2u6FEK9+BVRLLG6Hej8zLcCN85hLyYCxmNysr1rMq/ydXiZYE18+OyGJIycWL0vKK6OLJ2shyehOffLmPNCkSlVaoVGzaWVyY+OByrCC9gCeY2Ik75Opkq1uaNekrXdXvZQ3LvI25WbnKBMtkREyhJciJkJtSOOaiiidzuORvapMmCk6BZjYTGIhMSpgXOS9xMp/SShVf9zz+92Sn1a9rLp7UPZ0bNPa3qxjSZATY1pua7IkB8U77dfqxON12jaD6gcT5TV2fcLnuNzDeDOIciy5ORJVxncjOHFA==
+  template:
+    metadata:
+      name: miguel-angel-sol
+      namespace: dst
+    type: Opaque
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miguel-angel-sol
+  namespace: dst
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: discord-bot-cryptoprices
+      version: "0.0.4"
+      sourceRef:
+        kind: HelmRepository
+        name: rssnyder
+      interval: 5m
+  values:
+    symbol: SOL
+    existingToken: miguel-angel-sol
+    refresh: 1800
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: miguel-angel-ada
+  namespace: dst
+spec:
+  encryptedData:
+    ID: AgBk1HaUiDoBgkWXgnwSPpnXS3BsPQwSZIcEFzy32rVGIdp/a+Fz+dtUq/rnklGt8btQv2eRVR6yr7gBPsvw+CrB9MXErXimCVk2lqSdfdeixv+Yb0cse3KOEx4StzdR+YmhMY/HvcOgUDa6Qs5jPKjr+DOK4PB7M9h5ei3jhEpITNohi2nKtjx9tU5MYtbp7GU3XEPZrrVcBaqbjn0M4QAFUTt5RX+RxgiC9BNBtBynOA5y2H5513QLbIbxUeYi87IBMK/UH53A3ApLgWTMf0vqX8dLwJqawbBbcxDRd+2S9r934d+Zf3GxSc9p9WT2rLZJ96Nn3xNoDXAlHkMc/ftnYuUUTUL2+glOi+ZLjuLOEkMX1jqjajDRiy0UFa07vig163kLc3oJlra6feiHaEkMpKcwNdL9ET88V8hvjdvzToav9OXLuZWGgMNsTKu/vTnfOXhtGOu97+DdY4zIgpfOeBkLan84laRZd2y1TWbmpTr/WsFfC7DCYaCgnDNz5/QbQxKXqHJyzQ9KjUzWDOYxy7D8YWwiUP7fpvw6IPFIPkjGfKzaZNl3nSX0zY0BbqQO1m4Yn1H27bZTueOYc6MYztxl4mhYLlnPt7fiUXg1l9xDXOZxtStUcbDEk5GNGXWlTUlcfTIENYcSZ78/94um6z+a8l8dMRp/bRPp24gfJRZtbm2mJsxIyFrTLsmwSv3dDhbwU93HpOQ3Y8x0D/qDTS4=
+    TOKEN: AgCnf8hI6suhLEUJi37/oNZlZVKLWVRTdAEc2xF/VC2mjazvLFT6utxFKb0MTFxctUGuoE5qANycCHFmyZ+vX1Qn1HpfioaK0TN23UpjDBQgRV1xfuDF1L9EZxxwlJVpbYfd2SNQhJlgfPwVkKUfgCiC2IfwHgfAu8cRhznyc2qKgkVz/SHw5/Y0cwgFSYKJJO/u+3LyT41xn0b3dYB9yNCh9F9NLIKH07ITIXa9Uayi3m3rfd97y1ghT5f9Ly1PotsaWYJWPjkjgTOHEZsoQ8mWETE9d9T/Klr/0HUKB2iCy3hT3LeP0urSS5ckQXUhp5C1DuQKxLdf+PKd5zNdatw0Yho6+B/D4K69LYNKtGofM+N9buuR8FDoJrMgNDuhl4pp0kSxzzDzRA8QWjCWX89sqVRsrV+RydYMlWQGfhptw0or8VLmJayDEWSd+KHYk56aeHk7NmmMr0sXwLK1ZdMLfYy9bcEGTf01bXVui41vt9EBC4eySfvLRaXO2Vv8bZCzmGkGKvnAjO8jurF3tyiNH+G59vJhE0k0vBMU10Woyo46VhffHxQKos1glx3321F5txhpYU0sSOnoruW/t+i/txvlXekKN6I1/IDvqgyvM2dQFU2PWSSuNp53FSi7Vnwh7cixC/DdAcoAfof59WKt0q/tBSnpBVZOlvuSY+cnfgx/DNmvExCDxzGim2gdyFOjFo4eUWJiawcbNkE71RDqce6TG2IhdohgPBJJ13idJX9AffxuQ0vGlXXc1fHBMX9jQZJ2LEYSABNUdQ==
+  template:
+    metadata:
+      name: miguel-angel-ada
+      namespace: dst
+    type: Opaque
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miguel-angel-ada
+  namespace: dst
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: discord-bot-cryptoprices
+      version: "0.0.4"
+      sourceRef:
+        kind: HelmRepository
+        name: rssnyder
+      interval: 5m
+  values:
+    symbol: ADA
+    existingToken: miguel-angel-ada
+    refresh: 1800
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: miguel-angel-xrp
+  namespace: dst
+spec:
+  encryptedData:
+    ID: AgBNLSnfB6Yf0oUB8vD9/cwYOxZLBuq9dCIpI1D1HWBSZkQs2JJXenkSr5bHYUgf1LKayb3C+Wgi1JrTCXId4soc3M+9MjMZDNdrAPM9Q/8gFnkzAr5+5hb+mZTjni4MuE3ANPhEq0EpWayCbIV8JXY6YXlhcwyj6+vKRfFe1ZDBfJrEVpe6zFAVwTQ6iALglW6Jx6hwY+1V2qMxg3T+U1gg9APtikFPUM+eF9dyLtxuZNKZ1Y+jFHgG/Br/N0ZJsPxCJzZ7VgV9efn9jIA7k/NCJTuFOXFGrBvSI0P64eWJTzCNHDcGkahPFMj1xRl88gE0UgIWjzeUTYPIP/0NG+ZYmzn56lz+ZKMjOB69iwinEiGzGzN/pdwTTKqSUI3BAEPv8Ba2O3I4k0+22FpjpNbkWoAk+VkLgsHHX1pJWOsnbaCNf8g752Xp+6EVLvOvhhtAi//T2ZqtzFoUAkFpkNaLK6fbPbIvpcqKGOLrB+vg5xs6qPxEVQ2IZMOs+BbZL4E97Tq0wRlvBXTxQu3GZf8HrKEqN/7I9dg2Lic6ap6RYoq5RflInPqJGlcmemFYpzfRsncr7QSPHybn65w1/GF4a1tJrzw0ardXOCAyQLtGZL2ciOusgQc+A/F1qBYusaN2aNZV3Sb8ZNwsbRHjiWKbWxgh7li+Ik7/3svZ+fdqxR0uXfwPMv+vxjVhGxgRQSzoxSH8BpfWB2+nWV2uanRT6Hw=
+    TOKEN: AgCqi69LLnjiHYbGVK70SUA/XydN7gKZbjsCar6duM8VFUprSLFNds9gwUr17StGZR35aoQWbPs6jkSDXenF4BauGo5HOM8/sabot/iUbnjBpfNfYjx0kK1Ka/ftt8nxEqTItxj08G67cgDgOkpRg4FhCLUkpCmLntnkiJ/Wqt9bDYjGIVwmdjqA0o4uZDN4XKV8X4k92Vfxbipam5gDV663xn8jDpRayes5sZFCHI2ruarO7DB++ohBKVF92aGSSPvSrrLmZv3POqKiD9CB7rkIM+/W2dXUgtuktFfj9hsclv1P/ElmVnDFjf1whPVP819KtflPAxi4vjl7ikXsc0HNuivXPH9uKUp9cOboid2lAy3RmKwE2rlsHJjmfqWN+r1VuBethM5gC02mlz4Ca3rZkLvEbG2H9AKJOIQ27rGHG29XchjmeV6LeGnNwDkH9ilvPdsWQqW8VfN290a4OOI/vsc6bQfA8y3ZDYB+ogU1/ldoaFL3I2P3d8O52XOZtye1sM8tlXbF5/8GKIi2FjW6qzZSxgvm0uvgZhE77N2BgYYYThqvxKk2W1LU7yWXUOpEfUd6+jNNP9sBxRSrUqheFacF97TYcZfKiyXQF3i16o4vTSY+xC2jauxMySjU+9lCQ3qp4d3cVKsiBRVhKxkostxO/awsD4zg6oW9SBtb9bRtiORWLZRM4uElIonoTu6o4OomtB98HzXCY4ax6OEHGAbg9FoS5fFuzv1T4oDnVjppD4k5mK4nhcgIOgjn6lGdy4nkSF+etxIt6Q==
+  template:
+    metadata:
+      name: miguel-angel-xrp
+      namespace: dst
+    type: Opaque
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miguel-angel-xrp
+  namespace: dst
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: discord-bot-cryptoprices
+      version: "0.0.4"
+      sourceRef:
+        kind: HelmRepository
+        name: rssnyder
+      interval: 5m
+  values:
+    symbol: XRP
+    existingToken: miguel-angel-xrp
+    refresh: 1800
