@@ -16,7 +16,8 @@ spec:
   numberOfReplicas: 
   resources:
     requests:
-      storage: 5G
+      # https://github.com/longhorn/longhorn/issues/8381
+      storage: 4770Mi
 
 ---
 apiVersion: apps/v1
