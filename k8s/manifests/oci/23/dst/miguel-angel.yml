@@ -50,6 +50,12 @@ spec:
     symbol: BTC
     existingToken: miguel-angel-btc
     refresh: 1800
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -88,6 +94,12 @@ spec:
     symbol: ETH
     existingToken: miguel-angel-eth
     refresh: 1800
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -126,6 +138,12 @@ spec:
     symbol: BNB
     existingToken: miguel-angel-bnb
     refresh: 1800
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -164,6 +182,12 @@ spec:
     symbol: SOL
     existingToken: miguel-angel-sol
     refresh: 1800
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -202,6 +226,12 @@ spec:
     symbol: ADA
     existingToken: miguel-angel-ada
     refresh: 1800
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -240,3 +270,9 @@ spec:
     symbol: XRP
     existingToken: miguel-angel-xrp
     refresh: 1800
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
