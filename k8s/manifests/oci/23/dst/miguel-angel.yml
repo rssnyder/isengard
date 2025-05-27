@@ -52,10 +52,10 @@ spec:
     refresh: 1800
     resources:
       limits:
-        memory: 40Mi
+        memory: 20Mi
       requests:
         cpu: 1m
-        memory: 20Mi
+        memory: 13Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -96,10 +96,10 @@ spec:
     refresh: 1800
     resources:
       limits:
-        memory: 40Mi
+        memory: 20Mi
       requests:
         cpu: 1m
-        memory: 20Mi
+        memory: 13Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -140,10 +140,10 @@ spec:
     refresh: 1800
     resources:
       limits:
-        memory: 40Mi
+        memory: 20Mi
       requests:
         cpu: 1m
-        memory: 20Mi
+        memory: 13Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -184,10 +184,10 @@ spec:
     refresh: 1800
     resources:
       limits:
-        memory: 40Mi
+        memory: 20Mi
       requests:
         cpu: 1m
-        memory: 20Mi
+        memory: 13Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -228,10 +228,10 @@ spec:
     refresh: 1800
     resources:
       limits:
-        memory: 40Mi
+        memory: 20Mi
       requests:
         cpu: 1m
-        memory: 20Mi
+        memory: 13Mi
 
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -272,7 +272,7 @@ spec:
     refresh: 1800
     resources:
       limits:
-        memory: 40Mi
+        memory: 20Mi
       requests:
         cpu: 1m
-        memory: 20Mi
+        memory: 13Mi
