@@ -100,7 +100,7 @@ below is a live document recording what it takes to re-deploy the cluster.
 backups are taken every 6hrs of volumes, if the destruction of the cluster is planned i sometimes take new backups before destroying, but I like to simulate an unexpected disaster and go from whatever last backup exists.
 
 0. join worker nodes, example: k3sup join --ip 192.168.2.11 --server-ip 192.168.2.65 --user riley --k3s-version v1.31.1+k3s1
-1. apply sealed secrets key: `kaf files.r.ss/sealed-secrets-key.yaml`
+1. apply sealed secrets key: `kaf files.r.ss/lab-sealed-secrets-key.yaml`
 2. create kyverno, for modifying longhorn PATH for nixos compatibilty: kaf k8s/manifests/micro/kyverno.yaml; kaf k8s/manifests/micro/kyverno-longhorn.yaml
 2. provision baseline: `ansible-playbook -i secrets.yml -i k8s/inventory/micro.yaml playbooks/k3s.yml`
 3. create pv/pvc of volumes as needed from backup: done in the longhorn ui

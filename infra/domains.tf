@@ -203,6 +203,13 @@ resource "digitalocean_record" "nginx_tx" {
   value  = var.instances["tx"].ip
 }
 
+resource "digitalocean_record" "b4wtest" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "b4wtest"
+  value  = var.instances["tx"].ip
+}
+
 resource "digitalocean_record" "azurestopping" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
@@ -224,11 +231,11 @@ resource "digitalocean_record" "star-oc" {
   value  = var.instances["oca0"].ip
 }
 
-resource "digitalocean_record" "star-oc-dr" {
+resource "digitalocean_record" "star-b4wtest" {
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
-  name   = "*.oc-dr"
-  value  = var.instances["oca8"].ip
+  name   = "*.b4wtest"
+  value  = var.instances["oci23"].ip
 }
 
 resource "digitalocean_record" "photos" {

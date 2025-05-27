@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harness-delegate-ng
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: home
+  namespace: harness-delegate-ng
+spec:
+  encryptedData:
+    DELEGATE_TOKEN: AgBtsgDED+HvB/8M2z64naqfsZxYi4D0CLFEk2wWekrGx0VNeUbwBgSaRrWbWy2jpganXae9xoFSogPyUqA5IEujZDLdMbOzTSEi+H/fhs8awyzPpIHzUJw0KrYhgYaYpr08OgEAuUujYW13t2BF92OLovRGVbUQxgF9xoeNBz3d0lhFTAUI3CHg79K7ZDFmjXwddJZChZ8A+5/QU9TSYlV4JWcp6RaM8D5Rj8CThQOwDpudtyh0qImsS5mDUVayNi6L/iRHp5GjvdIdaQfkQu7Cie5Agbjsd6jdvTiCFxMldQ8U+DrNQtXFIDfxy5mkZCEjswZcBisMIM3aUCzGb2inWHRQNJa+aYFn/3SscD0E/aXunrNC7ZkDs2cjWdPOZipiKjYWbnkdTLoZlJOUF+57W175nj6WWb2cHIgy1ZKbkDaQTbGJXSJVacg/VLAWFT/wVMiXOkOy5IpdlXITJAkpUeK0gFoT5sAA6JR8lJU3ydS3sPv8Lbjhfh1oswCSZ74JE5oP8rV8CaJB8wdWaAXAMc/rs7kMro7Gm0fK1SmVhwtMYd7o7PAdWhIFBBN1G/nG0XxvNgKrEFJi3vE89q+OKpW9d+UMBYYvaI7iXCUtZrRA0oj7Cr7xmlqrkDEeaByKHmnImtEFVMmjgYO7cQhDNIsuj/2GbtUx7rJeFESENosja6CBrSNvi3eiV8R2poPZNuBkNNq1iCLlY0YYMFm+WxzjVT/KitZug9Ge0hjMl4Kb0si5o7hfm6LKjg==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: home
+      namespace: harness-delegate-ng
+    type: Opaque
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: harness-delegate-ng
+  namespace: harness-delegate-ng
+spec:
+  interval: 5m
+  url: https://app.harness.io/storage/harness-download/delegate-helm-chart
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harness-delegate-ng
+  namespace: harness-delegate-ng
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: harness-delegate-ng
+      version: "1.0.23"
+      sourceRef:
+        kind: HelmRepository
+        name: harness-delegate-ng
+      interval: 5m
+  releaseName: home
+  values:
+    delegateName: oci32
+    accountId: -N_5zBuvRm2gzVAaNZ64lQ
+    existingDelegateToken: home
+    managerEndpoint: https://app.harness.io/gratis
+    delegateDockerImage: harness/delegate:25.05.85903
+    replicas: 1
+    cpu: 100m
+    memory: 1500
+    upgrader:
+      enabled: false
