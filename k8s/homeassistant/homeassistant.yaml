@@ -23,8 +23,8 @@ spec:
       # hostNetwork: true
       containers:
       - name: home-assistant
-        #image: ghcr.io/home-assistant/home-assistant:2024.12
-        image: rssnyder/home-assistant:2024.12
+        image: ghcr.io/home-assistant/home-assistant:2025.6
+        # image: rssnyder/home-assistant:2025.1
         imagePullPolicy: Always
         env:
         - name: TZ
@@ -52,6 +52,9 @@ spec:
       - name: usb
         hostPath:
           path: /dev/ttyUSB0
+      - name: sonoff
+        hostPath:
+          path: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_e8331dcab3a4ed118fbceba32981d5c7-if00-port0
 
 ---
 apiVersion: v1
