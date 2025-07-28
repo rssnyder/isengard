@@ -170,13 +170,13 @@ in
      ];
   };
 
-  fileSystems."/mnt/scratch" = {
-    device = "192.168.2.6:/scratch";
-    fsType = "nfs";
-  };
+  #fileSystems."/mnt/scratch" = {
+ #   device = "192.168.2.6:/scratch";
+  #  fsType = "nfs";
+  #};
 
   fileSystems."/mnt/bucket" = {
-    device = "192.168.2.6:/bucket";
+    device = "192.168.2.6:/mass";
     fsType = "nfs";
   };
 

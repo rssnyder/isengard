@@ -31,101 +31,30 @@ resource "digitalocean_record" "www" {
 
 // services
 
-module "metrics" {
+module "hurley-dns-entries" {
+  for_each = toset([
+    "metrics",
+    "s3",
+    "pushmetrics",
+    "files",
+    "filez",
+    "requests",
+    "vscode",
+    "keys",
+    "dash",
+    "plex",
+    "vhsarchive",
+    "bothwellarchive",
+    "cds",
+    "auth",
+    "books",
+    "harrypottermoviepicker",
+    "photos"
+  ])
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
   domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "metrics"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "s3" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "s3"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "pushmetrics" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "pushmetrics"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "files" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "files"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "requests_dev" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "requests"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "vscode" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "vscode"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "keys" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "keys"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "dash" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "dash"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "plex" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "plex"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "vhsarchive" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "vhsarchive"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["hurley"].ip
-}
-
-module "bothwellarchive" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "bothwellarchive"
+  name       = each.value
   public_ip  = var.instances["home"].ip
   private_ip = var.instances["hurley"].ip
 }
@@ -140,73 +69,26 @@ module "l301" {
 }
 
 
-resource "digitalocean_record" "star-k8s" {
+resource "digitalocean_record" "home-star" {
+  for_each = toset([
+    "*.k8s",
+    "*.app",
+  ])
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
-  name   = "*.k8s"
+  name   = each.value
   value  = var.instances["home"].ip
 }
 
-resource "digitalocean_record" "star-media" {
+resource "digitalocean_record" "texas" {
+  for_each = toset([
+    "s3.tx",
+    "nginx.tx",
+    "b4wtest",
+  ])
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
-  name   = "*.media"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "star-app" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "*.app"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "cds" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "cds"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "harrypottermoviepicker" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "harrypottermoviepicker"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "auth" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "auth"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "books" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "books"
-  value  = var.instances["home"].ip
-}
-
-resource "digitalocean_record" "s3_tx" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "s3.tx"
-  value  = var.instances["tx"].ip
-}
-
-resource "digitalocean_record" "nginx_tx" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "nginx.tx"
-  value  = var.instances["tx"].ip
-}
-
-resource "digitalocean_record" "b4wtest" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "b4wtest"
+  name   = each.value
   value  = var.instances["tx"].ip
 }
 
@@ -217,32 +99,16 @@ resource "digitalocean_record" "azurestopping" {
   value  = "20.9.25.180"
 }
 
-resource "digitalocean_record" "whoami" {
+resource "digitalocean_record" "oca0" {
+  for_each = toset([
+    "whoami",
+    "*.oc",
+    "*.b4wtest"
+  ])
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
-  name   = "whoami"
+  name   = each.value
   value  = var.instances["oca0"].ip
-}
-
-resource "digitalocean_record" "star-oc" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "*.oc"
-  value  = var.instances["oca0"].ip
-}
-
-resource "digitalocean_record" "star-b4wtest" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "*.b4wtest"
-  value  = var.instances["oci23"].ip
-}
-
-resource "digitalocean_record" "photos" {
-  domain = digitalocean_domain.rileysnyder_dev.name
-  type   = "A"
-  name   = "photos"
-  value  = var.instances["home"].ip
 }
 
 // github pages
@@ -257,7 +123,7 @@ resource "digitalocean_record" "photos" {
 //work
 
 resource "digitalocean_record" "isehrns" {
-  for_each = toset(["ns-1627.awsdns-11.co.uk.","ns-418.awsdns-52.com.","ns-1167.awsdns-17.org.","ns-597.awsdns-10.net."])
+  for_each = toset(["ns-1627.awsdns-11.co.uk.", "ns-418.awsdns-52.com.", "ns-1167.awsdns-17.org.", "ns-597.awsdns-10.net."])
 
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "NS"

@@ -13,7 +13,7 @@ services:
   #     - "32400:32400"
   #   volumes:
   #     - /home/riley/b/plex/appdata/plex:/config
-  #     - /bucket/media:/media
+  #     - $MEDIA:/media
 
   gluetun:
     image: qmcgaw/gluetun
@@ -50,12 +50,12 @@ services:
       - $APPDATA/qbt:/config
       - $SCRATCH_STORAGE/downloads:/downloads
       - $SCRATCH_STORAGE/4k:/4k
-      - /bucket/media/movies:/movies
-      - /bucket/media/cc:/cc
-      - /bucket/media/tv:/tv
-      - /bucket/media/syndicated:/syndicated
-      - /bucket/media/books:/books
-      - /bucket/media/music:/music
+      - $MEDIA/movies:/movies
+      - $MEDIA/cc:/cc
+      - $MEDIA/tv:/tv
+      - $MEDIA/syndicated:/syndicated
+      - $MEDIA/books:/books
+      - $MEDIA/music:/music
 
   deluge:
     image: linuxserver/deluge:2.1.1
@@ -67,7 +67,7 @@ services:
       VPN_ENABLED: "no"
     volumes:
       - $APPDATA/deluge:/config
-      - /bucket/media/books:/downloads
+      - $MEDIA/books:/downloads
     ports:
       - "8112:8112"
       - "8118:8118"
@@ -110,8 +110,8 @@ services:
       TZ: America/Chicago
     volumes:
       - $APPDATA/sonarr:/config
-      - /bucket/media/tv:/tv
-      - /scratch/downloads:/downloads
+      - $MEDIA/tv:/tv
+      - $SCRATCH_STORAGE/downloads:/downloads
     ports:
       - 7002:8989
 
@@ -126,8 +126,8 @@ services:
       TZ: America/Chicago
     volumes:
       - $APPDATA/radarr:/config
-      - /bucket/media/movies:/movies
-      - /scratch/downloads:/downloads
+      - $MEDIA/movies:/movies
+      - $SCRATCH_STORAGE/downloads:/downloads
     ports:
       - 7003:7878
 
@@ -163,8 +163,8 @@ services:
     environment:
       MINISERVE_PATH: /tmp
     volumes:
-      - /bucket/media:/tmp/media
-      - /scratch/downloads:/tmp/downloads
+      - $MEDIA:/tmp/media
+      - $SCRATCH_STORAGE/downloads:/tmp/downloads
     ports:
       - 8080:8080
 
@@ -176,7 +176,7 @@ services:
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
-      - /bucket/immich:/usr/src/app/upload
+      - $MASS/immich:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     # env_file:
     #   - .env
@@ -217,36 +217,17 @@ services:
 
   immich-database:
     container_name: immich_postgres
-    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0
     environment:
       POSTGRES_PASSWORD: ${IMMICH_DB_PASSWORD}
       POSTGRES_USER: ${IMMICH_DB_USERNAME}
       POSTGRES_DB: ${IMMICH_DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
+      # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
+      # DB_STORAGE_TYPE: 'HDD'
     volumes:
       # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
       - ${APPDATA}/immich-db:/var/lib/postgresql/data
-    healthcheck:
-      test: pg_isready --dbname='${IMMICH_DB_DATABASE_NAME}' --username='${DB_USERNAME}' || exit 1; Chksum="$$(psql --dbname='${IMMICH_DB_DATABASE_NAME}' --username='${IMMICH_DB_USERNAME}' --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')"; echo "checksum failure count is $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
-      interval: 5m
-      # start_interval: 30s
-      start_period: 5m
-    command:
-      [
-        'postgres',
-        '-c',
-        'shared_preload_libraries=vectors.so',
-        '-c',
-        'search_path="$$user", public, vectors',
-        '-c',
-        'logging_collector=on',
-        '-c',
-        'max_wal_size=2GB',
-        '-c',
-        'shared_buffers=512MB',
-        '-c',
-        'wal_compression=on',
-      ]
     restart: always
   
   audiobookshelf:
@@ -255,40 +236,64 @@ services:
     ports:
       - 13378:80
     volumes:
-      - /bucket/media/books:/audiobooks
+      - $MEDIA/books:/audiobooks
       - $APPDATA/audiobookshelf/config:/config
       - $APPDATA/audiobookshelf/metadata:/metadata
     environment:
       - TZ=America/Chicago
   
-  jellyfin:
-    image: jellyfin/jellyfin
-    container_name: jellyfin
-    network_mode: 'host'
-    volumes:
-      - $APPDATA/jellyfin:/config
-      - type: bind
-        source: /scratch/youtube
-        target: /media
-    restart: 'unless-stopped'
+  # jellyfin:
+  #   image: jellyfin/jellyfin
+  #   container_name: jellyfin
+  #   network_mode: 'host'
+  #   volumes:
+  #     - $APPDATA/jellyfin:/config
+  #     - type: bind
+  #       source: $SCRATCH_STORAGE/downloads/youtube
+  #       target: /media
+  #   restart: 'unless-stopped'
 
-  syncthing:
-    image: lscr.io/linuxserver/syncthing:latest
-    container_name: syncthing
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-    volumes:
-      - $APPDATA/syncthing:/config
-      - /bucket/syncthing:/bucket
-      - /scratch/syncthing:/scratch
+  # syncthing:
+  #   image: lscr.io/linuxserver/syncthing:latest
+  #   container_name: syncthing
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=America/Chicago
+  #   volumes:
+  #     - $APPDATA/syncthing:/config
+  #     - /bucket/syncthing:/bucket
+  #     - $SCRATCH_STORAGE/downloads/syncthing:/scratch
+  #   ports:
+  #     - 8384:8384
+  #     - 22000:22000/tcp
+  #     - 22000:22000/udp
+  #     - 21027:21027/udp
+  #   restart: unless-stopped
+
+  copyparty:
+    image: copyparty/ac:latest
+    container_name: copyparty
+    user: "1000:1000"
     ports:
-      - 8384:8384
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp
-    restart: unless-stopped
+      - 3923:3923
+    volumes:
+      - $APPDATA/copyparty:/cfg:z
+      - /mass:/mass:z
+      - /scratch:/scratch:z
+
+    # enabling mimalloc by replacing "NOPE" with "2" will make some stuff twice as fast, but everything will use twice as much ram:
+    environment:
+      LD_PRELOAD: /usr/lib/libmimalloc-secure.so.2
+
+    stop_grace_period: 15s  # thumbnailer is allowed to continue finishing up for 10s after the shutdown signal
+    healthcheck:
+      # hide it from logs with "/._" so it matches the default --lf-url filter
+      test: ["CMD-SHELL", "wget --spider -q 127.0.0.1:3923/?reset=/._"]
+      interval: 1m
+      timeout: 2s
+      retries: 5
+      start_period: 15s
 
 volumes:
   immich-model-cache:
