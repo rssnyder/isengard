@@ -71,3 +71,73 @@ spec:
                 name:  homeassistant
                 port:
                   number: 5000
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: copyparty
+  namespace: frigate
+data:
+  copyparty.conf: |
+    [global]
+      e2dsa
+      e2ts
+    [/files]
+      /files
+      accs:
+        r: *
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: copyparty
+  namespace: frigate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: copyparty
+  template:
+    metadata:
+      labels:
+        app: copyparty
+    spec:
+      nodeName: jack
+      containers:
+      - name: copyparty
+        image: copyparty/ac
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3923
+        volumeMounts:
+        - name: files
+          mountPath: /files
+        - name: config
+          mountPath: /cfg
+      volumes:
+      - name: files
+        hostPath:
+          path: /mnt/hdd/k3s/frigate
+      - name: config
+        configMap:
+          name: copyparty
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: copyparty
+  namespace: frigate
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: files.frigate.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: copyparty
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
