@@ -213,6 +213,9 @@ config: |
         enabled: false
       detect:
         enabled: false
+      objects:
+        track:
+          - person
       # motion:
       #   mask:
       #     # laundry
