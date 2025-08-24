@@ -49,6 +49,17 @@ config: |
       front_sub: "rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.2.94:554/cam/realmonitor?channel=1&subtype=0"
   detect:
     enabled: True
+  face_recognition:
+    enabled: True
+  lpr:
+    enabled: True
+    enhancement: 0
+    debug_save_plates: True
+    known_plates:
+      altima:
+      - "FAV 96"
+      camery:
+      - "IJN 189"
   record:
     enabled: True
     retain:
