@@ -1,5 +1,5 @@
 image:
-  tag: 0.15.0
+  tag: 0.16.0
 fullnameOverride: frigate
 service:
   type: LoadBalancer
@@ -47,6 +47,8 @@ config: |
       lab_sub: "rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.2.95:554/cam/realmonitor?channel=1&subtype=0"
       front: "rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.2.94:554/cam/realmonitor?channel=1&subtype=0"
       front_sub: "rtsp://admin:<+secrets.getValue("default_lab_password")>@192.168.2.94:554/cam/realmonitor?channel=1&subtype=0"
+  detect:
+    enabled: True
   record:
     enabled: True
     retain:
