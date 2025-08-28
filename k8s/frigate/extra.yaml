@@ -80,9 +80,6 @@ metadata:
   namespace: frigate
 data:
   copyparty.conf: |
-    [global]
-      e2dsa
-      e2ts
     [/files]
       /files
       accs:

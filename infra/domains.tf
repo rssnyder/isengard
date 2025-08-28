@@ -99,6 +99,13 @@ resource "digitalocean_record" "azurestopping" {
   value  = "20.9.25.180"
 }
 
+resource "digitalocean_record" "txmc" {
+  domain = digitalocean_domain.rileysnyder_dev.name
+  type   = "A"
+  name   = "txmc"
+  value  = var.instances["oca8"].ip
+}
+
 resource "digitalocean_record" "oca0" {
   for_each = toset([
     "whoami",

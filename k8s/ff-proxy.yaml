@@ -12,6 +12,26 @@ spec:
     authSecret: fooBar
     redis:
       address: redis.redis:6379
+    image:
+      repository: rssnyder/ff-proxy
+      pullPolicy: Always
+      tag: os
+    writer:
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 1Gi
+      securityContext:
+        runAsUser: 65555
+    readReplica:
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 1Gi
 
 ---
 apiVersion: networking.k8s.io/v1

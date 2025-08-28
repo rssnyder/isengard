@@ -8,11 +8,11 @@
     - name: backup google drive to bucket
       shell:
         cmd: |
-          rclone copy riley: /bucket/backup/drive/
+          rclone copy riley: /mass/backup/drive/
         
     - name: backup bucket to zaius
       shell:
-        cmd: rsync -varP /bucket/{{ item }}/ zaius:/pale/bucket/{{ item }}/
+        cmd: rsync -varP /mass/{{ item }}/ saywer:/pale/{{ item }}/
       loop:
       - backup
       - immich
@@ -22,3 +22,10 @@
       - media/music
       - media/syndicated
       - media/cc
+
+    - name: Send notifications via pushover.net
+      community.general.pushover:
+        msg: '{{ inventory_hostname }} backup complete'
+        app_token: '{{ hurley.PUSHOVER_APP }}'
+        user_key: '{{ hurley.PUSHOVER_USER }}'
+      delegate_to: localhost

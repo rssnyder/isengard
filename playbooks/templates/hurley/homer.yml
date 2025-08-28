@@ -83,6 +83,10 @@ services:
         logo: "assets/homer-icons/png/qbittorrent.png"
         url: "http://zira.corvus-salmon.ts.net:8475"
         target: '_top'
+      - name: "nzbGet"
+        logo: "assets/homer-icons/png/nzbget.png"
+        url: "http://zira.corvus-salmon.ts.net:6789"
+        target: '_top'
       - name: "Deluge"
         logo: "assets/homer-icons/png/deluge.png"
         url: "http://zira.corvus-salmon.ts.net:8112"

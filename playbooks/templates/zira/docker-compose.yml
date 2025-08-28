@@ -57,6 +57,22 @@ services:
       - $MEDIA/books:/books
       - $MEDIA/music:/music
 
+  nzbget:
+    image: lscr.io/linuxserver/nzbget:latest
+    container_name: nzbget
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/CST
+      - NZBGET_USER=admin
+      - NZBGET_PASS=$ADMIN_PASSWORD
+    volumes:
+      - $APPDATA/nzbget:/config
+      - $SCRATCH_STORAGE/downloads:/downloads
+    ports:
+      - 6789:6789
+    restart: unless-stopped
+
   deluge:
     image: linuxserver/deluge:2.1.1
     restart: unless-stopped
@@ -100,7 +116,7 @@ services:
     command: /entrypoint.sh --by-id
 
   sonarr:
-    image: linuxserver/sonarr:4.0.1
+    image: linuxserver/sonarr:4.0.15
     container_name: sonarr
     restart: unless-stopped
     environment:
@@ -116,7 +132,7 @@ services:
       - 7002:8989
 
   radarr:
-    image: linuxserver/radarr:5.2.6
+    image: linuxserver/radarr:5.26.2
     container_name: radarr
     restart: unless-stopped
     environment:
