@@ -127,6 +127,7 @@ services:
     volumes:
       - $APPDATA/sonarr:/config
       - $MEDIA/tv:/tv
+      - $MEDIA/syndicated:/syndicated
       - $SCRATCH_STORAGE/downloads:/downloads
     ports:
       - 7002:8989

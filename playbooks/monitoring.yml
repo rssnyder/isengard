@@ -1,5 +1,5 @@
 ---
 - name: Install node exporter
-  hosts: all,!jack,!kate,!charlie,!oc
+  hosts: all,!jack,!kate,!charlie
   roles:
     - prometheus.prometheus.node_exporter

@@ -12,6 +12,10 @@ terraform {
     minio = {
       source = "aminueza/minio"
     }
+    proxmox = {
+      source  = "Telmate/proxmox"
+      version = "3.0.2-rc03"
+    }
   }
   backend "s3" {
     bucket = "isengard"
@@ -62,4 +66,10 @@ provider "minio" {
   minio_user     = "admin"
   minio_password = var.minio_k8s_password
   minio_ssl      = false
+}
+
+provider "proxmox" {
+  pm_api_url                  = "https://192.168.2.70:8006/api2/json"
+  pm_tls_insecure             = true
+  pm_minimum_permission_check = false
 }

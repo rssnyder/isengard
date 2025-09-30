@@ -23,6 +23,23 @@
       - media/syndicated
       - media/cc
 
+    - name: backup bucket to red
+      shell:
+        cmd: rsync -varP /mass/{{ item }}/ /red/{{ item }}/
+      loop:
+      - backup
+      - immich
+      - media/vhs
+      - media/books
+      - media/cds
+      - media/music
+
+    - name: backup immich to oca9=8
+      shell:
+        cmd: rsync -varP /mass/{{ item }}/ oca8:/backup/{{ item }}/
+      loop:
+      - immich
+      - media/vhs
     - name: Send notifications via pushover.net
       community.general.pushover:
         msg: '{{ inventory_hostname }} backup complete'

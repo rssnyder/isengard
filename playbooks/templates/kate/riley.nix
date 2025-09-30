@@ -77,9 +77,4 @@
     device = "192.168.2.6:/scratch";
     fsType = "nfs";
   };
-
-  fileSystems."/mnt/bucket" = {
-    device = "192.168.2.6:/bucket";
-    fsType = "nfs";
-  };
 }
