@@ -1,3 +1,5 @@
+<img width="1851" height="996" alt="image" src="https://github.com/user-attachments/assets/25c0d154-bca1-42c0-86db-71daecc25ea1" />
+
 (mostly) everything-as-code (some code, somewhere)
 
 i enjoy breaking and rebuilding things so everything is in constant motion
