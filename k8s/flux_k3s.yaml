@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flux-system
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: flux-operator
+  namespace: flux-system
+spec:
+  repo: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+  chart: flux-operator
+  targetNamespace: flux-system
