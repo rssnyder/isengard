@@ -11,5 +11,4 @@ metadata:
   namespace: flux-system
 spec:
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-  chart: flux-operator
   targetNamespace: flux-system
