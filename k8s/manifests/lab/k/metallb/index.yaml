@@ -4,15 +4,33 @@ metadata:
   name: metallb-system
 
 ---
-apiVersion: helm.cattle.io/v1
-kind: HelmChart
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
 metadata:
   name: metallb
   namespace: metallb-system
 spec:
-  repo: https://metallb.github.io/metallb
-  chart: metallb
-  targetNamespace: metallb-system
+  interval: 5m
+  url: https://metallb.github.io/metallb
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: metallb
+  namespace: metallb-system
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: metallb
+      version: "v0.15.2"
+      sourceRef:
+        kind: HelmRepository
+        name: metallb
+      interval: 5m
+  releaseName: metallb
 
 ---
 apiVersion: metallb.io/v1beta1
