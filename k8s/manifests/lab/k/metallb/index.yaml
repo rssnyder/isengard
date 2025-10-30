@@ -40,7 +40,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 192.168.254.1-192.168.254.254
+  - 192.168.253.1-192.168.253.254
 
 ---
 apiVersion: metallb.io/v1beta1
@@ -50,4 +50,4 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - twofivefour
+  - twofivethree
