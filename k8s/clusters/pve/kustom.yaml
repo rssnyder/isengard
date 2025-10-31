@@ -253,3 +253,29 @@ spec:
         kind: Ingress
         name: podinfo
         namespace: default
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: keys
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: ingress-nginx
+    - name: cnpg
+  interval: 1h
+  path: ./k8s/apps/keys
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/rules/0/host
+          value: keys.pve.rileysnyder.dev
+      target:
+        kind: Ingress
+        name: keys
+        namespace: keys
