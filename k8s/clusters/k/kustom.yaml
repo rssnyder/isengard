@@ -120,6 +120,7 @@ metadata:
 spec:
   dependsOn:
     - name: sealed-secrets-secrets
+    - name: external-dns
   interval: 1h
   path: ./k8s/infrastructure/base/longhorn
   prune: true
@@ -135,3 +136,35 @@ spec:
         kind: HelmRelease
         name: longhorn
         namespace: longhorn-system
+    - patch: |
+        - op: add
+          path: /spec/values/service/ui/type
+          value: LoadBalancer
+      target:
+        kind: HelmRelease
+        name: longhorn
+        namespace: longhorn-system
+    - patch: |
+        - op: add
+          path: /spec/values/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
+          value: longhorn-k.r.ss
+      target:
+        kind: HelmRelease
+        name: longhorn
+        namespace: longhorn-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: longhorn-backups
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: longhorn
+  interval: 1h
+  path: ./k8s/infrastructure/k/longhorn
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

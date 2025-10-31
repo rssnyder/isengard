@@ -44,32 +44,3 @@ spec:
     persistence:
       defaultClassReplicaCount: 2
       defaultDataLocality: best-effort
-
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: oci23
-#   namespace: longhorn-system
-# spec:
-#   type: LoadBalancer
-#   loadBalancerClass: tailscale
-#   selector:
-#     app: longhorn-ui
-#   ports:
-#     - port: 80
-#       targetPort: http
-
-# ---
-# apiVersion: longhorn.io/v1beta1
-# kind: RecurringJob
-# metadata:
-#   name: default-daily
-#   namespace: longhorn-system
-# spec:
-#   cron: "0 10 * * *"
-#   task: "backup"
-#   groups:
-#   - default
-#   retain: 7
-#   concurrency: 1
