@@ -2,17 +2,13 @@
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
-  annotations:
-    sealedsecrets.bitnami.com/namespace-wide: "true"
   name: pihole
   namespace: kube-system
 spec:
   encryptedData:
-    EXTERNAL_DNS_PIHOLE_PASSWORD: AgA56IjeHGLrpz/+Vw8PDqUYUvvio1lK4eNvv/I/3omePIRna5SndmnU9BHc/tGJrE5QyviPV7pWCiErt4UAhifkgn18zl3pzvEu/CEPQ6Sh+LDkcYrMyzpP3M5TkcKm/AWQTOnOnaqpeNqkWdyiuE3tYdWXQRpuqNmtqy3i8V1YZxloT9W6MRFo7/26zuT+pkYi8STTnHkkQaoYsa9AOsyETT3bKebf9beC3AStutsNgRKTZ2UrwW74iEc74uDsgYZW0y8worgA36cxEdSZncG9B2d626xKscnj5AsCVYRHw1NpmuOZgbAqEkR6MmyrCrg/2tZb8mWyAYhzjMfsZ8eAHkwTzE9HHyCnYDgSxxz2zPuaBk5lG07U+c8hnmbgBBNOLjtqE2k6BtxXZ+sXbzd3YPdtSezazjHv1o0+JrvOyrh3Hka2gVCv8TFHsbHAQ4o161Dh7iPas7lb51UX1Qn+TnDnlckJfypPYUI/2E59Rg6RplRsaZRNQrFfYw1QvGS9X9COH/DKbdjsGjE/RL6QLDngBKiZR/z32/44axEfV/2MQQwSSpH3ZOBs2QE1R8cBScjNqyXwuKHd9cTKYNjV3mdNzUUBG+nmfav/JWmBwkaLIZr4Q+WGL05heGXY97P1bcTOY7GxemmFqCAriiAeLjl8n3+OgX5qwuZCv7djLBv24EwlsWQp8zyR76q1i7fX7FwAWpGpAA==
+    EXTERNAL_DNS_PIHOLE_PASSWORD: AgBJUE0mWmbxvQDbLJOOEY4vRQJjnJxxqJYXgqwWHOc12LRWrrLx8HiF+RUCRg5F643uL7nEe7kw+aSEbJ18QXopYtZ06HFqex/O6aYUrq4U4zNgYmtWcILmFcvY3JZaCnNKodtTsbwly/7WiMT2uy8JOov3Db1wth1PpNY/0pXPKIobMxI6bGKrH/wFl1taNo2q91WTpTXuuW3GHJNCZhxBnL/jb7/EqWRh1jBxKy8Edehw9KCjbE/NSce5KF5NmTdX+zLH37Njxu2H3leQFvgFYWL/8AKhVoksFexw/iLwskf8Jp3XRerxCpUZZaKIUWk2FWNfNiTNLIZWC7qmQ/he6DQ3VooLKPFBfuCv++nCMoPjQk11TLqyImsDCsnfLOk1HitWT/9yYntRIZ0M/D1avEl8ZM9sI0+qRQkwjZmvbcYqGlg88BJFIw/oGmKdHnx9m6gWqjGuhH2wMY43+A2ZI4kTD1+vLqrw+meZsiLCdtaWMHkJhbJY9MckmSECg2AFdwio/5o+JYRELP/tgX26iOxc0hOROGbfSlGhRWjmR030InFM5beI0e74T5NegZbDqw6UYNvbn9D2Q5CuW9kf2dE7KjmrqHAGtUXxw0bKuHiEDY4hbhrhF0ByQEXOX8nYYlzp2VVmt6uykBdeJohIKuOcWIl3I5hbL3i5I+86FxFp5zbrFYm+O2Hns+Vy74tmJVECGSsCzA==
   template:
     metadata:
-      annotations:
-        sealedsecrets.bitnami.com/namespace-wide: "true"
       name: pihole
       namespace: kube-system
     type: Opaque
