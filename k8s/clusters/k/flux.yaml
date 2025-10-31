@@ -41,4 +41,4 @@ spec:
     kind: GitRepository
     url: "https://github.com/rssnyder/isengard.git"
     ref: "refs/heads/master"
-    path: "k8s/manifests/lab/k"
+    path: "k8s/clusters/k"

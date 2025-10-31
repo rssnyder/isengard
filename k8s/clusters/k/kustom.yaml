@@ -5,7 +5,23 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/manifests/oci/23/sealed-secrets
+  path: ./k8s/infrastructure/base/sealed-secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: sealed-secrets-secrets
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: sealed-secrets
+  interval: 1h
+  path: ./k8s/infrastructure/k/secrets
   prune: true
   sourceRef:
     kind: GitRepository
@@ -19,7 +35,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/manifests/oci/23/cloudnative-pg
+  path: ./k8s/infrastructure/base/cloudnative-pg
   prune: true
   sourceRef:
     kind: GitRepository
@@ -33,7 +49,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/manifests/oci/23/ingress-nginx
+  path: ./k8s/infrastructure/base/ingress-nginx
   prune: true
   sourceRef:
     kind: GitRepository
@@ -47,9 +63,9 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets
+    - name: sealed-secrets-secrets
   interval: 1h
-  path: ./k8s/manifests/system/external-dns
+  path: ./k8s/infrastructure/base/external-dns
   prune: true
   sourceRef:
     kind: GitRepository
@@ -63,7 +79,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/manifests/system/metallb-system
+  path: ./k8s/infrastructure/base/metallb-system
   prune: true
   sourceRef:
     kind: GitRepository
@@ -79,7 +95,7 @@ spec:
   dependsOn:
     - name: metallb-system
   interval: 1h
-  path: ./k8s/manifests/system/metallb
+  path: ./k8s/infrastructure/base/metallb
   prune: true
   sourceRef:
     kind: GitRepository

@@ -23,3 +23,5 @@ result
 
 *.terraform*
 terraform.tfstate*
+
+k8s/clusters/*/secrets.yaml
