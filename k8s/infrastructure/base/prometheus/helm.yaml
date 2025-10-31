@@ -40,6 +40,7 @@ spec:
       service:
         servicePort: 9090
         type: ClusterIP
+        loadBalancerIP: ""
         annotations: {}
       defaultFlagsOverride:
         - --storage.tsdb.retention.size=10GB

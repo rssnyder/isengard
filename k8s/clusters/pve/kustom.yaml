@@ -213,6 +213,14 @@ spec:
         name: prometheus
         namespace: prometheus
     - patch: |
+        - op: replace
+          path: /spec/values/server/service/loadBalancerIP
+          value: 192.168.252.253
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
+    - patch: |
         - op: add
           path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
           value: prometheus-pve.r.ss
