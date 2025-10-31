@@ -195,7 +195,7 @@ spec:
         namespace: prometheus
     - patch: |
         - op: replace
-          path: /spec/values/service/type
+          path: /spec/values/server/service/type
           value: LoadBalancer
       target:
         kind: HelmRelease
@@ -203,7 +203,7 @@ spec:
         namespace: prometheus
     - patch: |
         - op: add
-          path: /spec/values/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
+          path: /spec/values/server/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
           value: prometheus-pve.r.ss
       target:
         kind: HelmRelease
