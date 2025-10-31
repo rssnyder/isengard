@@ -46,6 +46,8 @@ metadata:
   name: external-dns
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: sealed-secrets
   interval: 1h
   path: ./k8s/manifests/lab/k/external-dns
   prune: true
