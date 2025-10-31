@@ -44,3 +44,7 @@ spec:
     persistence:
       defaultClassReplicaCount: 2
       defaultDataLocality: best-effort
+    service:
+      ui:
+        type: ClusterIP
+        annotations: {}
