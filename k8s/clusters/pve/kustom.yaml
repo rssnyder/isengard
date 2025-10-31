@@ -239,7 +239,7 @@ spec:
   dependsOn:
     - name: ingress-nginx
   interval: 1h
-  path: ./k8s/infrastructure/podinfo
+  path: ./k8s/infrastructure/base/podinfo
   prune: true
   sourceRef:
     kind: GitRepository
