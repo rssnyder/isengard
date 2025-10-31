@@ -63,7 +63,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/manifests/lab/k/metallb-system
+  path: ./k8s/manifests/system/metallb-system
   prune: true
   sourceRef:
     kind: GitRepository
@@ -79,7 +79,7 @@ spec:
   dependsOn:
     - name: metallb-system
   interval: 1h
-  path: ./k8s/manifests/lab/k/metallb
+  path: ./k8s/manifests/system/metallb
   prune: true
   sourceRef:
     kind: GitRepository
