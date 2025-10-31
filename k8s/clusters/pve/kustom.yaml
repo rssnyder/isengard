@@ -131,7 +131,7 @@ spec:
     - patch: |
         - op: replace
           path: /spec/values/defaultBackupStore/backupTarget
-          value: s3://longhorn@us-east-1/k/backups
+          value: s3://longhorn@us-east-1/pve/backups
       target:
         kind: HelmRelease
         name: longhorn
@@ -147,7 +147,7 @@ spec:
     - patch: |
         - op: add
           path: /spec/values/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
-          value: longhorn-k.r.ss
+          value: longhorn-pve.r.ss
       target:
         kind: HelmRelease
         name: longhorn
