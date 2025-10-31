@@ -77,4 +77,5 @@ spec:
           - 192.168.253.1-192.168.253.254
       target:
         kind: IPAddressPool
-        labelSelector: "name=local"
+        name: local
+        namespace: metallb-system
