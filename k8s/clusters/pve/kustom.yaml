@@ -203,7 +203,7 @@ spec:
         namespace: prometheus
     - patch: |
         - op: add
-          path: /spec/values/server/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
+          path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
           value: prometheus-pve.r.ss
       target:
         kind: HelmRelease
