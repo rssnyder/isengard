@@ -45,20 +45,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ingress-nginx
-  namespace: flux-system
-spec:
-  interval: 1h
-  path: ./k8s/infrastructure/base/ingress-nginx
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: external-dns
   namespace: flux-system
 spec:
@@ -105,11 +91,36 @@ spec:
         - op: replace
           path: /spec/addresses
           value:
-          - 192.168.253.1-192.168.253.254
+          - 192.168.252.1-192.168.252.254
       target:
         kind: IPAddressPool
         name: local
         namespace: metallb-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ingress-nginx
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: metallb
+  interval: 1h
+  path: ./k8s/infrastructure/base/ingress-nginx
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/controller/service/loadBalancerIP
+          value: 192.168.252.254
+      target:
+        kind: HelmRelease
+        name: ingress-nginx
+        namespace: ingress-nginx
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
