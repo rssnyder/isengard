@@ -263,7 +263,7 @@ metadata:
 spec:
   dependsOn:
     - name: ingress-nginx
-    - name: cnpg
+    - name: cloudnative-pg
   interval: 1h
   path: ./k8s/apps/keys
   prune: true
