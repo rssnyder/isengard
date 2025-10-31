@@ -228,3 +228,28 @@ spec:
         kind: HelmRelease
         name: prometheus
         namespace: prometheus
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: podinfo
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: ingress-nginx
+  interval: 1h
+  path: ./k8s/infrastructure/podinfo
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/rules/0/host
+          value: podinfo.pve.rileysnyder.dev
+      target:
+        kind: Ingress
+        name: podinfo
+        namespace: default
