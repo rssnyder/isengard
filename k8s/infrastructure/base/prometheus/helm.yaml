@@ -39,6 +39,7 @@ spec:
         enabled: false
       service:
         servicePort: 9090
+        type: ClusterIP
         annotations: {}
       defaultFlagsOverride:
         - --storage.tsdb.retention.size=10GB
