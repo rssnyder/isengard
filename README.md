@@ -16,9 +16,13 @@ As most of my infrastructure is bare-metal I don't provision much through [OpenT
 
 I manage public DNS through [DigitalOcean](https://www.digitalocean.com/) (a free service with amazing TF support) and locally through [PiHole](https://pi-hole.net/). I have a [local module](https://github.com/rssnyder/isengard/tree/master/infra/external-internal-dns) written to make public DNS recods resolve to local IPs when using my external services from within my lab.
 
+I am starting to play with proxmox purely to ease the time between machine re-installs. Making several small VMs across several thinkpads I had laying around.
+
 # k8s
 
 All of my various Kubernetes manifests live here. I run several k3s clusters, but am working in my local "micro" cluster 99% of the time. I also have a single node cluster offsite and a four node cluster in [Oracle Cloud](https://www.oracle.com/cloud/free-1/) running the few remaining Discord Bots I am paid to host. Check out their free tier, seriously.
+
+I am starting to experiment with flux to do gitops style cluster bootstrapping that reduces the time it takes to stand up a cluster, the only manual part being editing my local vlan forwarding and re-encryptin secrets using the clusters auto-generate root certificate.
 
 The following describe the various service I use to build my local platform.
 
