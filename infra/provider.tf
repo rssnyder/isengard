@@ -16,6 +16,10 @@ terraform {
       source  = "Telmate/proxmox"
       version = "3.0.2-rc03"
     }
+    http = {
+      source = "hashicorp/http"
+      version = "~> 3.0"
+    }
   }
   backend "s3" {
     bucket = "isengard"

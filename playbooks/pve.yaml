@@ -1,0 +1,8 @@
+---
+- name: pve setup
+  hosts: pve
+  tasks:
+    - name: Update repositories cache and install "foo" package
+      apt:
+        name: qemu-guest-agent
+        update_cache: yes

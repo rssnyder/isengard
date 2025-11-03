@@ -176,3 +176,8 @@ module "s3_burrito" {
   source = "./simple-bucket"
   name   = "burrito"
 }
+
+module "s3_b4w" {
+  source = "./simple-bucket"
+  name   = "b4w"
+}

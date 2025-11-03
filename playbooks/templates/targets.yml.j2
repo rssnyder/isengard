@@ -57,6 +57,11 @@ scrape_configs:
     labels:
       cluster: oci23
       environment: prod
+  - targets:
+    - 192.168.252.253:9090
+    labels:
+      cluster: pve
+      environment: prod
 
 - job_name: b4w
   static_configs:

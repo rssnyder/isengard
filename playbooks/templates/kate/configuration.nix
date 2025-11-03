@@ -66,6 +66,7 @@ in
   nix.settings.auto-optimise-store = true;
 
   networking.firewall.allowedTCPPorts = [
+    80
     6969
     9090
     19132

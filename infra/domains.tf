@@ -55,29 +55,20 @@ module "hurley-dns-entries" {
 
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = each.value
-  public_ip  = var.instances["home"].ip
+  public_ip  = chomp(data.http.home.response_body)
   private_ip = var.instances["hurley"].ip
 }
-
-module "l301" {
-  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
-
-  domain     = digitalocean_domain.rileysnyder_dev.name
-  name       = "l301"
-  public_ip  = var.instances["home"].ip
-  private_ip = var.instances["t480-0"].ip
-}
-
 
 resource "digitalocean_record" "home-star" {
   for_each = toset([
     "*.k8s",
     "*.app",
+    "*.pve",
   ])
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
   name   = each.value
-  value  = var.instances["home"].ip
+  value  = chomp(data.http.home.response_body)
 }
 
 resource "digitalocean_record" "texas" {

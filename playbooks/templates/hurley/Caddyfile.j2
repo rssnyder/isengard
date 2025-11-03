@@ -132,6 +132,13 @@ photos.rileysnyder.dev {
     }
 }
 
+*.pve.rileysnyder.dev {
+    reverse_proxy 192.168.252.254
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
 keys.rileysnyder.dev {
     reverse_proxy 192.168.253.254
 }

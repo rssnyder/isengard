@@ -3,13 +3,10 @@ variable "instances" {
   type        = map(any)
   default = {
     home = {
-      ip = "216.82.42.181"
+      ip = "136.48.5.136"
     }
     zira = {
       ip = "192.168.2.6"
-    }
-    t480-0 = {
-      ip = "192.168.2.69"
     }
     hurley = {
       ip = "192.168.2.2"
@@ -19,6 +16,12 @@ variable "instances" {
     }
     desktop-5cdkr1f = {
       ip = "192.168.2.4"
+    }
+    pve0 = {
+      ip = "192.168.2.69"
+    }
+    kate = {
+      ip = "192.168.2.7"
     }
     ingress = {
       ip = "192.168.254.4"

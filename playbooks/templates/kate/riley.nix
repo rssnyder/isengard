@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
-{
+let
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+in {
 
   programs.zsh.enable = true;
 
@@ -14,11 +16,16 @@
       "docker"
     ];
     packages = with pkgs; [
-      go
+      unstable.go
+      libgccjit
       bws
       htop
       tmux
       k9s
+      k3sup
+      unstable.neovim
+      vimPlugins.LazyVim
+      oci-cli
       rclone
       kubectl
       kubeseal

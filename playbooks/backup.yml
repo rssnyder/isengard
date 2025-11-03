@@ -36,7 +36,7 @@
 
     - name: backup immich to oca9=8
       shell:
-        cmd: rsync -varP /mass/{{ item }}/ oca8:/backup/{{ item }}/
+        cmd: rsync -varP /mass/{{ item }}/ ubuntu@oca8:/backup/{{ item }}/
       loop:
       - immich
       - media/vhs
