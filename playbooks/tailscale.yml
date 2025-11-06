@@ -1,7 +1,7 @@
 - name: Tailscale
   hosts: all
   roles:
-    - role: artis3n.tailscale
+    - role: artis3n.tailscale.machine
   vars:
     state: present
   tasks:

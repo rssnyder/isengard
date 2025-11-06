@@ -35,26 +35,111 @@ spec:
         - name: web
           containerPort: 8123
         volumeMounts:
-        - name: config
+        - name: ha
           mountPath: /config
-        - name: usb
-          mountPath: /dev/ttyUSB0
         securityContext:
           privileged: true
+      - name: zwavejs
+        image: zwavejs/zwave-js-ui:latest
+        imagePullPolicy: Always
+        env:
+        - name: TZ
+          value: America/Chicago
+        ports:
+        - name: zwavejs
+          containerPort: 8091
+        - name: zwave
+          containerPort: 3000
+        volumeMounts:
+        - name: zwavejs
+          mountPath: /usr/src/app/store
+        - name: zwa2
+          mountPath: /dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE5CB2C-if00
+        securityContext:
+          privileged: true
+      - name: piper
+        image: rhasspy/wyoming-piper
+        imagePullPolicy: Always
+        args:
+          - "--data-dir"
+          - "/data"
+          - "--voice"
+          - "en_US-lessac-medium"
+        env:
+        - name: TZ
+          value: America/Chicago
+        ports:
+        - name: piper
+          containerPort: 10200
+      - name: whisper
+        image: rhasspy/wyoming-whisper
+        imagePullPolicy: Always
+        args:
+          - "--data-dir"
+          - "/data"
+          - "--model"
+          - "base.en"
+          - "--language"
+          - "en"
+        env:
+        - name: TZ
+          value: America/Chicago
+        ports:
+        - name: whisper
+          containerPort: 10300
+      - name: esphome
+        env:
+        - name: TZ
+          value: America/Chiacago
+        image: esphome/esphome:stable
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 6052
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 6052
+          name: esphome
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 6052
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 6052
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /config
+          name: esphome
+        - mountPath: /cache
+          name: esphome-cache
       volumes:
-      - name: config
+      - name: zwavejs
+        persistentVolumeClaim:
+          claimName: zwavejs
+      - name: ha
         persistentVolumeClaim:
           claimName: config
-      # - name: config
-      #   nfs:
-      #     server: 192.168.2.6
-      #     path: /bucket/k8s/lab/homeassistant
-      - name: usb
+      - name: zwa2
         hostPath:
-          path: /dev/ttyUSB0
-      - name: sonoff
-        hostPath:
-          path: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_e8331dcab3a4ed118fbceba32981d5c7-if00-port0
+          path: /dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE5CB2C-if00
+      - name: esphome
+        persistentVolumeClaim: 
+          claimName: esphome
+      - name: esphome-cache
+        emptyDir:
+          sizeLimit: 5Gi
 
 ---
 apiVersion: v1
@@ -64,6 +149,34 @@ metadata:
   namespace: homeassistant
 spec:
   volumeName: pvc-ffe07a23-cc0b-44c6-bc6e-3ae60effb9ba
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zwavejs
+  namespace: homeassistant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: esphome
+  namespace: homeassistant
+spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
@@ -90,7 +203,42 @@ spec:
     port: 80
     targetPort: web
 
-# homeassistant-40411
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zwavejs
+  namespace: homeassistant
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: zwavejs.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: homeassistant
+  ports:
+  - name: http
+    port: 80
+    targetPort: zwavejs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: esphome
+  namespace: homeassistant
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "esphome"
+    external-dns.alpha.kubernetes.io/hostname: esphome.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: homeassistant
+  ports:
+  - name: http
+    port: 80
+    targetPort: esphome
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
