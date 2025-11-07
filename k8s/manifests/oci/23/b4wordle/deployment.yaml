@@ -10,7 +10,7 @@ metadata:
   name: litestream
   namespace: b4w
 data:
-  litestream.conf: |
+  litestream.yaml: |
     dbs:
       - path: /data/game.db
         replicas:
