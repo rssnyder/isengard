@@ -68,7 +68,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data/
-            - name: litestream-config
+            - name: litestream
               mountPath: /etc/litestream.yaml
               subPath: litestream.yml
       containers:
@@ -101,12 +101,12 @@ spec:
       volumes:
         - name: data
           emptyDir: {}
-        - name: litestream-config
+        - name: litestream
           configMap:
             name: litestream
-            #items:
-            #  - key: litestream.yml
-            #    path: litestream.yml
+            items:
+              - key: litestream.yml
+                path: litestream.yml
 
 ---
 apiVersion: v1
