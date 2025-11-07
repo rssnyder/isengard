@@ -5,18 +5,36 @@ metadata:
 
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: ConfigMap
 metadata:
-  name: b4w
+  name: litestream
+  namespace: b4w
+data:
+  litestream.conf: |
+    dbs:
+      - path: /data/game.db
+        replicas:
+          - type: s3
+            endpoint: https://s3.rileysnyder.dev
+            bucket: b4w
+            path: game.db
+            sync-interval: 1m
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: litestream-minio
   namespace: b4w
 spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  numberOfReplicas: 
-  resources:
-    requests:
-      storage: 1M
+  encryptedData:
+    LITESTREAM_ACCESS_KEY_ID: AgAKl1k3FKmryomLRJbZXQ6HqIygOBJ/4U9ESMdz88NHiXzL4XVq5fe+Ucw5/o4fbXUBY1Ms/sksuT0rTBeFSuX+hTc9c7AfBcr+Bn+PCqeHWGFiDVsJbRrHd/rT93CQpFucPekHl/P/eCxLzhWp1z30mCleTYDl/6VZoXBPTPglwTY5AgNj/2AtVzG5ZQtv70w+lBIJL9n+iLcPEfpidjE2KvKabRtPNCatG9zfnF7UJco1i/mEQ6DxdxUdVkm80V/KgfKvmYdm3zuRC4ropePWDzB3qc49ZgXxtHV7TSaaiQ5MxZFa0Iab8M3b7vJLsZ7hiCmN7xdmgK79G5t/uvSFjFE1nFPxmfa5Zs0b1aD4E6a7SaWiruVBytz5eUHkPAptOC76BNdcWSJlB48tevrIC1WrEhP81X/+Rph1lN27DTKqNVZR7ZXD2YWdak8rJM0vhwNAO/jsaldzk9VHskUdrM9Lbt8c3rF7eDaUA3+lhdaqQ4SYrDB3pyvM1qUW8yGaYo2LTx/vyVqFjBhj6Z10sUlmTBx04lJ0R1PnlFN/oIAGj6IAlCIKJrHFqq8biTjJx1zBQsAmpxAJ13rwAz0KtQDl3qzxY9mI9+jYaQAdbp0gi3J8zMMicr1h6BU46DdDuHZS1pAXcgYyPZCsdVhwz6IQiqOCfDSxtzHVmDrU74dJvPomoNTK+wRvb560pqfmPYNqu3fLuw==
+    LITESTREAM_SECRET_ACCESS_KEY: AgBeO5zjGm+oVcy1lggXfmnvxuP+mPPBBJ0EY6LJyxPllRIhJRm5Vcjb6yD3WjmLmegMI9oU/OowH237Rqv/czp2TGAJG9eaVOU7urq/cG9dcfTBzklnvYxb8oEQWdj0YomONCkvykh05ZzdpE0rbqNi8Sg6XnAOVWOvLfSApXzgIJ4n1cQC0kluob83Jlr2f/6Fdd/5eaQD25r/tIZfh1tC89iktrOgdpM/i3F6+qOU2gU72e5kyMuz+PqdPCLijIOTG4GTU+Thwg1pOPTPyoFjeO4tV4Lh610P68oGqCj9T3pLz623XGzmPrJHrirllyjartj/snKGuDvC7r/+pFP8XZFMmm3gVLsD+c3+R8MqmP5ja60WOspO99THef699OqPD5/TS+dCjZOSXyv65LW9xLRJhymZwJzPJCz8OuIm3bD/o7oX6yen7VWi5XAIuKk6E/Pe+0TrI4y6IM842BRVhOlN3Y0xG6AWEUf0LbMptnQcCJHExZGDjgCii/IkYA7H3AW/PNuGpIMgzyyf5jz65e80p1tyUVN5vLII62T2XORr6z05cAXCVwQsZt59vnXcXMA8Vs5lFCGwTSWb5lmfYTtMAijuWI7EF0BdWj+0pyfdD1cid1yirUyhSmN2B9CBlxqjDoe41QS/rpAXJEC/raXYDhJCK74P8+I4VPb3nGJOKSk1mk2AGc3DEJYMYwUgM3gjP5xsVpGBkimqng==
+  template:
+    metadata:
+      name: litestream-minio
+      namespace: b4w
+    type: Opaque
 
 ---
 apiVersion: apps/v1
@@ -36,6 +54,23 @@ spec:
     spec:
       imagePullSecrets:
       - name: regcred
+      initContainers:
+        - name: litestream
+          image: litestream/litestream:0.3
+          args:
+            - 'restore'
+            - '-if-db-not-exists'
+            - '-if-replica-exists'
+            - '/data/game.db'
+          envFrom:
+            - secretRef:
+                name: litestream-minio
+          volumeMounts:
+            - name: data
+              mountPath: /data/
+            - name: litestream-config
+              mountPath: /etc/litestream.yaml
+              subPath: litestream.yml
       containers:
         - name: b4w-backend
           #image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
@@ -46,7 +81,7 @@ spec:
               containerPort: 8002
           env:
             - name: DB_PATH
-              value: /db/game.db
+              value: /data/game.db
             - name: SECRET_KEY
               value: harleyisschmoobs
             - name: ALGORITHM
@@ -54,8 +89,8 @@ spec:
             - name: ACCESS_TOKEN_EXPIRE_MINUTES
               value: "10080"
           volumeMounts:
-            - name: b4w-storage
-              mountPath: /db/
+            - name: data
+              mountPath: /data/
         - name: b4w-frontend
           #image: harness.rileysnyder.dev/b4w/b4w/frontend:nginx
           #imagePullPolicy: Always
@@ -64,9 +99,8 @@ spec:
             - name: http
               containerPort: 80
       volumes:
-        - name: b4w-storage
-          persistentVolumeClaim:
-            claimName: b4w
+        - name: data
+          emptyDir: {}
 
 ---
 apiVersion: v1
