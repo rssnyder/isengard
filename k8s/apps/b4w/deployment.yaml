@@ -104,9 +104,9 @@ spec:
         - name: litestream-config
           configMap:
             name: litestream
-            items:
-              - key: litestream.yml
-                path: litestream.yml
+            #items:
+            #  - key: litestream.yml
+            #    path: litestream.yml
 
 ---
 apiVersion: v1
