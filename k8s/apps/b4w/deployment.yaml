@@ -4,23 +4,6 @@ metadata:
   name: b4w
 
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: litestream
-  namespace: b4w
-data:
-  litestream.yml: |
-    dbs:
-      - path: /data/game.db
-        replicas:
-          - type: s3
-            endpoint: https://s3.rileysnyder.dev
-            bucket: b4w
-            path: game.db
-            sync-interval: 1m
-
----
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -71,9 +54,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data/
-            #- name: litestream
-            #  mountPath: /etc/litestream.yml
-            #  subPath: litestream.yml
       containers:
         - name: b4w-backend
           #image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
@@ -144,16 +124,16 @@ metadata:
   name: b4w
   namespace: b4w
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: b4w.rileysnyder.dev
+    external-dns.alpha.kubernetes.io/hostname: b5w.rileysnyder.dev
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - b4w.rileysnyder.dev
-    secretName: b4w-tls
+    - b5w.rileysnyder.dev
+    secretName: b5w-tls
   rules:
-    - host: b4w.rileysnyder.dev
+    - host: b5w.rileysnyder.dev
       http:
         paths:
           - path: /api
