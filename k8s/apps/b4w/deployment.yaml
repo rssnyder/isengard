@@ -57,7 +57,7 @@ spec:
       containers:
         - name: b4w-backend
           #image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
-          image: ghcr.io/moserhu/battle-for-wordle-backend:c1523955284e1574f55dc15cae28a977deed63e7
+          image: ghcr.io/moserhu/battle-for-wordle-backend:53dcc9bd24d87b7d92aaf176ae951a89f48a13e3
             #imagePullPolicy: Always
           ports:
             - name: api
@@ -77,7 +77,7 @@ spec:
         - name: b4w-frontend
           #image: harness.rileysnyder.dev/b4w/b4w/frontend:nginx
           #imagePullPolicy: Always
-          image: ghcr.io/moserhu/battle-for-wordle-frontend:c1523955284e1574f55dc15cae28a977deed63e7
+          image: ghcr.io/moserhu/battle-for-wordle-frontend:53dcc9bd24d87b7d92aaf176ae951a89f48a13e3
           ports:
             - name: http
               containerPort: 80
