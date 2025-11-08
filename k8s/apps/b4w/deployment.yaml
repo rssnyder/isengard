@@ -69,7 +69,7 @@ spec:
             - name: data
               mountPath: /data/
             - name: litestream
-              mountPath: /etc/litestream.yaml
+              mountPath: /etc/litestream.yml
               subPath: litestream.yml
       containers:
         - name: b4w-backend
