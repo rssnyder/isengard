@@ -61,7 +61,7 @@ spec:
             - 'restore'
             - '-if-db-not-exists'
             - '-if-replica-exists'
-            - '/data/game.db'
+            - 'game.db'
           envFrom:
             - secretRef:
                 name: litestream-minio
