@@ -57,6 +57,7 @@ spec:
       initContainers:
         - name: litestream
           image: rssnyder/litestream:0.5
+          imagePullPolicy: always
           args:
             - 'restore'
             - '-if-db-not-exists'
