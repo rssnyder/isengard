@@ -56,23 +56,23 @@ spec:
       - name: regcred
       initContainers:
         - name: litestream
-          image: litestream/litestream:0.5
+          image: rssnyder/litestream:0.5
           args:
             - 'restore'
             - '-if-db-not-exists'
             - '-if-replica-exists'
             - '-o'
             - '/data/game.db'
-            - '/data/game.db'
+            - 's3://b4w/game.db?endpoint=s3.rileysnyder.dev'
           envFrom:
             - secretRef:
                 name: litestream-minio
           volumeMounts:
             - name: data
               mountPath: /data/
-            - name: litestream
-              mountPath: /etc/litestream.yml
-              subPath: litestream.yml
+            #- name: litestream
+            #  mountPath: /etc/litestream.yml
+            #  subPath: litestream.yml
       containers:
         - name: b4w-backend
           #image: harness.rileysnyder.dev/b4w/b4w/backend:alpine
