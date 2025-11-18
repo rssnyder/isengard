@@ -302,5 +302,5 @@ spec:
             pathPattern: "pve-${.PVC.namespace}-${.PVC.name}"
       target:
         kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
+        name: nfs-subdir-external-provisioner
+        namespace: kube-system
