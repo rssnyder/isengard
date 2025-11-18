@@ -279,3 +279,17 @@ spec:
         kind: Ingress
         name: keys
         namespace: keys
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: nfs-subdir-external-provisioner
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/sc-nfs
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
