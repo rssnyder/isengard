@@ -293,3 +293,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/values/storageClass
+          value: 
+            reclaimPolicy: Retain
+            pathPattern: "pve-${.PVC.namespace}-${.PVC.name}"
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
