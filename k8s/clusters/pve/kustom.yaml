@@ -349,6 +349,6 @@ spec:
           value: 
             external-dns.alpha.kubernetes.io/hostname: signal.r.ss
       target:
-        kind: Servie
+        kind: Service
         name: api
         namespace: signal
