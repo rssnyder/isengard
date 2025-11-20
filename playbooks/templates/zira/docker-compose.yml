@@ -34,7 +34,8 @@ services:
       VPN_TYPE: openvpn
       OPENVPN_USER: "${VPN_USER}"
       OPENVPN_PASSWORD: "${VPN_PASS}"
-      SERVER_REGIONS: Netherlands
+      SERVER_REGIONS: US California
+      HEALTH_TARGET_ADDRESS: github.com:443
 
   qbt:
     image: lscr.io/linuxserver/qbittorrent:4.6.3
@@ -131,6 +132,22 @@ services:
       - $SCRATCH_STORAGE/downloads:/downloads
     ports:
       - 7002:8989
+
+  sonarr4k:
+    image: linuxserver/sonarr:4.0.15
+    container_name: sonarr4k
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      UMASK: 000
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/sonarr4k:/config
+      - $MEDIA/tv4k:/tv
+      - $SCRATCH_STORAGE/downloads:/downloads
+    ports:
+      - 7004:8989
 
   radarr:
     image: linuxserver/radarr:5.26.2

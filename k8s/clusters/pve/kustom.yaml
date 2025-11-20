@@ -304,3 +304,27 @@ spec:
         kind: HelmRelease
         name: nfs-subdir-external-provisioner
         namespace: kube-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: mosquitto
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/apps/mosquitto
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: mosquittopve.r.ss
+      target:
+        kind: Servie
+        name: mosquitto
+        namespace: mosquitto
