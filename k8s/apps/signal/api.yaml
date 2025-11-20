@@ -7,20 +7,20 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: signal-api
+  name: api
   namespace: signal
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: signal-api
+      app: api
   template:
     metadata:
       labels:
-        app: signal-api
+        app: api
     spec:
       containers:
-      - name: signal-api
+      - name: api
         image: bbernhard/signal-cli-rest-api:0.91
         imagePullPolicy: Always
         env:
@@ -37,7 +37,7 @@ spec:
         - name: api
           containerPort: 8080
         volumeMounts:
-        - name: signal-data
+        - name: data
           mountPath: /signal
         livenessProbe:
           httpGet:
@@ -48,15 +48,15 @@ spec:
             path: /v1/health
             port: api
       volumes:
-      - name: signal-data
+      - name: data
         persistentVolumeClaim:
-          claimName: signal-api-v2
+          claimName: api
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: signal-api-v2
+  name: api
   namespace: signal
 spec:
   accessModes:
@@ -70,15 +70,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: signal-api
+  name: api
   namespace: signal
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: signal-api.r.ss
 spec:
   type: LoadBalancer
   selector:
-    app: signal-api
+    app: api
   ports:
   - name: api
     port: 80
     targetPort: api
+

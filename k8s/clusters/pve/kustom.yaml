@@ -142,7 +142,7 @@ spec:
     - patch: |
         - op: replace
           path: /spec/values/defaultBackupStore/backupTarget
-          value: s3://longhorn@us-east-1/pve/backups
+          value: s3://longhorn@us-east-1/backups
       target:
         kind: HelmRelease
         name: longhorn
@@ -328,3 +328,27 @@ spec:
         kind: Servie
         name: mosquitto
         namespace: mosquitto
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: signal-api
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/apps/signal
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: signal.r.ss
+      target:
+        kind: Servie
+        name: api
+        namespace: signal
