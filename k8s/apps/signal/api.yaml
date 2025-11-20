@@ -29,10 +29,9 @@ spec:
         - name: LOG_LEVEL
           value: debug
         - name: MODE
-          # json-rpc
           value: json-rpc
         - name: JSON_RPC_IGNORE_ATTACHMENTS
-          value: true
+          value: "true"
         ports:
         - name: api
           containerPort: 8080
