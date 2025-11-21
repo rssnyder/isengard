@@ -1,0 +1,98 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: podinfo
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: ingress-nginx
+  interval: 1h
+  path: ./k8s/infrastructure/base/podinfo
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/rules/0/host
+          value: podinfo.pve.rileysnyder.dev
+      target:
+        kind: Ingress
+        name: podinfo
+        namespace: default
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: signal-api
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/apps/signal
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: signal.r.ss
+      target:
+        kind: Service
+        name: api
+        namespace: signal
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: mosquitto
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/apps/mosquitto
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: mosquittopve.r.ss
+      target:
+        kind: Servie
+        name: mosquitto
+        namespace: mosquitto
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: keys
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: ingress-nginx
+    - name: cloudnative-pg
+  interval: 1h
+  path: ./k8s/apps/keys
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/rules/0/host
+          value: keys.pve.rileysnyder.dev
+      target:
+        kind: Ingress
+        name: keys
+        namespace: keys

@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -6,22 +7,6 @@ metadata:
 spec:
   interval: 1h
   path: ./k8s/infrastructure/base/sealed-secrets
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: sealed-secrets-secrets
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: sealed-secrets
-  interval: 1h
-  path: ./k8s/infrastructure/pve/secrets
   prune: true
   sourceRef:
     kind: GitRepository
@@ -45,13 +30,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: external-dns
+  name: metallb-system
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: sealed-secrets-secrets
   interval: 1h
-  path: ./k8s/infrastructure/base/external-dns
+  path: ./k8s/infrastructure/base/metallb-system
   prune: true
   sourceRef:
     kind: GitRepository
@@ -61,11 +44,75 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: metallb-system
+  name: prometheus
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/infrastructure/base/metallb-system
+  path: ./k8s/infrastructure/base/prometheus
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/commonMetaLabels/cluster
+          value: pve
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
+    - patch: |
+        - op: replace
+          path: /spec/values/server/service/type
+          value: LoadBalancer
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
+    - patch: |
+        - op: replace
+          path: /spec/values/server/service/loadBalancerIP
+          value: 192.168.252.253
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
+    - patch: |
+        - op: add
+          path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
+          value: prometheus-pve.r.ss
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: sealed-secrets-secrets
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: sealed-secrets
+  interval: 1h
+  path: ./k8s/infrastructure/pve/secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: sealed-secrets-secrets
+  interval: 1h
+  path: ./k8s/infrastructure/base/external-dns
   prune: true
   sourceRef:
     kind: GitRepository
@@ -131,7 +178,6 @@ metadata:
 spec:
   dependsOn:
     - name: sealed-secrets-secrets
-    - name: external-dns
   interval: 1h
   path: ./k8s/infrastructure/base/longhorn
   prune: true
@@ -184,106 +230,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: prometheus
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: metallb
-  interval: 1h
-  path: ./k8s/infrastructure/base/prometheus
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/values/commonMetaLabels/cluster
-          value: pve
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-    - patch: |
-        - op: replace
-          path: /spec/values/server/service/type
-          value: LoadBalancer
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-    - patch: |
-        - op: replace
-          path: /spec/values/server/service/loadBalancerIP
-          value: 192.168.252.253
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-    - patch: |
-        - op: add
-          path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
-          value: prometheus-pve.r.ss
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: podinfo
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: ingress-nginx
-  interval: 1h
-  path: ./k8s/infrastructure/base/podinfo
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/rules/0/host
-          value: podinfo.pve.rileysnyder.dev
-      target:
-        kind: Ingress
-        name: podinfo
-        namespace: default
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: keys
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: ingress-nginx
-    - name: cloudnative-pg
-  interval: 1h
-  path: ./k8s/apps/keys
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/rules/0/host
-          value: keys.pve.rileysnyder.dev
-      target:
-        kind: Ingress
-        name: keys
-        namespace: keys
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: nfs-subdir-external-provisioner
   namespace: flux-system
 spec:
@@ -309,11 +255,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: mosquitto
+  name: tailscale
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: sealed-secrets-secrets
   interval: 1h
-  path: ./k8s/apps/mosquitto
+  path: ./k8s/infrastructure/base/tailscale
   prune: true
   sourceRef:
     kind: GitRepository
@@ -321,34 +269,18 @@ spec:
   patches:
     - patch: |
         - op: add
-          path: /metadata/annotations
+          path: /spec/chart/values
           value: 
-            external-dns.alpha.kubernetes.io/hostname: mosquittopve.r.ss
+            operatorConfig:
+              defaultTags:
+              - "tag:pve-k8s-operator"
+              hostname: "pve-k8s-operator"
+            proxyConfig:
+              defaultTags: "tag:pve-k8s"
       target:
-        kind: Servie
-        name: mosquitto
-        namespace: mosquitto
+        kind: HelmRelease
+        name: tailscale-operator
+        namespace: tailscale
 
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: signal-api
-  namespace: flux-system
-spec:
-  interval: 1h
-  path: ./k8s/apps/signal
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: add
-          path: /metadata/annotations
-          value: 
-            external-dns.alpha.kubernetes.io/hostname: signal.r.ss
-      target:
-        kind: Service
-        name: api
-        namespace: signal
+
+
