@@ -38,6 +38,8 @@ IMMICH_DB_DATABASE_NAME=immich
 ADMIN_PASSWORD=''
 ```
 
+I store tv on a specific array so thats what `RED_MEDIA` is, you can probably replace instances where it is used for just `MEDIA`
+
 ## services
 
 ### media server
