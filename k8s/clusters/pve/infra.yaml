@@ -308,6 +308,22 @@ spec:
         namespace: harness-delegate-ng
     - patch: |
         - op: replace
+          path: /spec/values/accountId
+          value: -N_5zBuvRm2gzVAaNZ64lQ
+      target:
+        kind: HelmRelease
+        name: harness-delegate-ng
+        namespace: harness-delegate-ng
+    - patch: |
+        - op: replace
+          path: /spec/values/managerEndpoint
+          value: https://app.harness.io/gratis
+      target:
+        kind: HelmRelease
+        name: harness-delegate-ng
+        namespace: harness-delegate-ng
+    - patch: |
+        - op: replace
           path: /spec/values/delegateDockerImage
           value: harness/delegate:25.10.86902
       target:
