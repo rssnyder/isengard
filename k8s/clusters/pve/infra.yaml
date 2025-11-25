@@ -269,7 +269,7 @@ spec:
   patches:
     - patch: |
         - op: add
-          path: /spec/chart/values
+          path: /spec/values
           value: 
             operatorConfig:
               defaultTags:
