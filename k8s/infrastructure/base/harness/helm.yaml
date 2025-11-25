@@ -1,0 +1,37 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: harness-delegate
+  namespace: harness-delegate-ng
+spec:
+  interval: 5m
+  url: https://app.harness.io/storage/harness-download/delegate-helm-chart
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harness-delegate
+  namespace: harness-delegate-ng
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: harness-delegate
+      version: "1.0.30"
+      sourceRef:
+        kind: HelmRepository
+        name: harness-delegate
+      interval: 5m
+  values:
+    delegateName: some
+    accountId: wlgELJ0TTre5aZhzpt8gVA
+    existingDelegateToken: delegate-token
+    managerEndpoint: https://app.harness.io/gratis
+    delegateDockerImage: harness/delegate:25.10.86902
+    replicas: 1
+    cpu: 100m
+    memory: 1500
+    upgrader:
+      enabled: false
