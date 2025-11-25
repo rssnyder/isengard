@@ -286,7 +286,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: harness-delegate
+  name: harness-delegate-ng
   namespace: flux-system
 spec:
   dependsOn:
@@ -304,7 +304,7 @@ spec:
           value: pve
       target:
         kind: HelmRelease
-        name: harness-delegate
+        name: harness-delegate-ng
         namespace: harness-delegate-ng
     - patch: |
         - op: replace
@@ -312,5 +312,5 @@ spec:
           value: harness/delegate:25.10.86902
       target:
         kind: HelmRelease
-        name: harness-delegate
+        name: harness-delegate-ng
         namespace: harness-delegate-ng
