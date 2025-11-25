@@ -4,41 +4,6 @@ metadata:
   name: survivor-tracker
 
 ---
-# create a postgres database for the app
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: db
-  namespace: survivor-tracker
-spec:
-  enableSuperuserAccess: true
-  instances: 1
-  storage:
-    size: 1Gi
-    storageClass: local-path
-  bootstrap:
-    initdb:
-      database: survivor
-  monitoring:
-    enablePodMonitor: true
-  backup:
-    retentionPolicy: "7d"
-    barmanObjectStore:
-      destinationPath: "s3://cnpg/micro/survivor"
-      endpointURL: https://s3.rileysnyder.dev
-      s3Credentials:
-        accessKeyId:
-          name: minio
-          key: AWS_ACCESS_KEY_ID
-        secretAccessKey:
-          name: minio
-          key: AWS_SECRET_ACCESS_KEY
-      wal:
-        compression: gzip
-      data:
-        compression: gzip
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -52,7 +17,7 @@ data:
     season = "49"
 
     [signal]
-    api = "signal-api.signal"
+    api = "api.signal"
     number = "+14808407117"
     group = "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
 
@@ -64,47 +29,6 @@ data:
     "hmfis" = "Hannah and Sweepy"
     "mose162" = "Hunter"
     "barry.sa" = "Barry and Marcin"
-
-    [signal_players]
-    "Hunter Moser" = "mose162"
-    "Hannah Mortensen" = "hmfis"
-    "Adam Mortensen" = "hmfis"
-    "Marcin Mocarski" = "barry.sa"
-    "Barry Mocarski" = "barry.sa"
-    "Riley Snyder" = "riley_snyder"
-    "Nicole Williams" = "riley_snyder"
-
-    [database]
-    host = "192.168.2.2"
-    db = "survivor"
-    user = "jeff"
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: survivor-tracker-test
-  namespace: survivor-tracker
-  labels:
-    app: survivor-tracker-test
-data:
-  config.toml: |
-    [survivor]
-    season = "49"
-
-    [signal]
-    api = "signal-api.signal"
-    number = "+14808407117"
-    group = "group.V3pxUUFzSmliN3RvbHRhQXZpUmFHS3JyNzlSSGRSRkJzZkpsNG5JSWE5Yz0="
-
-    [tautulli]
-    api = "192.168.2.7:8181"
-
-    [plex_users]
-    "riley_snyder" = "Riley and Nicole"
-    "hmfis" = "Hannah and Sweepy"
-    "mose162" = "Hunter"
-    "barry.sa" = "Barry and Child"
 
     [signal_players]
     "Hunter Moser" = "mose162"
@@ -176,45 +100,6 @@ spec:
       - name: config
         configMap:
           name: survivor-tracker
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: survivor-tracker-test
-  namespace: survivor-tracker
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: survivor-tracker-test
-  template:
-    metadata:
-      labels:
-        app: survivor-tracker-test
-    spec:
-      containers:
-      - name: spoiler-timestamps
-        image: rssnyder/survivor-tracker:df78fc8d1c34482110d63f66a77714db471d095e
-        imagePullPolicy: Always
-        command: ["python"]
-        args: ["spoilers.py"]
-        env:
-        - name: LOGLEVEL
-          value: DEBUG
-        - name: TAUTULLI_KEY
-          valueFrom:
-            secretKeyRef:
-              name: survivor-tracker
-              key: tautullipassword
-        volumeMounts:
-        - name: config
-          mountPath: /app/config.toml
-          subPath: config.toml
-      volumes:
-      - name: config
-        configMap:
-          name: survivor-tracker-test
 
 ---
 apiVersion: v1
