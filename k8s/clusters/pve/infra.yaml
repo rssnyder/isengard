@@ -58,27 +58,12 @@ spec:
         - op: replace
           path: /spec/values/commonMetaLabels/cluster
           value: pve
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-    - patch: |
         - op: replace
           path: /spec/values/server/service/type
           value: LoadBalancer
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-    - patch: |
         - op: replace
           path: /spec/values/server/service/loadBalancerIP
           value: 192.168.252.253
-      target:
-        kind: HelmRelease
-        name: prometheus
-        namespace: prometheus
-    - patch: |
         - op: add
           path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
           value: prometheus-pve.r.ss
@@ -86,6 +71,7 @@ spec:
         kind: HelmRelease
         name: prometheus
         namespace: prometheus
+
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -189,19 +175,9 @@ spec:
         - op: replace
           path: /spec/values/defaultBackupStore/backupTarget
           value: s3://longhorn@us-east-1/backups
-      target:
-        kind: HelmRelease
-        name: longhorn
-        namespace: longhorn-system
-    - patch: |
         - op: add
           path: /spec/values/service/ui/type
           value: LoadBalancer
-      target:
-        kind: HelmRelease
-        name: longhorn
-        namespace: longhorn-system
-    - patch: |
         - op: add
           path: /spec/values/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
           value: longhorn-pve.r.ss
@@ -302,27 +278,12 @@ spec:
         - op: replace
           path: /spec/values/delegateName
           value: pve
-      target:
-        kind: HelmRelease
-        name: harness-delegate-ng
-        namespace: harness-delegate-ng
-    - patch: |
         - op: replace
           path: /spec/values/accountId
           value: -N_5zBuvRm2gzVAaNZ64lQ
-      target:
-        kind: HelmRelease
-        name: harness-delegate-ng
-        namespace: harness-delegate-ng
-    - patch: |
         - op: replace
           path: /spec/values/managerEndpoint
           value: https://app.harness.io/gratis
-      target:
-        kind: HelmRelease
-        name: harness-delegate-ng
-        namespace: harness-delegate-ng
-    - patch: |
         - op: replace
           path: /spec/values/delegateDockerImage
           value: harness/delegate:25.10.86902
