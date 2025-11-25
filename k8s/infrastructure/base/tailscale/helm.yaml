@@ -4,34 +4,6 @@ metadata:
   name: tailscale
 
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: operator-oauth
-  namespace: tailscale
-stringData:
-  client_id: {{ tailscale.client_id }}
-  client_secret: {{ tailscale.client_secret }}
-
----
-apiVersion: helm.cattle.io/v1
-kind: HelmChart
-metadata:
-  name: tailscale
-  namespace: tailscale
-spec:
-  repo: https://pkgs.tailscale.com/helmcharts
-  chart: tailscale-operator
-  targetNamespace: tailscale
-  valuesContent: |-
-    operatorConfig:
-      defaultTags:
-      - "tag:{{ cluster_context}}-k8s-operator"
-      hostname: "{{ cluster_context}}-k8s-operator"
-    proxyConfig:
-      defaultTags: "tag:{{ cluster_context}}-k8s"
-
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
