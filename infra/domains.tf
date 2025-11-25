@@ -49,7 +49,8 @@ module "hurley-dns-entries" {
     "auth",
     "books",
     "harrypottermoviepicker",
-    "photos"
+    "photos",
+    "home"
   ])
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
