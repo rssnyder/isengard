@@ -22,16 +22,3 @@ spec:
         ports:
         - name:  metrics
           containerPort: 9100
-
----
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: frigate-stats
-  namespace: frigate
-spec:
-  selector:
-    matchLabels:
-      app: frigate-stats
-  podMetricsEndpoints:
-  - port: metrics
