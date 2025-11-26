@@ -11,8 +11,8 @@ data:
     logLevel = "debug"
 
     [signal]
-    api = "signal-api"
-    number = "+14808407117"
+    api = "api"
+    number = "+15159792049"
     recipient = "+15159792049"
 
 

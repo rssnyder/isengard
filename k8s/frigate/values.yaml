@@ -21,7 +21,7 @@ persistence:
 # - name: snapshot-html
 #   mountPath: /opt/frigate/web/snapshots
 nodeSelector:
-  kubernetes.io/hostname: jack
+  kubernetes.io/hostname: blue
 coral:
   enabled: true
   hostPath: /dev/bus/usb

@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ubuntu
-  namespace: homeassistant
 spec:
   selector:
     matchLabels:
@@ -20,17 +19,3 @@ spec:
         image: ubuntu
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
-        env:
-        - name: TZ
-          value: America/Chicago
-        volumeMounts:
-        - name: config
-          mountPath: /config
-      volumes:
-      # - name: config
-      #   persistentVolumeClaim:
-      #     claimName: config
-      - name: config
-        nfs:
-          server: 192.168.2.6
-          path: /bucket/k8s/lab/homeassistant
