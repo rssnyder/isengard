@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate-stats
+  namespace: frigate
+spec:
+  selector:
+    matchLabels:
+      app: frigate-stats
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frigate-stats
+    spec:
+      containers:
+      - name: frigate-stats
+        image: rhysbailey/prometheus-frigate-exporter
+        env:
+        - name: FRIGATE_STATS_URL
+          value: http://frigate/api/stats
+        ports:
+        - name:  metrics
+          containerPort: 9100
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: frigate-stats
+  namespace: frigate
+spec:
+  selector:
+    matchLabels:
+      app: frigate-stats
+  podMetricsEndpoints:
+  - port: metrics
