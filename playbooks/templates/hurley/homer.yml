@@ -128,11 +128,11 @@ services:
         target: '_top'
       - name: "Home Assistant"
         logo: "assets/homer-icons/png/home-assistant.png"
-        url: "https://ha.k8s.rileysnyder.dev"
+        url: "https://home.rileysnyder.dev"
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
-        url: "http://frigate.corvus-salmon.ts.net/"
+        url: "http://zira.corvus-salmon.ts.net:5000"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"
@@ -163,21 +163,9 @@ services:
     items:
       - name: "Prometheus"
         logo: "assets/homer-icons/png/prometheus.png"
-        url: "http://192.168.253.2"
+        url: "http://192.168.252.253"
         target: '_top'
       - name: "Longhorn"
         logo: "assets/homer-icons/png/longhorn.png"
-        url: "http://192.168.253.1"
-        target: '_top'
-      - name: "Burrito"
-        icon: "assets/homer-icons/png/terraform.png"
-        url: "http://192.168.253.15"
-        target: '_top'
-      - name: "Home Assistant"
-        logo: "assets/homer-icons/png/home-assistant.png"
-        url: "https://192.168.253.5"
-        target: '_top'
-      - name: "Frigate"
-        logo: "assets/homer-icons/png/nowshowing.png"
-        url: "http://192.168.253.7"
+        url: "http://192.168.252.3"
         target: '_top'
