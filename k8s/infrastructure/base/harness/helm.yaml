@@ -26,6 +26,7 @@ spec:
       interval: 5m
   values:
     delegateName: some
+    tags: flux
     accountId: wlgELJ0TTre5aZhzpt8gVA
     existingDelegateToken: delegate-token
     managerEndpoint: https://app.harness.io/gratis
