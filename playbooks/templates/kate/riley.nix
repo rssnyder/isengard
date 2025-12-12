@@ -69,19 +69,11 @@ in {
 
   networking.firewall.allowedTCPPorts = [
     22
-    8000
   ];
-
-  virtualisation.docker.enable = true;
 
   services.tailscale.enable = true;
   services.tailscale.port = 41641;
   networking.firewall.allowedUDPPorts = [
     41641
   ];
-
-  fileSystems."/mnt/scratch" = {
-    device = "192.168.2.6:/scratch";
-    fsType = "nfs";
-  };
 }

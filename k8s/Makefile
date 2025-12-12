@@ -1,11 +1,15 @@
 server = 192.168.2.215
 agent0 = 192.168.2.217
 agent1 = 192.168.2.218
+agent2 = 192.168.2.236
+
+desktop = 192.168.2.4
 
 install:
 	k3sup install --ip $(server) --user riley --k3s-extra-args '--disable traefik --disable servicelb' # --no-extras
 	k3sup join --ip $(agent0) --server-ip $(server) --user riley --server-user riley
 	k3sup join --ip $(agent1) --server-ip $(server) --user riley --server-user riley
+	k3sup join --ip $(agent2) --server-ip $(server) --user riley --server-user riley
 	KUBECONFIG=./kubeconfig kubectl get nodes -o wide
 
 bootstrap:
@@ -15,6 +19,7 @@ bootstrap:
 	ssh $(server) "sudo apt-get update;sudo apt-get install -y qemu-guest-agent open-iscsi nfs-kernel-server lvm2"
 	ssh $(agent0) "sudo apt-get update;sudo apt-get install -y qemu-guest-agent open-iscsi nfs-kernel-server lvm2"
 	ssh $(agent1) "sudo apt-get update;sudo apt-get install -y qemu-guest-agent open-iscsi nfs-kernel-server lvm2"
+	ssh $(agent2) "sudo apt-get update;sudo apt-get install -y qemu-guest-agent open-iscsi nfs-kernel-server lvm2"
 
 secrets:
 	kubeseal -f clusters/pve/secrets.yaml -w infrastructure/pve/secrets/ssecrets.yaml
@@ -22,4 +27,5 @@ secrets:
 uninstall:
 	ssh $(agent0) "k3s-killall.sh; k3s-agent-uninstall.sh"
 	ssh $(agent1) "k3s-killall.sh; k3s-agent-uninstall.sh"
+	ssh $(agent2) "k3s-killall.sh; k3s-agent-uninstall.sh"
 	ssh $(server) "k3s-killall.sh; k3s-uninstall.sh"

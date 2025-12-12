@@ -16,8 +16,6 @@ in
     [
       ./hardware-configuration.nix
       ./riley.nix
-      ./timers.nix
-      (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -54,10 +52,6 @@ in
 
   programs.firefox.enable = true;
 
-  # system.autoUpgrade = {
-  #   enabled = true;
-  #   dates = "weekly";
-  # };
   nix.gc = {
     automatic = true;
     dates = "daily";
@@ -66,26 +60,10 @@ in
   nix.settings.auto-optimise-store = true;
 
   networking.firewall.allowedTCPPorts = [
-    80
-    6969
     9090
-    19132
-    8554
   ];
 
   services.logind.lidSwitch = "ignore";
-
-  services.vscode-server.enable = true;
-
-  networking.firewall.allowedUDPPorts = [
-    6969
-    19132
-  ];
-
-  systemd.tmpfiles.rules = [
-        "d /etc/letsencrypt 0770 root docker -"
-        "d /var/lib/letsencrypt 0770 root docker -"
-  ];
 
   services.prometheus = {
     enable = true;
@@ -109,21 +87,6 @@ in
       };
     };
   };
-  
-  services.code-server = {
-    enable = true;
-    user = "riley";
-    host = "0.0.0.0";
-    port = 6969;
-  };
-
-  services.nginx = {
-    enable = true;
-    virtualHosts."files.r.ss" = {
-      forceSSL = false;
-      root = "/var/www/files";
-    };
-  };
 
   services.plex = {
     package = customPlex;
@@ -142,6 +105,11 @@ in
 
   fileSystems."/mnt/red" = {
     device = "192.168.2.6:/red";
+    fsType = "nfs";
+  };
+
+  fileSystems."/mnt/scratch" = {
+    device = "192.168.2.6:/scratch";
     fsType = "nfs";
   };
 

@@ -356,5 +356,28 @@ services:
     # environment:
     #   FRIGATE_RTSP_PASSWORD: "password"
 
+  pbs:
+    image: ayufan/proxmox-backup-server:v4.0.21-1
+    ports:
+      - 8007:8007
+    mem_limit: 2G
+    volumes:
+      - pbs_etc:/etc/proxmox-backup
+      - pbs_logs:/var/log/proxmox-backup
+      - pbs_lib:/var/lib/proxmox-backup
+      - $SCRATCH_STORAGE/proxmox:/backups
+    tmpfs:
+      - /run
+    cap_add:
+      - SYS_RAWIO # smartctl support
+    #devices: # smartctl support
+    #  - /dev/sda
+    #  - /dev/sdb
+    restart: unless-stopped
+    stop_signal: SIGHUP
+
 volumes:
   immich-model-cache:
+  pbs_etc:
+  pbs_logs:
+  pbs_lib:
