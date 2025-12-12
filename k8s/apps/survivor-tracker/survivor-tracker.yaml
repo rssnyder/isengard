@@ -25,7 +25,7 @@ data:
     api = "192.168.2.7:8181"
 
     [plex_users]
-    "riley_snyder" = "Nicole, Hunter, Harley, Colby, Louie and myself"
+    "riley_snyder" = "Nicole and I"
     "hmfis" = "Hannah and Sweepy"
     "mose162" = "Hunter"
     "barry.sa" = "Barry"
