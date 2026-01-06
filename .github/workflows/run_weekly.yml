@@ -1,7 +1,7 @@
 on: 
   workflow_dispatch:
-  schedule:
-    - cron: '0 8 * * 0'
+  # schedule:
+  #   - cron: '0 8 * * 0'
 
 env:
   ANSIBLE_HOST_KEY_CHECKING: False

@@ -1,10 +1,10 @@
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-  schedule:
-    - cron:  "0 5 * * *" 
+  # push:
+  #   branches:
+  #     - master
+  # pull_request:
+  # schedule:
+  #   - cron:  "0 5 * * *" 
   workflow_dispatch:
 
 env:
