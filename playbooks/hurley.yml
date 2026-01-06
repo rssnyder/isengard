@@ -22,8 +22,8 @@
 
     - name: copy homer file
       template: 
-        src: templates/hurley/homer.yml
-        dest: /home/riley/appdata/homer/config.yml
+        src: templates/hurley/garage.toml
+        dest: /home/riley/appdata/garage/garage.toml
     
     - shell:
         cmd: docker compose up -d --remove-orphans

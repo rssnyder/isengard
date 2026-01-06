@@ -165,6 +165,22 @@ services:
     ports:
       - 7003:7878
 
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    restart: unless-stopped
+    environment:
+      PUID: 65534
+      PGID: 1001
+      UMASK: 000
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/lidarr:/config
+      - $MEDIA/music:/music
+      - $SCRATCH_STORAGE/downloads:/downloads
+    ports:
+      - 8686:8686
+
   prowlarr:
     image: linuxserver/prowlarr:develop
     container_name: prowlarr

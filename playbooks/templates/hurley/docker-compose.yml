@@ -159,6 +159,15 @@ services:
       - $APPDATA/homer:/www/assets
     ports:
       - 8364:8080
+  
+  garage:
+    image: dxflrs/garage:v2.1.0
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - $APPDATA/garage/garage.toml:/etc/garage.toml
+      - $APPDATA/garage/meta:/var/lib/garage/meta
+      - $APPDATA/garage/data:/var/lib/garage/data
 
 volumes:
   db:
