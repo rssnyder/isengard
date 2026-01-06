@@ -341,7 +341,7 @@ spec:
   dependsOn:
     - name: sealed-secrets-secrets
   interval: 1h
-  path: ./k8s/infrastructure/pve/proxmox-cloud-controller-manager
+  path: ./k8s/infrastructure/pve/ccm
   prune: true
   sourceRef:
     kind: GitRepository
