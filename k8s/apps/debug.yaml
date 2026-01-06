@@ -4,7 +4,6 @@ metadata:
   name: proxmox-test
 spec:
   storageClassName: proxmox
-  volumeName: proxmox-test
   accessModes:
   - "ReadWriteOnce"
   resources:
@@ -15,21 +14,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ubuntu
+  name: alpine
 spec:
   selector:
     matchLabels:
-      app: ubuntu
+      app: alpine
   replicas: 1
   template:
     metadata:
       labels:
-        app: ubuntu
+        app: alpine
     spec:
-      nodeName: jack
       containers:
-      - name: home-assistant
-        image: ubuntu
+      - name: alpine
+        image: alpine
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
         volumeMounts:
