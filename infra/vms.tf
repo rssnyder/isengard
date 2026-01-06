@@ -61,6 +61,37 @@
 # EOT
 # }
 
+resource "proxmox_virtual_environment_cloned_vm" "tftest" {
+  node_name = "pve0"
+  name      = "tftest"
+
+  clone = {
+    source_vm_id = 703  # Template VM ID
+    full         = true # Perform full clone (not linked)
+  }
+
+  disk = {
+    scsi0 = {
+      # Resize the cloned boot disk
+      datastore_id = "data"
+      size_gb      = 32
+      discard      = "on"
+      ssd          = true
+    }
+
+    # scsi1 = {
+    #   datastore_id = "data"
+    #   size_gb      = 64
+    #   backup       = false
+    # }
+  }
+
+  # Only manage CPU, inherit everything else from template
+  cpu = {
+    cores = 4
+  }
+}
+
 resource "proxmox_virtual_environment_role" "ccm" {
   role_id = "CCM"
 

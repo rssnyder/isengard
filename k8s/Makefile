@@ -5,9 +5,9 @@ agent1 = 192.168.2.232
 desktop = 192.168.2.4
 
 install:
-	k3sup install --ip $(server) --user riley --k3s-extra-args '--disable traefik --disable servicelb' # --no-extras
-	k3sup join --ip $(agent0) --server-ip $(server) --user riley --server-user riley
-	k3sup join --ip $(agent1) --server-ip $(server) --user riley --server-user riley
+	k3sup install --ip $(server)                       --user riley --k3s-extra-args '--disable traefik --disable servicelb --cloud-provider=external'
+	k3sup join    --ip $(agent0) --server-ip $(server) --user riley --k3s-extra-args '--cloud-provider=external'                                       --server-user riley
+	k3sup join    --ip $(agent1) --server-ip $(server) --user riley --k3s-extra-args '--cloud-provider=external'                                       --server-user riley
 	KUBECONFIG=./kubeconfig kubectl get nodes -o wide
 
 install-desktop:
