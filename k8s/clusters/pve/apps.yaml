@@ -89,6 +89,15 @@ spec:
     name: flux-system
   patches:
     - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: keys.r.ss
+      target:
+        kind: Servie
+        name: keys
+        namespace: keys
+    - patch: |
         - op: replace
           path: /spec/rules/0/host
           value: keys.pve.rileysnyder.dev
@@ -112,3 +121,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: survivor-tracker.r.ss
+      target:
+        kind: Servie
+        name: survivor-tracker
+        namespace: survivor-tracker

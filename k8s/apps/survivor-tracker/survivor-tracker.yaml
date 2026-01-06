@@ -107,8 +107,6 @@ kind: Service
 metadata:
   name: survivor-tracker
   namespace: survivor-tracker
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: survivor-tracker.r.ss
 spec:
   type: LoadBalancer
   selector:
