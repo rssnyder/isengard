@@ -30,3 +30,4 @@ spec:
     nodeSelector:
       node-role.kubernetes.io/control-plane: "true"
     existingConfigSecret: proxmox-cloud-controller-manager
+    logVerbosityLevel: 5
