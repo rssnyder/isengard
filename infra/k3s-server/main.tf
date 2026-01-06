@@ -98,18 +98,44 @@ EOF
   }
 }
 
-resource "null_resource" "bootstrap_flux" {
+resource "null_resource" "install_flux_operator" {
 
   triggers = {
     vm_id = proxmox_virtual_environment_vm.this.id
   }
 
-  provisioner "local-exec" {
-    command = <<EOF
-ssh ${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} "sudo curl -sL https://github.com/controlplaneio-fluxcd/flux-operator/releases/latest/download/install.yaml -o /var/lib/rancher/k3s/server/manifests/flux-operator.yaml"
-ssh ${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} "curl -sL https://raw.githubusercontent.com/rssnyder/isengard/refs/heads/master/k8s/clusters/pve/flux.yaml | sudo tee /var/lib/rancher/k3s/server/manifests/flux.yaml"
-EOF
+  connection {
+    host = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
+    user = "riley"
+    private_key = file("/home/riley/.ssh/id_rsa")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "curl -sL https://github.com/controlplaneio-fluxcd/flux-operator/releases/latest/download/install.yaml | sudo tee /var/lib/rancher/k3s/server/manifests/flux-operator.yaml",
+    ]
   }
 
   depends_on = [ null_resource.install_server ]
+}
+
+resource "null_resource" "flux_init" {
+
+  triggers = {
+    vm_id = proxmox_virtual_environment_vm.this.id
+  }
+
+  connection {
+    host = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
+    user = "riley"
+    private_key = file("/home/riley/.ssh/id_rsa")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "curl -sL https://raw.githubusercontent.com/rssnyder/isengard/refs/heads/master/k8s/clusters/pve/flux.yaml | sudo tee /var/lib/rancher/k3s/server/manifests/flux.yaml",
+    ]
+  }
+
+  depends_on = [ null_resource.install_flux_operator ]
 }
