@@ -6,6 +6,7 @@ metadata:
 spec:
   interval: 5m
   url: oci://ghcr.io/sergelogvinov/charts/proxmox-cloud-controller-manager
+  type: "oci"
 
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
