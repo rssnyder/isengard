@@ -25,7 +25,6 @@ spec:
         kind: HelmRepository
         name: proxmox-cloud-controller-manager
       interval: 5m
-  releaseName: sealed-secrets
   values:
     useDaemonSet: true
     nodeSelector:
