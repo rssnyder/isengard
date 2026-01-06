@@ -1,3 +1,8 @@
+locals {
+  cluster_iteration  = "one"
+  proxmox_datacenter = "antoinette"
+}
+
 data "proxmox_virtual_environment_nodes" "this" {}
 
 # vm setup
@@ -13,27 +18,42 @@ resource "proxmox_virtual_environment_download_file" "debian_trixie" {
 }
 
 # vms
-module "k3s" {
-  for_each =  {for index, srv in ["blue", "yellow"] : srv => {
-    name = srv
-    node = index % length(data.proxmox_virtual_environment_nodes.this.names)
-  } }
+module "k3s-server" {
+  source = "./k3s-server"
 
-  source = "./k3s-vm"
+  name = local.cluster_iteration
+  tags = ["k3s", "master"]
 
-  name = each.key
-  tags = ["k3s"]
-
-  size_gb = 32
-  cpu = 2
-  memory = 4096
+  size_gb = 16
+  cpu     = 2
+  memory  = 4096
 
   iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
   public_key = data.local_file.ssh_public_key.content
-  cluster = "antoinette"
-  node_name  = data.proxmox_virtual_environment_nodes.this.names[each.value.node]
+  cluster    = local.proxmox_datacenter
+  node_name  = data.proxmox_virtual_environment_nodes.this.names[0]
+}
 
-  server_ip = "192.168.2.215"
+module "k3s-agents" {
+  count = 2
+
+  source = "./k3s-agent"
+
+  iteration = local.cluster_iteration
+  tags      = ["k3s"]
+
+  size_gb = 16
+  cpu     = 2
+  memory  = 4096
+
+  iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
+  public_key = data.local_file.ssh_public_key.content
+  cluster    = local.proxmox_datacenter
+  node_name  = data.proxmox_virtual_environment_nodes.this.names[count.index % length(data.proxmox_virtual_environment_nodes.this.names)]
+
+  server_ip = module.k3s-server.vm_ipv4_address
+
+  depends_on = [module.k3s-server]
 }
 
 

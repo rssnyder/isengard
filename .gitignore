@@ -26,6 +26,6 @@ terraform.tfstate*
 
 k8s/clusters/*/secrets.yaml
 
-k8s/kubeconfig
+**/kubeconfig
 
 playbooks/templates/hurley/garage.toml

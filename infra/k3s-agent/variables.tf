@@ -3,9 +3,9 @@ variable "node_name" {
   description = "proxmox node name"
 }
 
-variable "name" {
+variable "iteration" {
   type = string
-  description = "vm name"
+  description = "cluster iteration"
 }
 
 variable "public_key" {

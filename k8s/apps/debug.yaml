@@ -25,10 +25,11 @@ spec:
       labels:
         app: alpine
     spec:
+      nodeName: yellow
       containers:
       - name: alpine
         image: alpine
-        command: [ "/bin/bash", "-c", "--" ]
+        command: [ "/bin/sh", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
         volumeMounts:
         - name: proxmox
