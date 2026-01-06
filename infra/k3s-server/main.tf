@@ -98,6 +98,12 @@ EOF
   }
 }
 
+resource "time_sleep" "wait_10_seconds" {
+  create_duration = "10s"
+
+  depends_on = [null_resource.install_server]
+}
+
 resource "null_resource" "install_flux_operator" {
 
   triggers = {
@@ -116,7 +122,7 @@ resource "null_resource" "install_flux_operator" {
     ]
   }
 
-  depends_on = [ null_resource.install_server ]
+  depends_on = [ time_sleep.wait_10_seconds ]
 }
 
 resource "null_resource" "flux_init" {
@@ -137,5 +143,5 @@ resource "null_resource" "flux_init" {
     ]
   }
 
-  depends_on = [ null_resource.install_flux_operator ]
+  depends_on = [ time_sleep.wait_10_seconds ]
 }

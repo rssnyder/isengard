@@ -1,5 +1,5 @@
 locals {
-  cluster_iteration  = "one"
+  cluster_iteration  = "two"
   proxmox_datacenter = "antoinette"
 }
 
@@ -17,14 +17,13 @@ resource "proxmox_virtual_environment_download_file" "debian_trixie" {
   url          = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
 }
 
-# vms
 module "k3s-server" {
   source = "./k3s-server"
 
   name = local.cluster_iteration
   tags = ["k3s", "master"]
 
-  size_gb = 16
+  size_gb = 24
   cpu     = 2
   memory  = 4096
 
@@ -42,7 +41,7 @@ module "k3s-agents" {
   iteration = local.cluster_iteration
   tags      = ["k3s"]
 
-  size_gb = 16
+  size_gb = 24
   cpu     = 2
   memory  = 4096
 
@@ -55,7 +54,6 @@ module "k3s-agents" {
 
   depends_on = [module.k3s-server]
 }
-
 
 # access control
 
