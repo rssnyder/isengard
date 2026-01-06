@@ -28,4 +28,4 @@ k8s/clusters/*/secrets.yaml
 
 k8s/kubeconfig
 
-playbooks/garage.yml
+playbooks/templates/hurley/garage.toml

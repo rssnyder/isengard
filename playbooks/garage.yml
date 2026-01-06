@@ -1,0 +1,11 @@
+- name: garage
+  hosts: oca8
+  roles:
+    - role: eddster2309.garage
+  vars:
+    garage_rpc_secret: SECRET
+    garage_admin_token: SECRET
+    garage_metrics_token: SECRET
+  tasks:
+    - shell:
+        cmd: tailscale ping hurley
