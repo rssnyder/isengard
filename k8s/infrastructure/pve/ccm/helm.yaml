@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   interval: 5m
-  url: oci://ghcr.io/sergelogvinov/charts/proxmox-cloud-controller-manager
+  url: oci://ghcr.io/sergelogvinov/charts
   type: "oci"
 
 ---
