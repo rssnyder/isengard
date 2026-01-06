@@ -38,6 +38,14 @@ spec:
     name: flux-system
   patches:
     - patch: |
+        - op: replace
+          path: /spec/storageClassName
+          value: proxmox
+      target:
+        kind: PersistentVolumeClaim
+        name: api
+        namespace: signal
+    - patch: |
         - op: add
           path: /metadata/annotations
           value: 
@@ -88,6 +96,14 @@ spec:
     kind: GitRepository
     name: flux-system
   patches:
+    - patch: |
+        - op: replace
+          path: /spec/storage/storageClass
+          value: proxmox
+      target:
+        kind: Cluster
+        name: db
+        namespace: keys
     - patch: |
         - op: add
           path: /metadata/annotations
