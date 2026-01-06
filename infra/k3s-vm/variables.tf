@@ -53,3 +53,13 @@ variable "tags" {
   description = "tags"
   default = []
 }
+
+variable "cluster" {
+  type = string
+  description = "name of the pve cluster"
+}
+
+variable "server_ip" {
+  type = string
+  description = "k3s server ip"
+}

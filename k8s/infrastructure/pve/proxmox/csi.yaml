@@ -1,0 +1,43 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: sergelogvinov
+  namespace: csi-proxmox
+spec:
+  interval: 5m
+  url: oci://ghcr.io/sergelogvinov/charts
+  type: "oci"
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: proxmox-csi
+  namespace: csi-proxmox
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: proxmox-csi-plugin
+      version: "0.2.24"
+      sourceRef:
+        kind: HelmRepository
+        name: sergelogvinov
+      interval: 5m
+  values:
+    existingConfigSecret: proxmox-csi
+    storageClass:
+      - name: proxmox
+        storage: data
+        ssd: true
+        reclaimPolicy: Delete
+        fstype: ext4
+      - name: proxmox-nfs
+        storage: zira-red
+        ssd: false
+        reclaimPolicy: Delete
+        fstype: xfs
+        # Define the storage class as default
+        # annotations:
+        #   storageclass.kubernetes.io/is-default-class: "true"

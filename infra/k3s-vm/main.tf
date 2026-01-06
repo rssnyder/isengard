@@ -103,3 +103,20 @@ resource "pihole_dns_record" "this" {
   domain = var.dns_name != null ? var.dns_name : "${var.name}.r.ss"
   ip     = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
 }
+
+resource "null_resource" "join_agents" {
+
+  triggers = {
+    vm_id = proxmox_virtual_environment_vm.this.id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
+k3sup join \
+--ip ${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} --server-ip ${var.server_ip} \
+--user riley --server-user riley \
+--k3s-extra-args \
+  '--kubelet-arg=cloud-provider=external --kubelet-arg=node-ip=${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} --kubelet-arg=provider-id=proxmox://${var.cluster}/${proxmox_virtual_environment_vm.this.id}'
+EOF
+  }
+}
