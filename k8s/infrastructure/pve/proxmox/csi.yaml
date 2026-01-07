@@ -38,6 +38,14 @@ spec:
         ssd: false
         reclaimPolicy: Retain
         fstype: xfs
+    node:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: topology.kubernetes.io/region
+                operator: Exists
         # Define the storage class as default
         # annotations:
         #   storageclass.kubernetes.io/is-default-class: "true"
