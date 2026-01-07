@@ -191,21 +191,21 @@ spec:
 #         name: longhorn
 #         namespace: longhorn-system
 
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: longhorn-backups
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: longhorn
-  interval: 1h
-  path: ./k8s/infrastructure/pve/longhorn
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: longhorn-backups
+#   namespace: flux-system
+# spec:
+#   dependsOn:
+#     - name: longhorn
+#   interval: 1h
+#   path: ./k8s/infrastructure/pve/longhorn
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
