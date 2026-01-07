@@ -9,15 +9,14 @@ resource "null_resource" "install_server" {
 k3sup install \
 --ip ${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} \
 --user riley \
---embedded-registry \
 --k3s-extra-args \
-  '--disable traefik --disable servicelb --disable-cloud-controller --kubelet-arg=cloud-provider=external --kubelet-arg=node-ip=${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} --kubelet-arg=provider-id=proxmox://${var.cluster}/${proxmox_virtual_environment_vm.this.id}'
+  '--disable traefik --disable servicelb --embedded-registry --disable-cloud-controller --kubelet-arg=cloud-provider=external --kubelet-arg=node-ip=${proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]} --kubelet-arg=provider-id=proxmox://${var.cluster}/${proxmox_virtual_environment_vm.this.id}'
 EOF
   }
 }
 
-resource "time_sleep" "wait_30_seconds" {
-  create_duration = "30s"
+resource "time_sleep" "wait_60_seconds" {
+  create_duration = "60s"
 
   depends_on = [null_resource.install_server]
 }
@@ -40,7 +39,7 @@ resource "null_resource" "node_ready" {
     ]
   }
 
-  depends_on = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_60_seconds]
 }
 
 resource "null_resource" "registry_mirror" {
@@ -57,11 +56,11 @@ resource "null_resource" "registry_mirror" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'mirrors:\n  \"*\":' | tee /etc/rancher/k3s/registries.yaml",
+      "echo 'mirrors:\n  \"*\":' | sudo tee /etc/rancher/k3s/registries.yaml",
     ]
   }
 
-  depends_on = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_60_seconds]
 }
 
 resource "null_resource" "install_flux_operator" {
@@ -82,7 +81,7 @@ resource "null_resource" "install_flux_operator" {
     ]
   }
 
-  depends_on = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_60_seconds]
 }
 
 resource "null_resource" "flux_init" {
@@ -103,5 +102,5 @@ resource "null_resource" "flux_init" {
     ]
   }
 
-  depends_on = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_60_seconds]
 }

@@ -15,8 +15,8 @@ EOF
   }
 }
 
-resource "time_sleep" "wait_30_seconds" {
-  create_duration = "30s"
+resource "time_sleep" "wait_60_seconds" {
+  create_duration = "60s"
 
   depends_on = [null_resource.join_agent]
 }
@@ -35,11 +35,11 @@ resource "null_resource" "registry_mirror" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'mirrors:\n  \"*\":' | tee /etc/rancher/k3s/registries.yaml",
+      "echo 'mirrors:\n  \"*\":' | sudo tee /etc/rancher/k3s/registries.yaml",
     ]
   }
 
-  depends_on = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_60_seconds]
 }
 
 # resource "null_resource" "node_ready" {
