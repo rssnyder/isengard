@@ -51,19 +51,6 @@ spec:
         persistentVolumeClaim:
           claimName: api
 
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: api
-#   namespace: signal
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 1Gi
-
 ---
 apiVersion: v1
 kind: PersistentVolume

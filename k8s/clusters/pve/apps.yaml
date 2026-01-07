@@ -54,6 +54,21 @@ spec:
         kind: Service
         name: api
         namespace: signal
+    - patch: |
+        - op: add
+          path: /spec/template/spec/affinity
+          value: 
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: topology.kubernetes.io/region
+                    operator: Exists
+      target:
+        kind: Deployment
+        name: api
+        namespace: signal
+
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
