@@ -15,10 +15,31 @@ EOF
   }
 }
 
-resource "time_sleep" "wait_10_seconds" {
-  create_duration = "10s"
+resource "time_sleep" "wait_30_seconds" {
+  create_duration = "30s"
 
   depends_on = [null_resource.join_agent]
+}
+
+resource "null_resource" "registry_mirror" {
+
+  triggers = {
+    vm_id = proxmox_virtual_environment_vm.this.id
+  }
+
+  connection {
+    host        = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
+    user        = "riley"
+    private_key = file("/home/riley/.ssh/id_rsa")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'mirrors:\n  \"*\":' | tee /etc/rancher/k3s/registries.yaml",
+    ]
+  }
+
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 # resource "null_resource" "node_ready" {

@@ -11,18 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  patches:
-  - patch: |
-      - op: add
-        path: /spec/values/tolerations
-        value:
-        - key: "node.cloudprovider.kubernetes.io/uninitialized"
-          operator: "Exists"
-          effect: "NoSchedule"
-    target:
-      kind: HelmRelease
-      name: sealed-secrets
-      namespace: kube-system
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
