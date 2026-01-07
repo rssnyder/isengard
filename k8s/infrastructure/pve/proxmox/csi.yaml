@@ -31,12 +31,12 @@ spec:
       - name: proxmox
         storage: data
         ssd: true
-        reclaimPolicy: Delete
+        reclaimPolicy: Retain
         fstype: ext4
       - name: proxmox-nfs
         storage: zira-red
         ssd: false
-        reclaimPolicy: Delete
+        reclaimPolicy: Retain
         fstype: xfs
         # Define the storage class as default
         # annotations:

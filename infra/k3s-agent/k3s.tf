@@ -21,23 +21,23 @@ resource "time_sleep" "wait_10_seconds" {
   depends_on = [null_resource.join_agent]
 }
 
-resource "null_resource" "node_ready" {
+# resource "null_resource" "node_ready" {
 
-  triggers = {
-    vm_id = proxmox_virtual_environment_vm.this.id
-  }
+#   triggers = {
+#     vm_id = proxmox_virtual_environment_vm.this.id
+#   }
 
-  connection {
-    host        = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
-    user        = "riley"
-    private_key = file("/home/riley/.ssh/id_rsa")
-  }
+#   connection {
+#     host        = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
+#     user        = "riley"
+#     private_key = file("/home/riley/.ssh/id_rsa")
+#   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo kubectl taint nodes ${random_pet.this.id} node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule-",
-    ]
-  }
+#   provisioner "remote-exec" {
+#     inline = [
+#       "sudo kubectl taint nodes ${random_pet.this.id} node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule-",
+#     ]
+#   }
 
-  depends_on = [time_sleep.wait_10_seconds]
-}
+#   depends_on = [time_sleep.wait_10_seconds]
+# }

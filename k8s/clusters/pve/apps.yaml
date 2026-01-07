@@ -38,7 +38,7 @@ spec:
     name: flux-system
   patches:
     - patch: |
-        - op: replace
+        - op: add
           path: /spec/storageClassName
           value: proxmox
       target:
