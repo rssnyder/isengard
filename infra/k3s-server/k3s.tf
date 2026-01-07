@@ -15,8 +15,8 @@ EOF
   }
 }
 
-resource "time_sleep" "wait_10_seconds" {
-  create_duration = "10s"
+resource "time_sleep" "wait_30_seconds" {
+  create_duration = "30s"
 
   depends_on = [null_resource.install_server]
 }
@@ -39,7 +39,7 @@ resource "null_resource" "node_ready" {
     ]
   }
 
-  depends_on = [time_sleep.wait_10_seconds]
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 resource "null_resource" "install_flux_operator" {
@@ -60,7 +60,7 @@ resource "null_resource" "install_flux_operator" {
     ]
   }
 
-  depends_on = [time_sleep.wait_10_seconds]
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 resource "null_resource" "flux_init" {
@@ -81,5 +81,5 @@ resource "null_resource" "flux_init" {
     ]
   }
 
-  depends_on = [time_sleep.wait_10_seconds]
+  depends_on = [time_sleep.wait_30_seconds]
 }
