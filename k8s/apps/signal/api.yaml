@@ -51,38 +51,6 @@ spec:
         persistentVolumeClaim:
           claimName: api
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: api
-  namespace: signal
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: api
-#   namespace: signal
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   capacity:
-#     storage: 1Gi
-#   csi:
-#     driver: csi.proxmox.sinextra.dev
-#     fsType: ext4
-#     volumeAttributes:
-#       storage: data
-#     volumeHandle: antoinette/pve0/data/vm-9999-pvc-a8209b0c-0a88-4302-ae83-3ced7086725a
-#   storageClassName: proxmox
-
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim
@@ -95,8 +63,40 @@ spec:
 #   resources:
 #     requests:
 #       storage: 1Gi
-#   storageClassName: proxmox
-#   volumeName: pvc-test
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: api
+  namespace: signal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  csi:
+    driver: csi.proxmox.sinextra.dev
+    fsType: ext4
+    volumeAttributes:
+      storage: data
+    volumeHandle: antoinette/pve1/data/vm-9999-pvc-51bfb16b-c006-4a14-8e5d-cca4c8a78fea
+  storageClassName: proxmox
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: api
+  namespace: signal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: proxmox
+  volumeName: api
 
 ---
 apiVersion: v1
