@@ -3,11 +3,11 @@ variable "name" {
 }
 
 variable "user" {
-  type = string
+  type    = string
   default = null
 }
 
 variable "public" {
-  type = bool
+  type    = bool
   default = false
 }

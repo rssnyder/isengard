@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "isengard"
-    key    = "oci/23/infra/terraform.tfstate"
+    bucket                      = "isengard"
+    key                         = "oci/23/infra/terraform.tfstate"
     endpoint                    = "http://192.168.2.2:9000"
     region                      = "main"
     skip_credentials_validation = true

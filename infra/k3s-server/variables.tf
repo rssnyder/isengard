@@ -1,22 +1,22 @@
 variable "node_name" {
-  type = string
+  type        = string
   description = "proxmox node name"
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "vm name"
 }
 
 variable "public_key" {
-  type = string
+  type        = string
   description = "public key for ssh access"
 }
 
 variable "size_gb" {
-  type = number
+  type        = number
   description = "disk size in gb"
-  default = 8
+  default     = 8
 }
 
 # variable "additional_disks" {
@@ -26,35 +26,35 @@ variable "size_gb" {
 # }
 
 variable "cpu" {
-  type = number
+  type        = number
   description = "cores"
-  default = 2
+  default     = 2
 }
 
 variable "memory" {
-  type = number
+  type        = number
   description = "mb"
-  default = 2048
+  default     = 2048
 }
 
 variable "iso_id" {
-  type = string
+  type        = string
   description = "source iso to use for vm"
 }
 
 variable "dns_name" {
-  type = string
+  type        = string
   description = "custom dns name"
-  default = null
+  default     = null
 }
 
 variable "tags" {
-  type = list(string)
+  type        = list(string)
   description = "tags"
-  default = []
+  default     = []
 }
 
 variable "cluster" {
-  type = string
+  type        = string
   description = "name of the pve cluster"
 }

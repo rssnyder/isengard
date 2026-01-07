@@ -4,13 +4,13 @@ resource "minio_s3_bucket" "this" {
 }
 
 resource "minio_iam_user" "this" {
-   name = var.user != null ? var.user : var.name
-   force_destroy = false
+  name          = var.user != null ? var.user : var.name
+  force_destroy = false
 }
 
 resource "minio_iam_policy" "this" {
-  name = var.name
-  policy= <<EOF
+  name   = var.name
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
