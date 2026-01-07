@@ -1,5 +1,5 @@
 locals {
-  cluster_iteration  = "seven"
+  cluster_iteration  = "eight"
   proxmox_datacenter = "antoinette"
 }
 
