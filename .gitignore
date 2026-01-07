@@ -25,6 +25,7 @@ result
 terraform.tfstate*
 
 k8s/clusters/*/secrets.yaml
+k8s/infrastructure/pve/secrets/.secrets.yaml*
 
 **/kubeconfig
 
