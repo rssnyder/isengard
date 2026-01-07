@@ -87,11 +87,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  healthChecks:
-    - apiVersion: v1
-      kind: Secret
-      name: pihole
-      namespace: kube-system
+  # healthChecks:
+  #   - apiVersion: v1
+  #     kind: Secret
+  #     name: pihole
+  #     namespace: kube-system
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
