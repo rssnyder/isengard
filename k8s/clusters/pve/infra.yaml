@@ -352,3 +352,29 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: awx-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://github.com/ansible/awx-operator
+  ref:
+    semver: 2.19.1
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: awx-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./config/default
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: awx-operator
