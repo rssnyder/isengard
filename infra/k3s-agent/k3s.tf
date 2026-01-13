@@ -35,7 +35,7 @@ resource "null_resource" "registry_mirror" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'mirrors:\n  \"*\":' | sudo tee /etc/rancher/k3s/registries.yaml",
+      "sudo mkdir -p /etc/rancher/k3s && echo 'mirrors:\n  \"*\":' | sudo tee /etc/rancher/k3s/registries.yaml",
     ]
   }
 

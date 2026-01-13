@@ -30,11 +30,11 @@ module "k3s-server" {
   iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
   public_key = data.local_file.ssh_public_key.content
   cluster    = local.proxmox_datacenter
-  node_name  = data.proxmox_virtual_environment_nodes.this.names[0]
+  node_name  = "pve0"
 }
 
 module "k3s-agents" {
-  count = 2
+  count = length(data.proxmox_virtual_environment_nodes.this.names)
 
   source = "./k3s-agent"
 
