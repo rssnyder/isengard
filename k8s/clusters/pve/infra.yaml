@@ -378,3 +378,12 @@ spec:
   sourceRef:
     kind: GitRepository
     name: awx-operator
+
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: isengard
+  namespace: awx
+spec:
+  service_type: LoadBalancer
