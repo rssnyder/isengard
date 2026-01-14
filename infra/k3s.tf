@@ -43,7 +43,7 @@ module "k3s-agents" {
 
   size_gb = 24
   cpu     = 2
-  memory  = 4096
+  memory  = 6114
 
   iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
   public_key = data.local_file.ssh_public_key.content

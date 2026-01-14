@@ -12,10 +12,6 @@ terraform {
     minio = {
       source = "aminueza/minio"
     }
-    # proxmox = {
-    #   source  = "Telmate/proxmox"
-    #   version = "3.0.2-rc03"
-    # }
     proxmox = {
       source = "bpg/proxmox"
     }
@@ -83,12 +79,11 @@ provider "minio" {
 
 provider "proxmox" {
   endpoint = "https://192.168.2.69:8006"
-
-  username = "root@pam"
-
   insecure = true
 
   ssh {
     agent = true
+    username = "root"
+    private_key = file("~/.ssh/id_rsa")
   }
 }

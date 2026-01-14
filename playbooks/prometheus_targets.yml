@@ -1,6 +1,7 @@
 ---
 - name: Generate promethus target config
   hosts: all
+  become: yes
 
   tasks:
 
@@ -11,7 +12,14 @@
     - name: copy targets config
       template: 
         src: targets.yml.j2
-        dest: /home/riley/appdata/prometheus.yml
+        dest: /etc/prometheus/scrape_configs/isengard.yml
         owner: riley
-      when: inventory_hostname == 'kate'
+      when: inventory_hostname == 'prometheus.r.ss'
     
+    - name: Reload prometheus configuration
+      ansible.builtin.uri:
+        url: "http://localhost:9090/-/reload"
+        method: POST
+        status_code: 200
+        validate_certs: false
+      when: inventory_hostname == 'prometheus.r.ss'
