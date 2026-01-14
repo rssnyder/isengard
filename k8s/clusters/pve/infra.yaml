@@ -429,3 +429,4 @@ spec:
   service_type: LoadBalancer
   service_annotations: |
     external-dns.alpha.kubernetes.io~1hostname: awx.r.ss
+    postgres_storage_class: proxmox
