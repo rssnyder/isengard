@@ -427,3 +427,5 @@ metadata:
   namespace: awx
 spec:
   service_type: LoadBalancer
+  service_annotations: |
+    external-dns.alpha.kubernetes.io~1hostname: awx.r.ss
