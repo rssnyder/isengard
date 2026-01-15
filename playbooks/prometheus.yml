@@ -1,0 +1,9 @@
+- name: prometheus
+  hosts: prometheus.r.ss
+  roles:
+    - role: prometheus.prometheus.prometheus
+  vars:
+    prometheus_storage_retention: 180d
+    prometheus_storage_retention_size: 500GB
+    prometheus_config_flags_extra:
+      web.enable-lifecycle: true

@@ -297,45 +297,43 @@ spec:
 #         name: harness-delegate-ng
 #         namespace: harness-delegate-ng
 
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: harness-delegate-ng-work
-#   namespace: flux-system
-# spec:
-#   dependsOn:
-#     - name: sealed-secrets-secrets
-#   interval: 1h
-#   path: ./k8s/infrastructure/base/harness
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#   patches:
-#     - patch: |
-#         - op: replace
-#           path: /spec/values/delegateName
-#           value: pve
-#         - op: replace
-#           path: /spec/values/tags
-#           value: build-farm,linux,homelab,proxmox
-#         - op: replace
-#           path: /spec/values/existingDelegateToken
-#           value: work-delegate-token
-#         - op: replace
-#           path: /spec/values/accountId
-#           value: wlgELJ0TTre5aZhzpt8gVA
-#         - op: replace
-#           path: /spec/values/managerEndpoint
-#           value: https://app.harness.io/gratis
-#         - op: replace
-#           path: /spec/values/delegateDockerImage
-#           value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:25.11.87202
-#       target:
-#         kind: HelmRelease
-#         name: harness-delegate-ng
-#         namespace: harness-delegate-ng
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: harness-delegate-ng-work
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: sealed-secrets-secrets
+  interval: 1h
+  path: ./k8s/infrastructure/base/harness
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/delegateName
+          value: pve
+        - op: replace
+          path: /spec/values/tags
+          value: build-farm,linux,homelab,proxmox
+        - op: replace
+          path: /spec/values/existingDelegateToken
+          value: work-delegate-token
+        - op: replace
+          path: /spec/values/accountId
+          value: wlgELJ0TTre5aZhzpt8gVA
+        - op: replace
+          path: /spec/values/managerEndpoint
+          value: https://app.harness.io/gratis
+        - op: replace
+          path: /spec/values/delegateDockerImage
+          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:25.11.87202
+      target:
+        kind: HelmRelease
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -374,8 +372,6 @@ spec:
           value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:25.11.87202
       target:
         kind: HelmRelease
-        name: harness-delegate-ng
-        namespace: harness-delegate-ng
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -418,15 +414,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: awx-operator
-
----
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: isengard
-  namespace: awx
-spec:
-  service_type: LoadBalancer
-  postgres_storage_class: proxmox
-  service_annotations: |
-    external-dns.alpha.kubernetes.io~1hostname: awx.r.ss

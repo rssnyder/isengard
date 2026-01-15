@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   tags      = concat(["terraform"], var.tags)
 
   disk {
-    datastore_id = "data"
+    datastore_id = var.node_name == "pve1" ? "zira-red" : "data"
     import_from  = var.iso_id
     interface    = "virtio0"
     iothread     = true

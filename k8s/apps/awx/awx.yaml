@@ -1,0 +1,10 @@
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: isengard
+  namespace: awx
+spec:
+  service_type: LoadBalancer
+  postgres_storage_class: proxmox-nfs
+  service_annotations: |
+    external-dns.alpha.kubernetes.io/hostname: awx.r.ss
