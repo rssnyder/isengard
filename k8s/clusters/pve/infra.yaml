@@ -315,6 +315,9 @@ spec:
   patches:
     - patch: |
         - op: replace
+          path: /metadata/name
+          value: work-pve
+        - op: replace
           path: /spec/values/delegateName
           value: pve
         - op: replace
@@ -352,6 +355,9 @@ spec:
     name: flux-system
   patches:
     - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-shared-pve
         - op: replace
           path: /spec/values/delegateName
           value: pve
