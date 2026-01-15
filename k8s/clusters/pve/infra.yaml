@@ -319,10 +319,10 @@ spec:
           value: work-pve
         - op: replace
           path: /spec/values/delegateName
-          value: pve
+          value: work-pve
         - op: replace
           path: /spec/values/tags
-          value: build-farm,linux,homelab,proxmox
+          value: build-farm,linux,homelab,proxmox,pve
         - op: replace
           path: /spec/values/existingDelegateToken
           value: work-delegate-token
@@ -360,10 +360,10 @@ spec:
           value: work-shared-pve
         - op: replace
           path: /spec/values/delegateName
-          value: pve
+          value: work-shared-pve
         - op: replace
           path: /spec/values/tags
-          value: rssnyder,linux,homelab,proxmox
+          value: rssnyder,linux,homelab,proxmox,pve
         - op: replace
           path: /spec/values/existingDelegateToken
           value: work-shared-delegate-token
