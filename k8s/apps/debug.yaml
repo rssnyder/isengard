@@ -25,7 +25,6 @@ spec:
       labels:
         app: alpine
     spec:
-      nodeName: yellow
       containers:
       - name: alpine
         image: alpine
@@ -37,4 +36,4 @@ spec:
       volumes:
       - name: proxmox
         persistentVolumeClaim:
-          claimName: proxmox-test
+          claimName: postgres-15-isengard-postgres-15-0

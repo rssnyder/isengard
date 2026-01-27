@@ -2,6 +2,8 @@ roles:
 - src: caddy_ansible.caddy_ansible
 - src: geerlingguy.pip
 - src: geerlingguy.docker
+- src: ome.nfs_mount
+- src: khaosx.plex-server
 collections:
 - prometheus.prometheus
 - artis3n.tailscale

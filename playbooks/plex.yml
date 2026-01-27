@@ -1,35 +1,19 @@
 ---
-- name: Docker config
-  hosts: cornelius
+- name: Install and configure Plex Media Server
+  hosts: plex
   become: yes
-  tasks:
-    
-    - name: Install Python and python3-pip
-      package:
-        name:
-          - python3
-          - python3-pip
-        state: present 
-
-    - name: Install docker module for Python
-      pip:
-        name: 
-          - docker
-          - docker-compose
-
-    - name: copy photoprism job file
-      copy: 
-        src: templates/photoprism.ini
-        dest: /home/plex/appdata/photoprism/
-        owner: plex
-
-    - name: copy compose file
-      copy: 
-        src: templates/plex/docker-compose.yml
-        dest: /home/plex/docker-compose.yml
-        owner: plex
-
-    - name: compose up
-      community.docker.docker_compose:
-        project_src: /home/plex
-        remove_orphans: true
+  vars:
+    plex_server_plex_version: "public"
+    plex_server_plex_user: "plex"
+    plex_server_plex_group: "plex"
+    plex_server_firewall_enabled: false
+  roles:
+    - role: ome.nfs_mount
+      nfs_share_mounts:
+      - path: /mnt/bucket
+        location: 192.168.2.6:/mass
+      - path: /mnt/red
+        location: 192.168.2.6:/red
+      - path: /mnt/scratch
+        location: 192.168.2.6:/scratch
+    - role: khaosx.plex-server

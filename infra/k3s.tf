@@ -34,7 +34,7 @@ module "k3s-server" {
 }
 
 module "k3s-agents" {
-  count = length(data.proxmox_virtual_environment_nodes.this.names)
+  count = length(data.proxmox_virtual_environment_nodes.this.names) + 1
 
   source = "./k3s-agent"
 
