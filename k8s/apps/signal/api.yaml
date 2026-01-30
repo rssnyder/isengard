@@ -51,24 +51,24 @@ spec:
         persistentVolumeClaim:
           claimName: api
 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: api
-  namespace: signal
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  csi:
-    driver: csi.proxmox.sinextra.dev
-    fsType: ext4
-    volumeAttributes:
-      storage: data
-    # volumeHandle: antoinette/pve1/data/vm-9999-pvc-51bfb16b-c006-4a14-8e5d-cca4c8a78fea
-  storageClassName: proxmox
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: api
+#   namespace: signal
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   capacity:
+#     storage: 1Gi
+#   csi:
+#     driver: csi.proxmox.sinextra.dev
+#     fsType: ext4
+#     volumeAttributes:
+#       storage: data
+#     # volumeHandle: antoinette/pve1/data/vm-9999-pvc-51bfb16b-c006-4a14-8e5d-cca4c8a78fea
+#   storageClassName: proxmox
 
 ---
 apiVersion: v1
