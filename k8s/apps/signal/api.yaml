@@ -67,7 +67,7 @@ spec:
     fsType: ext4
     volumeAttributes:
       storage: data
-    volumeHandle: antoinette/pve1/data/vm-9999-pvc-51bfb16b-c006-4a14-8e5d-cca4c8a78fea
+    # volumeHandle: antoinette/pve1/data/vm-9999-pvc-51bfb16b-c006-4a14-8e5d-cca4c8a78fea
   storageClassName: proxmox
 
 ---

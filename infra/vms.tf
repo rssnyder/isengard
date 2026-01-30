@@ -24,6 +24,20 @@ module "plex" {
   size_gb = 128
 }
 
+module "emma" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
+
+  vm_name = "emma"
+  tags = ["ai"]
+
+  node_name = "poweredge"
+  iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
+
+  cpu = 2
+  memory = 1024 * 4
+  size_gb = 128
+}
+
 module "test" {
   source = "../../terraform-proxmox-vm"
 }

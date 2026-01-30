@@ -350,8 +350,8 @@ services:
     privileged: true # this may not be necessary for all setups
     restart: unless-stopped
     stop_grace_period: 30s # allow enough time to shut down the various services
-    image: ghcr.io/blakeblackshear/frigate:stable
-    shm_size: "512mb" # update for your cameras based on calculation above
+    image: ghcr.io/blakeblackshear/frigate:0.17.0-beta2
+    shm_size: "656mb" # update for your cameras based on calculation above
     devices:
       - /dev/bus/usb:/dev/bus/usb # Passes the USB Coral, needs to be modified for other versions
       - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
