@@ -83,7 +83,7 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: proxmox
-  volumeName: api
+  # volumeName: api
 
 ---
 apiVersion: v1
