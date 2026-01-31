@@ -32,6 +32,10 @@ spec:
           value: json-rpc
         - name: JSON_RPC_IGNORE_ATTACHMENTS
           value: "true"
+        - name: JSON_RPC_IGNORE_STORIES
+          value: "true"
+        - name: JSON_RPC_TRUST_NEW_IDENTITIES
+          value: always
         ports:
         - name: api
           containerPort: 8080
