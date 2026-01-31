@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: bbernhard/signal-cli-rest-api:0.91
+        image: bbernhard/signal-cli-rest-api:0.97
         imagePullPolicy: Always
         env:
         - name: SIGNAL_CLI_CONFIG_DIR
