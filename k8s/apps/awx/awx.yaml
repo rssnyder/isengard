@@ -5,6 +5,6 @@ metadata:
   namespace: awx
 spec:
   service_type: LoadBalancer
-  postgres_storage_class: proxmox-nfs
+  postgres_storage_class: local-path
   service_annotations: |
     external-dns.alpha.kubernetes.io/hostname: awx.r.ss
