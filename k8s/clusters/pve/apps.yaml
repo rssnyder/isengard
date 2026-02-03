@@ -193,6 +193,9 @@ metadata:
   name: garage
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: sealed-secrets
+    - name: proxmox
   interval: 1h
   path: ./k8s/apps/garage
   prune: true
