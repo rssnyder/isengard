@@ -4,6 +4,20 @@ metadata:
   name: garage
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: garage-rpc-secret
+  namespace: garage
+spec:
+  encryptedData:
+    rpc-secret: AgBk6V9cv20G2TIsfLxwhPWLjaUxUubn4P8q7I77vDCtFWUcpyQZ0IzuKFAOLWijaXGk/yllFQv4nU1QCInbNBCmIugPve6Y9tqjJ+/HmwbJutfxaUiFaiTerAOAswpLBKTVpbYWgdxHbgRIZWX40cYIRPKW+OFL6r/N1S4CF13PhzdL9CJkF6ZvTXYxz6MPYHKCheNiOuBmV03B5V9rAMKIi+EKV7PJ3NW2UJIrNMQeGTMiBNoNCS8XRZCIPylzoGBBZePxWCfZkBSQ6p8r31YYiuZ5va8hRNqP/cJEbzWWDyZZwQEZZRlDD09CdPZYuq/pN5hufNP9NzBepCjNapv4toQCNmIlraNm/UgmYIYSrMGPUstw1Xxk2eu9zHkW6/JHq2Td/iJaAaXaPl36C8vLoN2k7dw9nK0nlI7an2Bm6MMf/1Gqrg2MT9S+RMZ//DHHSFlUTuQmU6X+6ZvBpOWT2JG1t+m3Ypbe4J9J5d2cgDdOC4v60pb0hLQwRsJB44fsdcEvs5B/jfjcTjIMM/zt+z+xErx/xNICUqH3dQY7WA7BNJwp4yrvkNUfWsYwpjTvxZy//9flRhyrK63S0gFSndkDaQUFA1sreB+RBb4zp5IlCBSflTlq9T8iuMOnw/10iZn9cEn6N9IBxZ1m83R/GvbizoF6EY+Snt0vUz/nhEhWgAiJ3ZWksTUFQxvIVp638f2uJC+lPZghSFKVJZabAL6Ob2AvGb+mmSwwoIi4DIM5cFkJPdRFSSN6T/BMwrDb0pL5DZeByqPQibrFQ8RE
+  template:
+    metadata:
+      name: garage-rpc-secret
+      namespace: garage
+
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -18,7 +32,7 @@ data:
     
     rpc_bind_addr = "[::]:3901"
     rpc_public_addr = "[::]:3901"
-    rpc_secret = "36d4bebfa144ffb5b014ec4fca4981bba9a478382cddb23eae578177361e57f7"
+    rpc_secret = "${GARAGE_RPC_SECRET}"
     
     [s3_api]
     s3_region = "garage"
@@ -49,10 +63,29 @@ spec:
       labels:
         app: garage
     spec:
+      initContainers:
+      - name: config-init
+        image: alpine:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          apk add --no-cache gettext
+          export GARAGE_RPC_SECRET=$(cat /secrets/rpc-secret)
+          envsubst < /config-template/garage.toml > /config/garage.toml
+          echo "Config generated with RPC secret"
+        volumeMounts:
+        - name: garage-config-template
+          mountPath: /config-template
+        - name: garage-config-rendered
+          mountPath: /config
+        - name: garage-rpc-secret
+          mountPath: /secrets
       containers:
       - name: garage
         image: dxflrs/garage:v1.0.1
         imagePullPolicy: IfNotPresent
+        command: ["/garage", "-c", "/config/garage.toml", "server"]
         ports:
         - name: s3-api
           containerPort: 3900
@@ -65,16 +98,20 @@ spec:
         volumeMounts:
         - name: garage-data
           mountPath: /data
-        - name: garage-config
-          mountPath: /etc/garage.toml
-          subPath: garage.toml
+        - name: garage-config-rendered
+          mountPath: /config
         env:
         - name: RUST_LOG
           value: "garage=info"
       volumes:
-      - name: garage-config
+      - name: garage-config-template
         configMap:
           name: garage-config
+      - name: garage-config-rendered
+        emptyDir: {}
+      - name: garage-rpc-secret
+        secret:
+          secretName: garage-rpc-secret
   volumeClaimTemplates:
   - metadata:
       name: garage-data
