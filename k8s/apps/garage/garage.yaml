@@ -18,7 +18,7 @@ data:
     
     rpc_bind_addr = "[::]:3901"
     rpc_public_addr = "[::]:3901"
-    rpc_secret = "changeme1234567890abcdefghijklmnopqrstuvwxyz"
+    rpc_secret = "36d4bebfa144ffb5b014ec4fca4981bba9a478382cddb23eae578177361e57f7"
     
     [s3_api]
     s3_region = "garage"
