@@ -185,3 +185,35 @@ spec:
           value: dev
       target:
         kind: AWX
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: garage
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/apps/garage
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/volumeClaimTemplates/0/spec/storageClassName
+          value: proxmox
+      target:
+        kind: StatefulSet
+        name: garage
+        namespace: garage
+    - patch: |
+        - op: add
+          path: /metadata/annotations
+          value: 
+            external-dns.alpha.kubernetes.io/hostname: g3.r.ss
+      target:
+        kind: Service
+        name: garage-s3
+        namespace: garage
