@@ -76,7 +76,6 @@ spec:
       name: garage-data
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: proxmox-nfs
       resources:
         requests:
           storage: 50Gi
@@ -87,8 +86,6 @@ kind: Service
 metadata:
   name: garage-s3
   namespace: garage
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: g3.r.ss
 spec:
   type: LoadBalancer
   selector:
