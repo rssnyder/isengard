@@ -21,7 +21,7 @@ spec:
     expose:
       type: loadBalancer
       loadBalancer:
-        name: LoadBalancer
+        name: harbor
         annotations:
           external-dns.alpha.kubernetes.io/hostname: harbor.r.ss
       tls:
