@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: harbor
+spec:
+  interval: 10m
+  timeout: 10m
+  chart:
+    spec:
+      chart: harbor
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: harbor
+      interval: 5m
+  releaseName: harbor
+  values:
+    expose:
+      type: loadBalancer
+      loadBalancer:
+        name: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: harbor.r.ss
+      tls:
+        enabled: false
+    externalURL: http://harbor.r.ss
+    persistence:
+      enabled: true
+      resourcePolicy: "keep"
+      persistentVolumeClaim:
+        registry:
+          storageClass: proxmox
+          size: 100Gi
+        jobservice:
+          storageClass: proxmox
+          size: 1Gi
+        database:
+          storageClass: proxmox
+          size: 1Gi
+        redis:
+          storageClass: proxmox
+          size: 1Gi
+        trivy:
+          storageClass: proxmox
+          size: 5Gi
+    harborAdminPassword: "will-be-overridden-by-sealed-secret"
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 999
+      fsGroup: 999
+    database:
+      type: internal
+    redis:
+      type: internal
+    trivy:
+      enabled: false
