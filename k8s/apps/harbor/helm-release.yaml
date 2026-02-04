@@ -17,6 +17,11 @@ spec:
         namespace: harbor
       interval: 5m
   releaseName: harbor
+  valuesFrom:
+    - kind: Secret
+      name: harbor-admin
+      valuesKey: adminPassword
+      targetPath: harborAdminPassword
   values:
     expose:
       type: loadBalancer
@@ -46,7 +51,6 @@ spec:
         trivy:
           storageClass: proxmox
           size: 5Gi
-    harborAdminPassword: "will-be-overridden-by-sealed-secret"
     securityContext:
       runAsNonRoot: true
       runAsUser: 999
