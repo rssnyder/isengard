@@ -17,6 +17,9 @@ spec:
         namespace: harbor
       interval: 5m
   releaseName: harbor
+  dependsOn:
+    - name: sealed-secrets-controller
+      namespace: kube-system
   values:
     expose:
       type: loadBalancer
