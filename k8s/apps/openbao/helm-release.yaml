@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openbao
+  namespace: openbao
+spec:
+  interval: 10m
+  timeout: 10m
+  chart:
+    spec:
+      chart: openbao
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: openbao
+        namespace: openbao
+      interval: 5m
+  releaseName: openbao
+  values:
+    server:
+      replicas: 1
+      image:
+        repository: openbao/openbao
+        tag: null
+      service:
+        type: LoadBalancer
+        port: 8200
+        externalPort: 8200
+      dataStorage:
+        enabled: true
+        size: 10Gi
+        storageClass: proxmox
+      ha:
+        enabled: false
+      ui:
+        enabled: true
+      standalone:
+        enabled: true
+        config: |
+          ui = true
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            x_forwarded_for_authorized_addrs = "127.0.0.1"
+          }
+          storage "file" {
+            path = "/openbao/data"
+          }
