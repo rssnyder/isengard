@@ -14,11 +14,11 @@ metadata:
 data:
   config.toml: |
     [survivor]
-    season = "49"
+    season = "50"
 
     [signal]
     api = "api.signal"
-    number = "+15159792049"
+    number = "+14808407117"
     group = "group.ZTVTUzdvNjZSbGFsYTlrR1p0M21KbTQ3eFZNa2ZRWHMzZm1acFlnd1c1Yz0="
 
     [tautulli]
