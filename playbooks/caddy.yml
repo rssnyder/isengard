@@ -9,3 +9,5 @@
       caddy_packages:
       - github.com/caddy-dns/digitalocean@master
       caddy_config: "{{ lookup('template', 'templates/' + ansible_hostname + '/Caddyfile.j2') }}"
+      caddy_environment_variables:
+        CADDY_ADMIN: 100.91.128.97:2019

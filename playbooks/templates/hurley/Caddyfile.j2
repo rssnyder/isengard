@@ -139,6 +139,15 @@ photos.rileysnyder.dev {
         dns digitalocean {{ digitalocean_token }}
     }
 }
+
+*.vm.rileysnyder.dev {
+    reverse_proxy {http.request.host.labels.3}.vm.r.ss:22
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
 keys.rileysnyder.dev {
     reverse_proxy 192.168.252.4
 }

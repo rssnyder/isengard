@@ -2,6 +2,10 @@ resource "digitalocean_domain" "rileysnyder_dev" {
   name = "rileysnyder.dev"
 }
 
+resource "digitalocean_domain" "ttdsm_org" {
+  name = "ttdsm.org"
+}
+
 resource "digitalocean_record" "instance" {
   for_each = var.instances
 
@@ -65,6 +69,7 @@ resource "digitalocean_record" "home-star" {
     "*.k8s",
     "*.app",
     "*.pve",
+    "*.vm",
   ])
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"
@@ -108,6 +113,13 @@ resource "digitalocean_record" "oca0" {
   type   = "A"
   name   = each.value
   value  = var.instances["oca0"].ip
+}
+
+resource "digitalocean_record" "eddie" {
+  domain = digitalocean_domain.ttdsm_org.name
+  type   = "A"
+  name   = "eddie"
+  value  = var.instances["oca1"].ip
 }
 
 // github pages
