@@ -22,10 +22,6 @@ spec:
     serviceAccount:
       create: true
       name: external-secrets
-    secretStores:
-      enabled: false
-    externalSecrets:
-      enabled: false
     webhook:
       enabled: true
       port: 10250
