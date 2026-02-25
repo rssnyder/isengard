@@ -13,6 +13,6 @@ spec:
         kubernetes:
           mountPath: "kubernetes"
           role: "pve"
-          serviceAccountRef:
-            audiences:
-            - vault
+          # serviceAccountRef:
+          #   audiences:
+          #   - vault
