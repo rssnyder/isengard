@@ -1,12 +1,12 @@
 apiVersion: external-secrets.io/v1
-kind: SecretStore
+kind: ClusterSecretStore
 metadata:
   name: bao
   namespace: external-secrets
 spec:
   provider:
     vault:
-      server: "https://bao.r.ss:8200"
+      server: "http://bao.r.ss:8200"
       path: "pvekv"
       version: "v2"
       auth:
