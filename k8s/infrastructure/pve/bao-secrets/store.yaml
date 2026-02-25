@@ -1,0 +1,15 @@
+apiVersion: external-secrets.io/v1
+kind: SecretStore
+metadata:
+  name: bao
+  namespace: external-secrets
+spec:
+  provider:
+    vault:
+      server: "https://bao.r.ss:8200
+      path: "pvekv"
+      version: "v2"
+      auth:
+        kubernetes:
+          mountPath: "kubernetes"
+          role: "pve"
