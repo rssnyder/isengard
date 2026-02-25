@@ -6,7 +6,7 @@ metadata:
 spec:
   provider:
     vault:
-      server: "http://bao.r.ss:8200"
+      server: "http://192.168.2.147:8199"
       path: "pvekv"
       version: "v2"
       auth:
