@@ -3,6 +3,8 @@ module "prometheus" {
 
   vm_name = "prometheus"
   tags = ["monitoring","services"]
+  cpu = 2
+  memory = 2048
 
   node_name = "poweredge"
   iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
@@ -70,5 +72,22 @@ module "thehand" {
   size_gb = 512
 
   pet = true
+}
+
+
+module "jeff" {
+  source = "../../terraform-proxmox-vm"
+
+  vm_name = "jeff"
+  username = "jeff"
+  tags = ["jeff"]
+
+  node_name = "poweredge"
+  iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
+
+  cpu = 1
+  memory = 1024
+
+  ttyd_password = "iuhwdfh4378fy43fuhref9g"
 }
 

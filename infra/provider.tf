@@ -15,6 +15,9 @@ terraform {
     proxmox = {
       source = "bpg/proxmox"
     }
+    vault = {
+      source = "hashicorp/vault"
+    }
     http = {
       source  = "hashicorp/http"
       version = "~> 3.0"
@@ -86,4 +89,9 @@ provider "proxmox" {
     username = "root"
     private_key = file("~/.ssh/id_rsa")
   }
+}
+
+provider "vault" {
+  address = "https://bao.r.ss:8200"
+  skip_tls_verify = true
 }

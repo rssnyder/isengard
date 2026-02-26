@@ -3,7 +3,7 @@ roles:
 - src: geerlingguy.pip
 - src: geerlingguy.docker
 - src: ome.nfs_mount
-- src: khaosx.plex-server
+- src: robertdebock.openbao_server
 collections:
 - prometheus.prometheus
 - artis3n.tailscale
