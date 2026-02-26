@@ -2,11 +2,27 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: sealed-secrets
+  name: external-secrets
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./k8s/infrastructure/base/sealed-secrets
+  path: ./k8s/infrastructure/base/external-secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-secrets-bao
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets
+  interval: 1h
+  path: ./k8s/infrastructure/pve/bao-secrets
   prune: true
   sourceRef:
     kind: GitRepository
@@ -76,62 +92,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: sealed-secrets-secrets
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: sealed-secrets
-  interval: 1h
-  path: ./k8s/infrastructure/pve/secrets
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  # healthChecks:
-  #   - apiVersion: v1
-  #     kind: Secret
-  #     name: pihole
-  #     namespace: kube-system
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: external-secrets
-  namespace: flux-system
-spec:
-  interval: 1h
-  path: ./k8s/infrastructure/base/external-secrets
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: external-secrets-bao
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: external-secrets
-  interval: 1h
-  path: ./k8s/infrastructure/pve/bao-secrets
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: external-dns
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/infrastructure/base/external-dns
   prune: true
@@ -190,53 +155,6 @@ spec:
         name: ingress-nginx
         namespace: ingress-nginx
 
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: longhorn
-#   namespace: flux-system
-# spec:
-#   dependsOn:
-#     - name: sealed-secrets-secrets
-#   interval: 1h
-#   path: ./k8s/infrastructure/base/longhorn
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#   patches:
-#     - patch: |
-#         - op: replace
-#           path: /spec/values/defaultBackupStore/backupTarget
-#           value: s3://longhorn@us-east-1/backups
-#         - op: add
-#           path: /spec/values/service/ui/type
-#           value: LoadBalancer
-#         - op: add
-#           path: /spec/values/service/ui/annotations/external-dns.alpha.kubernetes.io~1hostname
-#           value: longhorn-pve.r.ss
-#       target:
-#         kind: HelmRelease
-#         name: longhorn
-#         namespace: longhorn-system
-
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: longhorn-backups
-#   namespace: flux-system
-# spec:
-#   dependsOn:
-#     - name: longhorn
-#   interval: 1h
-#   path: ./k8s/infrastructure/pve/longhorn
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -270,7 +188,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/infrastructure/base/tailscale
   prune: true
@@ -301,7 +219,7 @@ spec:
 #   namespace: flux-system
 # spec:
 #   dependsOn:
-#     - name: sealed-secrets-secrets
+#     - name: external-secrets-bao
 #   interval: 1h
 #   path: ./k8s/infrastructure/base/harness
 #   prune: true
@@ -335,7 +253,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/infrastructure/base/harness
   prune: true
@@ -376,7 +294,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/infrastructure/base/harness
   prune: true
@@ -417,7 +335,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/infrastructure/pve/proxmox
   prune: true
