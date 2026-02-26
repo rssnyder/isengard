@@ -285,6 +285,15 @@ spec:
           value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:25.11.87202
       target:
         kind: HelmRelease
+    - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-pve
+        - op: replace
+          path: /subjects/0/name
+          value: work-pve
+      target:
+        kind: ClusterRoleBinding
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -326,6 +335,15 @@ spec:
           value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:25.11.87202
       target:
         kind: HelmRelease
+    - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-shared-pve
+        - op: replace
+          path: /subjects/0/name
+          value: work-shared-pve
+      target:
+        kind: ClusterRoleBinding
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1

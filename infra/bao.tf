@@ -12,10 +12,6 @@ module "bao" {
   pet = true
 }
 
-resource "vault_namespace" "pve" {
-  path = "pve"
-}
-
 resource "vault_auth_backend" "pve" {
   type = "kubernetes"
 }
