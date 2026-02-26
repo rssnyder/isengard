@@ -145,7 +145,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/apps/survivor-tracker
   prune: true
