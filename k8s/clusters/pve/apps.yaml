@@ -194,7 +194,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets
+    - name: external-secrets-bao
     - name: proxmox
   interval: 1h
   path: ./k8s/apps/garage
@@ -229,7 +229,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: sealed-secrets
+    - name: external-secrets-bao
   interval: 1h
   path: ./k8s/apps/harbor
   prune: true
