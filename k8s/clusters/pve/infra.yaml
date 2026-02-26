@@ -288,7 +288,7 @@ spec:
     - patch: |
         - op: replace
           path: /metadata/name
-          value: work-pve
+          value: work-pve-tokenreview
         - op: replace
           path: /subjects/0/name
           value: work-pve
@@ -338,7 +338,7 @@ spec:
     - patch: |
         - op: replace
           path: /metadata/name
-          value: work-shared-pve
+          value: work-shared-pve-tokenreview
         - op: replace
           path: /subjects/0/name
           value: work-shared-pve
