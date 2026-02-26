@@ -7,7 +7,7 @@ spec:
   provider:
     vault:
       server: "http://192.168.2.147:8199"
-      path: "pvekv"
+      path: "secret"
       version: "v1"
       auth:
         kubernetes:
