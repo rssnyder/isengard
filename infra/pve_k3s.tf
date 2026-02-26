@@ -78,6 +78,20 @@ resource "proxmox_virtual_environment_acl" "ccm" {
   propagate = true
 }
 
+resource "vault_kv_secret" "pve_ccm" {
+  path      = "${vault_mount.pve.path}/proxmox-cloud-controller-manager"
+  data_json = jsonencode({
+    "config.yaml" = <<EOF
+clusters:
+- url: https://${var.instances["pve0"].ip}:8006/api2/json
+  insecure: true
+  token_id: "${proxmox_virtual_environment_user_token.ccm.id}"
+  token_secret: "${split("=", proxmox_virtual_environment_user_token.ccm.value)[1]}"
+  region: ${local.proxmox_datacenter}
+EOF
+  })
+}
+
 ## csi
 resource "proxmox_virtual_environment_role" "csi" {
   role_id = "Kubernetes-CSI"
@@ -114,4 +128,18 @@ resource "proxmox_virtual_environment_acl" "csi" {
 
   path      = "/"
   propagate = true
+}
+
+resource "vault_kv_secret" "pve_csi" {
+  path      = "${vault_mount.pve.path}/proxmox-csi"
+  data_json = jsonencode({
+    "config.yaml" = <<EOF
+clusters:
+- url: https://${var.instances["pve0"].ip}:8006/api2/json
+  insecure: true
+  token_id: "${proxmox_virtual_environment_user_token.csi.id}"
+  token_secret: "${split("=", proxmox_virtual_environment_user_token.csi.value)[1]}"
+  region: ${local.proxmox_datacenter}
+EOF
+  })
 }

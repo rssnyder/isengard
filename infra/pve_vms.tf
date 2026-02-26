@@ -75,19 +75,19 @@ module "thehand" {
 }
 
 
-module "jeff" {
-  source = "../../terraform-proxmox-vm"
+# module "jeff" {
+#   source = "../../terraform-proxmox-vm"
 
-  vm_name = "jeff"
-  username = "jeff"
-  tags = ["jeff"]
+#   vm_name = "jeff"
+#   username = "jeff"
+#   tags = ["jeff"]
 
-  node_name = "poweredge"
-  iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
+#   node_name = "poweredge"
+#   iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
 
-  cpu = 1
-  memory = 1024
+#   cpu = 1
+#   memory = 1024
 
-  ttyd_password = "iuhwdfh4378fy43fuhref9g"
-}
+#   ttyd_password = "iuhwdfh4378fy43fuhref9g"
+# }
 

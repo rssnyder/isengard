@@ -30,3 +30,5 @@ k8s/infrastructure/pve/secrets/.secrets.yaml*
 **/kubeconfig
 
 playbooks/templates/hurley/garage.toml
+
+infra/secrets.json

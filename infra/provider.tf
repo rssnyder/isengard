@@ -81,7 +81,7 @@ provider "minio" {
 # }
 
 provider "proxmox" {
-  endpoint = "https://192.168.2.69:8006"
+  endpoint = "https://${var.instances["pve0"].ip}:8006"
   insecure = true
 
   ssh {
