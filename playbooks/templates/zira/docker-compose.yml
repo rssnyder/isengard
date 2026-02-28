@@ -392,6 +392,27 @@ services:
     restart: unless-stopped
     stop_signal: SIGHUP
 
+  makemkv:
+    restart: unless-stopped
+    image: jlesage/makemkv
+    ports:
+      - 5800:5800
+    volumes:
+      - $APPDATA/makemkv:/config
+      - $MEDIA:/storage
+      - $SCRATCH_STORAGE:/output
+
+  handbrake:
+    restart: unless-stopped
+    image: jlesage/handbrake
+    ports:
+      - 5801:5800
+    volumes:
+      - $APPDATA/handbrake:/config
+      - $MEDIA:/massmedia
+      - /red/media:/redmedia
+      - $SCRATCH_STORAGE:/output
+
 volumes:
   immich-model-cache:
   pbs_etc:

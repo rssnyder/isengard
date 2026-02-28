@@ -26,6 +26,10 @@ resource "vault_policy" "sa-lab" {
 path "sa-lab/*" {
   capabilities = ["read", "list"]
 }
+
+path "sys/mounts" {
+  capabilities = ["read"]
+}
 EOT
 }
 

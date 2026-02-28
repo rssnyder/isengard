@@ -107,6 +107,14 @@ services:
         logo: "assets/homer-icons/png/radarr.png"
         url: "http://zira.corvus-salmon.ts.net:7003"
         target: '_top'
+      - name: "Handbreak"
+        logo: "assets/homer-icons/png/handbreak.png"
+        url: "http://zira.corvus-salmon.ts.net:5801"
+        target: '_top'
+      - name: "MakeMVK"
+        logo: "assets/homer-icons/png/navidrome.png"
+        url: "http://zira.corvus-salmon.ts.net:5800"
+        target: '_top'
   - name: "Services"
     icon: "fas fa-gears"
     items:
