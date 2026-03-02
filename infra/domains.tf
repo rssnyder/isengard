@@ -115,6 +115,13 @@ resource "digitalocean_record" "oca0" {
   value  = var.instances["oca0"].ip
 }
 
+resource "digitalocean_record" "ttdsm_root" {
+  domain = digitalocean_domain.ttdsm_org.name
+  type   = "A"
+  name   = "@"
+  value  = var.instances["oca1"].ip
+}
+
 resource "digitalocean_record" "eddie" {
   domain = digitalocean_domain.ttdsm_org.name
   type   = "A"
