@@ -55,14 +55,30 @@ spec:
       containers:
       - name: external-dns
         image: registry.k8s.io/external-dns/external-dns:v0.14.0
-        envFrom:
-        - secretRef:
-            name: pihole
         args:
         - --source=service
         - --registry=noop
         - --policy=upsert-only
-        - --provider=pihole
-        - --pihole-server=http://192.168.2.2:8888/
+        - --provider=webhook
+        - --webhook-provider-url=http://localhost:8888
+      - name: unifi-webhook
+        image: ghcr.io/kashalls/external-dns-unifi-webhook:main
+        ports:
+        - containerPort: 8888
+        env:
+        - name: UNIFI_HOST
+          value: "https://192.168.2.1"
+        - name: UNIFI_SKIP_TLS_VERIFY
+          value: "true"
+        - name: UNIFI_USER
+          valueFrom:
+            secretKeyRef:
+              name: unifi-controller
+              key: username
+        - name: UNIFI_PASS
+          valueFrom:
+            secretKeyRef:
+              name: unifi-controller
+              key: password
       securityContext:
         fsGroup: 65534
