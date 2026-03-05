@@ -101,18 +101,6 @@ provider "vault" {
 }
 
 provider "unifi" {
-  # api_key = "my-api-key"
-  username = "admin" # Use either username/password or API key
-  password = "1WhLuQ06%gX8@fD8M3kvJZ"
   api_url  = "https://192.168.2.1"
-
-  # Optional settings
-  allow_insecure = true # For self-signed certificates
-  # site = "default"       # Specify non-default site
-}
-
-resource "unifi_dns_record" "a_record" {
-  name   = "example.mydomain.com"
-  type   = "A"
-  record = "192.168.1.190"
+  allow_insecure = true
 }
