@@ -12,6 +12,7 @@ module "bao" {
   pet = true
 }
 
+# enable access for pve cluster
 resource "vault_auth_backend" "pve" {
   type = "kubernetes"
 }
@@ -29,6 +30,7 @@ resource "vault_kubernetes_auth_backend_config" "pve" {
   kubernetes_ca_cert = data.kubernetes_config_map_v1.pve.data["ca.crt"]
 }
 
+# create vault for cluster secrets
 resource "vault_mount" "pve" {
   path    = "pvekv"
   type    = "kv"
@@ -57,6 +59,7 @@ resource "vault_kubernetes_auth_backend_role" "pve" {
   token_policies                   = [vault_policy.pve.name]
 }
 
+# create all secrets
 locals {
   pve_secrets = jsondecode(file("${path.module}/secrets.json"))
 }

@@ -12,19 +12,19 @@ module "prometheus" {
   size_gb = 512
 }
 
-module "plex" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+# module "plex" {
+#   source = "github.com/rssnyder/terraform-proxmox-vm"
 
-  vm_name = "plex"
-  tags    = ["plex", "core"]
+#   vm_name = "plex"
+#   tags    = ["plex", "core"]
 
-  node_name = "pve0"
-  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
+#   node_name = "pve0"
+#   iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
 
-  cpu     = 4
-  memory  = 1024 * 8
-  size_gb = 128
-}
+#   cpu     = 4
+#   memory  = 1024 * 8
+#   size_gb = 128
+# }
 
 module "emma" {
   source = "github.com/rssnyder/terraform-proxmox-vm"

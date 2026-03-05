@@ -1,7 +1,9 @@
+# track current public ip
 data "http" "home" {
   url = "https://ifconfig.me/ip"
 }
 
+# default vlan
 resource "unifi_network" "default" {
   name    = "Default"
   purpose = "corporate"
@@ -19,6 +21,7 @@ resource "unifi_network" "default" {
   dhcp_enabled = true
 }
 
+# create static ip mapping with dns for servers
 resource "unifi_user" "test" {
   for_each = {for item, x in var.instances: item => {ip = x.ip, mac = x.mac} if contains(keys(x), "mac")}
   mac  = each.value.mac
@@ -30,6 +33,7 @@ resource "unifi_user" "test" {
   network_id = unifi_network.default.id
 }
 
+# enable caddy internet access
 resource "unifi_port_forward" "web" {
   for_each = toset(["80", "443"])
 
@@ -43,6 +47,7 @@ resource "unifi_port_forward" "web" {
   fwd_port = each.key
 }
 
+# enable plex direct connect
 resource "unifi_port_forward" "plex" {
   name = "plex"
   
@@ -76,9 +81,9 @@ resource "pihole_dns_record" "pve0" {
 
 # Static route for MetalLB LoadBalancer IPs to k8s control plane
 resource "unifi_static_route" "metallb" {
-  type     = "nexthop-route"
+  type     = "interface-route"
   name     = "metallb-k8s"
   network  = "192.168.252.0/24"
-  next_hop = "192.168.2.140" # eight (k8s control plane)
+  interface = unifi_network.default.id
   distance = 1
 }
