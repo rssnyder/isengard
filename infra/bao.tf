@@ -2,10 +2,10 @@ module "bao" {
   source = "github.com/rssnyder/terraform-proxmox-vm"
 
   vm_name = "bao"
-  tags = ["vault","services"]
+  tags    = ["vault", "services"]
 
   node_name = "poweredge"
-  iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
 
   size_gb = 64
 
@@ -18,22 +18,22 @@ resource "vault_auth_backend" "pve" {
 
 data "kubernetes_config_map_v1" "pve" {
   metadata {
-    name = "kube-root-ca.crt"
+    name      = "kube-root-ca.crt"
     namespace = "kube-system"
   }
 }
 
 resource "vault_kubernetes_auth_backend_config" "pve" {
-  backend                = vault_auth_backend.pve.path
-  kubernetes_host        = "https://eight:6443"
+  backend            = vault_auth_backend.pve.path
+  kubernetes_host    = "https://eight:6443"
   kubernetes_ca_cert = data.kubernetes_config_map_v1.pve.data["ca.crt"]
 }
 
 resource "vault_mount" "pve" {
-  path        = "pvekv"
-  type        = "kv"
-  options     = { version = "1" }
-  
+  path    = "pvekv"
+  type    = "kv"
+  options = { version = "1" }
+
   description = "KV Version 1 secret engine mount"
 }
 

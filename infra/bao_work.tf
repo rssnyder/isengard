@@ -5,16 +5,16 @@ resource "vault_auth_backend" "sa-lab" {
 }
 
 resource "vault_kubernetes_auth_backend_config" "sa-lab" {
-  backend                = vault_auth_backend.sa-lab.path
-  kubernetes_host        = "https://eight:6443"
+  backend            = vault_auth_backend.sa-lab.path
+  kubernetes_host    = "https://eight:6443"
   kubernetes_ca_cert = data.kubernetes_config_map_v1.pve.data["ca.crt"]
 }
 
 resource "vault_mount" "sa-lab" {
-  path        = "sa-lab"
-  type        = "kv"
-  options     = { version = "1" }
-  
+  path    = "sa-lab"
+  type    = "kv"
+  options = { version = "1" }
+
   description = "KV Version 1 secret engine mount"
 }
 
@@ -44,7 +44,7 @@ resource "vault_kubernetes_auth_backend_role" "sa-lab" {
 
 resource "vault_kv_secret" "sa-lab" {
 
-  path      = "${vault_mount.sa-lab.path}/test"
+  path = "${vault_mount.sa-lab.path}/test"
   data_json = jsonencode({
     zip = "zap"
   })

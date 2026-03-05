@@ -9,3 +9,9 @@ resource "pihole_dns_record" "this" {
   domain = "${var.name}.${var.domain}"
   ip     = var.private_ip
 }
+
+resource "unifi_dns_record" "this" {
+    name   = "${var.name}.${var.domain}"
+    type   = "A"
+    record = var.private_ip
+}

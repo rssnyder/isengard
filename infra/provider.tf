@@ -22,12 +22,16 @@ terraform {
       source  = "hashicorp/http"
       version = "~> 3.0"
     }
+    unifi = {
+      source  = "filipowm/unifi"
+      version = "~> 1.0.0"
+    }
   }
   backend "s3" {
     bucket = "isengard"
     key    = "terraform.tfstate"
     # endpoint                    = "https://s3.rileysnyder.dev"
-    endpoint                    = "http://192.168.2.2:9000"
+    endpoint                    = "http://${var.instances["hurley"].ip}:9000"
     region                      = "main"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
@@ -39,12 +43,12 @@ terraform {
 provider "digitalocean" {}
 
 provider "pihole" {
-  url = "http://192.168.2.2:8888"
+  url = "http://${var.instances["hurley"].ip}:8888"
 }
 
 provider "minio" {
   # minio_server = "s3.rileysnyder.dev"
-  minio_server = "192.168.2.2:9000"
+  minio_server = "${var.instances["hurley"].ip}:9000"
   minio_ssl    = false
 }
 
@@ -85,13 +89,30 @@ provider "proxmox" {
   insecure = true
 
   ssh {
-    agent = true
-    username = "root"
+    agent       = true
+    username    = "root"
     private_key = file("~/.ssh/id_rsa")
   }
 }
 
 provider "vault" {
-  address = "https://bao.r.ss:8200"
+  address         = "https://192.168.2.244:8200"
   skip_tls_verify = true
+}
+
+provider "unifi" {
+  # api_key = "my-api-key"
+  username = "admin" # Use either username/password or API key
+  password = "1WhLuQ06%gX8@fD8M3kvJZ"
+  api_url  = "https://192.168.2.1"
+
+  # Optional settings
+  allow_insecure = true # For self-signed certificates
+  # site = "default"       # Specify non-default site
+}
+
+resource "unifi_dns_record" "a_record" {
+  name   = "example.mydomain.com"
+  type   = "A"
+  record = "192.168.1.190"
 }

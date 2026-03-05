@@ -1,5 +1,5 @@
 locals {
-  cluster_iteration  = "eight"
+  cluster_iteration = "eight"
 }
 
 module "k3s-server" {
@@ -79,7 +79,7 @@ resource "proxmox_virtual_environment_acl" "ccm" {
 }
 
 resource "vault_kv_secret" "pve_ccm" {
-  path      = "${vault_mount.pve.path}/proxmox-cloud-controller-manager"
+  path = "${vault_mount.pve.path}/proxmox-cloud-controller-manager"
   data_json = jsonencode({
     "config.yaml" = <<EOF
 clusters:
@@ -131,7 +131,7 @@ resource "proxmox_virtual_environment_acl" "csi" {
 }
 
 resource "vault_kv_secret" "pve_csi" {
-  path      = "${vault_mount.pve.path}/proxmox-csi"
+  path = "${vault_mount.pve.path}/proxmox-csi"
   data_json = jsonencode({
     "config.yaml" = <<EOF
 clusters:

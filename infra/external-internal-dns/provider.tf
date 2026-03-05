@@ -7,5 +7,9 @@ terraform {
     pihole = {
       source = "ryanwholey/pihole"
     }
+    unifi = {
+      source  = "filipowm/unifi"
+      version = "~> 1.0"
+    }
   }
 }
