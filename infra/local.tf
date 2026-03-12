@@ -29,7 +29,7 @@ resource "unifi_user" "test" {
   note = "by isengard"
 
   fixed_ip   = each.value.ip 
-  local_dns_record = "${each.key}.lab"
+  local_dns_record = "${each.key}.r.ss"
   network_id = unifi_network.default.id
 }
 
@@ -55,28 +55,8 @@ resource "unifi_port_forward" "plex" {
   protocol = "tcp_udp"
   dst_port = "32400"
 
-  fwd_ip = var.instances["kate"].ip
+  fwd_ip = module.plex.ipv4_address
   fwd_port = "32400"
-}
-
-resource "pihole_dns_record" "files" {
-  domain = "files.${var.local_domain}"
-  ip     = var.instances["kate"].ip
-}
-
-resource "pihole_dns_record" "whoami" {
-  domain = "whoami.${var.local_domain}"
-  ip     = "192.168.253.254"
-}
-
-resource "pihole_dns_record" "desktop" {
-  domain = "desktop.${var.local_domain}"
-  ip     = var.instances["desktop"].ip
-}
-
-resource "pihole_dns_record" "pve0" {
-  domain = "pve0.${var.local_domain}"
-  ip     = var.instances["pve0"].ip
 }
 
 # Static route for MetalLB LoadBalancer IPs to k8s control plane

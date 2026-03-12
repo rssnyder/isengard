@@ -1,6 +1,6 @@
 ---
 - name: Docker config
-  hosts: hurley
+  hosts: hurley.r.ss
   become: no
   tasks:
 

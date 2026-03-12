@@ -1,5 +1,11 @@
 scrape_configs:
 
+- job_name: 'unpoller'
+  static_configs:
+    - targets: ['localhost:9130']
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
 - job_name: pushgateway
   static_configs:
     - targets:

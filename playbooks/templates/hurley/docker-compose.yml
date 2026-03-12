@@ -2,41 +2,6 @@
 version: "3"
 services:
 
-  # caddy:
-  #   image: rssnyder/caddy-digitalocean
-  #   container_name: caddy
-  #   restart: unless-stopped
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #     - "443:443/udp"
-  #   volumes:
-  #     - $APPDATA/Caddyfile:/etc/caddy/Caddyfile
-
-  # prometheus:
-  #   image: prom/prometheus
-  #   container_name: prometheus
-  #   restart: unless-stopped
-  #   volumes:
-  #     - $APPDATA/prometheus.yml:/etc/prometheus/prometheus.yml
-  #   ports:
-  #     - 9090:9090
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #     - '--web.enable-admin-api'
-  #     - '--web.enable-lifecycle'
-  #     - '--storage.tsdb.path=/prometheus'
-  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-  #     - '--web.console.templates=/usr/share/prometheus/consoles'
-  #     - '--web.enable-remote-write-receiver'
-
-  # pushgateway:
-  #   image: prom/pushgateway
-  #   restart: always
-  #   container_name: pushgateway
-  #   ports:
-  #     - 9092:9091
-
   grafana:
     image: grafana/grafana-oss:11.5.8
     container_name: grafana
@@ -54,37 +19,6 @@ services:
       GF_AUTH_GOOGLE_ALLOWED_DOMAINS: "rileysnyder.dev gmail.com"
     volumes:
       - $APPDATA/grafana:/var/lib/grafana
-
-  omada:
-    container_name: omada
-    image: mbentley/omada-controller:5.3
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      MANAGE_HTTP_PORT: 8088
-      MANAGE_HTTPS_PORT: 8043
-      PORTAL_HTTP_PORT: 8088
-      PORTAL_HTTPS_PORT: 8843
-      SHOW_SERVER_LOGS: "true"
-      SHOW_MONGODB_LOGS: "false"
-      TZ: 'America/Chicago'
-    volumes:
-      - $APPDATA/omada/data:/opt/tplink/EAPController/data
-      - $APPDATA/omada/work:/opt/tplink/EAPController/work
-      - $APPDATA/omada/logs:/opt/tplink/EAPController/logs    
-    
-  # omada_exporter:
-  #   image: ghcr.io/charlie-haley/omada_exporter:0.5.0
-  #   container_name: "omada_exporter"
-  #   restart: unless-stopped
-  #   ports:
-  #     - 9202:9202
-  #   environment:
-  #     OMADA_HOST: "https://192.168.0.3:8043"
-  #     OMADA_USER: "docker"
-  #     OMADA_PASS: "${OMADA_PASS}"
-  #     OMADA_SITE: "Default"
-  #     OMADA_INSECURE: "true"
 
   postgres:
     image: postgres:14
@@ -135,16 +69,6 @@ services:
     volumes:
       - $APPDATA/pihole:/etc/pihole:rw
       - $APPDATA/pihole-dnsmasq:/etc/dnsmasq.d:rw
-    
-  # pihole_exporter:
-  #   image: ekofr/pihole-exporter:latest
-  #   container_name: pihole_exporter
-  #   environment:
-  #     PIHOLE_HOSTNAME: pihole
-  #     PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
-  #     PORT: 9617
-  #   ports:
-  #     - 9617:9617
 
   music:
     build: $APPDATA/music
@@ -159,15 +83,6 @@ services:
       - $APPDATA/homer:/www/assets
     ports:
       - 8364:8080
-  
-  garage:
-    image: dxflrs/garage:v2.1.0
-    network_mode: "host"
-    restart: unless-stopped
-    volumes:
-      - $APPDATA/garage/garage.toml:/etc/garage.toml
-      - $APPDATA/garage/meta:/var/lib/garage/meta
-      - $APPDATA/garage/data:/var/lib/garage/data
 
 volumes:
   db:

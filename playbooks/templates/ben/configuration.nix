@@ -4,7 +4,6 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./k3s.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -48,6 +47,7 @@
   };
   nix.settings.auto-optimise-store = true;
 
+  programs.zsh.enable = true;
   users.users.riley = {
     isNormalUser = true;
     description = "riley";
@@ -94,6 +94,7 @@
 
   networking.firewall.allowedTCPPorts = [
     22
+    5000
   ];
 
   services.tailscale.enable = true;
@@ -101,6 +102,52 @@
   networking.firewall.allowedUDPPorts = [
     41641
   ];
+
+  services.frigate = {
+    enable = false;
+    hostname = "localhost";
+
+    settings = {
+      mqtt.enabled = false;
+
+      detectors.ov = {
+        type = "openvino";
+        device = "AUTO";
+        model.path = "/var/lib/frigate/openvino-model/ssdlite_mobilenet_v2.xml";
+      };
+
+      record = {
+        enabled = true;
+        retain = {
+          days = 1;
+          mode = "all";
+        };
+      };
+
+      ffmpeg.hwaccel_args = "preset-vaapi";
+
+      cameras."lab" = {
+        ffmpeg.inputs = [ {
+          path = "rtsp://127.0.0.1:8554/lab";
+          input_args = "preset-rtsp-restream";
+          roles = [ "record" ];
+        } ];
+      };
+    };
+  };
+
+  services.go2rtc = {
+    enable = false;
+    settings = {
+      streams = {
+        "lab" = [
+          "rtsp://admin:{{ default_password }}@192.168.2.34:554/cam/realmonitor?channel=1&subtype=0"
+        ];
+      };
+      rtsp.listen = ":8554";
+      webrtc.listen = ":8555";
+    };
+  };
 
   system.stateVersion = "24.11";
 }

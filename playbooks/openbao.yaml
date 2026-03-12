@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: bao
+  hosts: bao.r.ss
   become: true
   gather_facts: true
 

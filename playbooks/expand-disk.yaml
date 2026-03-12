@@ -1,0 +1,129 @@
+---
+- name: Expand disk to fill available space
+  hosts: all
+  become: yes
+  vars:
+    disk: /dev/vdb
+    partition_number: "{{ partition | default('') }}"
+  tasks:
+    - name: Install required packages (Debian/Ubuntu)
+      apt:
+        name:
+          - cloud-guest-utils
+          - gdisk
+          - parted
+          - e2fsprogs
+          - xfsprogs
+          - lvm2
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install required packages (RedHat/CentOS)
+      yum:
+        name:
+          - cloud-utils-growpart
+          - gdisk
+          - parted
+          - e2fsprogs
+          - xfsprogs
+          - lvm2
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Get disk partitions
+      command: lsblk -ln -o NAME,TYPE {{ disk }}
+      register: disk_partitions
+      changed_when: false
+
+    - name: Determine last partition number
+      set_fact:
+        last_partition: "{{ disk_partitions.stdout_lines | select('search', 'part') | list | last | regex_replace('^[a-z]+', '') | regex_replace('([0-9]+).*', '\\1') }}"
+      when: partition_number == ''
+
+    - name: Use specified partition number
+      set_fact:
+        last_partition: "{{ partition_number }}"
+      when: partition_number != ''
+
+    - name: Display partition to expand
+      debug:
+        msg: "Expanding {{ disk }}{{ last_partition }} to fill available space"
+
+    - name: Expand partition with growpart
+      command: growpart {{ disk }} {{ last_partition }}
+      register: growpart_result
+      changed_when: "'CHANGED' in growpart_result.stdout"
+      failed_when:
+        - growpart_result.rc != 0
+        - "'NOCHANGE' not in growpart_result.stdout"
+
+    - name: Get partition device path
+      set_fact:
+        partition_device: "{{ disk }}{{ last_partition }}"
+
+    - name: Check if partition is a PV (LVM)
+      command: pvs --noheadings -o pv_name
+      register: pvs_output
+      changed_when: false
+      failed_when: false
+
+    - name: Check if partition is LVM
+      set_fact:
+        is_lvm: "{{ partition_device in pvs_output.stdout }}"
+
+    - name: Resize PV if LVM
+      command: pvresize {{ partition_device }}
+      when: is_lvm
+      register: pvresize_result
+      changed_when: "'successfully resized' in pvresize_result.stdout or pvresize_result.rc == 0"
+
+    - name: Get LV on this PV
+      shell: |
+        pvs --noheadings -o lv_full_name {{ partition_device }} 2>/dev/null | tr -d ' ' | head -1
+      register: lv_name
+      when: is_lvm
+      changed_when: false
+
+    - name: Extend LV to use all free space
+      command: lvextend -l +100%FREE {{ lv_name.stdout }}
+      when:
+        - is_lvm
+        - lv_name.stdout | length > 0
+      register: lvextend_result
+      changed_when: "'successfully resized' in lvextend_result.stdout or 'Logical volume' in lvextend_result.stdout"
+      failed_when:
+        - lvextend_result.rc != 0
+        - "'matches existing size' not in lvextend_result.stderr"
+        - "'unchanged' not in lvextend_result.stderr"
+
+    - name: Set device to resize filesystem on
+      set_fact:
+        fs_device: "{{ lv_name.stdout if (is_lvm and lv_name.stdout | length > 0) else partition_device }}"
+
+    - name: Get filesystem type
+      command: blkid -s TYPE -o value {{ fs_device }}
+      register: fs_type
+      changed_when: false
+      failed_when: false
+
+    - name: Resize ext2/ext3/ext4 filesystem
+      command: resize2fs {{ fs_device }}
+      when: fs_type.stdout in ['ext2', 'ext3', 'ext4']
+      register: resize2fs_result
+      changed_when: "'Nothing to do' not in resize2fs_result.stdout"
+
+    - name: Resize XFS filesystem
+      command: xfs_growfs {{ fs_device }}
+      when: fs_type.stdout == 'xfs'
+      register: xfs_result
+      changed_when: "'data blocks changed' in xfs_result.stdout"
+
+    - name: Display new disk size
+      command: lsblk {{ disk }}
+      register: final_size
+      changed_when: false
+
+    - name: Show result
+      debug:
+        msg: "{{ final_size.stdout_lines }}"

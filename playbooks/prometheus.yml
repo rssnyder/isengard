@@ -4,6 +4,94 @@
     - role: prometheus.prometheus.prometheus
   vars:
     prometheus_storage_retention: 180d
-    prometheus_storage_retention_size: 500GB
+    prometheus_storage_retention_size: 20GB
     prometheus_config_flags_extra:
       web.enable-lifecycle: true
+  tags:
+    - prometheus
+
+- name: unpoller
+  hosts: prometheus.r.ss
+  become: yes
+  vars:
+    unpoller_prometheus_listen: "localhost:9130"
+    unpoller_unifi_url: "https://192.168.2.1"
+    unpoller_unifi_user: "unpoller"
+    unpoller_unifi_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65373434636265646333363633656339353833646538383330613963363162373631653335373962
+      3935626331626433396336626565393862313562373162370a636637613438376461616537396439
+      32306361313433326163306262626462613535663236633338613236313837616632646437633432
+      3866313036363836330a616361316161356634303932643131383434386262396666383662653266
+      62356533396463353234663737336330306533363132303333343838623664623366
+    unpoller_verify_ssl: false
+  tags:
+    - unpoller
+  tasks:
+    - name: Install gpg
+      ansible.builtin.apt:
+        name: gpg
+        state: present
+
+    - name: Install golift GPG key
+      ansible.builtin.shell:
+        cmd: |
+          set -euo pipefail
+          curl -fsSL https://packagecloud.io/golift/pkgs/gpgkey | gpg --dearmor > /tmp/golift-new.gpg
+          if ! cmp -s /tmp/golift-new.gpg /usr/share/keyrings/golift-archive-keyring.gpg; then
+            cp /tmp/golift-new.gpg /usr/share/keyrings/golift-archive-keyring.gpg
+            echo changed
+          fi
+      register: gpg_key_result
+      changed_when: "'changed' in gpg_key_result.stdout"
+
+    - name: Add golift apt repository
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/golift-archive-keyring.gpg] https://packagecloud.io/golift/pkgs/ubuntu focal main"
+        state: present
+        filename: golift
+
+    - name: Install unpoller
+      ansible.builtin.apt:
+        name: unpoller
+        state: present
+        update_cache: true
+
+    - name: Configure unpoller
+      ansible.builtin.template:
+        src: up.conf.j2
+        dest: /etc/unpoller/up.conf
+        owner: unpoller
+        group: unpoller
+        mode: "0640"
+      notify: restart unpoller
+
+  handlers:
+    - name: restart unpoller
+      ansible.builtin.systemd:
+        name: unpoller
+        state: restarted
+        enabled: true
+
+- name: targets
+  hosts: all
+  become: yes
+  tags:
+    - targets
+  tasks:
+    - name: get tailscale ip
+      set_fact:
+        tailscale_ip={{ hostvars[inventory_hostname]['ansible_tailscale0']['ipv4']['address'] }}
+    
+    - name: copy targets config
+      template: 
+        src: targets.yml.j2
+        dest: /etc/prometheus/scrape_configs/isengard.yml
+        owner: riley
+      when: inventory_hostname == 'prometheus.r.ss'
+    
+    - name: Reload prometheus configuration
+      ansible.builtin.systemd:
+        name: prometheus
+        state: restarted
+        enabled: true

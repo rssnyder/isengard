@@ -1,6 +1,6 @@
 ---
 - name: Install and configure Plex Media Server
-  hosts: plex
+  hosts: plex.r.ss
   become: yes
   vars:
     plex_server_plex_version: "public"
@@ -11,9 +11,9 @@
     - role: ome.nfs_mount
       nfs_share_mounts:
       - path: /mnt/bucket
-        location: 192.168.2.6:/mass
+        location: 192.168.2.5:/mass
       - path: /mnt/red
-        location: 192.168.2.6:/red
-      - path: /mnt/scratch
-        location: 192.168.2.6:/scratch
+        location: 192.168.2.5:/red
+      # - path: /mnt/scratch
+      #   location: 192.168.2.6:/scratch
     - role: khaosx.plex-server

@@ -4,7 +4,7 @@ module "bao" {
   vm_name = "bao"
   tags    = ["vault", "services"]
 
-  node_name = "poweredge"
+  node_name = "pve1"
   iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
 
   size_gb = 64

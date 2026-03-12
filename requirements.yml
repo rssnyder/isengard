@@ -2,8 +2,10 @@ roles:
 - src: caddy_ansible.caddy_ansible
 - src: geerlingguy.pip
 - src: geerlingguy.docker
+- src: geerlingguy.samba
 - src: ome.nfs_mount
 - src: robertdebock.openbao_server
+- src: tigattack.frigate_docker
 collections:
 - prometheus.prometheus
 - artis3n.tailscale

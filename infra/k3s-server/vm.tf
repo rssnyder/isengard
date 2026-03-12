@@ -1,6 +1,6 @@
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
-  datastore_id = "zira-red"
+  datastore_id = var.snippet_datastore_id
   node_name    = var.node_name
 
   source_raw {
@@ -48,7 +48,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   initialization {
-    datastore_id = "zira-red"
+    datastore_id = var.snippet_datastore_id
 
     ip_config {
       ipv4 {
@@ -78,5 +78,6 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   lifecycle {
     prevent_destroy = true
+    ignore_changes = [disk[0].import_from, initialization[0].user_data_file_id]
   }
 }

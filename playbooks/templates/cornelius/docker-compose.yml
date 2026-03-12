@@ -1,19 +1,5 @@
 ---
-version: "3"
 services:
-
-  # plex:
-  #   image: linuxserver/plex:1.40.2
-  #   restart: unless-stopped
-  #   environment:
-  #     PUID: 65534
-  #     PGID: 1001
-  #     VERSION: docker
-  #   ports:
-  #     - "32400:32400"
-  #   volumes:
-  #     - /home/riley/b/plex/appdata/plex:/config
-  #     - $MEDIA:/media
 
   gluetun:
     image: qmcgaw/gluetun
@@ -207,6 +193,19 @@ services:
       - 5055:5055
     restart: unless-stopped
 
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      PUID: 65534
+      PGID: 1001
+      TZ: America/Chicago
+    volumes:
+      - $APPDATA/tautulli:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+
   files:
     image: svenstaro/miniserve
     restart: always
@@ -345,52 +344,52 @@ services:
       retries: 5
       start_period: 15s
   
-  frigate:
-    container_name: frigate
-    privileged: true # this may not be necessary for all setups
-    restart: unless-stopped
-    stop_grace_period: 30s # allow enough time to shut down the various services
-    image: ghcr.io/blakeblackshear/frigate:0.17.0-beta2
-    shm_size: "656mb" # update for your cameras based on calculation above
-    devices:
-      - /dev/bus/usb:/dev/bus/usb # Passes the USB Coral, needs to be modified for other versions
-      - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - $APPDATA/frigate:/config
-      - $SCRATCH_STORAGE/frigate:/media
-      - type: tmpfs
-        target: /tmp/cache
-        tmpfs:
-          size: 4000000000
-    ports:
-      - "8971:8971"
-      - "5000:5000" # Internal unauthenticated access. Expose carefully.
-      - "8554:8554" # RTSP feeds
-      - "8555:8555/tcp" # WebRTC over tcp
-      - "8555:8555/udp" # WebRTC over udp
+  # frigate:
+  #   container_name: frigate
+  #   privileged: true # this may not be necessary for all setups
+  #   restart: unless-stopped
+  #   stop_grace_period: 30s # allow enough time to shut down the various services
+  #   image: ghcr.io/blakeblackshear/frigate:0.17.0-beta2
+  #   shm_size: "656mb" # update for your cameras based on calculation above
+  #   devices:
+  #     - /dev/bus/usb:/dev/bus/usb # Passes the USB Coral, needs to be modified for other versions
+  #     - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - $APPDATA/frigate:/config
+  #     - $SCRATCH_STORAGE/frigate:/media
+  #     - type: tmpfs
+  #       target: /tmp/cache
+  #       tmpfs:
+  #         size: 4000000000
+  #   ports:
+  #     - "8971:8971"
+  #     - "5000:5000" # Internal unauthenticated access. Expose carefully.
+  #     - "8554:8554" # RTSP feeds
+  #     - "8555:8555/tcp" # WebRTC over tcp
+  #     - "8555:8555/udp" # WebRTC over udp
     # environment:
     #   FRIGATE_RTSP_PASSWORD: "password"
 
-  pbs:
-    image: ayufan/proxmox-backup-server:v4.0.21-1
-    ports:
-      - 8007:8007
-    mem_limit: 2G
-    volumes:
-      - pbs_etc:/etc/proxmox-backup
-      - pbs_logs:/var/log/proxmox-backup
-      - pbs_lib:/var/lib/proxmox-backup
-      - $SCRATCH_STORAGE/proxmox:/backups
-    tmpfs:
-      - /run
-    cap_add:
-      - SYS_RAWIO # smartctl support
-    #devices: # smartctl support
-    #  - /dev/sda
-    #  - /dev/sdb
-    restart: unless-stopped
-    stop_signal: SIGHUP
+  # pbs:
+  #   image: ayufan/proxmox-backup-server:v4.0.21-1
+  #   ports:
+  #     - 8007:8007
+  #   mem_limit: 2G
+  #   volumes:
+  #     - pbs_etc:/etc/proxmox-backup
+  #     - pbs_logs:/var/log/proxmox-backup
+  #     - pbs_lib:/var/lib/proxmox-backup
+  #     - $SCRATCH_STORAGE/proxmox:/backups
+  #   tmpfs:
+  #     - /run
+  #   cap_add:
+  #     - SYS_RAWIO # smartctl support
+  #   #devices: # smartctl support
+  #   #  - /dev/sda
+  #   #  - /dev/sdb
+  #   restart: unless-stopped
+  #   stop_signal: SIGHUP
 
   makemkv:
     restart: unless-stopped

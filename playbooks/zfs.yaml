@@ -1,0 +1,5 @@
+- hosts: cornelius.r.ss
+  tasks:
+    # ensure you have enabled backports repository on Debian systems first
+    - ansible.builtin.include_role:
+        name: aisbergg.zfs

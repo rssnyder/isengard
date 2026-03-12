@@ -69,7 +69,7 @@ resource "digitalocean_record" "home-star" {
     "*.k8s",
     "*.app",
     "*.pve",
-    "*.vm",
+    "*.ttyd",
   ])
   domain = digitalocean_domain.rileysnyder_dev.name
   type   = "A"

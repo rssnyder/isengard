@@ -63,3 +63,9 @@ variable "server_ip" {
   type        = string
   description = "k3s server ip"
 }
+
+variable "snippet_datastore_id" {
+  type        = string
+  description = "datastore to use for snippet files"
+  default     = "baelor"
+}

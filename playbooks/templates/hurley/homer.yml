@@ -9,7 +9,7 @@ footer: false
 stylesheet:
   - "assets/custom.css"
 
-columns: "4"
+columns: "3"
 theme: default
 colors:
   light:
@@ -73,47 +73,47 @@ services:
     items:
       - name: "Plex"
         logo: "assets/homer-icons/png/plex.png"
-        url: "http://kate.corvus-salmon.ts.net:32400"
+        url: "http://plex.corvus-salmon.ts.net:32400"
         target: '_top'
       - name: "Tautulli"
         logo: "assets/homer-icons/png/tautulli.png"
-        url: "http://kate.corvus-salmon.ts.net:8181/home"
+        url: "http://cornelius.corvus-salmon.ts.net:8181/home"
         target: '_top'
       - name: "qBittorrent"
         logo: "assets/homer-icons/png/qbittorrent.png"
-        url: "http://zira.corvus-salmon.ts.net:8475"
+        url: "http://cornelius.corvus-salmon.ts.net:8475"
         target: '_top'
       - name: "nzbGet"
         logo: "assets/homer-icons/png/nzbget.png"
-        url: "http://zira.corvus-salmon.ts.net:6789"
+        url: "http://cornelius.corvus-salmon.ts.net:6789"
         target: '_top'
       - name: "Deluge"
         logo: "assets/homer-icons/png/deluge.png"
-        url: "http://zira.corvus-salmon.ts.net:8112"
+        url: "http://cornelius.corvus-salmon.ts.net:8112"
         target: '_top'
       - name: "Overseerr"
         logo: "assets/homer-icons/png/overseerr.png"
-        url: "http://zira.corvus-salmon.ts.net:5055"
+        url: "http://cornelius.corvus-salmon.ts.net:5055"
         target: '_top'
       - name: "Prowlarr"
         logo: "assets/homer-icons/png/prowlarr.png"
-        url: "http://zira.corvus-salmon.ts.net:9696"
+        url: "http://cornelius.corvus-salmon.ts.net:9696"
         target: '_top'
       - name: "Sonarr"
         logo: "assets/homer-icons/png/sonarr.png"
-        url: "http://zira.corvus-salmon.ts.net:7002"
+        url: "http://cornelius.corvus-salmon.ts.net:7002"
         target: '_top'
       - name: "Radarr"
         logo: "assets/homer-icons/png/radarr.png"
-        url: "http://zira.corvus-salmon.ts.net:7003"
+        url: "http://cornelius.corvus-salmon.ts.net:7003"
         target: '_top'
       - name: "Handbreak"
-        logo: "assets/homer-icons/png/handbreak.png"
-        url: "http://zira.corvus-salmon.ts.net:5801"
+        logo: "assets/homer-icons/png/handbrake.png"
+        url: "http://cornelius.corvus-salmon.ts.net:5801"
         target: '_top'
       - name: "MakeMVK"
         logo: "assets/homer-icons/png/navidrome.png"
-        url: "http://zira.corvus-salmon.ts.net:5800"
+        url: "http://cornelius.corvus-salmon.ts.net:5800"
         target: '_top'
   - name: "Services"
     icon: "fas fa-gears"
@@ -126,36 +126,36 @@ services:
         logo: "assets/homer-icons/png/proxmox.png"
         url: "https://192.168.2.69:8006"
         target: '_top'
-      - name: "Photos"
-        logo: "assets/homer-icons/png/immich.png"
-        url: "https://photos.rileysnyder.dev"
-        target: '_top'
-      - name: "Coder"
-        logo: "assets/homer-icons/png/codeserver.png"
-        url: "https://vscode.rileysnyder.dev"
-        target: '_top'
       - name: "Home Assistant"
         logo: "assets/homer-icons/png/home-assistant.png"
         url: "https://home.rileysnyder.dev"
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
-        url: "http://zira.corvus-salmon.ts.net:5000"
+        url: "http://cornelius.corvus-salmon.ts.net:5000"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"
         url: "http://hurley.corvus-salmon.ts.net:9001"
         target: '_top'
+      - name: "Photos"
+        logo: "assets/homer-icons/png/immich.png"
+        url: "https://photos.rileysnyder.dev"
+        target: '_top'
       - name: "Files"
         logo: "assets/homer-icons/png/plexdrive.png"
         url: "https://files.rileysnyder.dev"
         target: '_top'
+      - name: "Coder"
+        logo: "assets/homer-icons/png/codeserver.png"
+        url: "https://vscode.rileysnyder.dev"
+        target: '_top'
   - name: "Utility"
     icon: "fas fa-toolbox"
     items:
-      - name: "Omada"
-        logo: "assets/homer-icons/png/omada.png"
-        url: "https://hurley.corvus-salmon.ts.net:8043"
+      - name: "Unifi"
+        logo: "assets/homer-icons/png/ubiquiti-unifi.png"
+        url: "http://192.168.2.1"
         target: '_top'
       - name: "Pihole"
         logo: "assets/homer-icons/png/pihole.png"
@@ -165,15 +165,4 @@ services:
       - name: "Prometheus"
         logo: "assets/homer-icons/png/prometheus.png"
         url: "http://kate.corvus-salmon.ts.net:9090/targets"
-        target: '_top'
-  - name: "Kubernetes"
-    icon: "fa-brands fa-docker"
-    items:
-      - name: "Prometheus"
-        logo: "assets/homer-icons/png/prometheus.png"
-        url: "http://192.168.252.253"
-        target: '_top'
-      - name: "Longhorn"
-        logo: "assets/homer-icons/png/longhorn.png"
-        url: "http://192.168.252.3"
         target: '_top'

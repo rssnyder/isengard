@@ -58,3 +58,9 @@ variable "cluster" {
   type        = string
   description = "name of the pve cluster"
 }
+
+variable "snippet_datastore_id" {
+  type        = string
+  description = "datastore to use for snippet files"
+  default     = "baelor"
+}

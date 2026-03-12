@@ -78,15 +78,15 @@ metrics.rileysnyder.dev {
 }
 
 files.rileysnyder.dev {
-    reverse_proxy 192.168.2.6:8080
+    reverse_proxy 192.168.2.5:8080
 }
 
 filez.rileysnyder.dev {
-    reverse_proxy 192.168.2.6:3923
+    reverse_proxy 192.168.2.5:3923
 }
 
 requests.rileysnyder.dev {
-    reverse_proxy 192.168.2.6:5055
+    reverse_proxy 192.168.2.5:5055
 }
 
 pushmetrics.rileysnyder.dev {
@@ -96,32 +96,20 @@ pushmetrics.rileysnyder.dev {
     }
 }
 
-vscode.rileysnyder.dev {
-    reverse_proxy 192.168.2.69:6969
-}
-
 dash.rileysnyder.dev {
     reverse_proxy 192.168.2.2:8364
 }
 
 plex.rileysnyder.dev {
-    reverse_proxy 192.168.2.6:32400
+    reverse_proxy 192.168.2.5:32400
 }
 
 books.rileysnyder.dev {
-    reverse_proxy 192.168.2.6:13378
-}
-
-auth.rileysnyder.dev {
-    reverse_proxy 192.168.254.2
-}
-
-harness.rileysnyder.dev {
-    reverse_proxy 192.168.2.2:3001
+    reverse_proxy 192.168.2.5:13378
 }
 
 photos.rileysnyder.dev {
-    reverse_proxy 192.168.2.6:2283
+    reverse_proxy 192.168.2.5:2283
 }
 
 *.k8s.rileysnyder.dev {
@@ -140,8 +128,8 @@ photos.rileysnyder.dev {
     }
 }
 
-*.vm.rileysnyder.dev {
-    reverse_proxy {http.request.host.labels.3}.vm.r.ss:22
+*.ttyd.rileysnyder.dev {
+    reverse_proxy {http.request.host.labels.3}.ttyd.r.ss:7681
 
     tls {
         dns digitalocean {{ digitalocean_token }}
@@ -153,5 +141,5 @@ keys.rileysnyder.dev {
 }
 
 home.rileysnyder.dev {
-    reverse_proxy 192.168.2.224:8123
+    reverse_proxy 192.168.2.4:8123
 }

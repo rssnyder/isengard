@@ -96,11 +96,15 @@ provider "proxmox" {
 }
 
 provider "vault" {
-  address         = "https://192.168.2.244:8200"
+  address         = "https://192.168.2.238:8200"
   skip_tls_verify = true
 }
 
 provider "unifi" {
   api_url  = "https://192.168.2.1"
   allow_insecure = true
+}
+
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
 }

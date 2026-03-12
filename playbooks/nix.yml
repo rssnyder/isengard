@@ -4,6 +4,7 @@
   - kate
   - plex
   - ben
+  - baelor
   become: yes
   tasks:
 
@@ -16,5 +17,8 @@
       with_fileglob:
         - "templates/{{ ansible_hostname }}/*.nix"
 
-    - name: rebuild
+    - name: test
       shell: nixos-rebuild test
+    
+    - name: switch
+      shell: nixos-rebuild switch
