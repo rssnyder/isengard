@@ -103,12 +103,13 @@ spec:
     name: flux-system
   patches:
     - patch: |
+        - op: replace
+          path: /spec/values/gateway/service/type
+          value: LoadBalancer
         - op: add
-          path: /spec/values/singleBinary/service
+          path: /spec/values/gateway/service/annotations
           value:
-            type: LoadBalancer
-            annotations:
-              external-dns.alpha.kubernetes.io/hostname: loki.r.ss
+            external-dns.alpha.kubernetes.io/hostname: loki.r.ss
       target:
         kind: HelmRelease
         name: loki

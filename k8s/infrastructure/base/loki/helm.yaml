@@ -64,7 +64,9 @@ spec:
     write:
       replicas: 0
     gateway:
-      enabled: false
+      enabled: true
+      service:
+        type: ClusterIP
     chunksCache:
       enabled: false
     resultsCache:
