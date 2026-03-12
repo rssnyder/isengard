@@ -101,6 +101,18 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/values/singleBinary/service
+          value:
+            type: LoadBalancer
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: loki.r.ss
+      target:
+        kind: HelmRelease
+        name: loki
+        namespace: loki
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
