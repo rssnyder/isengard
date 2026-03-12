@@ -23,9 +23,15 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       - open-iscsi
       - nfs-kernel-server
       - lvm2
+    write_files:
+      - path: /etc/sysctl.d/99-inotify.conf
+        content: |
+          fs.inotify.max_user_watches=1048576
+          fs.inotify.max_user_instances=8192
     runcmd:
       - systemctl enable qemu-guest-agent
       - systemctl start qemu-guest-agent
+      - sysctl --system
       - echo "done" > /tmp/cloud-config.done
     EOF
 
