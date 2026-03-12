@@ -70,15 +70,10 @@ spec:
           value: "https://192.168.2.1"
         - name: UNIFI_SKIP_TLS_VERIFY
           value: "true"
-        - name: UNIFI_USER
+        - name: UNIFI_API_KEY
           valueFrom:
             secretKeyRef:
               name: unifi-controller
-              key: username
-        - name: UNIFI_PASS
-          valueFrom:
-            secretKeyRef:
-              name: unifi-controller
-              key: password
+              key: api
       securityContext:
         fsGroup: 65534
