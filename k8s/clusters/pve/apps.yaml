@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: ingress-nginx
+    - name: traefik
   interval: 1h
   path: ./k8s/infrastructure/base/podinfo
   prune: true
@@ -102,7 +102,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: ingress-nginx
+    - name: traefik
     - name: cloudnative-pg
   interval: 1h
   path: ./k8s/apps/keys
