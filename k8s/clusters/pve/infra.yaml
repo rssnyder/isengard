@@ -219,7 +219,7 @@ spec:
           path: /spec/values/service/type
           value: LoadBalancer
         - op: add
-          path: /spec/values/service/spec/loadBalancerIP
+          path: /spec/values/service/loadBalancerIP
           value: 192.168.252.253
         - op: add
           path: /spec/values/service/annotations
