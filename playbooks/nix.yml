@@ -17,6 +17,27 @@
       with_fileglob:
         - "templates/{{ ansible_hostname }}/*.nix"
 
+    - name: frigate directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      loop:
+        - /var/lib/frigate
+        - /var/lib/frigate/media
+      when: ansible_hostname == 'ben'
+
+    - name: frigate config
+      template:
+        src: templates/ben/frigate-config.yml.j2
+        dest: /var/lib/frigate/config.yml
+        owner: root
+        group: root
+        mode: '0644'
+      when: ansible_hostname == 'ben'
+
     - name: test
       shell: nixos-rebuild test
     

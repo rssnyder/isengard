@@ -55,6 +55,9 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "video"
+      "render"
+      "podman"
     ];
     packages = with pkgs; [
       zsh
@@ -95,57 +98,61 @@
   networking.firewall.allowedTCPPorts = [
     22
     5000
+    8971
+    8554
+    8555
   ];
 
   services.tailscale.enable = true;
   services.tailscale.port = 41641;
   networking.firewall.allowedUDPPorts = [
     41641
+    8555
   ];
 
-  services.frigate = {
-    enable = false;
-    hostname = "localhost";
-
-    settings = {
-      mqtt.enabled = false;
-
-      detectors.ov = {
-        type = "openvino";
-        device = "AUTO";
-        model.path = "/var/lib/frigate/openvino-model/ssdlite_mobilenet_v2.xml";
-      };
-
-      record = {
-        enabled = true;
-        retain = {
-          days = 1;
-          mode = "all";
-        };
-      };
-
-      ffmpeg.hwaccel_args = "preset-vaapi";
-
-      cameras."lab" = {
-        ffmpeg.inputs = [ {
-          path = "rtsp://127.0.0.1:8554/lab";
-          input_args = "preset-rtsp-restream";
-          roles = [ "record" ];
-        } ];
-      };
-    };
+  # Intel GPU hardware acceleration for Frigate
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-compute-runtime
+      vpl-gpu-rt
+    ];
   };
 
-  services.go2rtc = {
-    enable = false;
-    settings = {
-      streams = {
-        "lab" = [
-          "rtsp://admin:{{ default_password }}@192.168.2.34:554/cam/realmonitor?channel=1&subtype=0"
-        ];
+  # Podman for OCI containers
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
+
+  # Frigate NVR container
+  virtualisation.oci-containers = {
+    backend = "podman";
+    containers.frigate = {
+      image = "ghcr.io/blakeblackshear/frigate:stable";
+      autoStart = true;
+      ports = [
+        "5000:5000"
+        "8971:8971"
+        "8554:8554"
+        "8555:8555/tcp"
+        "8555:8555/udp"
+      ];
+      volumes = [
+        "/var/lib/frigate/config.yml:/config/config.yml:ro"
+        "/var/lib/frigate/media:/media/frigate"
+        "/etc/localtime:/etc/localtime:ro"
+      ];
+      environment = {
+        FRIGATE_RTSP_PASSWORD = "{{ default_password }}";
       };
-      rtsp.listen = ":8554";
-      webrtc.listen = ":8555";
+      extraOptions = [
+        "--device=/dev/dri/renderD128:/dev/dri/renderD128"
+        "--shm-size=656m"
+        "--privileged"
+        "--tmpfs=/tmp/cache:size=4000000000"
+      ];
     };
   };
 
