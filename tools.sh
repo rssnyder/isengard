@@ -320,7 +320,7 @@ function claim () {
 
 alias getenv='export $(cat ../.env | xargs); export AWS_ACCESS_KEY_ID=$MINIO_USER; export AWS_SECRET_ACCESS_KEY=$MINIO_PASSWORD'
 
-export signal_number="+15159792049"
+export signal_number="+14808407117"
 
 function signal () {
   message=$@
