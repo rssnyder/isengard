@@ -95,6 +95,14 @@
 
   services.openssh.enable = true;
 
+  # Prometheus node exporter
+  services.prometheus.exporters.node = {
+    enable = true;
+    port = 9100;
+    enabledCollectors = [ "systemd" ];
+    openFirewall = true;
+  };
+
   networking.firewall.allowedTCPPorts = [
     22
     5000
