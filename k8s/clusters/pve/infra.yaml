@@ -202,6 +202,35 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: metallb
+  interval: 1h
+  path: ./k8s/infrastructure/base/traefik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/service/type
+          value: LoadBalancer
+        - op: add
+          path: /spec/values/service/annotations
+          value:
+            external-dns.alpha.kubernetes.io/hostname: traefik.r.ss
+      target:
+        kind: HelmRelease
+        name: traefik
+        namespace: traefik
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: nfs-subdir-external-provisioner
   namespace: flux-system
 spec:
