@@ -22,6 +22,17 @@ scrape_configs:
 {% endif %}
 {% endfor %}
 
+- job_name: node_exporter_dns_sd
+  dns_sd_configs:
+    - names:
+        - '_prometheus._tcp.r.ss'
+      type: SRV
+  relabel_configs:
+    - source_labels: [__meta_dns_srv_record_target]
+      regex: '(.+)\.r\.ss\.'
+      target_label: instance
+      replacement: '${1}'
+
 - job_name: remote_clusters
   honor_labels: true
   honor_timestamps: true
