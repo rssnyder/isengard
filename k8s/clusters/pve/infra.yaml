@@ -219,6 +219,9 @@ spec:
           path: /spec/values/service/type
           value: LoadBalancer
         - op: add
+          path: /spec/values/service/spec/loadBalancerIP
+          value: 192.168.252.253
+        - op: add
           path: /spec/values/service/annotations
           value:
             external-dns.alpha.kubernetes.io/hostname: traefik.r.ss
