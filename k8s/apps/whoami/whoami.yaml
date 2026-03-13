@@ -61,3 +61,13 @@ spec:
             name: whoami
             port:
               number: 80
+  - host: whoami.pve.rileysnyder.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: whoami
+            port:
+              number: 80
