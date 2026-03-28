@@ -2,6 +2,11 @@ mqtt:
   host: 192.168.252.3
   port: 1883
 
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+
 go2rtc:
   streams:
     back:
@@ -29,7 +34,7 @@ lpr:
   debug_save_plates: true
   known_plates:
     altima:
-      - FAV 96
+      - FAV 396
     camery:
       - IJN 189
 
@@ -39,9 +44,9 @@ record:
     retain:
       days: 90
   continuous:
-    days: 3
+    days: 1
   motion:
-    days: 3
+    days: 1
 
 snapshots:
   enabled: true

@@ -114,19 +114,12 @@ module "cornelius" {
   pet = true
 }
 
-# module "jeff" {
-#   source = "../../terraform-proxmox-vm"
+module "polk" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
 
-#   vm_name = "jeff"
-#   username = "jeff"
-#   tags = ["jeff"]
+  vm_name = "polk"
 
-#   node_name = "poweredge"
-#   iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
-
-#   cpu = 1
-#   memory = 1024
-
-#   ttyd_password = "iuhwdfh4378fy43fuhref9g"
-# }
+  node_name = "pve0"
+  # iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
+}
 

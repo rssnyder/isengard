@@ -7,15 +7,9 @@ SyslogIdentifier={{ service_name }}
 {% if service_pwd is defined %}
 WorkingDirectory={{ service_pwd }}
 {% else %}
-WorkingDirectory=/etc/{{ app_name }}
+WorkingDirectory=/etc/{{ service_name }}
 {% endif %}
-{% if service_binary.startswith('/') %}
-ExecStart={{ service_binary }} {{ service_opts }}
-{% elif service_binary != None %}
-ExecStart=/etc/{{ app_name }}/{{ service_binary }} {{ service_opts }}
-{% else %}
-ExecStart=/etc/{{ app_name }}/{{ app_name }} {{ service_opts }}
-{% endif %}
+ExecStart=/etc/{{ service_name }}/{{ service_name }} {{ service_opts }}
 ExecReload=/bin/kill -HUP $MAINPID
 
 {% if service_type != "oneshot" %}

@@ -157,6 +157,7 @@
       };
       extraOptions = [
         "--device=/dev/dri/renderD128:/dev/dri/renderD128"
+        "--device=/dev/bus/usb:/dev/bus/usb"
         "--shm-size=656m"
         "--privileged"
         "--tmpfs=/tmp/cache:size=4000000000"

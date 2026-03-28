@@ -95,3 +95,4 @@
         name: prometheus
         state: restarted
         enabled: true
+      when: inventory_hostname == 'prometheus.r.ss'

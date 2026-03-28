@@ -76,7 +76,11 @@
   environment.systemPackages  = with pkgs; [
     vim
     python312
+    tailscale
   ];
+
+  services.tailscale.enable = true;
+  services.tailscale.port = 41641;
 
   # user
   users.users.riley = {
@@ -101,6 +105,14 @@
     }
   ];
   services.openssh.enable = true;
+
+  # Prometheus node exporter
+  services.prometheus.exporters.node = {
+    enable = true;
+    port = 9100;
+    enabledCollectors = [ "systemd" ];
+    openFirewall = true;
+  };
 
   # firewall
   networking.firewall.allowedTCPPorts = [

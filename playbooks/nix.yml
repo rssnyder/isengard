@@ -1,10 +1,8 @@
 ---
 - name: nix config
   hosts:
-  - kate
-  - plex
-  - ben
-  - baelor
+  - ben.r.ss
+  - baelor.r.ss
   become: yes
   tasks:
 
