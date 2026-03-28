@@ -45,5 +45,6 @@ spec:
       defaultFlagsOverride:
         - --storage.tsdb.retention.size=10GB
         - --config.file=/etc/config/prometheus.yml
+        - --web.enable-lifecycle
     alertmanager:
       enabled: false
