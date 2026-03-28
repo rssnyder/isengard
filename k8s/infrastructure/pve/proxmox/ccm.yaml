@@ -20,12 +20,14 @@ spec:
   chart:
     spec:
       chart: proxmox-cloud-controller-manager
-      version: "0.2.24"
+      version: "0.2.26"
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
       interval: 5m
   values:
+    image:
+      tag: v0.13.0
     useDaemonSet: true
     nodeSelector:
       node-role.kubernetes.io/control-plane: "true"
