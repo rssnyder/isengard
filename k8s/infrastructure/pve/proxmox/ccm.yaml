@@ -31,5 +31,9 @@ spec:
     useDaemonSet: true
     nodeSelector:
       node-role.kubernetes.io/control-plane: "true"
+    tolerations:
+      - key: master
+        operator: Exists
+        effect: NoSchedule
     existingConfigSecret: proxmox-cloud-controller-manager
     logVerbosityLevel: 5
