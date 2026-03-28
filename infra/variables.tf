@@ -11,7 +11,7 @@ variable "instances" {
       mac = "a8:a1:59:e0:48:9b"
     }
     home = {
-      ip  = "192.168.2.4"
+      ip  = "192.168.2.239"
       mac = "F4:4D:30:65:A4:66"
     }
     # 5 claimed by cornelius
@@ -22,6 +22,10 @@ variable "instances" {
     kate = {
       ip  = "192.168.2.7"
       mac = "8C:16:45:47:59:46"
+    }
+    ben = {
+      ip = "192.168.2.8"
+      mac = "00:e0:4c:36:c9:ae"
     }
     baelor = {
       ip = "192.168.2.9"

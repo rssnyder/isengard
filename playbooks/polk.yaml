@@ -1,0 +1,53 @@
+---
+- name: install polk search
+  hosts: polk.r.ss
+  become: yes
+
+  tasks:
+
+    - name: set facts for service file
+      set_fact:
+        git_org: rssnyder
+        git_repo: polk-county-iowa-property-search
+        arch: Linux_x86_64
+        version: v0.1.1
+        app_name: polk
+        service_name: polk-county-iowa-property-search
+        service_desc: "polk county property search" 
+        service_opts: "-addr 0.0.0.0:8080 -db polk_county.db -end-date 'March 15, 2026' -log-searches ./searches.db"
+        service_type: simple
+        service_env: {}
+
+    - name: create service dir
+      file: 
+        state: directory
+        path: "/etc/{{ git_repo }}"
+        owner: root
+        group: root
+
+    - name: download
+      get_url:
+        url: https://github.com/{{ git_org }}/{{ git_repo }}/releases/download/{{ version }}/{{ git_repo }}_{{ arch }}.tar.gz
+        dest: /etc/{{ git_repo }}/{{ git_repo }}_{{ arch }}_{{ version }}.tar.gz
+        mode: '0700'
+
+    - name: extract
+      unarchive:
+        remote_src: yes
+        src: /etc/{{ git_repo }}/{{ git_repo }}_{{ arch }}_{{ version }}.tar.gz
+        dest: /etc/{{ git_repo }}/
+    
+    - name: copy service file
+      template: 
+        src: service.j2
+        dest: "/etc/systemd/system/{{ git_repo }}.service"
+  
+    - name: reload
+      shell:
+        cmd: systemctl daemon-reload
+
+    - name: start
+      systemd:
+        state: restarted
+        enabled: true
+        name: "{{ git_repo }}.service"

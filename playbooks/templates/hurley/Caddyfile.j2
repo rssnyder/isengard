@@ -112,8 +112,16 @@ photos.rileysnyder.dev {
     reverse_proxy 192.168.2.5:2283
 }
 
+polk.rileysnyder.dev {
+    reverse_proxy 192.168.2.212:8080
+}
+
+polkproperties.ttdsm.org {
+    reverse_proxy 192.168.2.212:8080
+}
+
 *.k8s.rileysnyder.dev {
-    reverse_proxy 192.168.253.254
+    reverse_proxy 192.168.252.254
 
     tls {
         dns digitalocean {{ digitalocean_token }}

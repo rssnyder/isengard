@@ -54,7 +54,8 @@ module "hurley-dns-entries" {
     "books",
     "harrypottermoviepicker",
     "photos",
-    "home"
+    "home",
+    "polk"
   ])
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
@@ -127,6 +128,13 @@ resource "digitalocean_record" "eddie" {
   type   = "A"
   name   = "eddie"
   value  = var.instances["oca1"].ip
+}
+
+resource "digitalocean_record" "polkproperties" {
+  domain = digitalocean_domain.ttdsm_org.name
+  type   = "A"
+  name   = "polkproperties"
+  value  = chomp(data.http.home.response_body)
 }
 
 // github pages
