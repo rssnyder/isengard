@@ -380,7 +380,12 @@ spec:
           value: https://app.harness.io/gratis
         - op: replace
           path: /spec/values/delegateDockerImage
-          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:25.11.87202
+          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.03.88802
+        - op: add
+          path: /spec/values/custom_envs
+          value:
+            - name: HARNESS_LOG_STREAMING_STDOUT_ENABLED
+              value: "true"
       target:
         kind: HelmRelease
     - patch: |
