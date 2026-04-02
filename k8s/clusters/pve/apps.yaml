@@ -167,29 +167,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: awx-dev
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: awx-operator
-  interval: 1h
-  path: ./k8s/apps/awx
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: add
-          path: /metadata/name
-          value: dev
-      target:
-        kind: AWX
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: garage
   namespace: flux-system
 spec:
