@@ -40,7 +40,7 @@ spec:
         reclaimPolicy: Retain
         fstype: ext4
       - name: proxmox-nfs
-        storage: zira-red
+        storage: baelor
         ssd: false
         reclaimPolicy: Retain
         fstype: xfs
