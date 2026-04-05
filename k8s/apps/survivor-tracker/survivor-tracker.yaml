@@ -83,8 +83,8 @@ spec:
         command: ["python"]
         args: ["spoilers.py"]
         env:
-        - name: LOGLEVEL
-          value: DEBUG
+        #- name: LOGLEVEL
+        #  value: DEBUG
         - name: WEBSOCKETS_MAX_LOG_SIZE
           value: '10000'
         - name: TAUTULLI_KEY
