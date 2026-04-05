@@ -40,7 +40,7 @@ spec:
     - patch: |
         - op: add
           path: /spec/storageClassName
-          value: proxmox
+          value: proxmox-nfs
       target:
         kind: PersistentVolumeClaim
         name: api
