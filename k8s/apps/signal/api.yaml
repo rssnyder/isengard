@@ -86,7 +86,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: proxmox
+  storageClassName: proxmox-nfs
   # volumeName: api
 
 ---
