@@ -154,20 +154,18 @@
       enable = true;
     };
     oci-containers.containers = {
-        pbs = {
-          image = "ayufan/proxmox-backup-server:v4.0.21-1";
-          entrypoint = "/root/main";
-          environment = {
-              DEV_MODE = "false";
-          };
-          ports = ["8007:8007"];
+        proxmox-userdata-proxy = {
+          image = "rssnyder/proxmox-userdata-proxy:latest";
+          ports = [ "8443:8443" ];
           volumes = [
-            "/fast:/fast"
-            "/slow:/slow"
-            "/tmp/pbs:/run"
+            "/fast/proxmox:/mnt/pve/storage"
           ];
-          capabilities = {
-            SYS_RAWIO = true;
+          environment = {
+            PROXMOX_URL = "https://192.168.2.69:8006";
+            PROXMOX_INSECURE = "true";
+            SNIPPET_STORAGE_MAP = "baelor=/mnt/pve/storage";
+            PROXY_LISTEN_ADDR = ":8443";
+            LOG_LEVEL = "info";
           };
         };
       };
