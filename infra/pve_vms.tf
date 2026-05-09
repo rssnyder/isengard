@@ -18,7 +18,7 @@ module "plex" {
   vm_name = "plex"
   tags    = ["plex"]
 
-  node_name = "pve1"
+  node_name = "pve0"
   iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
 
   cpu     = 4
@@ -62,31 +62,6 @@ module "thehand2" {
   pet = true
 }
 
-# module "frigate" {
-#   source = "github.com/rssnyder/terraform-proxmox-vm"
-
-#   vm_name = "frigate"
-#   tags    = ["frigate", "core"]
-
-#   node_name = "poweredge"
-#   iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
-
-#   cpu    = 2
-#   memory = 1024 * 4
-
-#   ip_address = "192.168.2.21/24"
-
-#   datastore_id = "frigate"
-#   size_gb      = 1770
-
-#   usb = [{
-#     host = "1a6e:089a"
-#     usb3 = false
-#   }]
-
-#   pet = true
-# }
-
 module "cornelius" {
   source = "github.com/rssnyder/terraform-proxmox-vm"
 
@@ -97,7 +72,7 @@ module "cornelius" {
   iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
 
   cpu    = 6
-  memory = 1024 * 6
+  memory = 1024 * 12
 
   ip_address = "192.168.2.5/24"
 
@@ -120,6 +95,15 @@ module "polk" {
   vm_name = "polk"
 
   node_name = "pve0"
-  # iso_id = proxmox_virtual_environment_download_file.debian_trixie.id
 }
 
+module "code" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
+
+  vm_name = "code"
+
+  node_name = "pve1"
+
+  cpu    = 2
+  memory = 1024 * 4
+}

@@ -11,7 +11,7 @@ variable "instances" {
       mac = "a8:a1:59:e0:48:9b"
     }
     home = {
-      ip  = "192.168.2.239"
+      ip  = "192.168.2.4"
       mac = "F4:4D:30:65:A4:66"
     }
     # 5 claimed by cornelius

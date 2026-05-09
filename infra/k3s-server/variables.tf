@@ -64,3 +64,8 @@ variable "snippet_datastore_id" {
   description = "datastore to use for snippet files"
   default     = "baelor"
 }
+
+variable "flux_enabled" {
+  type = bool
+  default = true
+}

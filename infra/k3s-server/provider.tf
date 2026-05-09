@@ -3,8 +3,8 @@ terraform {
     proxmox = {
       source = "bpg/proxmox"
     }
-    pihole = {
-      source = "ryanwholey/pihole"
+    unifi = {
+      source = "filipowm/unifi"
     }
   }
 }

@@ -64,6 +64,7 @@ resource "null_resource" "registry_mirror" {
 }
 
 resource "null_resource" "install_flux_operator" {
+  count = var.flux_enabled ? 1 : 0
 
   triggers = {
     vm_id = proxmox_virtual_environment_vm.this.id
@@ -85,7 +86,7 @@ resource "null_resource" "install_flux_operator" {
 }
 
 resource "null_resource" "flux_init" {
-
+  count = var.flux_enabled ? 1 : 0
   triggers = {
     vm_id = proxmox_virtual_environment_vm.this.id
   }

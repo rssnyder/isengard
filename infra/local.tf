@@ -59,6 +59,42 @@ resource "unifi_port_forward" "plex" {
   fwd_port = "32400"
 }
 
+# enable wg web ui
+resource "unifi_port_forward" "wg-web" {
+  name = "wg-web"
+  
+  port_forward_interface = "both"
+  protocol = "tcp"
+  dst_port = "51821"
+
+  fwd_ip = module.cornelius.ipv4_address
+  fwd_port = "51821"
+}
+
+# enable wg clients
+resource "unifi_port_forward" "wg" {
+  name = "wg"
+  
+  port_forward_interface = "both"
+  protocol = "udp"
+  dst_port = "51820"
+
+  fwd_ip = module.cornelius.ipv4_address
+  fwd_port = "51820"
+}
+
+# code
+resource "unifi_port_forward" "git-ssh" {
+  name = "git-ssh"
+  
+  port_forward_interface = "both"
+  protocol = "tcp"
+  dst_port = "22"
+
+  fwd_ip = module.code.ipv4_address
+  fwd_port = "222"
+}
+
 # Static route for MetalLB LoadBalancer IPs to k8s control plane
 resource "unifi_static_route" "metallb" {
   type     = "interface-route"

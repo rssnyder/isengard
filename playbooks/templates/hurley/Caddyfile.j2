@@ -73,6 +73,14 @@ s3.rileysnyder.dev {
     }
 }
 
+s4.rileysnyder.dev {
+    reverse_proxy 192.168.2.2:9002
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
 metrics.rileysnyder.dev {
     reverse_proxy 192.168.2.2:3000
 }
@@ -120,6 +128,11 @@ polkproperties.ttdsm.org {
     reverse_proxy 192.168.2.212:8080
 }
 
+git.ttdsm.org {
+    reverse_proxy code.r.ss:3000
+}
+
+
 *.k8s.rileysnyder.dev {
     reverse_proxy 192.168.252.254
 
@@ -150,4 +163,12 @@ keys.rileysnyder.dev {
 
 home.rileysnyder.dev {
     reverse_proxy 192.168.2.4:8123
+}
+
+vpn.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:51821
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
 }

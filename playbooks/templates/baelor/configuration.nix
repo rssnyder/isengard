@@ -130,6 +130,30 @@
     "d /slow 0777 nobody nogroup"
     "d /fast 0777 nobody nogroup"
     "d /fast/proxmox 0777 nobody nogroup"
+    "d /slow/frigate 0777 nobody nogroup"
+    "d /var/lib/drone-runner-proxmox 0755 root root"
+    "C+ /var/lib/drone-runner-proxmox/pool.yml - - - - ${pkgs.writeText "pool.yml" ''
+      version: "1"
+      instances:
+        - name: debian-amd64
+          default: true
+          pool: 1
+          limit: 10
+          platform:
+            os: linux
+            arch: amd64
+          spec:
+            node: pve0
+            storage: data
+            cloudinit_storage: baelor
+            template_image: baelor:import/debian-13-genericcloud-amd64.qcow2
+            memory: 2048
+            cores: 2
+            disk_size: 20
+            bridge: vmbr0
+            ssh_authorized_keys:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0eYIj1qScmuGmXxYgu54r7s99s5chsjqFwZ/Vwamu5HLb0AmcgCdDaUkHX7YpGTcbafVTHJXVx/V8JKzu2jiztoXZy52JbIpYbkZNgo+aLwB9Sj3XZXFEjarG+P6/iqNNMPIGhLvGOH61keyYoA8cUOhcBUODZWMssK8L2mQxcTNATzC5mv67H6IDiowcFnRV3CKe2VvsVdOLjAjJzQ1xBUpVENyIFohyV+7kmFI5dODct6UdhHjYfW9YA1qlQYfV+S8vU20jcmXcHF+M6x4i1D6kDb5Ig8/5B/Ym1dHFIjcFnBezF2CIT5tsUc4vqfY0DtdVqt9rHFS/swiNZl3GaG4pMF5ooG4RIkb16oFTwBhsEHMzjzG+Pqaqt8UAHC7MXbY6fQxUts8SZUSal7ydoMw3mOKFCtOog517PkqgGUJt2UNsur0R204Vgxlqx3xTkYbW7VKdglr4MrLjglCM1bT6+cnrP+h2FiWAlXpMXmS4ymsWlrkucmyX0hmLWAk= riley@hurley
+    ''}"
   ];
   fileSystems."/slow" = {
     device = "/dev/disk/by-uuid/cf22174d-13e4-4397-8e92-3029d690a4ab";
@@ -148,15 +172,27 @@
     '';
   };
 
+  # Intel GPU hardware acceleration for Frigate
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-compute-runtime
+      vpl-gpu-rt
+    ];
+  };
+
   # containers
   virtualisation = {
     podman = {
       enable = true;
+      defaultNetwork.settings.dns_enabled = true;
     };
     oci-containers.containers = {
         proxmox-userdata-proxy = {
           image = "rssnyder/proxmox-userdata-proxy:latest";
           ports = [ "8443:8443" ];
+          user = "65534:65534";
           volumes = [
             "/fast/proxmox:/mnt/pve/storage"
           ];
@@ -167,8 +203,82 @@
             PROXY_LISTEN_ADDR = ":8443";
             LOG_LEVEL = "info";
           };
+          extraOptions = [ "--network=harness" ];
+        };
+        harness-delegate = {
+          image = "harness/delegate:26.04.88903";
+          environment = {
+            DELEGATE_NAME = "baelor-delegate";
+            NEXT_GEN = "true";
+            ACCOUNT_ID = "AM8HCbDiTXGQNrTIhNl7qQ";
+            DELEGATE_TOKEN = "YWY0ZTZmM2Y1ZTRmNTc1OTQzMDNmZTFmNjg5YzE2OGY=";
+            MANAGER_HOST_AND_PORT = "https://app.harness.io/gratis";
+            LOG_STREAMING_SERVICE_URL = "https://app.harness.io/log-service/";
+            DEPLOY_MODE = "KUBERNETES";
+            DELEGATE_TYPE = "DOCKER";
+            RUNNER_URL = "http://drone-runner-proxmox:3000";
+          };
+          extraOptions = [ "--network=harness" ];
+          dependsOn = [ "drone-runner-proxmox" ];
+        };
+        drone-runner-proxmox = {
+          image = "rssnyder/drone-runner-proxmox:latest";
+          ports = [ "3000:3000" ];
+          volumes = [
+            "/var/lib/drone-runner-proxmox:/data"
+          ];
+          environment = {
+            PROXMOX_URL = "http://proxmox-userdata-proxy:8443";
+            PROXMOX_AUTH = "PVEAPIToken=terraform@pve!proxy=02683859-29a3-4478-9b1e-15f03c87df59";
+            DATABASE_PATH = "/data/runner.db";
+            POOL_FILE = "/data/pool.yml";
+          };
+          extraOptions = [ "--network=harness" ];
+          dependsOn = [ "proxmox-userdata-proxy" ];
+        };
+        frigate = {
+          image = "ghcr.io/blakeblackshear/frigate:stable";
+          autoStart = true;
+          ports = [
+            "5000:5000"
+            "8971:8971"
+            "8554:8554"
+            "8555:8555/tcp"
+            "8555:8555/udp"
+          ];
+          volumes = [
+            "/var/lib/frigate/config.yml:/config/config.yml:ro"
+            "/slow/frigate:/media/frigate"
+            "/etc/localtime:/etc/localtime:ro"
+          ];
+          environment = {
+            FRIGATE_RTSP_PASSWORD = "{{ default_password }}";
+          };
+          extraOptions = [
+            "--device=/dev/dri/renderD128:/dev/dri/renderD128"
+            "--device=/dev/bus/usb:/dev/bus/usb"
+            "--shm-size=656m"
+            "--privileged"
+            "--tmpfs=/tmp/cache:size=4000000000"
+          ];
         };
       };
+  };
+
+  # Create podman network for harness containers
+  systemd.services.podman-network-harness = {
+    description = "Create harness podman network";
+    wantedBy = [ "multi-user.target" ];
+    before = [
+      "podman-proxmox-userdata-proxy.service"
+      "podman-drone-runner-proxmox.service"
+      "podman-harness-delegate.service"
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.podman}/bin/podman network create --ignore harness";
+    };
   };
 
   programs.firefox.enable = true;

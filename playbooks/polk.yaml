@@ -14,7 +14,7 @@
         app_name: polk
         service_name: polk-county-iowa-property-search
         service_desc: "polk county property search" 
-        service_opts: "-addr 0.0.0.0:8080 -db polk_county.db -end-date 'March 15, 2026' -log-searches ./searches.db"
+        service_opts: "-addr 0.0.0.0:8080 -db polk_county.db -end-date 'April 14, 2026' -log-searches ./searches.db"
         service_type: simple
         service_env: {}
 
@@ -24,6 +24,12 @@
         path: "/etc/{{ git_repo }}"
         owner: root
         group: root
+    
+    - name: download database
+      get_url:
+        url: https://s3.rileysnyder.dev/public/polk/polk_county.db
+        dest: /etc/{{ git_repo }}/polk_county.db
+        mode: '0700'
 
     - name: download
       get_url:

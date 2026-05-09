@@ -3,7 +3,7 @@ version: "3"
 services:
 
   grafana:
-    image: grafana/grafana-oss:11.5.8
+    image: grafana/grafana-oss:11.6.4
     container_name: grafana
     restart: unless-stopped
     ports:
@@ -42,6 +42,43 @@ services:
       MINIO_ROOT_USER: "${MINIO_USER}"
       MINIO_ROOT_PASSWORD: "${MINIO_PASSWORD}"
     command: server /data --console-address ":9001"
+  
+  versitygw:
+    image: versity/versitygw:latest
+    container_name: versitygw
+    hostname: versitygw
+    ports:
+      - "${S3_PORT}:9002" # API S3
+      - "${S3_CONSOLE_PORT}:9003" # Console S3
+      - "${S3_ADMIN_PORT}:9004" # API admin S3
+    environment:
+      - ROOT_ACCESS_KEY=${MINIO_USER}
+      - ROOT_SECRET_KEY=${MINIO_PASSWORD}
+
+      - VGW_PORT=:9002
+      - VGW_WEBUI_PORT=:9003      # <--- Console 
+      - VGW_ADMIN_PORT=:9004      # <--- API admin
+
+      # Identity and Access Management (IAM)
+      # The gateway can support multi-tenant mode using an IAM service. The default is to operate in single tenant mode (root account only).
+      - VGW_IAM_DIR=/var/lib/versitygw
+
+      # To activate GUI console with admin menus (admin menus will only appear if a IAM is set)
+      - VGW_WEBUI_GATEWAYS=http://hurley.corvus-salmon.ts.net:${S3_PORT}
+      - VGW_WEBUI_ADMIN_GATEWAYS=http://hurley.corvus-salmon.ts.net:${S3_ADMIN_PORT}
+
+      # To authorize API calls from console
+      - VGW_CORS_ALLOW_ORIGIN=http://hurley.corvus-salmon.ts.net:${S3_CONSOLE_PORT}
+      - VGW_CORS_ALLOW_HEADER=Authorization,X-Amz-Date,X-Amz-Content-Sha256,Content-Type,X-Amz-User-Agent,X-Amz-Algorithm,X-Amz-Credential,X-Amz-SignedHeaders,X-Amz-Signature
+
+      - VGW_DEBUG=true
+    volumes:
+      - ${APPDATA}/versitygw/data:/data
+      - ${APPDATA}/versitygw/iam:/var/lib/versitygw # For IAM
+    #command: ["posix", "/data"]
+    # --nometa to avoid `xattr check failed: xattrs are not supported on this filesystem`
+    command: ["posix", "--nometa", "/data"]
+    restart: unless-stopped
 
   pihole:
     image: cbcrowe/pihole-unbound:latest

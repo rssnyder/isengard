@@ -39,6 +39,7 @@ module "hurley-dns-entries" {
   for_each = toset([
     "metrics",
     "s3",
+    "s4",
     "pushmetrics",
     "files",
     "filez",
@@ -55,7 +56,8 @@ module "hurley-dns-entries" {
     "harrypottermoviepicker",
     "photos",
     "home",
-    "polk"
+    "polk",
+    "vpn"
   ])
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
@@ -137,6 +139,13 @@ resource "digitalocean_record" "polkproperties" {
   value  = chomp(data.http.home.response_body)
 }
 
+resource "digitalocean_record" "git" {
+  domain = digitalocean_domain.ttdsm_org.name
+  type   = "A"
+  name   = "git"
+  value  = chomp(data.http.home.response_body)
+}
+
 // github pages
 
 # resource "digitalocean_record" "photos" {
@@ -165,14 +174,5 @@ module "music" {
   domain    = digitalocean_domain.rileysnyder_dev.name
   subdomain = "music"
   url       = "https://music.youtube.com/browse/UCb4yhRr7Pucxv3lb_GgGeUg"
-  permanent = true
-}
-
-module "code" {
-  source = "github.com/rssnyder/terraform-digitalocean-domain-redirect?ref=v0.2.0"
-
-  domain    = digitalocean_domain.rileysnyder_dev.name
-  subdomain = "code"
-  url       = "https://github.com/rssnyder"
   permanent = true
 }

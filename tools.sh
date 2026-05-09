@@ -368,3 +368,7 @@ function rm-ns-force () {
 function frigate-deploy () {
   curl -X POST -H 'content-type: application/json' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=wlgELJ0TTre5aZhzpt8gVA&orgIdentifier=default&projectIdentifier=home_lab&pipelineIdentifier=deploy&triggerIdentifier=frigate_http'
 }
+
+# signal register
+# https://signalcaptchas.org/registration/generate
+# curl -X POST 'http://signal.r.ss/v1/register/+14808407117' --data '{"captcha":""}'
