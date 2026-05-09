@@ -211,7 +211,6 @@
             DELEGATE_NAME = "baelor-delegate";
             NEXT_GEN = "true";
             ACCOUNT_ID = "AM8HCbDiTXGQNrTIhNl7qQ";
-            DELEGATE_TOKEN = "YWY0ZTZmM2Y1ZTRmNTc1OTQzMDNmZTFmNjg5YzE2OGY=";
             MANAGER_HOST_AND_PORT = "https://app.harness.io/gratis";
             LOG_STREAMING_SERVICE_URL = "https://app.harness.io/log-service/";
             DEPLOY_MODE = "KUBERNETES";
