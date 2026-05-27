@@ -388,7 +388,7 @@ spec:
               value: "true"
         - op: add
           path: /spec/values/initScript
-          value: "microdnf update -y jq"
+          value: "microdnf update -y && microdnf install -y jq"
       target:
         kind: HelmRelease
     - patch: |
