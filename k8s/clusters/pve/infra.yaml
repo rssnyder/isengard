@@ -386,6 +386,8 @@ spec:
           value:
             - name: HARNESS_LOG_STREAMING_STDOUT_ENABLED
               value: "true"
+            - name: INIT_SCRIPT
+              value: "microdnf update -y jq"
       target:
         kind: HelmRelease
     - patch: |
