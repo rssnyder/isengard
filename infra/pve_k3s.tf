@@ -12,7 +12,7 @@ module "k3s-server" {
   cpu     = 2
   memory  = 4096
 
-  iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id     = proxmox_download_file.debian_trixie.id
   public_key = data.local_file.ssh_public_key.content
   cluster    = local.proxmox_datacenter
   node_name  = "pve0"
@@ -30,7 +30,7 @@ module "agent-deamons" {
   cpu     = 2
   memory  = 6114
 
-  iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id     = proxmox_download_file.debian_trixie.id
   public_key = data.local_file.ssh_public_key.content
   cluster    = local.proxmox_datacenter
   node_name  = each.key
@@ -64,14 +64,14 @@ resource "proxmox_virtual_environment_user" "kubernetes" {
   user_id = "kubernetes@pve"
 }
 
-resource "proxmox_virtual_environment_user_token" "ccm" {
+resource "proxmox_user_token" "ccm" {
   comment    = "Kubernetes CCM"
   token_name = "ccm"
   user_id    = proxmox_virtual_environment_user.kubernetes.user_id
 }
 
-resource "proxmox_virtual_environment_acl" "ccm" {
-  token_id = proxmox_virtual_environment_user_token.ccm.id
+resource "proxmox_acl" "ccm" {
+  token_id = proxmox_user_token.ccm.id
   role_id  = proxmox_virtual_environment_role.ccm.role_id
 
   path      = "/"
@@ -85,8 +85,8 @@ resource "vault_kv_secret" "pve_ccm" {
 clusters:
 - url: https://${var.instances["pve0"].ip}:8006/api2/json
   insecure: true
-  token_id: "${proxmox_virtual_environment_user_token.ccm.id}"
-  token_secret: "${split("=", proxmox_virtual_environment_user_token.ccm.value)[1]}"
+  token_id: "${proxmox_user_token.ccm.id}"
+  token_secret: "${split("=", proxmox_user_token.ccm.value)[1]}"
   region: ${local.proxmox_datacenter}
 EOF
   })
@@ -116,14 +116,14 @@ resource "proxmox_virtual_environment_user" "kubernetes_csi" {
   user_id = "kubernetes-csi@pve"
 }
 
-resource "proxmox_virtual_environment_user_token" "csi" {
+resource "proxmox_user_token" "csi" {
   comment    = "Kubernetes CSI"
   token_name = "csi"
   user_id    = proxmox_virtual_environment_user.kubernetes_csi.user_id
 }
 
-resource "proxmox_virtual_environment_acl" "csi" {
-  token_id = proxmox_virtual_environment_user_token.csi.id
+resource "proxmox_acl" "csi" {
+  token_id = proxmox_user_token.csi.id
   role_id  = proxmox_virtual_environment_role.csi.role_id
 
   path      = "/"
@@ -137,8 +137,8 @@ resource "vault_kv_secret" "pve_csi" {
 clusters:
 - url: https://${var.instances["pve0"].ip}:8006/api2/json
   insecure: true
-  token_id: "${proxmox_virtual_environment_user_token.csi.id}"
-  token_secret: "${split("=", proxmox_virtual_environment_user_token.csi.value)[1]}"
+  token_id: "${proxmox_user_token.csi.id}"
+  token_secret: "${split("=", proxmox_user_token.csi.value)[1]}"
   region: ${local.proxmox_datacenter}
 EOF
   })
@@ -146,21 +146,21 @@ EOF
 
 # work
 
-module "k3s-hrns" {
-  source = "./k3s-server"
+# module "k3s-hrns" {
+#   source = "./k3s-server"
 
-  name = "hrns"
-  tags = ["k3s", "master"]
+#   name = "hrns"
+#   tags = ["k3s", "master"]
 
-  size_gb = 24
-  cpu     = 2
-  memory  = 4096
+#   size_gb = 24
+#   cpu     = 2
+#   memory  = 4096
 
-  iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
-  public_key = data.local_file.ssh_public_key.content
-  cluster    = local.proxmox_datacenter
-  node_name  = "pve1"
-}
+#   iso_id     = proxmox_download_file.debian_trixie.id
+#   public_key = data.local_file.ssh_public_key.content
+#   cluster    = local.proxmox_datacenter
+#   node_name  = "pve1"
+# }
 
 module "k3s-hrns-dr" {
   source = "./k3s-server"
@@ -172,7 +172,7 @@ module "k3s-hrns-dr" {
   cpu     = 2
   memory  = 4096
 
-  iso_id     = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id     = proxmox_download_file.debian_trixie.id
   public_key = data.local_file.ssh_public_key.content
   cluster    = local.proxmox_datacenter
   node_name  = "pve0"

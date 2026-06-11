@@ -11,11 +11,35 @@
 - name: Docker deploy
   hosts: all
   become: no
+
+  vars:
+
+    alloy_compose:
+      alloy:
+        image: grafana/alloy:latest
+        container_name: alloy
+        user: "root:root"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+          - /var/lib/docker/containers:/var/lib/docker/containers:ro
+          - ./config.alloy:/etc/alloy/config.alloy
+          - alloy_data:/var/lib/alloy
+        command:
+          - run
+          - --storage.path=/var/lib/alloy/data
+          - /etc/alloy/config.alloy
+
   tasks:
     - name: copy compose file
-      copy: 
+      template: 
         src: "templates/{{ ansible_hostname }}/docker-compose.yml"
         dest: "/home/{{ ansible_user }}/docker-compose.yml"
+        owner: "{{ ansible_user }}"
+
+    - name: copy alloy file
+      copy: 
+        src: "templates/config.alloy"
+        dest: "/home/{{ ansible_user }}/config.alloy"
         owner: "{{ ansible_user }}"
 
     - name: compose up

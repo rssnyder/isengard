@@ -8,4 +8,5 @@ roles:
 - src: tigattack.frigate_docker
 collections:
 - prometheus.prometheus
+- grafana.grafana
 - artis3n.tailscale

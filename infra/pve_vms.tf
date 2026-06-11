@@ -7,7 +7,7 @@ module "prometheus" {
   memory  = 2048
 
   node_name = "poweredge"
-  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id    = proxmox_download_file.debian_trixie.id
 
   size_gb = 32
 }
@@ -19,7 +19,7 @@ module "plex" {
   tags    = ["plex"]
 
   node_name = "pve0"
-  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id    = proxmox_download_file.debian_trixie.id
 
   cpu     = 4
   memory  = 1024 * 8
@@ -28,14 +28,30 @@ module "plex" {
   ip_address = "192.168.2.100/24"
 }
 
+module "torterra" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
+
+  vm_name = "torterra"
+  tags    = ["docker"]
+
+  node_name = "poweredge"
+  iso_id    = proxmox_download_file.debian_trixie.id
+
+  cpu     = 2
+  memory  = 1024 * 2
+  size_gb = 32
+
+  pet = true
+}
+
 module "emma" {
   source = "github.com/rssnyder/terraform-proxmox-vm"
 
   vm_name = "emma"
   tags    = ["claw"]
 
-  node_name = "poweredge"
-  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
+  node_name = "pve1"
+  iso_id    = proxmox_download_file.debian_trixie.id
 
   cpu     = 2
   memory  = 1024 * 2
@@ -53,7 +69,7 @@ module "thehand2" {
   tags     = ["claw", "hunter"]
 
   node_name = "pve1"
-  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id    = proxmox_download_file.debian_trixie.id
 
   cpu     = 2
   memory  = 1024 * 4
@@ -69,7 +85,7 @@ module "cornelius" {
   tags    = ["nas", "core"]
 
   node_name = "poweredge"
-  iso_id    = proxmox_virtual_environment_download_file.debian_trixie.id
+  iso_id    = proxmox_download_file.debian_trixie.id
 
   cpu    = 6
   memory = 1024 * 12
@@ -97,10 +113,36 @@ module "polk" {
   node_name = "pve0"
 }
 
-module "code" {
+module "git" {
   source = "github.com/rssnyder/terraform-proxmox-vm"
 
-  vm_name = "code"
+  vm_name = "git"
+
+  node_name = "pve0"
+
+  size_gb = 32
+
+  cpu    = 2
+  memory = 1024 * 4
+}
+
+module "actions" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
+
+  vm_name = "actions"
+
+  node_name = "pve1"
+
+  size_gb = 32
+
+  cpu    = 3
+  memory = 1024 * 4
+}
+
+module "span" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
+
+  vm_name = "span"
 
   node_name = "pve1"
 

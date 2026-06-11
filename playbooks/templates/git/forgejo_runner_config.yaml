@@ -1,0 +1,17 @@
+server:
+  connections:
+    ttdsm:
+      url: https://git.ttdsm.org/
+      uuid: "{{ forgejo.uuid }}"
+      token: "{{ forgejo.token }}"
+
+runner:
+  labels:
+    - debian:docker://docker.io/library/node:lts
+    - ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-22.04
+
+container:
+  options:
+  valid_volumes:
+    - '**'
+  docker_host: automount

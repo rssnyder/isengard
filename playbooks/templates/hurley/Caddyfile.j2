@@ -1,63 +1,3 @@
-rileysnyder.dev {
-    respond "
-contact
-+---------+---------------------+
-| website |       handle        |
-+---------+---------------------+
-| email   | rileysndr@gmail.com |
-| github  | rssnyder            |
-| linkdin | rileysnyder         |
-| discord | jonesbooned#1111    |
-| xbox    | jonesbooned         |
-+---------+---------------------+
-
-sites
-+------------------+---------------------------------------------------------+--------+
-|     service      |                           url                           | public |
-+------------------+---------------------------------------------------------+--------+
-| github           | DEAD code.rileysnyder.dev                               | true   |
-| music playlists  | DEAD music.rileysnyder.dev                              | true   |
-| send files       | send.k8s.rileysnyder.dev                                | true   |
-| minecraft        | minecraft.rileysnyder.dev                               | true   |
-| photos           | rssnyder.github.io/photos                               | true   |
-| grafana          | metrics.rileysnyder.dev                                 | false  |
-| object store     | s3.rileysnyder.dev                                      | false  |
-| bulk storage     | files.rileysnyder.dev                                   | false  |
-| plex requests    | requests.rileysnyder.dev                                | false  |
-+------------------+---------------------------------------------------------+--------+
-"
-}
-
-www.rileysnyder.dev {
-    respond "
-contact
-+---------+---------------------+
-| website |       handle        |
-+---------+---------------------+
-| email   | rileysndr@gmail.com |
-| github  | rssnyder            |
-| linkdin | rileysnyder         |
-| discord | jonesbooned#1111    |
-| xbox    | jonesbooned         |
-+---------+---------------------+
-
-sites
-+------------------+---------------------------------------------------------+--------+
-|     service      |                           url                           | public |
-+------------------+---------------------------------------------------------+--------+
-| github           | DEAD code.rileysnyder.dev                               | true   |
-| music playlists  | DEAD music.rileysnyder.dev                              | true   |
-| send files       | send.k8s.rileysnyder.dev                                | true   |
-| minecraft        | minecraft.rileysnyder.dev                               | true   |
-| photos           | rssnyder.github.io/photos                               | true   |
-| grafana          | metrics.rileysnyder.dev                                 | false  |
-| object store     | s3.rileysnyder.dev                                      | false  |
-| bulk storage     | files.rileysnyder.dev                                   | false  |
-| plex requests    | requests.rileysnyder.dev                                | false  |
-+------------------+---------------------------------------------------------+--------+
-"
-}
-
 (protect) {
   @external {
     not remote_ip 192.168.0.0/24
@@ -129,7 +69,7 @@ polkproperties.ttdsm.org {
 }
 
 git.ttdsm.org {
-    reverse_proxy code.r.ss:3000
+    reverse_proxy git.r.ss:3000
 }
 
 
@@ -171,4 +111,40 @@ vpn.rileysnyder.dev {
     tls {
         dns digitalocean {{ digitalocean_token }}
     }
+}
+
+span-test.rileysnyder.dev {
+      @assets path_regexp ^/assets/
+      handle @assets {
+          reverse_proxy 192.168.2.245:9000 {
+              header_up Host {http.request.host}
+          }
+      }
+
+      @backend path_regexp ^/(api|s)/
+      handle @backend {
+          reverse_proxy 192.168.2.245:8089
+      }
+
+      handle {
+          reverse_proxy 192.168.2.245:5173
+      }
+}
+
+span.rileysnyder.dev {
+      @assets path_regexp ^/assets/
+      handle @assets {
+          reverse_proxy span.r.ss:9000 {
+              header_up Host {http.request.host}
+          }
+      }
+
+      @backend path_regexp ^/(api|s)/
+      handle @backend {
+          reverse_proxy span.r.ss:8089
+      }
+
+      handle {
+          reverse_proxy span.r.ss:80
+      }
 }

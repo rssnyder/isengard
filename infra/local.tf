@@ -91,7 +91,7 @@ resource "unifi_port_forward" "git-ssh" {
   protocol = "tcp"
   dst_port = "22"
 
-  fwd_ip = module.code.ipv4_address
+  fwd_ip = module.git.ipv4_address
   fwd_port = "222"
 }
 

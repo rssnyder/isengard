@@ -1,0 +1,67 @@
+---
+- name: Docker config
+  hosts: actions.r.ss,whiterun
+  become: yes
+  roles:
+    - role: geerlingguy.docker
+      vars:
+        docker_users:
+        - "{{ ansible_user }}"
+        - forgejo-runner
+- name: Docker config
+  hosts: actions.r.ss,whiterun
+  become: yes
+  vars:
+    versions:
+      forgejo_runner:
+        tag: 12.10.2
+  tasks:
+  - name: 'Install forgejo-runner dependencies'
+    package:
+      name:
+        - 'git-crypt'
+        - 'hugo'
+        - 'nodejs'
+
+  - name: 'Download forgejo runner {{ versions.forgejo_runner.tag }}'
+    get_url:
+      url: 'https://code.forgejo.org/forgejo/runner/releases/download/v{{ versions.forgejo_runner.tag }}/forgejo-runner-{{ versions.forgejo_runner.tag }}-linux-amd64'
+      dest: '/usr/local/bin/forgejo-runner'
+      mode: '0555'
+
+  - name: 'Create forgejo-runner group on server'
+    group:
+      name: 'forgejo-runner'
+      system: 'yes'
+
+  - name: 'Create forgejo-runner user on server'
+    user:
+      name: 'forgejo-runner'
+      group: 'forgejo-runner'
+      shell: '/bin/sh'
+      home: '/srv/forgejo-runner'
+      createhome: 'yes'
+      system: 'yes'
+      password: '*'
+
+  - name: 'Deploy forgejo config'
+    template:
+      src: 'templates/git/forgejo_runner_config.yaml'
+      dest: '/srv/forgejo-runner/config.yaml'
+      owner: 'forgejo-runner'
+      group: 'forgejo-runner'
+      mode: '0440'
+
+  - name: 'Deploy forgejo systemd service unit'
+    copy:
+      src: 'templates/git/forgejo-runner.service'
+      dest: '/etc/systemd/system/'
+      owner: 'root'
+      group: 'root'
+      mode: '0440'
+
+  - name: 'Start forgejo-runner and activate it on boot'
+    service:
+      name: 'forgejo-runner'
+      enabled: true
+      state: 'started'

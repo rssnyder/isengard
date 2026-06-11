@@ -4,7 +4,7 @@
 
 
 # Ansible
-alias run="ansible-playbook -i hosts.yml -i secrets.yml"
+alias run="ansible-playbook -i hosts.yml -i secrets.yml --vault-password-file .vault_password"
 alias dst="ansible-playbook -i hosts.yml playbooks/discord-stock-ticker.yml --limit"
 alias tf="tofu -chdir=infra"
 

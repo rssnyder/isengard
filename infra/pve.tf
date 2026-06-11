@@ -9,7 +9,7 @@ data "local_file" "ssh_public_key" {
   filename = "/home/riley/.ssh/id_rsa.pub"
 }
 
-resource "proxmox_virtual_environment_download_file" "debian_trixie" {
+resource "proxmox_download_file" "debian_trixie" {
   content_type = "import"
   datastore_id = "baelor"
   node_name    = data.proxmox_virtual_environment_nodes.this.names[0]

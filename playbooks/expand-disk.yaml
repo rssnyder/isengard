@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    disk: /dev/vdb
+    disk: /dev/vda
     partition_number: "{{ partition | default('') }}"
   tasks:
     - name: Install required packages (Debian/Ubuntu)

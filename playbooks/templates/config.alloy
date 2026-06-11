@@ -1,0 +1,29 @@
+// 1. Discover running Docker containers from the local socket
+discovery.docker "containers" {
+  host = "unix:///var/run/docker.sock"
+}
+
+// 2. Map internal Docker metadata to readable Loki labels
+discovery.relabel "docker_logs" {
+  targets = discovery.docker.containers.targets
+
+  // Rule: Extract the container name metadata and drop the leading forward slash
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(.*)"
+    target_label  = "container_name"
+  }
+}
+
+// 3. Scrape the container log streams using the relabeled targets
+loki.source.docker "scrape" {
+  host      = "unix:///var/run/docker.sock"
+  targets   = discovery.relabel.docker_logs.output
+  forward_to = [loki.write.loki_receiver.receiver]
+}
+
+loki.write "loki_receiver" {
+  endpoint {
+    url = "http://prometheus.r.ss:3100/loki/api/v1/push"
+  }
+}

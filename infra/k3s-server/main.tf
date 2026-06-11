@@ -1,7 +1,8 @@
 resource "unifi_dns_record" "this" {
+  count = local.private_ipv4 != null ? 1 : 0
   name   = var.dns_name != null ? var.dns_name : "${var.name}.r.ss"
   type   = "A"
-  record = proxmox_virtual_environment_vm.this.ipv4_addresses[1][0]
+  record = local.private_ipv4
 }
 
 resource "unifi_dns_record" "prometheus_srv" {

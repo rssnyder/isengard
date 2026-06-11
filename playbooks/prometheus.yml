@@ -1,7 +1,9 @@
 - name: prometheus
   hosts: prometheus.r.ss
+  become: yes
   roles:
-    - role: prometheus.prometheus.prometheus
+    - prometheus.prometheus.prometheus
+    - grafana.grafana.loki
   vars:
     prometheus_storage_retention: 180d
     prometheus_storage_retention_size: 20GB

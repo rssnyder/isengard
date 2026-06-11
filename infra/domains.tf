@@ -57,6 +57,8 @@ module "hurley-dns-entries" {
     "photos",
     "home",
     "polk",
+    "span",
+    "span-test",
     "vpn"
   ])
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"

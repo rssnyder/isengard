@@ -1,0 +1,20 @@
+###############################################################################
+#     \_o<     WARNING : This file is being managed by ansible!      >o_/     #
+#     ~~~~                                                           ~~~~     #
+###############################################################################
+[Unit]
+Description=Forgejo Runner
+Documentation=https://forgejo.org/docs/latest/admin/actions/
+After=network.target
+
+[Service]
+ExecStart=forgejo-runner -c /srv/forgejo-runner/config.yaml daemon
+ExecReload=/bin/kill -s HUP $MAINPID
+User=forgejo-runner
+WorkingDirectory=/srv/forgejo-runner
+Restart=on-failure
+TimeoutSec=0
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -83,6 +83,10 @@ variable "instances" {
       ip  = "192.168.2.34"
       mac = "9C:8E:CD:2D:80:C1"
     }
+    spark = {
+      ip = "192.168.2.209"
+      mac = "4c:bb:47:2b:9d:33"
+    }
     # external
     oca0 = {
       ip = "129.146.149.166"
