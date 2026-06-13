@@ -1,6 +1,6 @@
 ---
 - name: Docker config
-  hosts: actions.r.ss,whiterun
+  hosts: actions.r.ss,winterfell
   become: yes
   roles:
     - role: geerlingguy.docker
@@ -9,7 +9,7 @@
         - "{{ ansible_user }}"
         - forgejo-runner
 - name: Docker config
-  hosts: actions.r.ss,whiterun
+  hosts: actions.r.ss,winterfell
   become: yes
   vars:
     versions:
@@ -25,7 +25,7 @@
 
   - name: 'Download forgejo runner {{ versions.forgejo_runner.tag }}'
     get_url:
-      url: 'https://code.forgejo.org/forgejo/runner/releases/download/v{{ versions.forgejo_runner.tag }}/forgejo-runner-{{ versions.forgejo_runner.tag }}-linux-amd64'
+      url: "https://code.forgejo.org/forgejo/runner/releases/download/v{{ versions.forgejo_runner.tag }}/forgejo-runner-{{ versions.forgejo_runner.tag }}-linux-{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
       dest: '/usr/local/bin/forgejo-runner'
       mode: '0555'
 

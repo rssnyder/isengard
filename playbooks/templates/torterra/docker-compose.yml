@@ -2,6 +2,26 @@
 version: "3"
 services:
 
+{{ alloy_compose | to_nice_yaml(indent=2) | indent(2, first=True) }}
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: pg-pp
+    environment:
+      POSTGRES_USER: ${PP_POSTGRES_USER:-ppdb}
+      POSTGRES_PASSWORD: ${PP_POSTGRES_PASSWORD:-ppdb}
+      POSTGRES_DB: ${PP_POSTGRES_DB:-polk_county}
+    volumes:
+      - ./pp_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PP_POSTGRES_USER:-ppdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    ports:
+      - ${PP_POSTGRES_PORT:-5155}:5432
+
   signal-cli-rest-api:
     image: bbernhard/signal-cli-rest-api:latest
     environment:
@@ -11,3 +31,6 @@ services:
       - "8080:8080" #map docker port 8080 to host port 8080.
     volumes:
       - "./signal-cli-config:/home/.local/share/signal-cli" #map "signal-cli-config" folder on host system into docker container. the folder contains the password and cryptographic keys when a new number is registered
+
+volumes:
+  alloy_data:

@@ -2,6 +2,8 @@
 version: "3"
 services:
 
+{{ alloy_compose | to_nice_yaml(indent=2) | indent(2, first=True) }}
+
   grafana:
     image: grafana/grafana-oss:11.6.4
     container_name: grafana
@@ -124,3 +126,4 @@ services:
 volumes:
   db:
     driver: local
+  alloy_data:

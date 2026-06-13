@@ -2,12 +2,15 @@ server:
   connections:
     ttdsm:
       url: https://git.ttdsm.org/
-      uuid: "{{ forgejo.uuid }}"
-      token: "{{ forgejo.token }}"
+      uuid: '{{ forgejo[ansible_facts["hostname"]].uuid }}'
+      token: '{{ forgejo[ansible_facts["hostname"]].token }}'
 
 runner:
   labels:
     - debian:docker://docker.io/library/node:lts
+{% for tag in forgejo_tags %}
+    - {{ tag }}:docker://docker.io/library/node:lts
+{% endfor %}
     - ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-22.04
 
 container:

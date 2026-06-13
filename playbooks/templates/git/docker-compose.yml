@@ -1,5 +1,7 @@
 services:
 
+{{ alloy_compose | to_nice_yaml(indent=2) | indent(2, first=True) }}
+
   postgres:
     image: postgres:18
     restart: always
@@ -41,3 +43,6 @@ services:
 networks:
   forgejo:
     external: false
+
+volumes:
+  alloy_data:

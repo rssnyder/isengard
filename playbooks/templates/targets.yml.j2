@@ -81,3 +81,9 @@ scrape_configs:
   static_configs:
     - targets:
       - 'polk.r.ss:9090'
+
+- job_name: spark
+  static_configs:
+    - targets:
+      - 'spark.r.ss:8000'
+

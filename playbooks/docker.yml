@@ -32,7 +32,7 @@
   tasks:
     - name: copy compose file
       template: 
-        src: "templates/{{ ansible_hostname }}/docker-compose.yml"
+        src: 'templates/{{ ansible_facts["hostname"] }}/docker-compose.yml'
         dest: "/home/{{ ansible_user }}/docker-compose.yml"
         owner: "{{ ansible_user }}"
 
