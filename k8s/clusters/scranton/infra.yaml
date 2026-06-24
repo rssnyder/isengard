@@ -179,7 +179,7 @@ spec:
         - op: replace
           path: /spec/addresses
           value:
-          - 192.168.252.1-192.168.252.254
+          - 192.168.251.1-192.168.251.254
       target:
         kind: IPAddressPool
         name: local
