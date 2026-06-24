@@ -11,6 +11,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/pr/vault/auth/kubernetes/mountPath
+          value: scranton
+        - op: replace
+          path: /spec/pr/vault/auth/kubernetes/role
+          value: scranton
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
