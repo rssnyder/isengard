@@ -11,14 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/pr/vault/auth/kubernetes/mountPath
-          value: scranton
-        - op: replace
-          path: /spec/pr/vault/auth/kubernetes/role
-          value: scranton
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -35,6 +27,18 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/pr/vault/auth/kubernetes/mountPath
+          value: scranton
+        - op: replace
+          path: /spec/pr/vault/auth/kubernetes/role
+          value: scranton
+      target:
+        kind: ClusterSecretStore
+        name: bao
+        namespace: external-secrets
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
