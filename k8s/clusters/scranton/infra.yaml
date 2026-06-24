@@ -305,113 +305,113 @@ spec:
 #         name: harness-delegate-ng
 #         namespace: harness-delegate-ng
 
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: harness-delegate-ng-work
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: external-secrets-bao
-  interval: 1h
-  path: ./k8s/infrastructure/base/harness
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: replace
-          path: /metadata/name
-          value: work-scranton
-        - op: replace
-          path: /spec/values/delegateName
-          value: work-scranton
-        - op: replace
-          path: /spec/values/tags
-          value: build-farm,linux,homelab,proxmox,pve
-        - op: replace
-          path: /spec/values/existingDelegateToken
-          value: work-delegate-token
-        - op: replace
-          path: /spec/values/accountId
-          value: wlgELJ0TTre5aZhzpt8gVA
-        - op: replace
-          path: /spec/values/managerEndpoint
-          value: https://app.harness.io/gratis
-        - op: replace
-          path: /spec/values/delegateDockerImage
-          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.05.89207
-      target:
-        kind: HelmRelease
-    - patch: |
-        - op: replace
-          path: /metadata/name
-          value: work-scranton-tokenreview
-        - op: replace
-          path: /subjects/0/name
-          value: work-scranton
-      target:
-        kind: ClusterRoleBinding
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: harness-delegate-ng-work
+#   namespace: flux-system
+# spec:
+#   dependsOn:
+#     - name: external-secrets-bao
+#   interval: 1h
+#   path: ./k8s/infrastructure/base/harness
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   patches:
+#     - patch: |
+#         - op: replace
+#           path: /metadata/name
+#           value: work-scranton
+#         - op: replace
+#           path: /spec/values/delegateName
+#           value: work-scranton
+#         - op: replace
+#           path: /spec/values/tags
+#           value: build-farm,linux,homelab,proxmox,pve
+#         - op: replace
+#           path: /spec/values/existingDelegateToken
+#           value: work-delegate-token
+#         - op: replace
+#           path: /spec/values/accountId
+#           value: wlgELJ0TTre5aZhzpt8gVA
+#         - op: replace
+#           path: /spec/values/managerEndpoint
+#           value: https://app.harness.io/gratis
+#         - op: replace
+#           path: /spec/values/delegateDockerImage
+#           value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.05.89207
+#       target:
+#         kind: HelmRelease
+#     - patch: |
+#         - op: replace
+#           path: /metadata/name
+#           value: work-scranton-tokenreview
+#         - op: replace
+#           path: /subjects/0/name
+#           value: work-scranton
+#       target:
+#         kind: ClusterRoleBinding
 
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: harness-delegate-ng-work-shared
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: external-secrets-bao
-  interval: 1h
-  path: ./k8s/infrastructure/base/harness
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: replace
-          path: /metadata/name
-          value: work-shared-scranton
-        - op: replace
-          path: /spec/values/delegateName
-          value: work-shared-scranton
-        - op: replace
-          path: /spec/values/tags
-          value: rssnyder,linux,homelab,proxmox,pve
-        - op: replace
-          path: /spec/values/existingDelegateToken
-          value: work-shared-delegate-token
-        - op: replace
-          path: /spec/values/accountId
-          value: AM8HCbDiTXGQNrTIhNl7qQ
-        - op: replace
-          path: /spec/values/managerEndpoint
-          value: https://app.harness.io/gratis
-        - op: replace
-          path: /spec/values/delegateDockerImage
-          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.05.89207
-        - op: add
-          path: /spec/values/custom_envs
-          value:
-            - name: HARNESS_LOG_STREAMING_STDOUT_ENABLED
-              value: "true"
-        - op: add
-          path: /spec/values/initScript
-          value: "microdnf update -y && microdnf install -y jq"
-      target:
-        kind: HelmRelease
-    - patch: |
-        - op: replace
-          path: /metadata/name
-          value: work-shared-scranton-tokenreview
-        - op: replace
-          path: /subjects/0/name
-          value: work-shared-scranton
-      target:
-        kind: ClusterRoleBinding
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: harness-delegate-ng-work-shared
+#   namespace: flux-system
+# spec:
+#   dependsOn:
+#     - name: external-secrets-bao
+#   interval: 1h
+#   path: ./k8s/infrastructure/base/harness
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   patches:
+#     - patch: |
+#         - op: replace
+#           path: /metadata/name
+#           value: work-shared-scranton
+#         - op: replace
+#           path: /spec/values/delegateName
+#           value: work-shared-scranton
+#         - op: replace
+#           path: /spec/values/tags
+#           value: rssnyder,linux,homelab,proxmox,pve
+#         - op: replace
+#           path: /spec/values/existingDelegateToken
+#           value: work-shared-delegate-token
+#         - op: replace
+#           path: /spec/values/accountId
+#           value: AM8HCbDiTXGQNrTIhNl7qQ
+#         - op: replace
+#           path: /spec/values/managerEndpoint
+#           value: https://app.harness.io/gratis
+#         - op: replace
+#           path: /spec/values/delegateDockerImage
+#           value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.05.89207
+#         - op: add
+#           path: /spec/values/custom_envs
+#           value:
+#             - name: HARNESS_LOG_STREAMING_STDOUT_ENABLED
+#               value: "true"
+#         - op: add
+#           path: /spec/values/initScript
+#           value: "microdnf update -y && microdnf install -y jq"
+#       target:
+#         kind: HelmRelease
+#     - patch: |
+#         - op: replace
+#           path: /metadata/name
+#           value: work-shared-scranton-tokenreview
+#         - op: replace
+#           path: /subjects/0/name
+#           value: work-shared-scranton
+#       target:
+#         kind: ClusterRoleBinding
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
