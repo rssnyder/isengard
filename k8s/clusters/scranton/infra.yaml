@@ -215,30 +215,30 @@ spec:
         name: traefik
         namespace: traefik
 
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: nfs-subdir-external-provisioner
-  namespace: flux-system
-spec:
-  interval: 1h
-  path: ./k8s/infrastructure/base/sc-nfs
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  patches:
-    - patch: |
-        - op: add
-          path: /spec/values/storageClass
-          value: 
-            reclaimPolicy: Retain
-            pathPattern: "scranton-${.PVC.namespace}-${.PVC.name}"
-      target:
-        kind: HelmRelease
-        name: nfs-subdir-external-provisioner
-        namespace: kube-system
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: nfs-subdir-external-provisioner
+#   namespace: flux-system
+# spec:
+#   interval: 1h
+#   path: ./k8s/infrastructure/base/sc-nfs
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   patches:
+#     - patch: |
+#         - op: add
+#           path: /spec/values/storageClass
+#           value: 
+#             reclaimPolicy: Retain
+#             pathPattern: "scranton-${.PVC.namespace}-${.PVC.name}"
+#       target:
+#         kind: HelmRelease
+#         name: nfs-subdir-external-provisioner
+#         namespace: kube-system
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -429,17 +429,17 @@ spec:
     kind: GitRepository
     name: flux-system
 
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: awx-operator
-  namespace: flux-system
-spec:
-  interval: 1h
-  url: https://github.com/ansible/awx-operator
-  ref:
-    semver: 2.19.1
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: GitRepository
+# metadata:
+#   name: awx-operator
+#   namespace: flux-system
+# spec:
+#   interval: 1h
+#   url: https://github.com/ansible/awx-operator
+#   ref:
+#     semver: 2.19.1
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
