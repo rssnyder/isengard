@@ -14,4 +14,5 @@ resource "proxmox_download_file" "debian_trixie" {
   datastore_id = "baelor"
   node_name    = data.proxmox_virtual_environment_nodes.this.names[0]
   url          = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
+  overwrite = true
 }

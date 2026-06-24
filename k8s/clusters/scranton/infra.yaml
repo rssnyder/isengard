@@ -1,0 +1,444 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-secrets
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/external-secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-secrets-bao
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets
+  interval: 1h
+  path: ./k8s/infrastructure/pve/bao-secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cloudnative-pg
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/cloudnative-pg
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: metallb-system
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/metallb-system
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: prometheus
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/prometheus
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/commonMetaLabels/cluster
+          value: scranton
+        - op: replace
+          path: /spec/values/server/service/type
+          value: LoadBalancer
+        - op: replace
+          path: /spec/values/server/service/loadBalancerIP
+          value: 192.168.252.253
+        - op: add
+          path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
+          value: prometheus-scranton.r.ss
+      target:
+        kind: HelmRelease
+        name: prometheus
+        namespace: prometheus
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: loki
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/loki
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/gateway/service/type
+          value: LoadBalancer
+        - op: add
+          path: /spec/values/gateway/service/annotations
+          value:
+            external-dns.alpha.kubernetes.io/hostname: loki.r.ss
+      target:
+        kind: HelmRelease
+        name: loki
+        namespace: loki
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: alloy
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: loki
+  interval: 1h
+  path: ./k8s/infrastructure/base/alloy
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets-bao
+  interval: 1h
+  path: ./k8s/infrastructure/base/external-dns
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: metallb
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: metallb-system
+  interval: 1h
+  path: ./k8s/infrastructure/base/metallb
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/addresses
+          value:
+          - 192.168.252.1-192.168.252.254
+      target:
+        kind: IPAddressPool
+        name: local
+        namespace: metallb-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: metallb
+  interval: 1h
+  path: ./k8s/infrastructure/base/traefik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/service/type
+          value: LoadBalancer
+        - op: add
+          path: /spec/values/service/annotations
+          value:
+            external-dns.alpha.kubernetes.io/hostname: traefik.r.ss
+            metallb.universe.tf/loadBalancerIPs: 192.168.252.254
+      target:
+        kind: HelmRelease
+        name: traefik
+        namespace: traefik
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: nfs-subdir-external-provisioner
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./k8s/infrastructure/base/sc-nfs
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/values/storageClass
+          value: 
+            reclaimPolicy: Retain
+            pathPattern: "scranton-${.PVC.namespace}-${.PVC.name}"
+      target:
+        kind: HelmRelease
+        name: nfs-subdir-external-provisioner
+        namespace: kube-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets-bao
+  interval: 1h
+  path: ./k8s/infrastructure/base/tailscale
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/values
+          value: 
+            operatorConfig:
+              defaultTags:
+              - "tag:scranton-k8s-operator"
+              hostname: "scranton-k8s-operator"
+            proxyConfig:
+              defaultTags: "tag:scranton-k8s"
+      target:
+        kind: HelmRelease
+        name: tailscale-operator
+        namespace: tailscale
+
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: harness-delegate-ng
+#   namespace: flux-system
+# spec:
+#   dependsOn:
+#     - name: external-secrets-bao
+#   interval: 1h
+#   path: ./k8s/infrastructure/base/harness
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   patches:
+#     - patch: |
+#         - op: replace
+#           path: /spec/values/delegateName
+#           value: scranton
+#         - op: replace
+#           path: /spec/values/accountId
+#           value: -N_5zBuvRm2gzVAaNZ64lQ
+#         - op: replace
+#           path: /spec/values/managerEndpoint
+#           value: https://app.harness.io/gratis
+#         - op: replace
+#           path: /spec/values/delegateDockerImage
+#           value: harness/delegate:25.10.86902
+#       target:
+#         kind: HelmRelease
+#         name: harness-delegate-ng
+#         namespace: harness-delegate-ng
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: harness-delegate-ng-work
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets-bao
+  interval: 1h
+  path: ./k8s/infrastructure/base/harness
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-scranton
+        - op: replace
+          path: /spec/values/delegateName
+          value: work-scranton
+        - op: replace
+          path: /spec/values/tags
+          value: build-farm,linux,homelab,proxmox,pve
+        - op: replace
+          path: /spec/values/existingDelegateToken
+          value: work-delegate-token
+        - op: replace
+          path: /spec/values/accountId
+          value: wlgELJ0TTre5aZhzpt8gVA
+        - op: replace
+          path: /spec/values/managerEndpoint
+          value: https://app.harness.io/gratis
+        - op: replace
+          path: /spec/values/delegateDockerImage
+          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.05.89207
+      target:
+        kind: HelmRelease
+    - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-scranton-tokenreview
+        - op: replace
+          path: /subjects/0/name
+          value: work-scranton
+      target:
+        kind: ClusterRoleBinding
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: harness-delegate-ng-work-shared
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets-bao
+  interval: 1h
+  path: ./k8s/infrastructure/base/harness
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-shared-scranton
+        - op: replace
+          path: /spec/values/delegateName
+          value: work-shared-scranton
+        - op: replace
+          path: /spec/values/tags
+          value: rssnyder,linux,homelab,proxmox,pve
+        - op: replace
+          path: /spec/values/existingDelegateToken
+          value: work-shared-delegate-token
+        - op: replace
+          path: /spec/values/accountId
+          value: AM8HCbDiTXGQNrTIhNl7qQ
+        - op: replace
+          path: /spec/values/managerEndpoint
+          value: https://app.harness.io/gratis
+        - op: replace
+          path: /spec/values/delegateDockerImage
+          value: us-docker.pkg.dev/gar-prod-setup/harness-public/harness/delegate:26.05.89207
+        - op: add
+          path: /spec/values/custom_envs
+          value:
+            - name: HARNESS_LOG_STREAMING_STDOUT_ENABLED
+              value: "true"
+        - op: add
+          path: /spec/values/initScript
+          value: "microdnf update -y && microdnf install -y jq"
+      target:
+        kind: HelmRelease
+    - patch: |
+        - op: replace
+          path: /metadata/name
+          value: work-shared-scranton-tokenreview
+        - op: replace
+          path: /subjects/0/name
+          value: work-shared-scranton
+      target:
+        kind: ClusterRoleBinding
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: proxmox
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: external-secrets-bao
+  interval: 1h
+  path: ./k8s/infrastructure/pve/proxmox
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: awx-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://github.com/ansible/awx-operator
+  ref:
+    semver: 2.19.1
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: awx-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./config/default
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: awx-operator

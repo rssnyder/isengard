@@ -168,7 +168,7 @@ module "k3s-hrns-dr" {
   name = "hrns-dr"
   tags = ["k3s", "master"]
 
-  size_gb = 24
+  size_gb = 36
   cpu     = 2
   memory  = 4096
 

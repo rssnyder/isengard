@@ -121,6 +121,10 @@ span-test.rileysnyder.dev {
           }
       }
 
+      handle /ping {
+          reverse_proxy 192.168.2.245:8089
+      }
+
       @backend path_regexp ^/(api|s)/
       handle @backend {
           reverse_proxy 192.168.2.245:8089
@@ -137,6 +141,10 @@ span.rileysnyder.dev {
           reverse_proxy span.r.ss:9000 {
               header_up Host {http.request.host}
           }
+      }
+
+      handle /ping {
+          reverse_proxy span.r.ss:8089
       }
 
       @backend path_regexp ^/(api|s)/
