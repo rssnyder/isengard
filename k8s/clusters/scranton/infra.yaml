@@ -91,7 +91,7 @@ spec:
           value: LoadBalancer
         - op: replace
           path: /spec/values/server/service/loadBalancerIP
-          value: 192.168.252.253
+          value: 192.168.251.253
         - op: add
           path: /spec/values/server/service/annotations/external-dns.alpha.kubernetes.io~1hostname
           value: prometheus-scranton.r.ss
@@ -209,7 +209,7 @@ spec:
           path: /spec/values/service/annotations
           value:
             external-dns.alpha.kubernetes.io/hostname: traefik.r.ss
-            metallb.universe.tf/loadBalancerIPs: 192.168.252.254
+            metallb.universe.tf/loadBalancerIPs: 192.168.251.254
       target:
         kind: HelmRelease
         name: traefik
