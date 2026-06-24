@@ -29,11 +29,11 @@ spec:
     image:
       tag: v0.13.0
     useDaemonSet: true
-    nodeSelector:
-      node-role.kubernetes.io/control-plane: "true"
-    tolerations:
-      - key: master
-        operator: Exists
-        effect: NoSchedule
+    # nodeSelector:
+    #   node-role.kubernetes.io/control-plane: "true"
+    # tolerations:
+    #   - key: master
+    #     operator: Exists
+    #     effect: NoSchedule
     existingConfigSecret: proxmox-cloud-controller-manager
     logVerbosityLevel: 5
