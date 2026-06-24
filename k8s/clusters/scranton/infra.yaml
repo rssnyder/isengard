@@ -30,10 +30,10 @@ spec:
   patches:
     - patch: |
         - op: replace
-          path: /spec/pr/vault/auth/kubernetes/mountPath
+          path: /spec/provider/vault/auth/kubernetes/mountPath
           value: scranton
         - op: replace
-          path: /spec/pr/vault/auth/kubernetes/role
+          path: /spec/provider/vault/auth/kubernetes/role
           value: scranton
       target:
         kind: ClusterSecretStore
