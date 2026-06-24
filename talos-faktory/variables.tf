@@ -49,12 +49,12 @@ variable "control_plane_disk" {
 
 variable "control_plane_cpu" {
   type = number
-  default = 2
+  default = 3
 }
 
 variable "control_plane_memory" {
   type = number
-  default = 2
+  default = 3
 }
 
 # if we pass in static ips we can one-shot the setup

@@ -41,19 +41,19 @@ data "talos_machine_configuration" "control_plane" {
           disk  = "/dev/vda" # virtio0 disk
           image = "factory.talos.dev/installer/${var.talos_image_factory_id}:v${var.talos_version}"
         }
-        network = merge(
-          {
-            nameservers = ["192.168.2.1", "1.1.1.1"]
-          },
-          var.cluster_vip != null ? {
-            interfaces = [{
-              interface = "eth0"
-              vip = {
-                ip = var.cluster_vip
-              }
-            }]
-          }: {}
-        )
+        # network = merge(
+        #   {
+        #     # nameservers = ["192.168.2.1", "1.1.1.1"]
+        #   },
+        #   var.cluster_vip != null ? {
+        #     interfaces = [{
+        #       interface = "eth0"
+        #       vip = {
+        #         ip = var.cluster_vip
+        #       }
+        #     }]
+        #   }: {}
+        # )
       }
       cluster = {
         allowSchedulingOnControlPlanes = true

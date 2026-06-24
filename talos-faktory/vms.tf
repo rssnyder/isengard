@@ -17,7 +17,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
     datastore_id = var.root_datastore
     ip_config {
       ipv4 {
-        address = "${each.value}/32"
+        address = "${each.value}/16"
         gateway = var.gateway_ip
       }
     }
@@ -57,7 +57,7 @@ resource "proxmox_virtual_environment_vm" "worker" {
   name            = "talos-${local.cluster_name}-${each.key}"
   tags            = local.tags
   node_name       = var.proxmox_nodes[
-    each.key + 1 % length(var.proxmox_nodes)
+    (each.key + 1) % length(var.proxmox_nodes)
   ]
   on_boot         = true
   stop_on_destroy = true
@@ -70,7 +70,7 @@ resource "proxmox_virtual_environment_vm" "worker" {
     datastore_id = var.root_datastore
     ip_config {
       ipv4 {
-        address = "${each.value}/32"
+        address = "${each.value}/16"
         gateway = var.gateway_ip
       }
     }
@@ -102,18 +102,3 @@ resource "proxmox_virtual_environment_vm" "worker" {
     type = "l26"
   }
 }
-
-# locals {
-#   control_plane_ips = [
-#     for ip in flatten(proxmox_virtual_environment_vm.control_plane[*].ipv4_addresses) :
-#     ip if startswith(ip, "192.168.2.")
-#   ]
-#   worker_ips = [
-#     for ip in flatten(proxmox_virtual_environment_vm.worker[*].ipv4_addresses) :
-#     ip if startswith(ip, "192.168.2.")
-#   ]
-#   all_ips = concat(
-#     local.control_plane_ips,
-#     local.worker_ips
-#   )
-# }

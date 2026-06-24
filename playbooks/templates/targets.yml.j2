@@ -71,6 +71,11 @@ scrape_configs:
     labels:
       cluster: pve
       environment: prod
+  - targets:
+    - 192.168.251.253:9090
+    labels:
+      cluster: scranton
+      environment: prod
 
 - job_name: b4w
   static_configs:

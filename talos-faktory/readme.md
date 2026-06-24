@@ -29,3 +29,4 @@ a makefile has been created so i can easily swap workspaces and be sure and set 
 [00h:00m:00s] configuration built
 [00h:00m:54s] image downloaded, vms provisioned
 [00h:02m:49s] vm running, configuration applied
+[00h:02m:55s] bootstraps applied
