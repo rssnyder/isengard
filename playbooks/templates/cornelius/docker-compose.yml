@@ -20,12 +20,12 @@ services:
     volumes:
       - $APPDATA/gluetun:/gluetun
     environment:
-      VPN_SERVICE_PROVIDER: private internet access
-      VPN_TYPE: openvpn
-      OPENVPN_USER: "${VPN_USER}"
-      OPENVPN_PASSWORD: "${VPN_PASS}"
-      SERVER_REGIONS: US California
-      HEALTH_TARGET_ADDRESS: github.com:443
+      VPN_SERVICE_PROVIDER: mullvad
+      VPN_TYPE: wireguard
+      WIREGUARD_PRIVATE_KEY: {{ wg_priv_key }}
+      WIREGUARD_ADDRESS: {{ wg_addr }}
+      SERVER_CITIES: London
+
   
   # wg-easy:
   #   image: ghcr.io/wg-easy/wg-easy:15

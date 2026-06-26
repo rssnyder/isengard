@@ -13,22 +13,22 @@ module "bao" {
 }
 
 # enable access for pve cluster
-resource "vault_auth_backend" "pve" {
-  type = "kubernetes"
-}
+# resource "vault_auth_backend" "pve" {
+#   type = "kubernetes"
+# }
 
-data "kubernetes_config_map_v1" "pve" {
-  metadata {
-    name      = "kube-root-ca.crt"
-    namespace = "kube-system"
-  }
-}
+# data "kubernetes_config_map_v1" "pve" {
+#   metadata {
+#     name      = "kube-root-ca.crt"
+#     namespace = "kube-system"
+#   }
+# }
 
-resource "vault_kubernetes_auth_backend_config" "pve" {
-  backend            = vault_auth_backend.pve.path
-  kubernetes_host    = "https://eight:6443"
-  kubernetes_ca_cert = data.kubernetes_config_map_v1.pve.data["ca.crt"]
-}
+# resource "vault_kubernetes_auth_backend_config" "pve" {
+#   backend            = vault_auth_backend.pve.path
+#   kubernetes_host    = "https://eight:6443"
+#   kubernetes_ca_cert = data.kubernetes_config_map_v1.pve.data["ca.crt"]
+# }
 
 # create vault for cluster secrets
 resource "vault_mount" "pve" {
@@ -39,25 +39,32 @@ resource "vault_mount" "pve" {
   description = "KV Version 1 secret engine mount"
 }
 
+resource "vault_mount" "pve" {
+  path    = "pvekv"
+  type    = "kv"
+  options = { version = "1" }
 
-resource "vault_policy" "pve" {
-  name = "pve"
-
-  policy = <<EOT
-path "pvekv/*" {
-  capabilities = ["read", "list"]
-}
-EOT
+  description = "KV Version 1 secret engine mount"
 }
 
-resource "vault_kubernetes_auth_backend_role" "pve" {
-  backend                          = vault_auth_backend.pve.path
-  role_name                        = "pve"
-  bound_service_account_names      = ["external-secrets"]
-  bound_service_account_namespaces = ["external-secrets"]
-  token_ttl                        = 3600
-  token_policies                   = [vault_policy.pve.name]
-}
+# resource "vault_policy" "pve" {
+#   name = "pve"
+
+#   policy = <<EOT
+# path "pvekv/*" {
+#   capabilities = ["read", "list"]
+# }
+# EOT
+# }
+
+# resource "vault_kubernetes_auth_backend_role" "pve" {
+#   backend                          = vault_auth_backend.pve.path
+#   role_name                        = "pve"
+#   bound_service_account_names      = ["external-secrets"]
+#   bound_service_account_namespaces = ["external-secrets"]
+#   token_ttl                        = 3600
+#   token_policies                   = [vault_policy.pve.name]
+# }
 
 # create all secrets
 locals {

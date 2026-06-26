@@ -12,6 +12,31 @@
   tags:
     - prometheus
 
+- name: targets
+  hosts: all
+  become: yes
+  tags:
+    - targets
+  tasks:
+    - name: get tailscale ip
+      set_fact:
+        tailscale_ip={{ hostvars[inventory_hostname]['ansible_tailscale0']['ipv4']['address'] }}
+    
+    - name: copy targets config
+      template: 
+        src: targets.yml.j2
+        dest: /etc/prometheus/scrape_configs/isengard.yml
+        owner: riley
+      when: inventory_hostname == 'prometheus.r.ss'
+    
+    - name: Reload prometheus configuration
+      ansible.builtin.systemd:
+        name: prometheus
+        state: restarted
+        enabled: true
+      when: inventory_hostname == 'prometheus.r.ss'
+
+
 - name: unpoller
   hosts: prometheus.r.ss
   become: yes
@@ -74,27 +99,3 @@
         name: unpoller
         state: restarted
         enabled: true
-
-- name: targets
-  hosts: all
-  become: yes
-  tags:
-    - targets
-  tasks:
-    - name: get tailscale ip
-      set_fact:
-        tailscale_ip={{ hostvars[inventory_hostname]['ansible_tailscale0']['ipv4']['address'] }}
-    
-    - name: copy targets config
-      template: 
-        src: targets.yml.j2
-        dest: /etc/prometheus/scrape_configs/isengard.yml
-        owner: riley
-      when: inventory_hostname == 'prometheus.r.ss'
-    
-    - name: Reload prometheus configuration
-      ansible.builtin.systemd:
-        name: prometheus
-        state: restarted
-        enabled: true
-      when: inventory_hostname == 'prometheus.r.ss'

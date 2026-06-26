@@ -8,7 +8,7 @@ locals {
 resource "proxmox_download_file" "talos_x86" {
   content_type            = "iso"
   datastore_id            = var.proxmox_iso_datastore
-  node_name                 = var.proxmox_nodes[0]
+  node_name               = var.proxmox_nodes[0]
   url                     = "https://factory.talos.dev/image/${var.talos_image_factory_id}/v${var.talos_version}/nocloud-amd64.raw.xz"
   decompression_algorithm = "zst"
   file_name               = "talos-${local.cluster_name}-v${var.talos_version}-nocloud-amd64.img"
@@ -58,7 +58,7 @@ data "talos_machine_configuration" "control_plane" {
       cluster = {
         allowSchedulingOnControlPlanes = true
         extraManifests = concat(
-          [],
+          var.extra_manifests,
           var.enable_flux ? [
             "https://github.com/controlplaneio-fluxcd/flux-operator/releases/latest/download/install.yaml",
             "https://raw.githubusercontent.com/rssnyder/isengard/refs/heads/master/k8s/clusters/${local.cluster_name}/flux.yaml"
@@ -90,7 +90,7 @@ data "talos_machine_configuration" "worker" {
 }
 
 resource "talos_machine_configuration_apply" "control_plane" {
-  depends_on                  = [proxmox_virtual_environment_vm.control_plane]
+  depends_on = [proxmox_virtual_environment_vm.control_plane]
 
   for_each = toset(var.control_plane_nodes)
 
@@ -100,7 +100,7 @@ resource "talos_machine_configuration_apply" "control_plane" {
 }
 
 resource "talos_machine_configuration_apply" "worker" {
-  depends_on                  = [proxmox_virtual_environment_vm.worker]
+  depends_on = [proxmox_virtual_environment_vm.worker]
 
   for_each = toset(var.worker_nodes)
 
@@ -110,17 +110,15 @@ resource "talos_machine_configuration_apply" "worker" {
 }
 
 resource "talos_machine_bootstrap" "control_plane" {
-  depends_on           = [talos_machine_configuration_apply.control_plane]
-
-  for_each = toset(var.control_plane_nodes)
+  depends_on = [talos_machine_configuration_apply.control_plane]
 
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = each.key
-  # endpoint             = each.key
+  node                 = var.control_plane_nodes[0]
 }
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on           = [talos_machine_bootstrap.control_plane]
+  depends_on = [talos_machine_bootstrap.control_plane]
+
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.control_plane_ip
 

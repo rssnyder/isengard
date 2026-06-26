@@ -1,25 +1,25 @@
 variable "cluster_name" {
-    type = string
-    default = null
+  type    = string
+  default = null
 }
 
 variable "talos_version" {
-  type = string
+  type    = string
   default = "1.13.4"
 }
 
 variable "kubernetes_version" {
-  type = string
+  type    = string
   default = "1.35.2"
 }
 
 variable "talos_image_factory_id" {
-  type = string
+  type    = string
   default = "dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"
 }
 
 variable "proxmox_iso_datastore" {
-  type = string
+  type    = string
   default = "baelor"
 }
 
@@ -28,12 +28,12 @@ variable "proxmox_nodes" {
 }
 
 variable "root_datastore" {
-  type = string
+  type    = string
   default = "data"
 }
 
 variable "gateway_ip" {
-  type = string
+  type    = string
   default = "192.168.2.1"
 }
 
@@ -43,17 +43,17 @@ variable "control_plane_nodes" {
 }
 
 variable "control_plane_disk" {
-  type = number
+  type    = number
   default = 20
 }
 
 variable "control_plane_cpu" {
-  type = number
+  type    = number
   default = 3
 }
 
 variable "control_plane_memory" {
-  type = number
+  type    = number
   default = 3
 }
 
@@ -63,36 +63,46 @@ variable "worker_nodes" {
 }
 
 variable "worker_disk" {
-  type = number
+  type    = number
   default = 20
 }
 
 variable "worker_cpu" {
-  type = number
+  type    = number
   default = 2
 }
 
 variable "worker_memory" {
-  type = number
+  type    = number
   default = 2
 }
 
 variable "schedule_on_control_plane" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "tags" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
 variable "cluster_vip" {
-  type = string
+  type    = string
   default = null
 }
 
 variable "enable_flux" {
-  type = bool
+  type    = bool
   default = true
+}
+
+variable "metallb_cidr" {
+  type    = string
+  default = null
+}
+
+variable "extra_manifests" {
+  type    = list(string)
+  default = []
 }

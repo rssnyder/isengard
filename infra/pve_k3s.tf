@@ -19,7 +19,7 @@ module "k3s-server" {
 }
 
 module "agent-deamons" {
-  for_each = toset(data.proxmox_virtual_environment_nodes.this.names)
+  for_each = toset(["poweredge","pve1"])
 
   source = "./k3s-agent"
 
@@ -144,38 +144,3 @@ EOF
   })
 }
 
-# work
-
-# module "k3s-hrns" {
-#   source = "./k3s-server"
-
-#   name = "hrns"
-#   tags = ["k3s", "master"]
-
-#   size_gb = 24
-#   cpu     = 2
-#   memory  = 4096
-
-#   iso_id     = proxmox_download_file.debian_trixie.id
-#   public_key = data.local_file.ssh_public_key.content
-#   cluster    = local.proxmox_datacenter
-#   node_name  = "pve1"
-# }
-
-module "k3s-hrns-dr" {
-  source = "./k3s-server"
-
-  name = "hrns-dr"
-  tags = ["k3s", "master"]
-
-  size_gb = 36
-  cpu     = 2
-  memory  = 4096
-
-  iso_id     = proxmox_download_file.debian_trixie.id
-  public_key = data.local_file.ssh_public_key.content
-  cluster    = local.proxmox_datacenter
-  node_name  = "pve0"
-
-  flux_enabled = false
-}

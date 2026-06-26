@@ -1,9 +1,9 @@
 resource "proxmox_virtual_environment_vm" "control_plane" {
   for_each = { for idx, ip in var.control_plane_nodes : idx => ip }
 
-  name            = "talos-${local.cluster_name}-cp-${each.key}"
-  tags            = local.tags
-  node_name       = var.proxmox_nodes[
+  name = "talos-${local.cluster_name}-cp-${each.key}"
+  tags = local.tags
+  node_name = var.proxmox_nodes[
     each.key % length(var.proxmox_nodes)
   ]
   on_boot         = true
@@ -54,9 +54,9 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
 resource "proxmox_virtual_environment_vm" "worker" {
   for_each = { for idx, ip in var.worker_nodes : idx => ip }
 
-  name            = "talos-${local.cluster_name}-${each.key}"
-  tags            = local.tags
-  node_name       = var.proxmox_nodes[
+  name = "talos-${local.cluster_name}-${each.key}"
+  tags = local.tags
+  node_name = var.proxmox_nodes[
     (each.key + 1) % length(var.proxmox_nodes)
   ]
   on_boot         = true
