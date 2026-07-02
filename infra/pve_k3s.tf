@@ -2,43 +2,43 @@ locals {
   cluster_iteration = "eight"
 }
 
-module "k3s-server" {
-  source = "./k3s-server"
+# module "k3s-server" {
+#   source = "./k3s-server"
 
-  name = local.cluster_iteration
-  tags = ["k3s", "master"]
+#   name = local.cluster_iteration
+#   tags = ["k3s", "master"]
 
-  size_gb = 24
-  cpu     = 2
-  memory  = 4096
+#   size_gb = 24
+#   cpu     = 2
+#   memory  = 4096
 
-  iso_id     = proxmox_download_file.debian_trixie.id
-  public_key = data.local_file.ssh_public_key.content
-  cluster    = local.proxmox_datacenter
-  node_name  = "pve0"
-}
+#   iso_id     = proxmox_download_file.debian_trixie.id
+#   public_key = data.local_file.ssh_public_key.content
+#   cluster    = local.proxmox_datacenter
+#   node_name  = "pve0"
+# }
 
-module "agent-deamons" {
-  for_each = toset(["poweredge","pve1"])
+# module "agent-deamons" {
+#   for_each = toset(["poweredge", "pve1"])
 
-  source = "./k3s-agent"
+#   source = "./k3s-agent"
 
-  iteration = local.cluster_iteration
-  tags      = ["k3s"]
+#   iteration = local.cluster_iteration
+#   tags      = ["k3s"]
 
-  size_gb = 32
-  cpu     = 2
-  memory  = 6114
+#   size_gb = 32
+#   cpu     = 2
+#   memory  = 6114
 
-  iso_id     = proxmox_download_file.debian_trixie.id
-  public_key = data.local_file.ssh_public_key.content
-  cluster    = local.proxmox_datacenter
-  node_name  = each.key
+#   iso_id     = proxmox_download_file.debian_trixie.id
+#   public_key = data.local_file.ssh_public_key.content
+#   cluster    = local.proxmox_datacenter
+#   node_name  = each.key
 
-  server_ip = module.k3s-server.vm_ipv4_address
+#   server_ip = module.k3s-server.vm_ipv4_address
 
-  depends_on = [module.k3s-server]
-}
+#   depends_on = [module.k3s-server]
+# }
 
 # access control
 

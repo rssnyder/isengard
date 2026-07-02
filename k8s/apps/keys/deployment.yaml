@@ -13,7 +13,7 @@ spec:
   instances: 1
   storage:
     size: 1Gi
-    storageClass: local-path
+    storageClass: proxmox
   monitoring:
     enablePodMonitor: true
 
@@ -74,6 +74,8 @@ kind: Service
 metadata:
   name: keys
   namespace: keys
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: keys.r.ss
 spec:
   type: LoadBalancer
   selector:
@@ -92,7 +94,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: keys.rileysnyder.dev
+    - host: keys.pve.rileysnyder.dev
       http:
         paths:
           - path: /
