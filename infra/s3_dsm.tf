@@ -5,6 +5,12 @@ resource "minio_s3_bucket" "public" {
   acl    = "public"
 }
 
+module "g3_public" {
+  source     = "./garage-bucket"
+  name       = "public"
+  depends_on = [garage_cluster_layout.torterra]
+}
+
 # storing dndgenerator images
 
 resource "minio_s3_bucket" "dndgenerator" {
@@ -43,11 +49,23 @@ resource "minio_iam_user_policy_attachment" "dgapi-dndgenerator_put" {
   policy_name = minio_iam_policy.dndgenerator_put.id
 }
 
+module "g3_dndgenerator" {
+  source     = "./garage-bucket"
+  name       = "dndgenerator"
+  depends_on = [garage_cluster_layout.torterra]
+}
+
 # dst backups
 
 resource "minio_s3_bucket" "discord-stock-ticker" {
   bucket = "discord-stock-ticker"
   acl    = "private"
+}
+
+module "g3_discord-stock-ticker" {
+  source     = "./garage-bucket"
+  name       = "discord-stock-ticker"
+  depends_on = [garage_cluster_layout.torterra]
 }
 
 resource "minio_s3_bucket" "isengard" {
@@ -85,71 +103,10 @@ resource "minio_iam_user_policy_attachment" "isengard-dst_admin" {
   policy_name = minio_iam_policy.dst_admin.id
 }
 
-# velero
-
-resource "minio_s3_bucket" "velero" {
-  bucket = "velero"
-  acl    = "private"
-}
-
-resource "minio_iam_user" "lab_velero" {
-  name          = "lab_velero"
-  force_destroy = false
-}
-
-resource "minio_iam_user" "oc_velero" {
-  name          = "oc_velero"
-  force_destroy = false
-}
-
-resource "minio_iam_user" "ocdr_velero" {
-  name          = "ocdr_velero"
-  force_destroy = false
-}
-
-resource "minio_iam_user" "urban_velero" {
-  name          = "urban_velero"
-  force_destroy = false
-}
-
-resource "minio_iam_policy" "velero" {
-  name   = "velero"
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:*"
-            ],
-            "Resource": [
-                "arn:aws:s3:::velero*"
-            ]
-        }
-    ]
-}
-EOF
-}
-
-resource "minio_iam_user_policy_attachment" "lab_velero" {
-  user_name   = minio_iam_user.lab_velero.id
-  policy_name = minio_iam_policy.velero.id
-}
-
-resource "minio_iam_user_policy_attachment" "oc_velero" {
-  user_name   = minio_iam_user.oc_velero.id
-  policy_name = minio_iam_policy.velero.id
-}
-
-resource "minio_iam_user_policy_attachment" "ocdr_velero" {
-  user_name   = minio_iam_user.ocdr_velero.id
-  policy_name = minio_iam_policy.velero.id
-}
-
-resource "minio_iam_user_policy_attachment" "urban_velero" {
-  user_name   = minio_iam_user.urban_velero.id
-  policy_name = minio_iam_policy.velero.id
+module "g3_isengard" {
+  source     = "./garage-bucket"
+  name       = "isengard"
+  depends_on = [garage_cluster_layout.torterra]
 }
 
 module "s3_longhorn" {
@@ -157,9 +114,21 @@ module "s3_longhorn" {
   name   = "longhorn"
 }
 
+module "g3_longhorn" {
+  source     = "./garage-bucket"
+  name       = "longhorn"
+  depends_on = [garage_cluster_layout.torterra]
+}
+
 module "s3_harness" {
   source = "./simple-bucket"
   name   = "harness"
+}
+
+module "g3_harness" {
+  source     = "./garage-bucket"
+  name       = "harness"
+  depends_on = [garage_cluster_layout.torterra]
 }
 
 module "s3_pg2s3" {
@@ -167,9 +136,21 @@ module "s3_pg2s3" {
   name   = "pg2s3"
 }
 
+module "g3_pg2s3" {
+  source     = "./garage-bucket"
+  name       = "pg2s3"
+  depends_on = [garage_cluster_layout.torterra]
+}
+
 module "s3_cnpg" {
   source = "./simple-bucket"
   name   = "cnpg"
+}
+
+module "g3_cnpg" {
+  source     = "./garage-bucket"
+  name       = "cnpg"
+  depends_on = [garage_cluster_layout.torterra]
 }
 
 module "s3_burrito" {
@@ -177,7 +158,19 @@ module "s3_burrito" {
   name   = "burrito"
 }
 
+module "g3_burrito" {
+  source     = "./garage-bucket"
+  name       = "burrito"
+  depends_on = [garage_cluster_layout.torterra]
+}
+
 module "s3_b4w" {
   source = "./simple-bucket"
   name   = "b4w"
+}
+
+module "g3_b4w" {
+  source     = "./garage-bucket"
+  name       = "b4w"
+  depends_on = [garage_cluster_layout.torterra]
 }

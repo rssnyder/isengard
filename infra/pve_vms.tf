@@ -88,11 +88,12 @@ module "cornelius" {
   iso_id    = proxmox_download_file.debian_trixie.id
 
   cpu    = 6
-  memory = 1024 * 12
+  memory = 1024 * 24
 
   ip_address = "192.168.2.5/24"
 
   size_gb      = 64
+  scsi_hardware = "virtio-scsi-single"
 
   # mass
   #  ata-ST26000NM000C-3WE103_ZXA0D5PN

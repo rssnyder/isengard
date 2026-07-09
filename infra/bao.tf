@@ -39,14 +39,6 @@ resource "vault_mount" "pve" {
   description = "KV Version 1 secret engine mount"
 }
 
-resource "vault_mount" "pve" {
-  path    = "pvekv"
-  type    = "kv"
-  options = { version = "1" }
-
-  description = "KV Version 1 secret engine mount"
-}
-
 # resource "vault_policy" "pve" {
 #   name = "pve"
 

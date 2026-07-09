@@ -1,7 +1,7 @@
 apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
-  name: isengard
+  name: dev
   namespace: awx
 spec:
   service_type: LoadBalancer
