@@ -12,6 +12,11 @@ terraform {
     minio = {
       source = "aminueza/minio"
     }
+    garage = {
+      # not on the OpenTofu registry; pull from the HashiCorp registry
+      source  = "registry.terraform.io/arsolitt/garagehq"
+      version = "~> 1.1"
+    }
     proxmox = {
       source = "bpg/proxmox"
     }
@@ -88,6 +93,33 @@ provider "minio" {
   minio_ssl      = false
 }
 
+variable "garage_torterra_admin_token" {
+  type      = string
+  sensitive = true
+}
+
+# Garage S3 on torterra (Admin API v2). MinIO OSS was archived Apr 2026;
+# Garage's model is per-bucket read/write/owner grants rather than JSON IAM policies.
+provider "garage" {
+  host   = "torterra.r.ss:3903"
+  scheme = "http"
+  token  = var.garage_torterra_admin_token
+}
+
+#variable "garage_hurley_admin_token" {
+#  type      = string
+#  sensitive = true
+#}
+
+# Standalone Garage on hurley (not clustered with torterra) — migration target
+# off minio. Use with the garage-bucket module via: providers = { garage = garage.hurley }
+#provider "garage" {
+#  alias  = "hurley"
+#  host   = "${var.instances["hurley"].ip}:3903"
+#  scheme = "http"
+#  token  = var.garage_hurley_admin_token
+#}
+
 # provider "proxmox" {
 #   pm_api_url                  = "https://192.168.2.70:8006/api2/json"
 #   pm_tls_insecure             = true
@@ -111,10 +143,10 @@ provider "vault" {
 }
 
 provider "unifi" {
-  api_url  = "https://192.168.2.1"
+  api_url        = "https://192.168.2.1"
   allow_insecure = true
 }
 
 provider "kubernetes" {
-  config_path    = "~/.kube/config"
+  config_path = "~/.kube/config"
 }

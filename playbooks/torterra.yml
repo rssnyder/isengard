@@ -1,0 +1,40 @@
+---
+- name: Docker config
+  hosts: torterra.r.ss
+  become: no
+
+  vars:
+    alloy_compose:
+      alloy:
+        image: grafana/alloy:latest
+        container_name: alloy
+        user: "root:root"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+          - /var/lib/docker/containers:/var/lib/docker/containers:ro
+          - ./config.alloy:/etc/alloy/config.alloy
+          - alloy_data:/var/lib/alloy
+        command:
+          - run
+          - --storage.path=/var/lib/alloy/data
+          - /etc/alloy/config.alloy
+
+  tasks:
+    - name: copy compose file
+      template:
+        src: templates/torterra/docker-compose.yml
+        dest: /home/riley/docker-compose.yml
+
+    - name: copy alloy file
+      copy:
+        src: templates/config.alloy
+        dest: /home/riley/config.alloy
+
+    - name: copy garage config
+      copy:
+        src: templates/torterra/garage.toml
+        dest: /home/riley/garage.toml
+
+    - shell:
+        cmd: docker compose up -d --remove-orphans
+        chdir: /home/riley

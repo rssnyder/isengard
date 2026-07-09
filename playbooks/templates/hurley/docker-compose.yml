@@ -123,6 +123,34 @@ services:
     ports:
       - 8364:8080
 
+  garage:
+    image: dxflrs/garage:v2.3.0
+    container_name: garage
+    restart: unless-stopped
+    ports:
+      - "3900:3900" # S3 API
+      - "3901:3901" # RPC
+      - "3902:3902" # web
+      - "3903:3903" # admin API (terraform)
+    volumes:
+      - ./garage.toml:/etc/garage.toml:ro
+      - $APPDATA/garage/meta:/var/lib/garage/meta
+      - $APPDATA/garage/data:/var/lib/garage/data
+
+  garage-webui:
+    image: khairul169/garage-webui:latest
+    container_name: garage-webui
+    restart: unless-stopped
+    depends_on:
+      - garage
+    ports:
+      - "3909:3909" # admin web UI (reads admin token from garage.toml)
+    environment:
+      API_BASE_URL: "http://garage:3903"
+      S3_ENDPOINT_URL: "http://garage:3900"
+    volumes:
+      - ./garage.toml:/etc/garage.toml:ro
+
 volumes:
   db:
     driver: local

@@ -37,10 +37,20 @@
         owner: "{{ ansible_user }}"
 
     - name: copy alloy file
-      copy: 
+      copy:
         src: "templates/config.alloy"
         dest: "/home/{{ ansible_user }}/config.alloy"
         owner: "{{ ansible_user }}"
+
+    - name: copy garage config (hosts that have one)
+      copy:
+        src: "{{ item }}"
+        dest: "/home/{{ ansible_user }}/garage.toml"
+        owner: "{{ ansible_user }}"
+      with_first_found:
+        - files:
+            - 'templates/{{ ansible_facts["hostname"] }}/garage.toml'
+          skip: true
 
     - name: compose up
       community.docker.docker_compose_v2:
