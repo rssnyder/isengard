@@ -5,26 +5,26 @@
   tasks:
 
     - name: copy env file
-      template: 
+      template:
         src: templates/hurley/.env
         dest: /home/riley/.env
-    
+
     - name: create appdata
       file:
         path: /home/riley/appdata
         state: directory
         mode: '0770'
-      
+
     - name: copy service file
-      copy: 
+      copy:
         src: templates/hurley/docker-compose.yml
         dest: /home/riley/docker-compose.yml
 
     - name: copy homer file
-      template: 
+      template:
         src: templates/hurley/homer.yml
         dest: /home/riley/appdata/homer/config.yml
-    
+
     - shell:
         cmd: docker compose up -d --remove-orphans
         chdir: /home/riley
