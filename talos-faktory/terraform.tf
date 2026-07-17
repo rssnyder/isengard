@@ -10,6 +10,9 @@ terraform {
       source  = "filipowm/unifi"
       version = "~> 1.0.0"
     }
+    localdhcp = {
+      source = "rssnyder/localdhcp"
+    }
   }
   backend "s3" {
     bucket                      = "isengard"
@@ -23,6 +26,9 @@ terraform {
   }
 }
 
+
+# unifi controller connection comes from UNIFI_API / UNIFI_API_KEY / UNIFI_INSECURE
+provider "localdhcp" {}
 
 provider "proxmox" {
   endpoint = "https://192.168.2.69:8006"

@@ -61,6 +61,7 @@ photos.rileysnyder.dev {
 }
 
 polk.rileysnyder.dev {
+    encode zstd gzip
     reverse_proxy 192.168.2.212:8080
 }
 
@@ -106,7 +107,7 @@ home.rileysnyder.dev {
 }
 
 vpn.rileysnyder.dev {
-    reverse_proxy 192.168.2.5:51821
+    reverse_proxy wg0.r.ss:51820
 
     tls {
         dns digitalocean {{ digitalocean_token }}

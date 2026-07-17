@@ -22,8 +22,8 @@ resource "talos_machine_secrets" "machine_secrets" {
 data "talos_client_configuration" "client_config" {
   cluster_name         = local.cluster_name
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  endpoints            = var.control_plane_nodes
-  nodes                = var.worker_nodes
+  endpoints            = local.control_plane_nodes
+  nodes                = local.worker_nodes
 }
 
 data "talos_machine_configuration" "control_plane" {
@@ -92,28 +92,30 @@ data "talos_machine_configuration" "worker" {
 resource "talos_machine_configuration_apply" "control_plane" {
   depends_on = [proxmox_virtual_environment_vm.control_plane]
 
-  for_each = toset(var.control_plane_nodes)
+  # keyed by index so allocated ips (unknown at plan time) work in for_each
+  for_each = { for idx, ip in local.control_plane_nodes : idx => ip }
 
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.control_plane.machine_configuration
-  node                        = each.key
+  node                        = each.value
 }
 
 resource "talos_machine_configuration_apply" "worker" {
   depends_on = [proxmox_virtual_environment_vm.worker]
 
-  for_each = toset(var.worker_nodes)
+  # keyed by index so allocated ips (unknown at plan time) work in for_each
+  for_each = { for idx, ip in local.worker_nodes : idx => ip }
 
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
-  node                        = each.key
+  node                        = each.value
 }
 
 resource "talos_machine_bootstrap" "control_plane" {
   depends_on = [talos_machine_configuration_apply.control_plane]
 
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = var.control_plane_nodes[0]
+  node                 = local.control_plane_nodes[0]
 }
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
@@ -128,7 +130,7 @@ resource "talos_cluster_kubeconfig" "kubeconfig" {
 }
 
 locals {
-  control_plane_ip = var.control_plane_nodes[0]
+  control_plane_ip = local.control_plane_nodes[0]
 }
 
 resource "terraform_data" "cluster_endpoint" {

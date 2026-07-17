@@ -1,3 +1,11 @@
+output "control_plane_nodes" {
+  value = local.control_plane_nodes
+}
+
+output "worker_nodes" {
+  value = local.worker_nodes
+}
+
 output "talosconfig" {
   value     = data.talos_client_configuration.client_config.talos_config
   sensitive = true

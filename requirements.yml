@@ -6,7 +6,9 @@ roles:
 - src: ome.nfs_mount
 - src: robertdebock.openbao_server
 - src: tigattack.frigate_docker
+- src: githubixx.ansible_role_wireguard
 collections:
 - prometheus.prometheus
 - grafana.grafana
 - artis3n.tailscale
+- ansible.posix

@@ -37,9 +37,15 @@ variable "gateway_ip" {
   default = "192.168.2.1"
 }
 
-# if we pass in static ips we can one-shot the setup
+# explicit ips for the control plane nodes, leave null to allocate unused ips
 variable "control_plane_nodes" {
-  type = list(string)
+  type    = list(string)
+  default = null
+}
+
+variable "control_plane_count" {
+  type    = number
+  default = 1
 }
 
 variable "control_plane_disk" {
@@ -57,9 +63,26 @@ variable "control_plane_memory" {
   default = 3
 }
 
-# if we pass in static ips we can one-shot the setup
+# explicit ips for the worker nodes, leave null to allocate unused ips
 variable "worker_nodes" {
-  type = list(string)
+  type    = list(string)
+  default = null
+}
+
+variable "worker_count" {
+  type    = number
+  default = 1
+}
+
+# candidate range for allocated ips, keep outside the dhcp pool
+variable "ip_range_start" {
+  type    = string
+  default = "192.168.2.32"
+}
+
+variable "ip_range_end" {
+  type    = string
+  default = "192.168.2.127"
 }
 
 variable "worker_disk" {
