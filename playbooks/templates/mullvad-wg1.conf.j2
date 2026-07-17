@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+[Interface]
+PrivateKey = {{ mullvad_private_key }}
+Address = {{ mullvad_address }}
+# deterministic mark, shared with wg0 so its packets bypass the vpn table
+FwMark = 51820
+# keep host-originated traffic (ssh, wg0 handshakes) on the main table
+# delete-by-priority + || true so teardown never aborts wg-quick mid-flight
+PostUp = ip rule del priority 100 2>/dev/null || true
+PostUp = ip rule add from {{ wg_uplink_ip }} lookup main priority 100
+PreDown = ip rule del priority 100 2>/dev/null || true
+# no DNS line on purpose: the host keeps its own resolver,
+# clients should use mullvad dns (10.64.0.1) through the tunnel
+
+[Peer]
+PublicKey = {{ mullvad_peer_public_key }}
+AllowedIPs = 0.0.0.0/0
+Endpoint = {{ mullvad_endpoint }}

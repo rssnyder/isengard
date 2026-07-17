@@ -1,0 +1,81 @@
+---
+# systemd-supervised model serving via sparkrun on the dgx spark
+#
+# mirrors what `sparkrun export systemd <recipe> --install` generates, but the
+# recipe + unit live here instead of only on the box. recipe changes restart
+# the service.
+#
+# stop/start with systemctl, not `sparkrun stop` (systemd would restart it)
+- name: sparkrun inference service
+  hosts: spark.r.ss
+
+  vars:
+    sparkrun_service: qwen3-coder-next-fp8-sglang-metrics
+    sparkrun_model: Qwen/Qwen3-Coder-Next-FP8
+    sparkrun_home: "/home/{{ ansible_user }}"
+
+  tasks:
+
+    # sparkrun drives workloads over ssh, even single-node via 127.0.0.1
+    - name: check localhost in known_hosts
+      command: ssh-keygen -F 127.0.0.1
+      register: localhost_known
+      failed_when: false
+      changed_when: false
+
+    - name: add localhost host key (sparkrun self-ssh)
+      shell: ssh-keyscan -H 127.0.0.1 >> {{ sparkrun_home }}/.ssh/known_hosts
+      when: localhost_known.rc != 0
+
+    - name: create sparkrun service dirs
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ sparkrun_home }}/.config/sparkrun/services/{{ sparkrun_service }}"
+        - "{{ sparkrun_home }}/.config/sparkrun/clusters"
+
+    - name: copy recipe
+      copy:
+        src: 'templates/{{ ansible_facts["hostname"] }}/sparkrun-recipe.yaml'
+        dest: "{{ sparkrun_home }}/.config/sparkrun/services/{{ sparkrun_service }}/recipe.yaml"
+      notify: restart sparkrun service
+
+    - name: write cluster definition
+      copy:
+        content: |
+          hosts:
+          - 127.0.0.1
+          name: {{ sparkrun_service }}-systemd
+          user: {{ ansible_user }}
+        dest: "{{ item }}"
+      loop:
+        - "{{ sparkrun_home }}/.config/sparkrun/services/{{ sparkrun_service }}/cluster.yaml"
+        - "{{ sparkrun_home }}/.config/sparkrun/clusters/{{ sparkrun_service }}-systemd.yaml"
+
+    - name: install systemd unit
+      become: yes
+      template:
+        src: templates/sparkrun.service.j2
+        dest: "/etc/systemd/system/sparkrun-{{ sparkrun_service }}.service"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: restart sparkrun service
+
+    - name: enable sparkrun service
+      become: yes
+      systemd:
+        name: "sparkrun-{{ sparkrun_service }}"
+        daemon_reload: yes
+        enabled: yes
+        state: started
+
+  handlers:
+
+    - name: restart sparkrun service
+      become: yes
+      systemd:
+        name: "sparkrun-{{ sparkrun_service }}"
+        daemon_reload: yes
+        state: restarted

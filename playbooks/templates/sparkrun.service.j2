@@ -1,0 +1,26 @@
+[Unit]
+Description=sparkrun inference: {{ sparkrun_service }} ({{ sparkrun_model }})
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+Group={{ ansible_user }}
+ExecStart={{ sparkrun_home }}/.local/bin/sparkrun run {{ sparkrun_home }}/.config/sparkrun/services/{{ sparkrun_service }}/recipe.yaml \
+    --cluster {{ sparkrun_service }}-systemd --foreground --no-follow
+# always, not on-failure: a clean container exit should still bring the api back
+Restart=always
+RestartSec=30
+TimeoutStartSec=600
+TimeoutStopSec=120
+Environment=HOME={{ sparkrun_home }}
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:{{ sparkrun_home }}/.local/bin
+WorkingDirectory={{ sparkrun_home }}
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sparkrun-{{ sparkrun_service }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,28 @@
+recipe_version: '2'
+model: Qwen/Qwen3-Coder-Next-FP8
+runtime: sglang
+container: scitrera/dgx-spark-sglang:0.5.9-t5
+metadata: {}
+defaults:
+  attention_backend: triton
+  fp8_gemm_backend: cutlass
+  gpu_memory_utilization: 0.8
+  host: 0.0.0.0
+  max_model_len: 200000
+  port: 8000
+  served_model_name: qwen3-coder-next
+  tensor_parallel: 1
+  tool_call_parser: qwen3_coder
+command: |
+  python3 -m sglang.launch_server \
+    --model-path {model} \
+    --served-model-name {served_model_name} \
+    --context-length {max_model_len} \
+    --mem-fraction-static {gpu_memory_utilization} \
+    --tp-size {tensor_parallel} \
+    --host {host} \
+    --port {port} \
+    --attention-backend {attention_backend} \
+    --fp8-gemm-backend {fp8_gemm_backend} \
+    --tool-call-parser {tool_call_parser} \
+    --enable-metrics

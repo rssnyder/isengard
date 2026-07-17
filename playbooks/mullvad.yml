@@ -1,0 +1,94 @@
+---
+# wireguard gateway: clients peer to wg0, all their traffic exits via mullvad (wg1)
+#
+# needs in secrets.yml (or -e):
+#   mullvad_private_key      device private key from mullvad
+#   mullvad_address          e.g. 10.68.x.y/32 (from mullvad conf)
+#   mullvad_peer_public_key  server public key (from mullvad conf)
+#   mullvad_endpoint         e.g. 198.51.100.1:51820 (from mullvad conf)
+#
+# clients: AllowedIPs = 0.0.0.0/0, DNS = 10.64.0.1, MTU = 1340
+- name: mullvad wireguard gateway
+  hosts: wg0.r.ss
+  become: yes
+
+  vars:
+    wg0_subnet: 10.100.0.0/24
+
+    # githubixx.ansible_role_wireguard (wg0, client facing)
+    wireguard_interface: wg0
+    wireguard_addresses:
+      - 10.100.0.1/24
+    wireguard_port: 51820
+    # mullvad tunnel is mtu 1420, avoid double-encap fragmentation
+    wireguard_mtu: 1340
+    # same fwmark as wg1 so wg0 handshake replies skip the vpn routing table
+    wireguard_fwmark: 51820
+    wireguard_postup:
+      - iptables -A INPUT -p udp --dport 51820 -j ACCEPT
+      - iptables -A FORWARD -i wg0 -o wg1 -j ACCEPT
+      - iptables -A FORWARD -i wg1 -o wg0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+      # kill switch: client traffic may only leave via wg1, dropped otherwise
+      # (nothing leaks out the default route if mullvad goes down)
+      - iptables -A FORWARD -i wg0 -j DROP
+      - ip6tables -A FORWARD -i wg0 -j DROP
+      - iptables -t nat -A POSTROUTING -s {{ wg0_subnet }} -o wg1 -j MASQUERADE
+    wireguard_postdown:
+      - iptables -t nat -D POSTROUTING -s {{ wg0_subnet }} -o wg1 -j MASQUERADE
+      - ip6tables -D FORWARD -i wg0 -j DROP
+      - iptables -D FORWARD -i wg0 -j DROP
+      - iptables -D FORWARD -i wg1 -o wg0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+      - iptables -D FORWARD -i wg0 -o wg1 -j ACCEPT
+      - iptables -D INPUT -p udp --dport 51820 -j ACCEPT
+    wireguard_unmanaged_peers: 
+      home:
+        public_key: 6BcT1ieYvcJtXPgziYvAYyI31eWHfcYWl4gCF3h6umY=
+        allowed_ips: 10.100.0.2/32
+
+  roles:
+    - githubixx.ansible_role_wireguard
+
+  tasks:
+
+    # can't use ansible_default_ipv4 here: once wg1 is up, the default route
+    # resolves through the tunnel and the fact returns the mullvad address.
+    # the main table default always points at the physical uplink (wg1 routes
+    # live in table 51820), so derive the lan ip from that.
+    - name: find uplink interface
+      command: ip -4 route show table main default
+      register: main_default
+      changed_when: false
+
+    - name: set uplink ip
+      set_fact:
+        wg_uplink_ip: "{{ ansible_facts[main_default.stdout.split('dev ')[1].split(' ')[0]]['ipv4']['address'] }}"
+
+    - name: enable ipv4 forwarding
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        sysctl_set: yes
+        state: present
+
+    - name: install mullvad tunnel config (wg1)
+      template:
+        src: templates/mullvad-wg1.conf.j2
+        dest: /etc/wireguard/wg1.conf
+        owner: root
+        group: root
+        mode: "0600"
+      no_log: true
+      notify: restart wg1
+
+    - name: enable mullvad tunnel
+      systemd:
+        name: wg-quick@wg1
+        enabled: yes
+        state: started
+
+  handlers:
+
+    - name: restart wg1
+      systemd:
+        name: wg-quick@wg1
+        state: restarted
