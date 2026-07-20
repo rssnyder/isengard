@@ -1,0 +1,28 @@
+# Token-review bindings for the Harness delegate service accounts.
+# In the Flux setup these were part of harness/helm.yaml and patched per-delegate;
+# the Helm chart only creates the ServiceAccount, so the bindings live here.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: work-pve-tokenreview
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: work-pve
+    namespace: harness-delegate-ng
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: work-shared-pve-tokenreview
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: work-shared-pve
+    namespace: harness-delegate-ng
