@@ -31,6 +31,9 @@ terraform {
       source  = "filipowm/unifi"
       version = "~> 1.0.0"
     }
+    forgejo = {
+      source = "svalabs/forgejo"
+    }
   }
   backend "s3" {
     bucket = "isengard"
@@ -145,6 +148,12 @@ provider "vault" {
 provider "unifi" {
   api_url        = "https://192.168.2.1"
   allow_insecure = true
+}
+
+# auth via FORGEJO_API_TOKEN env var — needs write:repository scope
+# (manages repo action secrets)
+provider "forgejo" {
+  host = "https://git.ttdsm.org"
 }
 
 provider "kubernetes" {

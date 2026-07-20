@@ -73,6 +73,12 @@ git.ttdsm.org {
     reverse_proxy git.r.ss:3000
 }
 
+# terraform/opentofu network mirror: garage website bucket "tf.ttdsm.org"
+# (caddy passes the Host header through, which is how garage picks the bucket)
+tf.ttdsm.org {
+    reverse_proxy torterra.r.ss:3902
+}
+
 
 *.k8s.rileysnyder.dev {
     reverse_proxy 192.168.252.254

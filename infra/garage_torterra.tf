@@ -25,3 +25,52 @@ module "garage_example" {
   name       = "example"
   depends_on = [garage_cluster_layout.torterra]
 }
+
+# # terraform/opentofu network mirror for the localdhcp provider: static JSON
+# # + release zips, uploaded by the provider repo's release action and served
+# # publicly through caddy -> garage s3_web (see mirror/ in
+# # git.ttdsm.org/rssnyder/terraform-provider-localdhcp). The key is the
+# # MIRROR_S3_* secret pair in that repo's actions settings.
+# module "garage_tf_mirror" {
+#   source     = "./garage-bucket"
+#   name       = "tf.ttdsm.org"
+#   depends_on = [garage_cluster_layout.torterra]
+# }
+
+# # hand the bucket key to the provider repo's release action, which uploads
+# # the mirror tree with it
+# data "forgejo_repository" "localdhcp" {
+#   owner = "rssnyder"
+#   name  = "terraform-provider-localdhcp"
+# }
+
+# resource "forgejo_repository_action_secret" "mirror_s3_access_key" {
+#   repository_id = data.forgejo_repository.localdhcp.id
+#   name          = "MIRROR_S3_ACCESS_KEY"
+#   data          = module.garage_tf_mirror.access_key_id
+# }
+
+# resource "forgejo_repository_action_secret" "mirror_s3_secret_key" {
+#   repository_id = data.forgejo_repository.localdhcp.id
+#   name          = "MIRROR_S3_SECRET_KEY"
+#   data          = module.garage_tf_mirror.secret_access_key
+# }
+
+# # arsolitt/garagehq v1.1.0 has no website-access attribute on garage_bucket,
+# # so flip it through the admin API instead. Re-runs on bucket replacement.
+# resource "terraform_data" "garage_tf_mirror_website" {
+#   triggers_replace = module.garage_tf_mirror.bucket_id
+
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#       curl -fsS -X POST \
+#         -H "Authorization: Bearer $GARAGE_ADMIN_TOKEN" \
+#         -H "Content-Type: application/json" \
+#         -d '{"websiteAccess":{"enabled":true,"indexDocument":"index.html"}}' \
+#         "http://torterra.r.ss:3903/v2/UpdateBucket?id=${module.garage_tf_mirror.bucket_id}"
+#     EOT
+#     environment = {
+#       GARAGE_ADMIN_TOKEN = var.garage_torterra_admin_token
+#     }
+#   }
+# }

@@ -148,6 +148,13 @@ resource "digitalocean_record" "git" {
   value  = chomp(data.http.home.response_body)
 }
 
+resource "digitalocean_record" "tf" {
+  domain = digitalocean_domain.ttdsm_org.name
+  type   = "A"
+  name   = "tf"
+  value  = chomp(data.http.home.response_body)
+}
+
 // github pages
 
 # resource "digitalocean_record" "photos" {

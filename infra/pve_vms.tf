@@ -150,3 +150,17 @@ module "span" {
   cpu    = 2
   memory = 1024 * 4
 }
+
+
+module "wg0" {
+  source = "github.com/rssnyder/terraform-proxmox-vm"
+
+  vm_name = "wg0"
+  cpu     = 1
+  memory  = 2048
+
+  node_name = "poweredge"
+  iso_id    = proxmox_download_file.debian_trixie.id
+
+  size_gb = 16
+}
