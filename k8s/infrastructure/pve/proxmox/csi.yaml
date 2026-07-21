@@ -2,6 +2,12 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: csi-proxmox
+  labels:
+    # Cluster default PodSecurity enforce level is "baseline", which blocks
+    # the node plugin's required privileged/SYS_ADMIN/hostPath access (needed
+    # to format, mount, and bind volumes on the host). CSI driver namespaces
+    # are a standard exception to PSA enforcement.
+    pod-security.kubernetes.io/enforce: privileged
 
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -50,7 +56,14 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: topology.kubernetes.io/region
+              # proxmox-cloud-controller-manager labels nodes with its own
+              # vendor-prefixed topology keys, not the generic
+              # topology.kubernetes.io/*. The generic key never matched here,
+              # so the node DaemonSet had 0 desired pods, the CSI driver never
+              # registered in CSINode, and GetCapacity was never reachable —
+              # which made the scheduler treat every node as having no free
+              # storage for any PVC on the proxmox/proxmox-nfs StorageClasses.
+              - key: topology.proxmox.sinextra.dev/region
                 operator: Exists
         # Define the storage class as default
         # annotations:
