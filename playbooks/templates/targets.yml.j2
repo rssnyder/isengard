@@ -28,11 +28,60 @@ scrape_configs:
         - '_prometheus._tcp.r.ss'
       type: SRV
   relabel_configs:
+    - source_labels: [__meta_dns_srv_record_port]
+      regex: '9100'
+      action: keep
     - source_labels: [__meta_dns_srv_record_target]
       regex: '(.+)\.r\.ss\.'
       target_label: instance
       replacement: '${1}'
 
+# k8s clusters provisioned via the new `k` repo publish their own prometheus
+# as an SRV target under the same _prometheus._tcp.r.ss name node_exporter
+# uses above (port 9090 vs node_exporter's 9100) -- keep splits them apart,
+# and cluster comes from the prometheus-<cluster>.r.ss naming convention
+# rather than a per-target static label, so a new cluster just needs to set
+# metallb_cidr and apply, no edit here.
+- job_name: cluster_prometheus_dns_sd
+  honor_labels: true
+  honor_timestamps: true
+  params:
+    match[]:
+    - '{job="prometheus"}'
+    - '{job="kubernetes-apiservers"}'
+    - '{job="kubennetes-nodes"}'
+    - '{job="kubernetes-nodes-cadvisor"}'
+    - '{job="kubernetes-service-endpoints"}'
+    - '{job="kubernetes-service-endpoints-slow"}'
+    - '{job="prometheus-pushgateway"}'
+    - '{job="kubernetes-services"}'
+    - '{job="kubernetes-pods"}'
+    - '{job="kubernetes-pods-slow"}'
+    - '{__name__=~"job:.*"}'
+  scrape_interval: 30s
+  scrape_timeout: 25s
+  metrics_path: /federate
+  scheme: http   #Depends on target endpoint http or https
+  follow_redirects: true
+  enable_http2: true
+  dns_sd_configs:
+    - names:
+        - '_prometheus._tcp.r.ss'
+      type: SRV
+  relabel_configs:
+    - source_labels: [__meta_dns_srv_record_port]
+      regex: '9090'
+      action: keep
+    - source_labels: [__meta_dns_srv_record_target]
+      regex: 'prometheus-(.+)\.r\.ss\.'
+      target_label: cluster
+      replacement: '${1}'
+    - target_label: environment
+      replacement: prod
+
+# oc/oci23/pve/scranton haven't moved to the new k repo (and its
+# prometheus-<cluster>.r.ss/SRV convention) yet -- keep them on static
+# targets until they do, then this whole job can go away.
 - job_name: remote_clusters
   honor_labels: true
   honor_timestamps: true
