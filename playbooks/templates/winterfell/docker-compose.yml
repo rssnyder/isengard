@@ -1,0 +1,15 @@
+services:
+  hermes:
+    image: nousresearch/hermes-agent:latest
+    restart: unless-stopped
+    command: gateway run
+    ports:
+      - "8642:8642"
+      - "9119:9119"
+    environment:
+      HERMES_UID: 1001
+      HERMES_GID: 1001
+      DISCORD_ALLOW_ALL_USERS: true
+      # HERMES_DASHBOARD: 1
+    volumes:
+      - ~/.hermes:/opt/data

@@ -246,7 +246,7 @@
             "8555:8555/udp"
           ];
           volumes = [
-            "/var/lib/frigate/config.yml:/config/config.yml:ro"
+            "/var/lib/frigate:/config:rw"
             "/slow/frigate:/media/frigate"
             "/etc/localtime:/etc/localtime:ro"
           ];

@@ -6,7 +6,7 @@ module "prometheus" {
   cpu     = 2
   memory  = 2048
 
-  node_name = "poweredge"
+  node_name = "pve1"
   iso_id    = proxmox_download_file.debian_trixie.id
 
   size_gb = 32
@@ -40,40 +40,6 @@ module "torterra" {
   cpu     = 2
   memory  = 1024 * 2
   size_gb = 32
-
-  pet = true
-}
-
-module "emma" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
-
-  vm_name = "emma"
-  tags    = ["claw"]
-
-  node_name = "pve1"
-  iso_id    = proxmox_download_file.debian_trixie.id
-
-  cpu     = 2
-  memory  = 1024 * 2
-  size_gb = 24
-
-  pet = true
-}
-
-module "thehand2" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
-
-  vm_name  = "thehand"
-  # dns_name = "thehand.vm"
-  username = "huntermoser"
-  tags     = ["claw", "hunter"]
-
-  node_name = "pve1"
-  iso_id    = proxmox_download_file.debian_trixie.id
-
-  cpu     = 2
-  memory  = 1024 * 4
-  size_gb = 24
 
   pet = true
 }
@@ -151,16 +117,29 @@ module "span" {
   memory = 1024 * 4
 }
 
+module "edge" {
+  source = "github.com/rssnyder/terraform-proxmox-vm?ref=feat/nic-queues-and-dns"
 
-module "wg0" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
-
-  vm_name = "wg0"
-  cpu     = 1
-  memory  = 2048
+  vm_name = "edge"
+  tags    = ["network", "caddy"]
 
   node_name = "poweredge"
   iso_id    = proxmox_download_file.debian_trixie.id
 
+  # caddy saturated all 4 vcpus (335-389% of 400%) at ~1 Gbps of tls proxying,
+  # while the host still had idle. 6 puts allocation at 14 vcpu on 12 threads —
+  # mild oversubscription, and the e5-2430 is 6c/12t so this is ~3 physical cores.
+  cpu     = 6
+  memory  = 1024 * 2
   size_gb = 16
+
+  ip_address = "192.168.2.10/24"
+
+  # match queues to vcpus: single-queue virtio pinned each flow to one vcpu and
+  # held single-stream at ~400 Mbps even after the core bump.
+  nic_queues = 6
+
+  # the router is authoritative for .r.ss; a static ip_address carries no DNS,
+  # and the DHCP-provided resolver (pihole on hurley) does not serve that zone.
+  dns_servers = ["192.168.2.1"]
 }

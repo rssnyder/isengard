@@ -9,6 +9,7 @@
     prometheus_storage_retention_size: 20GB
     prometheus_config_flags_extra:
       web.enable-lifecycle: true
+    loki_version: 3.7.2
   tags:
     - prometheus
 

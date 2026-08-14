@@ -38,12 +38,12 @@ resource "unifi_port_forward" "web" {
   for_each = toset(["80", "443"])
 
   name = "http(s)"
-  
+
   port_forward_interface = "both"
   protocol = "tcp_udp"
   dst_port = each.key
 
-  fwd_ip = var.instances["hurley"].ip
+  fwd_ip = var.instances[var.web_edge_host].ip
   fwd_port = each.key
 }
 

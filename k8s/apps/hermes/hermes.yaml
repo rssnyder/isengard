@@ -1,0 +1,223 @@
+# Pattern for running a Hermes Agent (nousresearch/hermes-agent, official image)
+# paired with a Hermes WebUI (ghcr.io/nesquena/hermes-webui) front end.
+#
+# Both containers run in one pod and share the agent's HERMES_HOME (config,
+# sessions, memories, skills) via a single PVC mounted at /data in each
+# container. The webui talks to the agent's gateway over localhost (same pod
+# network namespace) and also needs a read-only copy of the agent's source
+# tree at $HERMES_HOME/hermes-agent to run chat in-process — an initContainer
+# seeds that copy into an emptyDir from the agent image on every pod start.
+#
+# To run a second, independent agent: copy this file, rename the namespace/
+# resources, and give it its own PVC.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hermes
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hermes-data
+  namespace: hermes
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: proxmox
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+# Model provider config, mounted read-only at $HERMES_HOME/config.yaml.
+# Precedence in hermes-agent is: CLI args -> config.yaml -> .env -> built-in
+# defaults, and ${VAR} in this file is substituted from the container env.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hermes-config
+  namespace: hermes
+data:
+  config.yaml: |
+    # --- active provider: local OpenAI-compatible endpoint (spark) ---
+    model:
+      provider: custom
+      base_url: "http://spark.r.ss:8000/v1"
+      api_key: "${OPENAI_API_KEY}"
+      default: "qwen3-coder-next"
+
+    # --- to switch providers, replace the block above with one of these ---
+    #
+    # Anthropic (Claude):
+    # model:
+    #   provider: anthropic
+    #   default: "claude-sonnet-5"
+    # # put a real key in the `anthropic-api-key` field of the hermes-secrets
+    # # Secret below and reference it as ANTHROPIC_API_KEY in the Deployment env.
+    #
+    # OpenAI (official API):
+    # model:
+    #   provider: openai
+    #   default: "gpt-5"
+    # # put a real key in hermes-secrets `openai-api-key` and drop base_url so
+    # # it falls back to the default OpenAI endpoint.
+    #
+    # Any other OpenAI-compatible endpoint (vLLM, LiteLLM, OpenRouter, etc.):
+    # model:
+    #   provider: custom
+    #   base_url: "https://your-endpoint/v1"
+    #   api_key: "${OPENAI_API_KEY}"
+    #   default: "provider/model-name"
+
+---
+# spark.r.ss doesn't check the key, so a placeholder is fine here. Swap in a
+# real value (and re-seal/protect this file) when pointing at a real provider.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hermes-secrets
+  namespace: hermes
+type: Opaque
+stringData:
+  openai-api-key: "local-no-auth-needed"
+  api-server-key: "d4646b08db20b9c634d51c0d175f4192"
+  webui-password: "OpdvGDQxxgR6x0eXA9SIsAyi"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hermes
+  namespace: hermes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hermes
+  template:
+    metadata:
+      labels:
+        app: hermes
+    spec:
+      initContainers:
+        # Seed a copy of the agent's immutable source tree (/opt/hermes) into
+        # an emptyDir so hermes-webui can mount it read-only for in-process
+        # chat execution, without disturbing the agent container's own copy.
+        - name: agent-src-init
+          image: nousresearch/hermes-agent:latest
+          command: ["/bin/sh", "-c", "cp -a /opt/hermes/. /shared-src/ && chown -R 10000:10000 /shared-src"]
+          volumeMounts:
+            - name: hermes-src
+              mountPath: /shared-src
+      containers:
+        - name: hermes-agent
+          image: nousresearch/hermes-agent:latest
+          args: ["gateway", "run"]
+          env:
+            - name: HERMES_HOME
+              value: /data
+            - name: HERMES_UID
+              value: "10000"
+            - name: HERMES_GID
+              value: "10000"
+            - name: API_SERVER_ENABLED
+              value: "true"
+            - name: API_SERVER_HOST
+              value: "127.0.0.1"
+            - name: API_SERVER_PORT
+              value: "8642"
+            - name: API_SERVER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: api-server-key
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: openai-api-key
+            # - name: ANTHROPIC_API_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: hermes-secrets
+            #       key: anthropic-api-key
+          ports:
+            - name: gateway
+              containerPort: 8642
+          volumeMounts:
+            - name: hermes-data
+              mountPath: /data
+            - name: hermes-config
+              mountPath: /data/config.yaml
+              subPath: config.yaml
+
+        - name: hermes-webui
+          image: ghcr.io/nesquena/hermes-webui:latest
+          env:
+            - name: HERMES_HOME
+              value: /data
+            - name: WANTED_UID
+              value: "10000"
+            - name: WANTED_GID
+              value: "10000"
+            - name: HERMES_WEBUI_HOST
+              value: "0.0.0.0"
+            - name: HERMES_WEBUI_PORT
+              value: "8787"
+            - name: HERMES_WEBUI_STATE_DIR
+              value: "/data/webui"
+            - name: HERMES_API_URL
+              value: "http://127.0.0.1:8642"
+            - name: HERMES_WEBUI_AUTO_INSTALL
+              value: "1"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: openai-api-key
+            - name: HERMES_WEBUI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: webui-password
+          ports:
+            - name: webui
+              containerPort: 8787
+          volumeMounts:
+            - name: hermes-data
+              mountPath: /data
+            - name: hermes-config
+              mountPath: /data/config.yaml
+              subPath: config.yaml
+            - name: hermes-src
+              mountPath: /data/hermes-agent
+              readOnly: true
+      volumes:
+        - name: hermes-data
+          persistentVolumeClaim:
+            claimName: hermes-data
+        - name: hermes-config
+          configMap:
+            name: hermes-config
+        - name: hermes-src
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hermes
+  namespace: hermes
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "hermes"
+    external-dns.alpha.kubernetes.io/hostname: hermes.r.ss
+spec:
+  type: LoadBalancer
+  selector:
+    app: hermes
+  ports:
+    - name: http
+      port: 80
+      targetPort: webui

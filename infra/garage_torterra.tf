@@ -20,11 +20,11 @@ resource "garage_cluster_layout" "torterra" {
 
 # Example bucket + key, mirroring the simple-bucket usage in s3_dsm.tf.
 # Buckets can't be created until the layout above is applied.
-module "garage_example" {
-  source     = "./garage-bucket"
-  name       = "example"
-  depends_on = [garage_cluster_layout.torterra]
-}
+# module "garage_example" {
+#   source     = "./garage-bucket"
+#   name       = "example"
+#   depends_on = [garage_cluster_layout.torterra]
+# }
 
 # # terraform/opentofu network mirror for the localdhcp provider: static JSON
 # # + release zips, uploaded by the provider repo's release action and served

@@ -31,6 +31,10 @@ variable "instances" {
       ip = "192.168.2.9"
       mac = "b8:ae:ed:7f:3c:62"
     }
+    # static ip comes from cloud-init, so no mac reservation needed
+    edge = {
+      ip = "192.168.2.10"
+    }
     # cluster
     pve0 = {
       ip  = "192.168.2.69"
@@ -115,6 +119,14 @@ variable "instances" {
 variable "local_domain" {
   type    = string
   default = "r.ss"
+}
+
+# which host the router points inbound 80/443 at. flip to "edge" to move the
+# public entry point off the pi, then re-run apply.
+variable "web_edge_host" {
+  description = "key in var.instances that receives inbound 80/443"
+  type        = string
+  default     = "hurley"
 }
 
 variable "github_pages" {

@@ -1,5 +1,5 @@
 ---
-- hosts: hurley.r.ss,oca0
+- hosts: hurley.r.ss,oca0,edge.r.ss
   become: yes
   roles:
     - role: caddy_ansible.caddy_ansible
@@ -8,6 +8,6 @@
       caddy_systemd_capabilities: "CAP_NET_BIND_SERVICE"
       caddy_packages:
       - github.com/caddy-dns/digitalocean@master
-      caddy_config: "{{ lookup('template', 'templates/' + ansible_hostname + '/Caddyfile.j2') }}"
+      caddy_config: "{{ lookup('template', 'templates/' + (caddy_template | default(ansible_hostname)) + '/Caddyfile.j2') }}"
       caddy_environment_variables:
-        CADDY_ADMIN: 100.91.128.97:2019
+        CADDY_ADMIN: "{{ caddy_admin_listen | default('100.91.128.97:2019') }}"
