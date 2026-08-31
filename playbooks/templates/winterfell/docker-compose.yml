@@ -13,3 +13,4 @@ services:
       # HERMES_DASHBOARD: 1
     volumes:
       - ~/.hermes:/opt/data
+      - /mnt/mass/media/books:/media/books

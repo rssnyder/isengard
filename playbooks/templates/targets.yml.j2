@@ -36,6 +36,26 @@ scrape_configs:
       target_label: instance
       replacement: '${1}'
 
+- job_name: pve_exporter_dns_sd
+  metrics_path: /pve
+  params:
+    module: ['default']
+    # any cluster member works here -- the proxmox api returns cluster-wide
+    # status regardless of which node answers, this just picks one to ask.
+    target: ['pve0.r.ss']
+  dns_sd_configs:
+    - names:
+        - '_prometheus._tcp.r.ss'
+      type: SRV
+  relabel_configs:
+    - source_labels: [__meta_dns_srv_record_port]
+      regex: '9221'
+      action: keep
+    - source_labels: [__meta_dns_srv_record_target]
+      regex: '(.+)\.r\.ss\.'
+      target_label: instance
+      replacement: '${1}'
+
 # k8s clusters provisioned via the new `k` repo publish their own prometheus
 # as an SRV target under the same _prometheus._tcp.r.ss name node_exporter
 # uses above (port 9090 vs node_exporter's 9100) -- keep splits them apart,

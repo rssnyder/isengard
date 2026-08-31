@@ -34,6 +34,10 @@ terraform {
     forgejo = {
       source = "svalabs/forgejo"
     }
+    localdhcp = {
+      source  = "rssnyder/localdhcp"
+      version = "0.1.0"
+    }
   }
   backend "s3" {
     bucket = "isengard"
@@ -147,6 +151,11 @@ provider "vault" {
 
 provider "unifi" {
   api_url        = "https://192.168.2.1"
+  allow_insecure = true
+}
+
+# unifi_url / unifi_api_key fall back to UNIFI_API / UNIFI_API_KEY env vars
+provider "localdhcp" {
   allow_insecure = true
 }
 

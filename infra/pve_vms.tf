@@ -135,9 +135,12 @@ module "edge" {
 
   ip_address = "192.168.2.10/24"
 
-  # match queues to vcpus: single-queue virtio pinned each flow to one vcpu and
-  # held single-stream at ~400 Mbps even after the core bump.
-  nic_queues = 6
+  # measured, do not "fix" this to match vcpus: multiqueue is a regression on
+  # this host at every concurrency level. single stream 1q~470 / 6q~295 Mbps,
+  # 8 streams 1q~3100 / 6q~2300, confirmed in both ascending and descending
+  # sweeps. spreading softirq across vcpus costs more in cross-cpu wakeups on an
+  # oversubscribed 2012 xeon than it gains in parallelism.
+  nic_queues = 1
 
   # the router is authoritative for .r.ss; a static ip_address carries no DNS,
   # and the DHCP-provided resolver (pihole on hurley) does not serve that zone.

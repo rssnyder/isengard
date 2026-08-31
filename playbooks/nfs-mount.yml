@@ -1,0 +1,9 @@
+---
+- name: Mount NFS shares on winterfell
+  hosts: winterfell
+  become: yes
+  roles:
+    - role: ome.nfs_mount
+      nfs_share_mounts:
+        - path: /mnt/mass
+          location: 192.168.2.5:/mass

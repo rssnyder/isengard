@@ -126,7 +126,7 @@ variable "local_domain" {
 variable "web_edge_host" {
   description = "key in var.instances that receives inbound 80/443"
   type        = string
-  default     = "hurley"
+  default     = "edge"
 }
 
 variable "github_pages" {
