@@ -143,11 +143,20 @@ span-test.rileysnyder.dev {
 }
 
 span.rileysnyder.dev {
-      reverse_proxy https://10.77.45.131 {
-          header_up Host span.rileysnyder.dev
-          transport http {
-              tls_server_name span.rileysnyder.dev
-              tls_insecure_skip_verify
+      @assets path_regexp ^/assets/
+      handle @assets {
+          reverse_proxy 192.168.2.2:9000 {
+              header_up Host {http.request.host}
+          }
+      }
+
+      handle {
+          reverse_proxy https://10.77.45.131 {
+              header_up Host span.rileysnyder.dev
+              transport http {
+                  tls_server_name span.rileysnyder.dev
+                  tls_insecure_skip_verify
+              }
           }
       }
 }
