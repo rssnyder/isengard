@@ -1,0 +1,152 @@
+{
+  acme_dns digitalocean {{ digitalocean_token }}
+}
+
+(protect) {
+  @external {
+    not remote_ip 192.168.0.0/24
+  }
+  respond @external 403
+}
+
+s3.rileysnyder.dev {
+    reverse_proxy 192.168.2.2:9000
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+s4.rileysnyder.dev {
+    reverse_proxy 192.168.2.2:9002
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+metrics.rileysnyder.dev {
+    reverse_proxy 192.168.2.2:3000
+}
+
+files.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:8080
+}
+
+filez.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:3923
+}
+
+requests.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:5055
+}
+
+pushmetrics.rileysnyder.dev {
+    reverse_proxy 192.168.2.2:9092
+    basicauth * {
+        metrics JDJhJDE0JHludWJMdXRJWk8yUGZFMkxvLnBSWC5aSUh4L2dGbXg4ckdDSjF0SFJhMjJHRTZURU5zN2Rx
+    }
+}
+
+dash.rileysnyder.dev {
+    reverse_proxy 192.168.2.2:8364
+}
+
+plex.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:32400
+}
+
+books.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:13378
+}
+
+photos.rileysnyder.dev {
+    reverse_proxy 192.168.2.5:2283
+}
+
+polkproperties.ttdsm.org {
+    encode zstd gzip
+    reverse_proxy polk.r.ss:8080
+}
+
+git.ttdsm.org {
+    reverse_proxy git.r.ss:3000
+}
+
+# terraform/opentofu network mirror: garage website bucket "tf.ttdsm.org"
+# (caddy passes the Host header through, which is how garage picks the bucket)
+tf.ttdsm.org {
+    reverse_proxy torterra.r.ss:3902
+}
+
+
+*.k8s.rileysnyder.dev {
+    reverse_proxy 10.77.45.131
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+*.pve.rileysnyder.dev {
+    reverse_proxy 192.168.252.254
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+*.ttyd.rileysnyder.dev {
+    reverse_proxy {http.request.host.labels.3}.ttyd.r.ss:7681
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+keys.rileysnyder.dev {
+    reverse_proxy 192.168.252.4
+}
+
+home.rileysnyder.dev {
+    reverse_proxy 192.168.2.4:8123
+}
+
+vpn.rileysnyder.dev {
+    reverse_proxy wg0.r.ss:51820
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
+
+span-test.rileysnyder.dev {
+      @assets path_regexp ^/assets/
+      handle @assets {
+          reverse_proxy 192.168.2.245:9000 {
+              header_up Host {http.request.host}
+          }
+      }
+
+      handle /ping {
+          reverse_proxy 192.168.2.245:8089
+      }
+
+      @backend path_regexp ^/(api|s)/
+      handle @backend {
+          reverse_proxy 192.168.2.245:8089
+      }
+
+      handle {
+          reverse_proxy 192.168.2.245:5173
+      }
+}
+
+span.rileysnyder.dev {
+      reverse_proxy https://10.77.45.131 {
+          header_up Host span.rileysnyder.dev
+          transport http {
+              tls_server_name span.rileysnyder.dev
+          }
+      }
+}
