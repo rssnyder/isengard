@@ -124,7 +124,7 @@ span-test.rileysnyder.dev {
       @assets path_regexp ^/assets/
       handle @assets {
           reverse_proxy 192.168.2.245:9000 {
-              header_up Host {http.request.host}
+              header_up Host torterra.r.ss
           }
       }
 
@@ -146,7 +146,7 @@ span.rileysnyder.dev {
       @assets path_regexp ^/assets/
       handle @assets {
           reverse_proxy torterra.r.ss:9000 {
-              header_up Host {http.request.host}
+              header_up Host torterra.r.ss
           }
       }
 
