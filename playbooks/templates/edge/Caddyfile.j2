@@ -49,7 +49,9 @@ pushmetrics.rileysnyder.dev {
 }
 
 dash.rileysnyder.dev {
-    reverse_proxy 192.168.2.2:8364
+    reverse_proxy 10.77.45.131 {
+        header_up Host dash.rileysnyder.dev
+    }
 }
 
 plex.rileysnyder.dev {
