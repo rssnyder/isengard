@@ -59,7 +59,8 @@ module "hurley-dns-entries" {
     "polk",
     "span",
     "span-test",
-    "vpn"
+    "vpn",
+    "k3"
   ])
   source = "github.com/rssnyder/isengard//infra/external-internal-dns"
 
