@@ -67,7 +67,19 @@ module "hurley-dns-entries" {
   domain     = digitalocean_domain.rileysnyder_dev.name
   name       = each.value
   public_ip  = chomp(data.http.home.response_body)
-  private_ip = var.instances["hurley"].ip
+  private_ip = module.edge.ipv4_address
+}
+
+module "edge-ttdsm-dns-entries" {
+  for_each = toset([
+    "mc",
+  ])
+  source = "github.com/rssnyder/isengard//infra/external-internal-dns"
+
+  domain     = digitalocean_domain.ttdsm_org.name
+  name       = each.value
+  public_ip  = chomp(data.http.home.response_body)
+  private_ip = module.edge.ipv4_address
 }
 
 resource "digitalocean_record" "home-star" {

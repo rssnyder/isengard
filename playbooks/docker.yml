@@ -42,6 +42,13 @@
         dest: "/home/{{ ansible_user }}/config.alloy"
         owner: "{{ ansible_user }}"
 
+    - name: copy Hermes build context (hosts that have one)
+      copy:
+        src: "templates/{{ ansible_facts[\"hostname\"] }}/hermes/"
+        dest: "/home/{{ ansible_user }}/hermes/"
+        owner: "{{ ansible_user }}"
+      when: ansible_facts["hostname"] == "winterfell"
+
     - name: copy garage config (hosts that have one)
       copy:
         src: "{{ item }}"
@@ -55,4 +62,5 @@
     - name: compose up
       community.docker.docker_compose_v2:
         project_src: "/home/{{ ansible_user }}"
+        build: always
         remove_orphans: true

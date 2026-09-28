@@ -22,6 +22,24 @@ services:
     ports:
       - ${PP_POSTGRES_PORT:-5155}:5432
 
+  span-postgres:
+    image: postgres:16-alpine
+    container_name: pg-span
+    environment:
+      POSTGRES_USER: ${SPAN_POSTGRES_USER:-span}
+      POSTGRES_PASSWORD: ${SPAN_POSTGRES_PASSWORD:-span}
+      POSTGRES_DB: ${SPAN_POSTGRES_DB:-span}
+    volumes:
+      - ./span_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SPAN_POSTGRES_USER:-span}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    ports:
+      - ${SPAN_POSTGRES_PORT:-5156}:5432
+
   signal-cli-rest-api:
     image: bbernhard/signal-cli-rest-api:latest
     environment:

@@ -8,6 +8,7 @@
       caddy_systemd_capabilities: "CAP_NET_BIND_SERVICE"
       caddy_packages:
       - github.com/caddy-dns/digitalocean@master
+      - github.com/mholt/caddy-l4@master
       caddy_config: "{{ lookup('template', 'templates/' + (caddy_template | default(ansible_hostname)) + '/Caddyfile.j2') }}"
       caddy_environment_variables:
         CADDY_ADMIN: "{{ caddy_admin_listen | default('100.91.128.97:2019') }}"

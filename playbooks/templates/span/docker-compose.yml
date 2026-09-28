@@ -2,23 +2,6 @@ services:
 
 {{ alloy_compose | to_nice_yaml(indent=2) | indent(2, first=True) }}
 
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-span}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-span}
-      POSTGRES_DB: ${POSTGRES_DB:-span}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-span}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
-    networks:
-      - span_net
-
   minio:
     image: minio/minio:latest
     command: server /data --console-address ":9001"
@@ -46,8 +29,6 @@ services:
       - "${ADMIN_PORT}:${ADMIN_PORT}"
     env_file: .env
     depends_on:
-      postgres:
-        condition: service_healthy
       minio:
         condition: service_healthy
     restart: unless-stopped
@@ -62,7 +43,6 @@ services:
       - span_net
 
 volumes:
-  postgres_data:
   minio_data:
   alloy_data:
 

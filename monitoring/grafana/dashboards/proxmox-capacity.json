@@ -1,0 +1,18 @@
+{
+  "uid": "proxmox-capacity",
+  "title": "Proxmox Capacity",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "tags": ["proxmox", "capacity"],
+  "templating": {"list": [{"name": "node", "type": "query", "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}, "query": "label_values(pve_node_info, name)", "includeAll": true, "multi": true, "current": {"text": "All", "value": ["$__all"]}}]},
+  "panels": [
+    {"id": 1, "type": "stat", "title": "Exporter targets up", "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4}, "targets": [{"expr": "sum(up{job=\"pve_exporter_dns_sd\"})", "legendFormat": "up"}], "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}},
+    {"id": 2, "type": "timeseries", "title": "Node CPU usage", "gridPos": {"x": 6, "y": 0, "w": 9, "h": 8}, "targets": [{"expr": "max by (name) (pve_cpu_usage_ratio{id=~\"node/.*\"})", "legendFormat": "{{name}}"}], "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}},
+    {"id": 3, "type": "timeseries", "title": "Node memory headroom", "gridPos": {"x": 15, "y": 0, "w": 9, "h": 8}, "targets": [{"expr": "1 - (max by (id) (pve_memory_usage_bytes{id=~\"node/.*\"}) / max by (id) (pve_memory_size_bytes{id=~\"node/.*\"}))", "legendFormat": "{{id}}"}], "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1}}, "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}},
+    {"id": 4, "type": "table", "title": "VM placement", "gridPos": {"x": 0, "y": 8, "w": 12, "h": 9}, "targets": [{"expr": "max by (name,node,type,tags) (pve_guest_info)", "format": "table", "instant": true}], "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}},
+    {"id": 5, "type": "table", "title": "Protected workloads", "gridPos": {"x": 12, "y": 8, "w": 12, "h": 9}, "targets": [{"expr": "max by (name,node,tags) (pve_guest_info{name=~\"cornelius|plex\"})", "format": "table", "instant": true}], "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}},
+    {"id": 6, "type": "timeseries", "title": "Kubernetes expansion impact (20% reserve)", "gridPos": {"x": 0, "y": 17, "w": 12, "h": 8}, "targets": [{"expr": "sum(max by (id) (pve_memory_size_bytes{id=~\"node/.*\"})) * 0.20", "legendFormat": "RAM reserve"}, {"expr": "sum(max by (id) (pve_cpu_usage_limit{id=~\"node/.*\"})) * 0.20", "legendFormat": "CPU reserve"}], "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}},
+    {"id": 7, "type": "timeseries", "title": "Exporter scrape duration", "gridPos": {"x": 12, "y": 17, "w": 12, "h": 8}, "targets": [{"expr": "max by (instance) (scrape_duration_seconds{job=\"pve_exporter_dns_sd\"})", "legendFormat": "{{instance}}"}], "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}}
+  ]
+}

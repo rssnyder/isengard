@@ -40,9 +40,8 @@ scrape_configs:
   metrics_path: /pve
   params:
     module: ['default']
-    # any cluster member works here -- the proxmox api returns cluster-wide
-    # status regardless of which node answers, this just picks one to ask.
-    target: ['pve0.r.ss']
+  scrape_interval: 30s
+  scrape_timeout: 25s
   dns_sd_configs:
     - names:
         - '_prometheus._tcp.r.ss'
@@ -51,6 +50,10 @@ scrape_configs:
     - source_labels: [__meta_dns_srv_record_port]
       regex: '9221'
       action: keep
+    - source_labels: [__meta_dns_srv_record_target]
+      regex: 'pve-exporter-(.+)\.r\.ss\.'
+      target_label: __param_target
+      replacement: '${1}.r.ss'
     - source_labels: [__meta_dns_srv_record_target]
       regex: '(.+)\.r\.ss\.'
       target_label: instance

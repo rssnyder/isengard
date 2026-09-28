@@ -132,7 +132,7 @@ services:
         target: '_top'
       - name: "Frigate"
         logo: "assets/homer-icons/png/nowshowing.png"
-        url: "http://cornelius.corvus-salmon.ts.net:5000"
+        url: "http://baelor.corvus-salmon.ts.net:5000"
         target: '_top'
       - name: "Minio"
         logo: "assets/homer-icons/png/minio.png"

@@ -124,6 +124,75 @@ resource "unifi_firewall_zone_policy" "services_to_clients" {
   }
 }
 
+# Allow clients to use Plex without exposing the rest of Services.
+resource "unifi_firewall_zone_policy" "clients_to_plex" {
+  name        = "clients-to-plex"
+  description = "clients: allow Plex access only"
+  action      = "ALLOW"
+  protocol    = "tcp"
+
+  # Plex is on Services at 192.168.2.100:32400.
+  auto_allow_return_traffic = true
+
+  source = {
+    zone_id = data.unifi_firewall_zone.internal.id
+  }
+  destination = {
+    zone_id = unifi_firewall_zone.services.id
+    ips     = [module.plex.ipv4_address]
+    port    = 32400
+  }
+}
+
+# MetalLB VIPs are routed through Services but need an explicit same-zone
+# allow before the controller's Services-to-Services block-all.
+resource "unifi_firewall_zone_policy" "services_to_metallb_vips" {
+  name        = "services-to-metallb-vips"
+  description = "services: allow TCP access to MetalLB VIP services"
+  action      = "ALLOW"
+  protocol    = "tcp"
+
+  source = {
+    zone_id = unifi_firewall_zone.services.id
+  }
+  destination = {
+    zone_id = unifi_firewall_zone.services.id
+    ips     = ["192.168.247.2"]
+    port    = 4000
+  }
+}
+
+resource "unifi_firewall_zone_policy" "services_to_metallb_vips_9090" {
+  name        = "services-to-metallb-vip-9090"
+  description = "services: allow TCP access to the 9090 MetalLB VIP"
+  action      = "ALLOW"
+  protocol    = "tcp"
+
+  source = {
+    zone_id = unifi_firewall_zone.services.id
+  }
+  destination = {
+    zone_id = unifi_firewall_zone.services.id
+    ips     = ["192.168.247.1"]
+    port    = 9090
+  }
+}
+
+# Broad Services-to-Services exception for routed VIP traffic. The
+# controller's Services-to-Services Block All is at index 2147483647.
+resource "unifi_firewall_zone_policy" "services_to_services_allow" {
+  name        = "services-to-services-allow"
+  description = "services: allow inter-network traffic before block-all"
+  action      = "ALLOW"
+
+  source = {
+    zone_id = unifi_firewall_zone.services.id
+  }
+  destination = {
+    zone_id = unifi_firewall_zone.services.id
+  }
+}
+
 resource "unifi_firewall_zone_policy" "iot_to_services_block" {
   name        = "iot-to-services-block"
   description = "iot: cannot initiate connections to services"

@@ -66,7 +66,7 @@ photos.rileysnyder.dev {
 
 polk.rileysnyder.dev {
     encode zstd gzip
-    reverse_proxy 192.168.2.212:8080
+    reverse_proxy 10.77.45.232:8080
 }
 
 polkproperties.ttdsm.org {
@@ -81,6 +81,10 @@ git.ttdsm.org {
 # (caddy passes the Host header through, which is how garage picks the bucket)
 tf.ttdsm.org {
     reverse_proxy torterra.r.ss:3902
+}
+
+k3.rileysnyder.dev {
+    reverse_proxy 10.77.45.131:80
 }
 
 
@@ -166,8 +170,4 @@ span.rileysnyder.dev {
       handle {
           reverse_proxy span.r.ss:80
       }
-}
-
-k3.rileysnyder.dev {
-    reverse_proxy 10.77.45.131:80
 }

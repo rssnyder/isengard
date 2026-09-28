@@ -1,6 +1,7 @@
 services:
   hermes:
-    image: nousresearch/hermes-agent:latest
+    build: ./hermes
+    image: hermes-agent-calibre:latest
     restart: unless-stopped
     command: gateway run
     ports:
@@ -10,6 +11,7 @@ services:
       HERMES_UID: 1001
       HERMES_GID: 1001
       DISCORD_ALLOW_ALL_USERS: true
+      HRMS_ALLOW_CREATE: "1"
       # HERMES_DASHBOARD: 1
     volumes:
       - ~/.hermes:/opt/data

@@ -65,7 +65,7 @@ services:
       - $SCRATCH_STORAGE/4k:/4k
       - $MEDIA/movies:/movies
       - $MEDIA/cc:/cc
-      - $MEDIA/tv:/tv
+      - /mnt/tv:/tv
       - $MEDIA/syndicated:/syndicated
       - $MEDIA/books:/books
       - $MEDIA/music:/music
@@ -139,7 +139,7 @@ services:
       TZ: America/Chicago
     volumes:
       - $APPDATA/sonarr:/config
-      - $MEDIA/tv:/tv
+      - /mnt/tv:/tv
       - $MEDIA/syndicated:/syndicated
       - $SCRATCH_STORAGE/downloads:/downloads
     ports:

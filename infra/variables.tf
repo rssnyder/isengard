@@ -44,6 +44,14 @@ variable "instances" {
       ip  = "192.168.2.11"
       mac = "8C:16:45:9B:CA:24"
     }
+    pve2 = {
+      ip  = "192.168.2.246"
+      mac = "d4:81:d7:cc:0d:e2"
+    }
+    pve3 = {
+      ip  = "192.168.2.240"
+      mac = "98:90:96:9c:9c:67"
+    }
     poweredge0 = {
       ip  = "192.168.2.12"
       mac = "E0:DB:55:0D:8F:8A"
@@ -71,18 +79,18 @@ variable "instances" {
       ip  = "192.168.2.30"
       mac = "9C:8E:CD:2D:80:9D"
     }
-    back = {
-      ip  = "192.168.2.31"
-      mac = "E8:CA:C8:DA:11:D8"
-    }
-    garage = {
-      ip  = "192.168.2.32"
-      mac = "E8:CA:C8:7A:70:B3"
-    }
-    louie = {
-      ip  = "192.168.2.33"
-      mac = "E8:CA:C8:F8:37:B4"
-    }
+    #back = {
+    #  ip  = "192.168.3.119"
+    #  mac = "E8:CA:C8:DA:11:D8"
+    #}
+    #garage = {
+    #  ip  = "192.168.3.132"
+    #  mac = "E8:CA:C8:7A:70:B3"
+    #}
+    #louie = {
+    #  ip  = "192.168.3.180"
+    #  mac = "E8:CA:C8:F8:37:B4"
+    #}
     lab = {
       ip  = "192.168.2.34"
       mac = "9C:8E:CD:2D:80:C1"

@@ -372,3 +372,5 @@ function frigate-deploy () {
 # signal register
 # https://signalcaptchas.org/registration/generate
 # curl -X POST 'http://signal.r.ss/v1/register/+14808407117' --data '{"captcha":""}'
+
+BAO_ADDR=https://bao.r.ss:8200/

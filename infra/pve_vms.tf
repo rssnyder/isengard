@@ -1,5 +1,5 @@
 module "prometheus" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git"
 
   vm_name = "prometheus"
   tags    = ["monitoring", "services"]
@@ -13,23 +13,23 @@ module "prometheus" {
 }
 
 module "plex" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git"
 
   vm_name = "plex"
   tags    = ["plex"]
 
-  node_name = "pve0"
+  node_name = "pve2"
   iso_id    = proxmox_download_file.debian_trixie.id
 
   cpu     = 4
-  memory  = 1024 * 8
+  memory  = 1024 * 16
   size_gb = 64
 
   ip_address = "192.168.2.100/24"
 }
 
 module "torterra" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git"
 
   vm_name = "torterra"
   tags    = ["docker"]
@@ -45,7 +45,7 @@ module "torterra" {
 }
 
 module "cornelius" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git?ref=cornelius"
 
   vm_name = "cornelius"
   tags    = ["nas", "core"]
@@ -72,16 +72,8 @@ module "cornelius" {
   pet = true
 }
 
-module "polk" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
-
-  vm_name = "polk"
-
-  node_name = "pve0"
-}
-
 module "git" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git"
 
   vm_name = "git"
 
@@ -94,7 +86,7 @@ module "git" {
 }
 
 module "actions" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git"
 
   vm_name = "actions"
 
@@ -106,19 +98,8 @@ module "actions" {
   memory = 1024 * 4
 }
 
-module "span" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
-
-  vm_name = "span"
-
-  node_name = "pve1"
-
-  cpu    = 2
-  memory = 1024 * 4
-}
-
 module "edge" {
-  source = "github.com/rssnyder/terraform-proxmox-vm?ref=feat/nic-queues-and-dns"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git?ref=feat/nic-queues-and-dns"
 
   vm_name = "edge"
   tags    = ["network", "caddy"]

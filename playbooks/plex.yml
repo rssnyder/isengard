@@ -14,6 +14,8 @@
         location: 192.168.2.5:/mass
       - path: /mnt/red
         location: 192.168.2.5:/red
+      - path: /mnt/tv
+        location: 192.168.2.5:/mnt/tv
       # - path: /mnt/scratch
       #   location: 192.168.2.6:/scratch
     - role: khaosx.plex-server

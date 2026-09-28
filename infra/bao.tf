@@ -1,5 +1,5 @@
 module "bao" {
-  source = "github.com/rssnyder/terraform-proxmox-vm"
+  source = "git::ssh://git@git.ttdsm.org/rssnyder/terraform-proxmox-vm.git"
 
   vm_name = "bao"
   tags    = ["vault", "services"]

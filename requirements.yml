@@ -4,6 +4,7 @@ roles:
 - src: geerlingguy.docker
 - src: geerlingguy.samba
 - src: ome.nfs_mount
+- src: khaosx.plex-server
 - src: robertdebock.openbao_server
 - src: tigattack.frigate_docker
 - src: githubixx.ansible_role_wireguard

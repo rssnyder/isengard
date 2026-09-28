@@ -25,6 +25,10 @@ s4.rileysnyder.dev {
     }
 }
 
+cds.rileysnyder.dev {
+    reverse_proxy hurley.r.ss:9876
+}
+
 metrics.rileysnyder.dev {
     reverse_proxy 192.168.2.2:3000
 }
@@ -161,4 +165,8 @@ span.rileysnyder.dev {
               }
           }
       }
+}
+
+mc.ttdsm.org {
+    reverse_proxy 10.77.45.132:25565
 }
