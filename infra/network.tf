@@ -47,6 +47,31 @@ resource "unifi_dns_record" "git" {
   record = "192.168.2.10"
 }
 
+# pve_exporter receives the Proxmox node name from SRV discovery; keep the
+# hypervisor name resolvable from exporter containers.
+resource "unifi_dns_record" "poweredge" {
+  name   = "poweredge.r.ss"
+  type   = "A"
+  record = var.instances.poweredge0.ip
+}
+
+# Keep the real hosts in the inventory's local group discoverable by Prometheus.
+# localhost is Ansible's control-host alias, not a separate DNS target.
+locals {
+  prometheus_local_hosts = toset(["hurley", "baelor", "spark"])
+}
+
+resource "unifi_dns_record" "prometheus_local_srv" {
+  for_each = local.prometheus_local_hosts
+
+  name     = "_prometheus._tcp.r.ss"
+  type     = "SRV"
+  record   = "${each.value}.r.ss"
+  port     = 9100
+  priority = 1
+  weight   = 0
+}
+
 # built-in zones created by the site's zone-based-firewall migration
 # (2026-08-22) -- not managed here, just referenced.
 data "unifi_firewall_zone" "internal" {

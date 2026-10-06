@@ -1,0 +1,27 @@
+---
+- name: Recover Winterfell USB ethernet after reconnect
+  hosts: winterfell
+  become: true
+  tasks:
+    - name: Install USB ethernet recovery script
+      ansible.builtin.copy:
+        dest: /usr/local/sbin/usb-eth-recover.sh
+        mode: "0755"
+        content: |
+          #!/bin/sh
+          set -eu
+          logger -t usb-eth-recover "Reconnecting enu1 after USB NIC add"
+          /usr/bin/nmcli device connect enu1
+
+    - name: Install udev recovery rule
+      ansible.builtin.copy:
+        dest: /etc/udev/rules.d/99-usb-eth-recover.rules
+        mode: "0644"
+        content: |
+          # Reconnect the Realtek RTL8152 USB NIC when it reappears.
+          ACTION=="add", SUBSYSTEM=="net", KERNEL=="enu1", ENV{ID_VENDOR_ID}=="0bda", ENV{ID_MODEL_ID}=="8152", RUN+="/usr/bin/systemd-run --no-block --collect /usr/local/sbin/usb-eth-recover.sh"
+      notify: reload udev rules
+
+  handlers:
+    - name: reload udev rules
+      ansible.builtin.command: udevadm control --reload-rules

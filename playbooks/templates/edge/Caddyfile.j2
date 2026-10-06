@@ -1,5 +1,13 @@
 {
   acme_dns digitalocean {{ digitalocean_token }}
+
+  layer4 {
+    tcp/:25565 {
+      route {
+        proxy tcp/10.77.45.132:25565
+      }
+    }
+  }
 }
 
 (protect) {
@@ -151,9 +159,7 @@ span-test.rileysnyder.dev {
 span.rileysnyder.dev {
       @assets path_regexp ^/assets/
       handle @assets {
-          reverse_proxy torterra.r.ss:9000 {
-              header_up Host torterra.r.ss
-          }
+          reverse_proxy torterra.r.ss:9000
       }
 
       handle {
@@ -165,8 +171,4 @@ span.rileysnyder.dev {
               }
           }
       }
-}
-
-mc.ttdsm.org {
-    reverse_proxy 10.77.45.132:25565
 }

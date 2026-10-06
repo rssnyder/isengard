@@ -79,7 +79,7 @@ module "git" {
 
   node_name = "pve0"
 
-  size_gb = 32
+  size_gb = 64
 
   cpu    = 2
   memory = 1024 * 4
