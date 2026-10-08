@@ -2,10 +2,15 @@
 # systemd-supervised model serving via sparkrun on the dgx spark
 #
 # mirrors what `sparkrun export systemd <recipe> --install` generates, but the
-# recipe + unit live here instead of only on the box. recipe changes restart
-# the service.
+# recipe + unit live here instead of only on the box.
 #
-# stop/start with systemctl, not `sparkrun stop` (systemd would restart it)
+# since 2026-10-05 qwen3-coder-next is served by llama-swap (behind
+# spark-swapper on :8081), which runs this same recipe file on demand. so the
+# standalone unit stays installed but disabled and stopped: started beside
+# llama-swap it would hold a second ~90 GB model next to whatever llama-swap has
+# loaded, and two models that size run the 121 GB box out of memory (the kernel
+# hung that way on 2026-10-05). start it by hand only with llama-swap stopped,
+# and with systemctl, not `sparkrun stop` (systemd would restart it).
 - name: sparkrun inference service
   hosts: spark.r.ss
 
@@ -39,7 +44,7 @@
       copy:
         src: 'templates/{{ ansible_facts["hostname"] }}/sparkrun-recipe.yaml'
         dest: "{{ sparkrun_home }}/.config/sparkrun/services/{{ sparkrun_service }}/recipe.yaml"
-      notify: restart sparkrun service
+      notify: reload systemd
 
     - name: write cluster definition
       copy:
@@ -61,21 +66,20 @@
         owner: root
         group: root
         mode: "0644"
-      notify: restart sparkrun service
+      notify: reload systemd
 
-    - name: enable sparkrun service
+    # llama-swap runs the recipe above; a second server beside it is what hung the box
+    - name: keep the standalone sparkrun service off
       become: yes
       systemd:
         name: "sparkrun-{{ sparkrun_service }}"
         daemon_reload: yes
-        enabled: yes
-        state: started
+        enabled: no
+        state: stopped
 
   handlers:
 
-    - name: restart sparkrun service
+    - name: reload systemd
       become: yes
       systemd:
-        name: "sparkrun-{{ sparkrun_service }}"
         daemon_reload: yes
-        state: restarted
