@@ -1,0 +1,65 @@
+# Hunter's Forge models in the spark's llama-swap config (~/llama-swap/config.yaml).
+# NOT a whole config: merge these into the copy on your desktop that gets pushed to the
+# spark, so the next push keeps them.
+#
+# Why this file exists: a push of the config on 2026-10-07 came from a copy without these
+# four entries, and llama-swap then answered 404 "model not found" for them. Every Forge
+# picture job failed, and while the Forge's worker waited on the 404, spark-swapper counted
+# it as a model loading and refused deepseek (220 refusals on 2026-10-11 alone). The
+# entries are back in the live file on the spark (3D pair 2026-10-10, pictures
+# 2026-10-11, each with a .bak beside it), and the swapper and worker now fail fast on a
+# missing entry instead of holding the box.
+#
+# Each entry is one foreground `docker run --rm --init` of an image built on the spark as
+# hunter (forge-3d:*, forge-pic:*), weights read-only from /home/hunter/forge/weights. They
+# are unlisted (not in /v1/models), in the exclusive group, and unload after 15 idle min.
+# spark-swapper's swapper.toml names the same four in `models`.
+
+# 1. Under routing.router.settings.groups.spark-memory.members (the exclusive group — one
+#    big model at a time; nothing of ours runs beside another model, ever):
+#            - forge-pixal3d
+#            - forge-trellis2
+#            - forge-hidream
+#            - forge-ideogram4
+
+# 2. Under models:
+  forge-pixal3d:
+    name: Forge · Pixal3D (Hunter's 3D)
+    description: photo -> textured 3D model · 1024/1536 · default generator
+    unlisted: true
+    proxy: http://127.0.0.1:${PORT}
+    cmd: '/usr/bin/docker run --rm --init --gpus all --name forge-pixal3d-${PORT} -p 127.0.0.1:${PORT}:8000 --ipc=host --ulimit memlock=-1 --user 1001:1001 -e USER=hunter -e LOGNAME=hunter -e HOME=/cache -e HF_HUB_OFFLINE=1 -v /home/hunter/forge/weights:/weights:ro -v /home/hunter/forge/cache:/cache forge-3d:pixal3d-serve'
+    cmdStop: /usr/bin/docker stop forge-pixal3d-${PORT}
+    checkEndpoint: /health
+    ttl: 900
+    unloadTimeout: 60
+  forge-trellis2:
+    name: Forge · TRELLIS.2 (Hunter's 3D)
+    description: photo -> textured 3D model · 512/1024/1536 · second generator
+    unlisted: true
+    proxy: http://127.0.0.1:${PORT}
+    cmd: '/usr/bin/docker run --rm --init --gpus all --name forge-trellis2-${PORT} -p 127.0.0.1:${PORT}:8000 --ipc=host --ulimit memlock=-1 --user 1001:1001 -e USER=hunter -e LOGNAME=hunter -e HOME=/cache -e HF_HUB_OFFLINE=1 -v /home/hunter/forge/weights:/weights:ro -v /home/hunter/forge/cache:/cache forge-3d:trellis2-serve'
+    cmdStop: /usr/bin/docker stop forge-trellis2-${PORT}
+    checkEndpoint: /health
+    ttl: 900
+    unloadTimeout: 60
+  forge-hidream:
+    name: Forge · HiDream-O1 (Hunter's pictures)
+    description: text/reference -> picture · the Forge's Picture painter
+    unlisted: true
+    proxy: http://127.0.0.1:${PORT}
+    cmd: '/usr/bin/docker run --rm --init --gpus all --name forge-hidream-${PORT} -p 127.0.0.1:${PORT}:8000 --ipc=host --ulimit memlock=-1 --user 1001:1001 -e USER=hunter -e LOGNAME=hunter -e HOME=/cache -e HF_HUB_OFFLINE=1 -v /home/hunter/forge/weights:/weights:ro -v /home/hunter/forge/cache:/cache forge-pic:hidream-serve'
+    cmdStop: /usr/bin/docker stop forge-hidream-${PORT}
+    checkEndpoint: /health
+    ttl: 900
+    unloadTimeout: 60
+  forge-ideogram4:
+    name: Forge · Ideogram 4 (Hunter's pictures)
+    description: text -> picture · lettering-heavy pictures
+    unlisted: true
+    proxy: http://127.0.0.1:${PORT}
+    cmd: '/usr/bin/docker run --rm --init --gpus all --name forge-ideogram4-${PORT} -p 127.0.0.1:${PORT}:8000 --ipc=host --ulimit memlock=-1 --user 1001:1001 -e USER=hunter -e LOGNAME=hunter -e HOME=/cache -e HF_HUB_OFFLINE=1 -v /home/hunter/forge/weights:/weights:ro -v /home/hunter/forge/cache:/cache forge-pic:ideogram4-serve'
+    cmdStop: /usr/bin/docker stop forge-ideogram4-${PORT}
+    checkEndpoint: /health
+    ttl: 900
+    unloadTimeout: 60

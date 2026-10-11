@@ -1,0 +1,42 @@
+# Hunter's routes in the spark's LiteLLM config (~/litellm/config.yaml, container
+# spark-litellm on :4000). NOT a whole config: these go under `general_settings:`.
+# Live on the spark since 2026-10-11 (backups beside the config:
+# config.yaml.bak-forge-passthrough-20261011T185757Z, .bak-swapper-status-20261011T215838Z).
+#
+# Why: Hunter's rule is that everything of ours on the spark goes through LiteLLM, so it
+# is logged per key like any other client. The Forge's model servers take multipart
+# /generate and /paint and answer a zip, not OpenAI JSON, so they ride pass-through routes
+# to spark-swapper, which still gates every call. Paths are unchanged end to end.
+#
+# Keys: a plain virtual key is refused on pass-through routes ("Only proxy admin…") unless
+# its `allowed_routes` names them. Two keys, each limited to its own routes (both get 403
+# on the chat models):
+#   forge-worker   the four /upstream/forge-*/* routes (the Forge worker on the spark)
+#   worlds-assets  /upstream/forge-trellis2/*, /upstream/forge-pixal3d/*, /swapper/status
+#                  (Hunter's Worlds asset workshop)
+#
+# One trap if anything else ever uses these routes: LiteLLM rebuilds a pass-through form,
+# and a form with no file parts goes out urlencoded. Every request has to carry at least
+# one file part (the worker sends a picture's prompt as one).
+
+  pass_through_endpoints:
+    # Read-only: what the swapper serves and holds. Worlds' connection check reads it.
+    - path: /swapper/status
+      target: http://127.0.0.1:8081/swapper/status
+      timeout: 30
+    - path: /upstream/forge-pixal3d
+      target: http://127.0.0.1:8081/upstream/forge-pixal3d
+      include_subpath: true
+      timeout: 1800
+    - path: /upstream/forge-trellis2
+      target: http://127.0.0.1:8081/upstream/forge-trellis2
+      include_subpath: true
+      timeout: 1800
+    - path: /upstream/forge-hidream
+      target: http://127.0.0.1:8081/upstream/forge-hidream
+      include_subpath: true
+      timeout: 1800
+    - path: /upstream/forge-ideogram4
+      target: http://127.0.0.1:8081/upstream/forge-ideogram4
+      include_subpath: true
+      timeout: 1800
