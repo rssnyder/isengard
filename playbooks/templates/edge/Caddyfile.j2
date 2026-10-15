@@ -172,3 +172,12 @@ span.rileysnyder.dev {
           }
       }
 }
+roms.rileysnyder.dev {
+    reverse_proxy https://10.77.45.131 {
+        header_up Host roms.rileysnyder.dev
+        transport http {
+            tls_server_name roms.rileysnyder.dev
+            tls_insecure_skip_verify
+        }
+    }
+}
