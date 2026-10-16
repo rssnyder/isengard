@@ -181,3 +181,16 @@ roms.rileysnyder.dev {
         }
     }
 }
+
+*.rileysnyder.dev {
+    reverse_proxy https://10.77.45.131 {
+        header_up Host {http.request.host}
+        transport http {
+            tls_server_name {http.request.host}
+        }
+    }
+
+    tls {
+        dns digitalocean {{ digitalocean_token }}
+    }
+}
