@@ -41,10 +41,6 @@ metrics.rileysnyder.dev {
     reverse_proxy 192.168.2.2:3000
 }
 
-files.rileysnyder.dev {
-    reverse_proxy 192.168.2.5:8080
-}
-
 filez.rileysnyder.dev {
     reverse_proxy 192.168.2.5:3923
 }
@@ -172,16 +168,6 @@ span.rileysnyder.dev {
           }
       }
 }
-roms.rileysnyder.dev {
-    reverse_proxy https://10.77.45.131 {
-        header_up Host roms.rileysnyder.dev
-        transport http {
-            tls_server_name roms.rileysnyder.dev
-            tls_insecure_skip_verify
-        }
-    }
-}
-
 *.rileysnyder.dev {
     reverse_proxy https://10.77.45.131 {
         header_up Host {http.request.host}
