@@ -84,7 +84,6 @@ module "edge-ttdsm-dns-entries" {
 
 resource "digitalocean_record" "home-star" {
   for_each = toset([
-    "*",
     "*.k8s",
     "*.app",
     "*.pve",
