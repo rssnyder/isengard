@@ -149,6 +149,16 @@ scrape_configs:
       cluster: scranton
       environment: prod
   - targets:
+    - 10.77.42.128:9090
+    labels:
+      cluster: hub
+      environment: prod
+  - targets:
+    - 10.77.45.234:9090
+    labels:
+      cluster: lab
+      environment: prod
+  - targets:
     - 'the-iron-throne.tail1e5ed.ts.net:30090'
     labels:
       cluster: throne
