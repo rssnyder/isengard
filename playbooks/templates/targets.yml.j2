@@ -148,6 +148,11 @@ scrape_configs:
     labels:
       cluster: scranton
       environment: prod
+  - targets:
+    - 'the-iron-throne.tail1e5ed.ts.net:30090'
+    labels:
+      cluster: throne
+      environment: prod
 
 - job_name: b4w
   static_configs:
